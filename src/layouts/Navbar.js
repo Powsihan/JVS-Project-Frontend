@@ -10,16 +10,8 @@ import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 
 const Navbar = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const [windowSize, setWindowSize] = useState([
-    window.innerWidth,
-    window.innerHeight,
-  ]);
+  
+  const [windowSize, setWindowSize] = useState([1920, 720]);
 
   useEffect(() => {
     const handleWindowResize = () => {
@@ -36,25 +28,21 @@ const Navbar = () => {
   return (
     <>
       <nav
-        className={`navbar navbar-expand-lg w-100 Navbar-Container ${
-          menuOpen ? "open" : "close"
-        }`}
+        className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top"
       >
         <div className="container-fluid">
           <button
             className="navbar-toggler"
             type="button"
-            data-bs-toggle="collapse"
-            data-bs-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent"
-            aria-expanded="false"
+            data-bs-toggle="offcanvas"
+            data-bs-target="#offcanvasNavbar"
+            aria-controls="offcanvasNavbar"
             aria-label="Toggle navigation"
-            onClick={toggleMenu}
           >
-            {menuOpen ? <CloseIcon /> : <MenuIcon />}
+            <MenuIcon />
           </button>
 
-          <div className="collapse navbar-collapse" id="navbarSupportedContent">
+          <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
             <div
               className={`d-flex align-items-center w-100 pe-5 ps-5 ${
                 windowSize[0] >= 800 ? "d-flex flex-row" : "d-flex flex-column"
@@ -66,9 +54,7 @@ const Navbar = () => {
               >
                 <Image src={logo} alt="" />
               </a>
-              <ul
-                className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-2 flex-grow-1 w-100"
-              >
+              <ul className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-2 flex-grow-1 w-100">
                 <li className="nav-item">
                   <a className="nav-link" href="#home">
                     <div className="Navbar-box">Home</div>
@@ -95,10 +81,8 @@ const Navbar = () => {
                   </a>
                 </li>
               </ul>
-              <div
-                className="d-flex align-items-center"
-              >
-                <CommonButton text={"Contact"} image={Contact} width={110}/>
+              <div className="d-flex align-items-center">
+                <CommonButton text={"Contact"} image={Contact} width={110} />
               </div>
             </div>
           </div>
