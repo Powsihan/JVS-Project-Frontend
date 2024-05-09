@@ -1,0 +1,25 @@
+:root {
+    --primary-color: #07326C;
+    --background-color: #F5FFFD;
+    --primary-button-hover-color: rgb(6, 36, 80);
+
+}
+
+body {
+    background-color: var(--background-color) !important;
+    min-height: 100vh !important;
+}
+
+
+
+.btn-primary {
+    background-color: var(--primary-color) !important;
+    border-radius: 6px !important;
+    border-color: var(--primary-color) !important;
+    font-size: 16px !important;
+    font-weight: 600 !important;
+}
+
+.btn-primary:hover {
+    background-color: var(--primary-button-hover-color) !important;
+}
