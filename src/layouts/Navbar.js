@@ -9,6 +9,7 @@ import avatar from "../assets/images/Avatar.png";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 
+
 const Navbar = () => {
   
   const [windowSize, setWindowSize] = useState([1920, 720]);
