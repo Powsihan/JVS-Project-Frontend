@@ -17,26 +17,24 @@ import Chatbot from "../../assets/icons/Chatbot.png";
 import Expert from "../../assets/icons/expert.png";
 
 const index = () => {
-  const [windowSize, setWindowSize] = useState([1920, 720]);
+  // const [windowSize, setWindowSize] = useState([1920, 720]);
 
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowSize([window.innerWidth, window.innerHeight]);
-    };
+  // useEffect(() => {
+  //   const handleWindowResize = () => {
+  //     setWindowSize([window.innerWidth, window.innerHeight]);
+  //   };
 
-    window.addEventListener("resize", handleWindowResize);
+  //   window.addEventListener("resize", handleWindowResize);
 
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
+  //   return () => {
+  //     window.removeEventListener("resize", handleWindowResize);
+  //   };
+  // }, []);
   return (
     <>
       <Navbar />
       <div
-        className={`min-vh-100 ${
-          windowSize[0] >= 800 ? "background-home" : "background-min-home"
-        }`}
+        className="min-vh-100 background-home"
       >
         <div className="container-fluid ">
           <div className="row d-flex flex-row min-vh-100 p-3">

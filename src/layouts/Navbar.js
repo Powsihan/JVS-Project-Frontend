@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import "../styles/navbar.css";
@@ -8,29 +9,21 @@ import notification from "../assets/icons/bell.svg";
 import avatar from "../assets/images/Avatar.png";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
-
+import { useRouter } from "next/router";
 
 const Navbar = () => {
-  
-  const [windowSize, setWindowSize] = useState([1920, 720]);
-
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowSize([window.innerWidth, window.innerHeight]);
-    };
-
-    window.addEventListener("resize", handleWindowResize);
-
-    return () => {
-      window.removeEventListener("resize", handleWindowResize);
-    };
-  }, []);
+  const router = useRouter();
+  const routes = [
+    "home",
+    "AboutUS",
+    "SellVehicles",
+    "Customization",
+    "Auction",
+  ];
 
   return (
     <>
-      <nav
-        className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top"
-      >
+      <nav className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top">
         <div className="container-fluid">
           <button
             className="navbar-toggler"
@@ -43,12 +36,13 @@ const Navbar = () => {
             <MenuIcon />
           </button>
 
-          <div className="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar" aria-labelledby="offcanvasNavbarLabel">
-            <div
-              className={`d-flex align-items-center w-100 pe-5 ps-5 ${
-                windowSize[0] >= 800 ? "d-flex flex-row" : "d-flex flex-column"
-              }`}
-            >
+          <div
+            className="offcanvas offcanvas-end"
+            tabindex="-1"
+            id="offcanvasNavbar"
+            aria-labelledby="offcanvasNavbarLabel"
+          >
+            <div className="d-sm-flex  align-items-center w-100 pe-5 ps-5">
               <a
                 className="navbar-brand mt-2 mt-lg-0 d-flex align-items-center"
                 href="#"
@@ -56,31 +50,20 @@ const Navbar = () => {
                 <Image src={logo} alt="" />
               </a>
               <ul className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-2 flex-grow-1 w-100">
-                <li className="nav-item">
-                  <a className="nav-link" href="#home">
-                    <div className="Navbar-box">Home</div>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#AboutUS">
-                    <div className="Navbar-box">About US</div>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#SellVehicles">
-                    <div className="Navbar-box">Sell Your Vehicle</div>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#Customization">
-                    <div className="Navbar-box">Customization</div>
-                  </a>
-                </li>
-                <li className="nav-item">
-                  <a className="nav-link" href="#Auction">
-                    <div className="Navbar-box">Auction</div>
-                  </a>
-                </li>
+                {routes.map((item, index) => {
+                  return (
+                    <li className="nav-item" key={index}>
+                      <a
+                        className={`nav-link ${
+                          router.pathname === `/${item}` ? "active" : ""
+                        }`}
+                        href={`/${item}`}
+                      >
+                        <div className="Navbar-box">{item}</div>
+                      </a>
+                    </li>
+                  );
+                })}
               </ul>
               <div className="d-flex align-items-center">
                 <CommonButton text={"Contact"} image={Contact} width={110} />

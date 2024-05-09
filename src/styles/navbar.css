@@ -15,7 +15,7 @@
     transition: background-color 0.3s;
 }
 
-.Navbar-box.active,
+.nav-link.active,
 .Navbar-box:hover {
     background-color: #EDF2FF;
     color: var(--primary-color);
@@ -23,6 +23,8 @@
     font-weight: 600;
     border-bottom: 4px solid var(--primary-color);
 }
+
+
 
 
 

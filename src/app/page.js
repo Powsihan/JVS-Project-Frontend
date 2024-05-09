@@ -13,6 +13,7 @@ export default function Home() {
       <h1 className="text-success">Heloo Project</h1>
       <Navbar/>
       <CommonButton text={"heloo"} />
+      
     </main>
   );
 }
