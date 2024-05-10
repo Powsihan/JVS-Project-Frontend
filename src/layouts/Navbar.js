@@ -9,16 +9,16 @@ import notification from "../assets/icons/bell.svg";
 import avatar from "../assets/images/Avatar.png";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 const Navbar = () => {
   const router = useRouter();
   const routes = [
-    "home",
-    "AboutUS",
-    "SellVehicles",
-    "Customization",
-    "Auction",
+    { name: "Home", path: "home" },
+    { name: "AboutUS", path: "about" },
+    { name: "SellVehicles", path: "sell" },
+    { name: "Customization", path: "customization" },
+    { name: "Auction", path: "auction" },
   ];
 
   return (
@@ -44,28 +44,33 @@ const Navbar = () => {
           >
             <div className="d-sm-flex  align-items-center w-100 pe-5 ps-5">
               <a
-                className="navbar-brand mt-2 mt-lg-0 d-flex align-items-center"
+                className="navbar-brand mt-2 mt-lg-0 d-flex align-items-center justify-content-center "
                 href="#"
               >
                 <Image src={logo} alt="" />
               </a>
-              <ul className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-2 flex-grow-1 w-100">
+              <ul className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-4 flex-grow-1 w-100">
                 {routes.map((item, index) => {
                   return (
                     <li className="nav-item" key={index}>
                       <a
                         className={`nav-link ${
-                          router.pathname === `/${item}` ? "active" : ""
+                          router.pathname === `/${item.path}`
+                            ? "active-field"
+                            : ""
                         }`}
-                        href={`/${item}`}
+                        href={`/${item.path}`}
                       >
-                        <div className="Navbar-box">{item}</div>
+                         <div class="">
+                    <div class="d-lg-block item-lable">{item.name}</div>
+                  </div>
+                        {/* <div className="Navbar-box">{item.name}</div> */}
                       </a>
                     </li>
                   );
                 })}
               </ul>
-              <div className="d-flex align-items-center">
+              <div className="d-flex align-items-center justify-content-center">
                 <CommonButton text={"Contact"} image={Contact} width={110} />
               </div>
             </div>

@@ -4,7 +4,7 @@ import React from 'react'
 const index = () => {
   return (
   <Adminlayout>
-    Powsi
+    Records
   </Adminlayout>
   )
 }

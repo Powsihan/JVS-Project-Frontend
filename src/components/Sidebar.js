@@ -15,28 +15,25 @@ import Records from "../assets/icons/records.svg";
 import Profile from "../assets/icons/profile.svg";
 import Logout from "../assets/icons/logout.svg";
 
-
-import { useRouter } from "next/navigation";
+import { useRouter } from "next/router";
 
 const Sidebar = () => {
   const router = useRouter();
-  const data = [
-    { name: "Dashboard", image: dashboard},
-    { name: "Vehicle", image: Vehicle},
-    { name: "User", image: User},
-    { name: "Sales & Buy", image: Sales},
-    { name: "Expert", image: Expert},
-    { name: "Communication", image: Communication},
-    { name: "Content", image: Content},
-    { name: "Auction", image: Auction},
-    { name: "Records", image: Records},
-    { name: "Profile", image: Profile},
-    { name: "Log Out", image: Logout},
+  const routes = [
+    { name: "Dashboard", image: dashboard, path: "admin/dashboard" },
+    { name: "Vehicle", image: Vehicle, path: "admin/vehicle" },
+    { name: "User", image: User, path: "admin/user" },
+    { name: "Sales & Buy", image: Sales, path: "admin/sales" },
+    { name: "Expert", image: Expert, path: "admin/expert" },
+    { name: "Communication", image: Communication, path: "admin/communication" },
+    { name: "Content", image: Content, path: "admin/contentmanage" },
+    { name: "Auction", image: Auction, path: "admin/auction" },
+    { name: "Records", image: Records, path: "admin/records" },
+    { name: "Profile", image: Profile, path: "admin/profile" },
+    { name: "Log Out", image: Logout, path: "home" },
   ];
   return (
-    <div
-      class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100"
-    >
+    <div class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100">
       <div className="Sidebar-Logo">
         <div class="w-100 align-items-center align-content-center text-center d-flex justify-content-center">
           <a href="" class="text-decoration-none">
@@ -50,14 +47,15 @@ const Sidebar = () => {
       </div>
       <hr />
       <ul class="nav nav-pills flex-column mb-auto mt-4 gap-2">
-        {data.map((item, index) => {
+        {routes.map((item, index) => {
           return (
             <div class="">
               <li class="nav-item">
                 <a
-                  routerLinkActive="active"
-                  class="nav-link"
-                  aria-current="page"
+                  className={`nav-link ${
+                    router.pathname === `/${item.path}` ? "active-field" : ""
+                  }`}
+                  href={`/${item.path}`}
                 >
                   <div class="d-flex gap-2 align-items-center">
                     <div>
