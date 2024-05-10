@@ -1,69 +1,117 @@
 .sidebar {
     height: 100vh !important;
-    background-color: #F6F8FF;
-   }
+    background: #FFF;
+    box-shadow: 0px 4.928px 4.928px 0px rgba(0, 0, 0, 0.25);
+}
 
-@media only screen and (max-width: 576px ) {
+.dashboard-body{
+    background-color: var(--background-color);
+}
+
+@media only screen and (max-width: 576px) {
     .sidebar {
-     height: auto !important;
+        height: auto !important;
     }
-    .mobile-side-bar{
-      width: 75%;
+
+    .mobile-side-bar {
+        width: 75%;
     }
-  }
+}
 
 
 .side-bar-body {
     height: 100vh;
     overflow-x: hidden;
-    background-color: #F6F8FF;
 }
 
 .side-bar-logo {
-    width: 50%;
+    width: 100%;
+    height: 100%;
 }
 
 .menu-text {
     font-size: 8;
-    color:red;
+    color: #4B4B4C;
 }
 
 .nav-link {
-    color: red;
+    color: #4B4B4C;
+    padding: 15.958px 17.362px;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.item-lable{
+    padding-left: 10px;
 }
 
 .nav-link.active {
-    background-color: red;
-        color: red;
+    border-radius: 5px;
+    border-right: 2px solid var(--primary, #07326C);
+    background: rgba(27, 89, 248, 0.10);
 }
 
 .nav-link.active:hover {
-    background-color: red;
+    border-radius: 5px;
+    border-right: 2px solid var(--primary, #07326C);
+    background: rgba(27, 89, 248, 0.10);
+    
 }
 
-.nav-link:hover{
-    background-color: red;
+.nav-link:hover {
+    border-radius: 5px;
+    border-right: 4px solid var(--primary, #07326C);
+    background: rgba(27, 89, 248, 0.10);
+    color:var(--primary-color);
+    font-weight: 700;   
+    cursor: pointer;
 }
 
 .side-bar-icon {
-    height: 20px;
-    width: 20px;
+    height: 30px;
+    width: 30px;
+    -webkit-filter: grayscale(100%) !important; /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%) !important;
 }
 
-.side-bar-content-text {
+.side-bar-icon:hover{
+    transform: scale(1.1);
+    filter: grayscale(0%) !important;
+}
+
+/* .side-bar-content-text {
     color: red;
 }
+
 .side-bar-content-text-inactive {
     color: red;
+} */
+
+.Sidebar-Logo {
+    padding: 10px;
+    background-color: var(--primary-color);
+    border-radius: 10px;
 }
 
-@media only screen and (max-width: 576px ) {
+.Sidebar-Logo h1 {
+    color: #ffff;   
+    font-size: 40px;
+    font-weight: 700;
+}
+
+.Sidebar-Logo p {
+    color: rgba(239, 239, 239, 0.49);
+    font-size: 12px;
+    font-weight: 600;
+}
+
+@media only screen and (max-width: 576px) {
     .item-lable {
-    display: inline-block !important;
+        display: inline-block !important;
     }
 
     .side-bar-logo {
         width: 30%;
     }
-    
-  }
+
+}

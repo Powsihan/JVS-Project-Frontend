@@ -9,7 +9,7 @@ import notification from "../assets/icons/bell.svg";
 import avatar from "../assets/images/Avatar.png";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const Navbar = () => {
   const router = useRouter();
