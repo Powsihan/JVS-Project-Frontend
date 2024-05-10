@@ -1,6 +1,12 @@
 import React from "react";
 import "../styles/sidebar.css";
 import Sidebar from "../components/Sidebar";
+
+import profile from "../assets/images/Avatar.png";
+import notification from "../assets/icons/notification.svg";
+import chat from "../assets/icons/chat.png";
+
+import Image from "next/image";
 const Adminlayout = ({ children }) => {
   return (
     <div class="container-fluid">
@@ -38,13 +44,19 @@ const Adminlayout = ({ children }) => {
           </div>
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10 p-0 min-vh-100 dashboard-body">
-          {/* <div
-            className="sticky-top m-0"
-            style={{ width: "100%", height: 100, backgroundColor: "green" }}
-          ></div> */}
-          <div class="mt-4 p-3">
-            {children}
+          <div className="sticky-top m-0 dashboard-navbar row">
+            <div className="col-6 d-flex align-items-center">
+              <h1>Dashboard</h1>
+            </div>
+            <div className="col-6 d-flex align-items-center justify-content-end pe-5">
+              <div className="d-flex align-items-center justify-content-center gap-3">
+                <Image src={chat} alt="" />
+                <Image src={notification} alt="" />
+                <Image src={profile} alt="" />
+              </div>
+            </div>
           </div>
+          <div class="mt-4 p-3">{children}</div>
         </div>
       </div>
     </div>

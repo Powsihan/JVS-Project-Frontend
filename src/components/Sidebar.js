@@ -36,7 +36,6 @@ const Sidebar = () => {
   return (
     <div
       class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100"
-      // style={{ backgroundColor: "orange" }}
     >
       <div className="Sidebar-Logo">
         <div class="w-100 align-items-center align-content-center text-center d-flex justify-content-center">
