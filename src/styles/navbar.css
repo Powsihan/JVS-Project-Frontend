@@ -12,20 +12,17 @@
     font-size: 16px;
     font-weight: 500;
     color: #89898A;
-    /* transition: background-color 0.3s; */
-}
+  }
 
 
-.nav-link:hover {
-    /* background-color: #EDF2FF; */
+.navbarlink-hover:hover {
     color: var(--primary-color);
     cursor: pointer;
     font-weight: 600;
     border-bottom: 4px solid var(--primary-color);
 }
 
-.nav-link.active-field{
-    /* background-color: #EDF2FF !important; */
+.nav-link.active-nav-field{
     color: var(--primary-color) !important;
     cursor: pointer;
     font-weight: 600;

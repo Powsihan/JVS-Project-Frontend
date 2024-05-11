@@ -40,6 +40,7 @@
     padding: 15.958px 17.362px;
     font-size: 16px;
     font-weight: 500;
+    transition: background-color 0.3s;
 }
 
 .item-lable {
@@ -49,7 +50,7 @@
 .nav-link.active-field {
     border-radius: 5px;
     border-right: 4px solid var(--primary, #07326C);
-    background: rgba(27, 89, 248, 0.10);
+    background-color: rgba(27, 89, 248, 0.10);
     color: var(--primary-color);
     font-weight: 700;
 }

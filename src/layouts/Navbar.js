@@ -55,15 +55,14 @@ const Navbar = () => {
                   return (
                     <li className="nav-item" key={index}>
                       <Link
-                        className={`nav-link ${
-                          pathname === `/${item.path}` ? "active-field" : ""
+                        className={`nav-link navbarlink-hover ${
+                          pathname === `/${item.path}` ? "active-nav-field" : ""
                         }`}
                         href={`/${item.path}`}
                       >
                         <div class="">
                           <div class="d-lg-block item-lable">{item.name}</div>
                         </div>
-                        {/* <div className="Navbar-box">{item.name}</div> */}
                       </Link>
                     </li>
                   );
