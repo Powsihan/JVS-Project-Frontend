@@ -49,7 +49,7 @@ const Adminlayout = ({ children }) => {
         pageTitle = "Records";
         break;
       case "profile":
-        pageTitle = "Hi Welcome to Profile";
+        pageTitle = "Profile";
         break;
       default:
         pageTitle = "Dashboard";

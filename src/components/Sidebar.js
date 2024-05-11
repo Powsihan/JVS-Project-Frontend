@@ -34,9 +34,13 @@ const Sidebar = () => {
     { name: "Content", image: Content, path: "admin/contentmanage" },
     { name: "Auction", image: Auction, path: "admin/auction" },
     { name: "Records", image: Records, path: "admin/records" },
+    
+  ];
+
+  const routes2=[
     { name: "Profile", image: Profile, path: "admin/profile" },
     { name: "Log Out", image: Logout, path: "home" },
-  ];
+  ]
   return (
     <div class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100">
       <div className="Sidebar-Logo">
@@ -53,6 +57,32 @@ const Sidebar = () => {
       <hr />
       <ul class="nav nav-pills flex-column mb-auto mt-4 gap-2">
         {routes.map((item, index) => {
+          return (
+            <div class="">
+              <li class="nav-item">
+                <Link
+                  className={`nav-link ${
+                    pathname === `/${item.path}` ? "active-field" : ""
+                  }`}
+                  href={`/${item.path}`}
+                >
+                  <div class="d-flex gap-2 align-items-center">
+                    <div>
+                      <Image
+                        src={item.image}
+                        className="side-bar-icon"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div class="d-none d-lg-block item-lable">{item.name}</div>
+                  </div>
+                </Link>
+              </li>
+            </div>
+          );
+        })}
+        <hr/>
+        {routes2.map((item, index) => {
           return (
             <div class="">
               <li class="nav-item">
