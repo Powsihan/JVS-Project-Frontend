@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import "../styles/sidebar.css";
 import Sidebar from "../components/Sidebar";
 
@@ -7,7 +7,72 @@ import notification from "../assets/icons/notification.svg";
 import chat from "../assets/icons/chat.png";
 
 import Image from "next/image";
+
+import { usePathname } from "next/navigation";
 const Adminlayout = ({ children }) => {
+  const [typingText, setTypingText] = useState("");
+  const pathname = usePathname();
+
+  let pageTitle = "Dashboard";
+  const getPageName = (path) => {
+    const splitPath = path.split("/");
+    return splitPath[splitPath.length - 1];
+  };
+
+  useEffect(() => {
+    switch (getPageName(pathname)) {
+      case "dashboard":
+        pageTitle = "Dashboard";
+        break;
+      case "vehicle":
+        pageTitle = "Vehicle";
+        break;
+      case "user":
+        pageTitle = "User";
+        break;
+      case "sales":
+        pageTitle = "Sales and Buy";
+        break;
+      case "expert":
+        pageTitle = "Expert";
+        break;
+      case "communication":
+        pageTitle = "Communication";
+        break;
+      case "contentmanage":
+        pageTitle = "Content";
+        break;
+      case "auction":
+        pageTitle = "Auction";
+        break;
+      case "records":
+        pageTitle = "Records";
+        break;
+      case "profile":
+        pageTitle = "Hi Welcome to Profile";
+        break;
+      default:
+        pageTitle = "Dashboard";
+    }
+
+    let textToType = "";
+    textToType = `Welcome to  ${pageTitle} Section..!`;
+
+    let currentIndex = 0;
+    const intervalId = setInterval(() => {
+      if (currentIndex <= textToType.length) {
+        setTypingText(textToType.slice(0, currentIndex));
+        currentIndex++;
+      } else {
+        clearInterval(intervalId);
+      }
+    }, 50);
+
+    return () => {
+      clearInterval(intervalId);
+    };
+  }, []);
+
   return (
     <div class="container-fluid">
       <div class="row">
@@ -46,7 +111,7 @@ const Adminlayout = ({ children }) => {
         <div class="col-lg-10 col-md-10 col-sm-10 p-0 min-vh-100 dashboard-body">
           <div className="sticky-top m-0 dashboard-navbar row">
             <div className="col-6 d-flex align-items-center">
-              <h1>Dashboard</h1>
+              <h1>{typingText}</h1>
             </div>
             <div className="col-6 d-flex align-items-center justify-content-end pe-5">
               <div className="d-flex align-items-center justify-content-center gap-3">

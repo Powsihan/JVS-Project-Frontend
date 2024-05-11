@@ -9,10 +9,11 @@ import notification from "../assets/icons/bell.svg";
 import avatar from "../assets/images/Avatar.png";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Navbar = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const routes = [
     { name: "Home", path: "home" },
     { name: "AboutUS", path: "about" },
@@ -53,19 +54,17 @@ const Navbar = () => {
                 {routes.map((item, index) => {
                   return (
                     <li className="nav-item" key={index}>
-                      <a
+                      <Link
                         className={`nav-link ${
-                          router.pathname === `/${item.path}`
-                            ? "active-field"
-                            : ""
+                          pathname === `/${item.path}` ? "active-field" : ""
                         }`}
                         href={`/${item.path}`}
                       >
-                         <div class="">
-                    <div class="d-lg-block item-lable">{item.name}</div>
-                  </div>
+                        <div class="">
+                          <div class="d-lg-block item-lable">{item.name}</div>
+                        </div>
                         {/* <div className="Navbar-box">{item.name}</div> */}
-                      </a>
+                      </Link>
                     </li>
                   );
                 })}

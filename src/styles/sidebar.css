@@ -124,3 +124,9 @@
     height: 94px;
     z-index: 0;
 }
+
+.dashboard-navbar h1{
+    color: var(--primary-color);
+    font-size: 25px;
+    font-weight: 700;
+}

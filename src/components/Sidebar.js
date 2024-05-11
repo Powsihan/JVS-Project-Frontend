@@ -15,17 +15,22 @@ import Records from "../assets/icons/records.svg";
 import Profile from "../assets/icons/profile.svg";
 import Logout from "../assets/icons/logout.svg";
 
-import { useRouter } from "next/router";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 const Sidebar = () => {
-  const router = useRouter();
+  const pathname = usePathname();
   const routes = [
     { name: "Dashboard", image: dashboard, path: "admin/dashboard" },
     { name: "Vehicle", image: Vehicle, path: "admin/vehicle" },
     { name: "User", image: User, path: "admin/user" },
     { name: "Sales & Buy", image: Sales, path: "admin/sales" },
     { name: "Expert", image: Expert, path: "admin/expert" },
-    { name: "Communication", image: Communication, path: "admin/communication" },
+    {
+      name: "Communication",
+      image: Communication,
+      path: "admin/communication",
+    },
     { name: "Content", image: Content, path: "admin/contentmanage" },
     { name: "Auction", image: Auction, path: "admin/auction" },
     { name: "Records", image: Records, path: "admin/records" },
@@ -51,9 +56,9 @@ const Sidebar = () => {
           return (
             <div class="">
               <li class="nav-item">
-                <a
+                <Link
                   className={`nav-link ${
-                    router.pathname === `/${item.path}` ? "active-field" : ""
+                    pathname === `/${item.path}` ? "active-field" : ""
                   }`}
                   href={`/${item.path}`}
                 >
@@ -67,7 +72,7 @@ const Sidebar = () => {
                     </div>
                     <div class="d-none d-lg-block item-lable">{item.name}</div>
                   </div>
-                </a>
+                </Link>
               </li>
             </div>
           );
