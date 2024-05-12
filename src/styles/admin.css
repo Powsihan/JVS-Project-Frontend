@@ -1,0 +1,14 @@
+.Admin-Login-Intro{
+    background-color: var(--primary-color);
+}
+
+.Admin-LoginIn-Container{
+    box-shadow: var(--box-shadow);
+    background-color: #ffff;
+}
+
+.Admin-LoginIn-Container h2{
+    text-transform: uppercase;
+    color: var(--primary-color);
+    font-weight: 600;
+}

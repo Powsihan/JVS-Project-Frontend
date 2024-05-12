@@ -2,6 +2,7 @@
     --primary-color: #07326C;
     --background-color: #F5FFFD;
     --primary-button-hover-color: rgb(6, 36, 80);
+    --box-shadow:0px 10px 15px 0px rgba(0, 0, 0, 0.10), 0px 4px 6px 0px rgba(0, 0, 0, 0.05);
 
 }
 

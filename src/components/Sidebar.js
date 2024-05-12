@@ -39,7 +39,7 @@ const Sidebar = () => {
 
   const routes2=[
     { name: "Profile", image: Profile, path: "admin/profile" },
-    { name: "Log Out", image: Logout, path: "home" },
+    { name: "Log Out", image: Logout, path: "/admin/login" },
   ]
   return (
     <div class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100">
