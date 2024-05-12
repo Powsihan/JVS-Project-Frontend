@@ -50,7 +50,7 @@ const AdminLogin = () => {
     }
   };
   return (
-    <div className="col-md-7 col-lg-5 col-xl-5 offset-xl-1 p-5 rounded Admin-LoginIn-Container">
+    <div className="p-5 rounded Admin-LoginIn-Container">
       <form onSubmit={handleSubmit}>
         <h2 className="d-flex align-items-center mb-4">Login Here</h2>
         <hr />

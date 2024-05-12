@@ -2,6 +2,9 @@ import TextField from '@/src/components/TextField'
 import React,{useState} from 'react'
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
+import Image from 'next/image';
+
+import loginback from "../../assets/images/admin-login-image.png"
 const index = () => {
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
   const { email, password } = inputValue;
@@ -67,8 +70,12 @@ const index = () => {
   };
 
   return (
-    <div>
+    <div className='d-flex flex-column min-vh-100' style={{backgroundColor:'green'}}>
       {/* <Navbar/> */}
+      <div>
+        <Image src={loginback} alt=''/>
+      </div>
+      <div>
       <form onSubmit={handleSubmit}>
       <TextField
         type="text"
@@ -89,6 +96,7 @@ const index = () => {
       />
       <button className='btn btn-primary ' type="submit">Login</button>
       </form>
+      </div>
       <ToastContainer/>
     </div>
   )

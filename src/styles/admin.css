@@ -1,14 +1,111 @@
-.Admin-Login-Intro{
-    background-color: var(--primary-color);
+.Admin-Login-Intro {
+    background-color: #06001d;
+    /* background-color: var(--primary-color); */
 }
 
-.Admin-LoginIn-Container{
+.Admin-LoginIn-Container {
     box-shadow: var(--box-shadow);
     background-color: #ffff;
+    width: 575px;
 }
 
-.Admin-LoginIn-Container h2{
+.Admin-LoginIn-Container h2 {
     text-transform: uppercase;
     color: var(--primary-color);
     font-weight: 600;
+}
+
+.TableSection {
+    box-shadow: var(--box-shadow);
+    background-color: #ffff;
+    padding: 0 10px;
+    overflow-y: scroll;
+    max-height: calc(100vh - 340px) !important;
+}
+
+.Table-status-field {
+    font-size: 14px;
+    border-radius: 4px;
+    font-weight: 600;
+    color: rgb(255, 255, 255);
+    margin: auto;
+    text-align: center;
+}
+
+.Table-ActiveField {
+    background: #17B530 !important;
+
+}
+
+.Table-InActiveField {
+    background: #F73B3B !important;
+}
+
+.admin-login-section h2 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+
+
+}
+
+
+.Login-home-content {
+    width: 100vw;
+    height: 100vh;
+    background-image: url("../assets/images/Login-home-back.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+
+.Login-home-content h1 {
+    color: #fff;
+    font-size: 40px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.Login-home-content h4 {
+    font-size: 25px;
+    color: #eeeeeed2;
+}
+
+
+
+.down-arrroww-login {
+    animation: bounce 1s infinite;
+}
+
+
+@keyframes bounce {
+
+    0%,
+    20%,
+    50%,
+    80%,
+    100% {
+        transform: translateY(0);
+    }
+
+    40% {
+        transform: translateY(-20px);
+    }
+
+    60% {
+        transform: translateY(-10px);
+    }
+}
+
+
+@media (max-width: 768px) {
+
+    .Login-home-content h1 {
+        font-size: 30px;
+       
+    }
+    .Login-home-content h4 {
+        font-size: 20px;
+    }
 }
