@@ -1,10 +1,11 @@
 import Adminlayout from "@/src/layouts/Adminlayout";
-import React from "react";
+import React, { useState } from "react";
 import CommonButton from "@/src/components/CommonButton";
 import Image from "next/image";
 import avatar from "../../../assets/images/avatar.svg";
 import editprof from "../../../assets/images/Editprof.png";
 import changepass from "../../../assets/images/Changepass.png";
+import ProfileEdit from "../../../assets/images/Profileedit.svg";
 import "../../../styles/admin.css";
 
 import "./profile.css";
@@ -13,6 +14,10 @@ import TextField from "@/src/components/TextField";
 import { Button } from "react-bootstrap";
 
 const index = () => {
+  const [showProfile, setShowProfile] = useState(false);
+  const handleOpen = () => {
+    setShowProfile(!showProfile);
+  };
   return (
     <Adminlayout>
       <div className="container-fluid Profile-Edit-Section">
@@ -23,29 +28,47 @@ const index = () => {
             </div>
             <hr />
             <div className="text-center Profile-name-section pb-3">
-              <h1>Ratheeswaran</h1>
+              <h1>Powsi</h1>
               <h2>Admin</h2>
             </div>
             <div className="ps-3 pe-3">
-              <CommonButton text="Edit Profile" width={"100%"} />
+              <CommonButton
+                text={`${!showProfile ? "Edit Profile" : "Close Profile"}`}
+                width={"100%"}
+                onClick={handleOpen}
+              />
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <Image src={editprof} alt="Edit Profile" width={350} />
+              <Image src={editprof} alt="Edit Profile" width={300} />
             </div>
           </div>
+          {showProfile ? (
           <div className="col-lg-8 col-md-6 col-sm-12">
             <div className="col-sm-12 Profile-Edit-Section">
               <h5 className="custom-border ps-2">Profile Edit</h5>
               <div className="row p-2">
                 <div className="col-lg-6 col-sm-12 mb-3">
-                  <TextField label={"Name"} placeholder={"Name"} />
+                  <TextField
+                    label={"Name"}
+                    placeholder={"Name"}
+                    disable={!showProfile}
+                  />
                 </div>
                 <div className="col-lg-6 col-sm-12 mb-3">
-                  <TextField label={"Email"} placeholder={"email"} />
+                  <TextField
+                    label={"Email"}
+                    placeholder={"email"}
+                    disable={!showProfile}
+                  />
                 </div>
                 <div className="col-lg-6 col-sm-12 mb-3">
-                  <TextField label={"Phone No"} placeholder={"phone no"} />
+                  <TextField
+                    label={"Phone No"}
+                    placeholder={"phone no"}
+                    disable={!showProfile}
+                  />
                 </div>
+                {showProfile &&(
                 <div className="col-lg-6 col-sm-12 mb-3">
                   <TextField
                     label="Choose Profile Picture"
@@ -54,43 +77,56 @@ const index = () => {
                     id="profilePicture"
                   />
                 </div>
+                )}
               </div>
               <hr />
-              <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
-                <CommonButton text="Save Changes" />
-                <Button variant="secondary">Cancel</Button>
-              </div>
+              {showProfile && (
+                <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
+                  <CommonButton text="Save Changes" />
+                  <Button variant="secondary">Cancel</Button>
+                </div>
+              )}
             </div>
-            <div className="col-lg-12 Profile-Edit-Section mt-2">
-              <h5 className="custom-border ps-2">Password Change</h5>
+           
+              <div className="col-lg-12 Profile-Edit-Section mt-2">
+                <h5 className="custom-border ps-2">Password Change</h5>
 
-              <div className="row p-2">
-                <div className="col-lg-7 d-flex flex-column gap-2">
-                  <TextField
-                    label={"Current Password"}
-                    placeholder={"current password"}
-                  />
-                  <TextField
-                    label={"New Password"}
-                    placeholder={"new password"}
-                  />
-                  <TextField
-                    label={"Confirm Password"}
-                    placeholder={"confirm password"}
-                  />
+                <div className="row p-2">
+                  <div className="col-lg-7 d-flex flex-column gap-2">
+                    <TextField
+                      label={"Current Password"}
+                      placeholder={"current password"}
+                    />
+                    <TextField
+                      label={"New Password"}
+                      placeholder={"new password"}
+                    />
+                    <TextField
+                      label={"Confirm Password"}
+                      placeholder={"confirm password"}
+                    />
+                  </div>
+                  <div className="col-lg-5 d-flex justify-content-center align-items-center">
+                    <Image src={changepass} alt="Password" />
+                  </div>
                 </div>
-                <div className="col-lg-5 d-flex justify-content-center align-items-center">
-                  <Image src={changepass} alt="Password" />
-                </div>
+                <hr />
+                  <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
+                    <CommonButton text="Save Changes" />
+                    <Button variant="secondary">Cancel</Button>
+                  </div>
               </div>
-              <hr />
-              <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
-                <CommonButton text="Save Changes" />
-                <Button variant="secondary">Cancel</Button>
-              </div>
-            </div>
+           
           </div>
+           ) : (
+            <div className="col-lg-8 col-md-6 col-sm-12 Profile-Edit-Section d-flex flex-column align-items-center justify-content-center ">
+              <h1>Hi Powsi</h1>
+              <p>Welcome to Profile Section</p>
+              <Image src={ProfileEdit} alt="" width={400}/>
+            </div>
+          )}
         </div>
+        
       </div>
     </Adminlayout>
   );

@@ -13,6 +13,19 @@
   border-bottom: 4px solid var(--primary-color);
 }
 
+.Profile-Edit-Section h1{
+  font-size: 50px;
+  color: var(--primary-color);
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.Profile-Edit-Section p{
+  font-size: 20px;
+  color: #c9c9c9;
+  font-weight: 600;
+}
+
 .Profile-name-section h1{
   font-size: 20px;
   font-weight: 600;
