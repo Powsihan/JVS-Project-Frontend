@@ -4,7 +4,7 @@ import Cookies from "js-cookie";
 const http = new HttpInterceptor();
 
 export const userLogin = (data, callback) => {
-  const endpoint = `http://localhost:5000/api/users/auth`;
+  const endpoint = `${process.env.api_base_url}/users/auth`;
 
   try {
     http
