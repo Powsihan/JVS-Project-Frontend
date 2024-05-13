@@ -1,0 +1,79 @@
+.main-card {
+  display: flex;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 25px;
+  margin: 15px 0;
+  height: 150px;
+}
+
+.cards {
+  /* width: 210px; */
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  border-bottom: 6px solid #07326c;
+  background: var(--Light-mode-Background-Default, #fff);
+
+  /* Large */
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+}
+
+/* .card-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+} */
+
+.area-chart {
+  width: 1150px;
+  height: 400px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border-bottom: 6px solid var(--primary, #07326c);
+  background: var(--Light-mode-Background-Default, #fff);
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+}
+
+.vehicleStatus {
+  height: 300px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border-bottom: 6px solid var(--primary, #07326c);
+  background: var(--Light-mode-Background-Default, #fff);
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+}
+
+.vehicleStatus2 {
+  height: 300px;
+  flex-shrink: 0;
+  border-radius: 4px;
+  border-bottom: 4px solid var(--primary, #07326c);
+  background: var(--Light-mode-Background-Default, #fff);
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+}
+.card-dashboard-display{
+  color: var(--primary, #07326c);
+  
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 19.532px; /* 108.513% */
+  border-radius: 5px 0px 0px 0px;
+  border-left: 3px solid var(--primary, #07326c);
+  
+}
+
+.card-dashboard-display h4{
+  font-size: 25px;
+  padding-left: 10px;
+}
+
+.card-count h2{
+color: grey;
+font-size: 40px;
+
+}
