@@ -1,5 +1,4 @@
 import Adminlayout from "@/src/layouts/Adminlayout";
-
 import React from "react";
 import "../../admin/dashboard/adminDashboard.css";
 import customer from "../../../assets/images/customer.svg";
@@ -8,10 +7,11 @@ import requests from "../../../assets/images/requests.svg";
 import reviews from "../../../assets/images/reviews.svg";
 import experts from "../../../assets/images/Broker.png";
 import vehicles from "../../../assets/images/vehicles.svg";
-// import Chart from "@/src/components/charts/Chart.js"
-
+import Cookies from "js-cookie";
 
 const index = () => {
+  const session = Cookies.get("token", { path: "/" });
+    console.log(session,"session");
   return (
     <Adminlayout>
       <div className="container-fluid">
@@ -102,7 +102,6 @@ const index = () => {
             </div>
           </div>
         </div>
-
         <div className="row p-4 align-items-center">
           <div className="col-7 d-flex align-items-center justify-content-center">
             <div className=" vehicles vehicleStatus  shadow  rounded bg-white w-100">

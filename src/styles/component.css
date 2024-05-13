@@ -1,0 +1,10 @@
+.Text-input-label{
+    color: var(--primary-color);
+    font-weight: 500;
+    font-size: 16px;
+}
+
+.form-control::placeholder{
+   color: #cfcfcf;
+}
+    
