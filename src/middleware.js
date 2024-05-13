@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
  
 // 1. Specify protected and public routes
-const protectedRoutes = ['/admin/dashboard']
+const protectedRoutes = ['/admin/dashboard','/admin/vehicle','/admin/user', '/admin/sales', '/admin/expert', '/admin/communication', '/admin/contentmanage', '/admin/auction', '/admin/records', '/admin/profile']
 const publicRoutes = ['/admin/login']
  
 export default async function middleware(req) {
@@ -17,7 +17,7 @@ export default async function middleware(req) {
  
   // 5. Redirect to /login if the user is not authenticated
   if (isProtectedRoute && !cookie) {
-    return NextResponse.redirect(new URL('admin/login', req.nextUrl))
+    return NextResponse.redirect(new URL('login', req.nextUrl))
   }
  
   // 6. Redirect to /dashboard if the user is authenticated
