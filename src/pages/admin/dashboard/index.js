@@ -8,6 +8,8 @@ import requests from "../../../assets/images/requests.svg";
 import reviews from "../../../assets/images/reviews.svg";
 import experts from "../../../assets/images/Broker.png";
 import vehicles from "../../../assets/images/vehicles.svg";
+// import Chart from "@/src/components/charts/Chart.js"
+
 
 const index = () => {
   return (
@@ -91,20 +93,33 @@ const index = () => {
           </div>
         </div>
         <div className="justify-content-around align-items-center p-4">
-          <div className=" sales area-chart shadow p-2 bg-white rounded col-lg-2 col-sm-6 w-100">
-            <div>akhfb</div>
+          <div className=" sales area-chart shadow  bg-white rounded col-lg-2 col-sm-6 w-100">
+          <div className="card-row card-dashboard-display">
+              <div className="card-inner ">
+                <h4>Sales & Buys</h4>
+                {/* <Chart/> */}
+              </div>
+            </div>
           </div>
         </div>
 
         <div className="row p-4 align-items-center">
           <div className="col-7 d-flex align-items-center justify-content-center">
-            <div className=" vehicles vehicleStatus  shadow p-5 rounded bg-white w-100">
-              <h2>400</h2>
+            <div className=" vehicles vehicleStatus  shadow  rounded bg-white w-100">
+            <div className="card-row card-dashboard-display">
+              <div className="card-inner ">
+                <h4>Vehicle Status</h4>
+              </div>
+            </div>
             </div>
           </div>
           <div className="col-5 d-flex align-items-center justify-content-center">
-            <div className="vehicles vehicleStatus2 shadow p-4 rounded bg-white w-100">
-              <h2>400</h2>
+            <div className="vehicles vehicleStatus2 shadow  rounded bg-white w-100">
+            <div className="card-row card-dashboard-display">
+              <div className="card-inner ">
+                <h4>Vehicle Status</h4>
+              </div>
+            </div>
             </div>
           </div>
         </div>
