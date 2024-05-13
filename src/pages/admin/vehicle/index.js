@@ -42,7 +42,7 @@ const index = () => {
       Model: "Model",
       Price: "500",
       Register: "JUHUHSU4454",
-      Status: "Available",
+      Status: "Pending",
     },
     {
       VehicleName: "sdfsdfd",
@@ -118,16 +118,18 @@ const index = () => {
                     <td>{vehicle.VehicleName}</td>
                     <td>{vehicle.Category}</td>
                     <td>{vehicle.Model}</td>
-                    <td>{vehicle.Price}</td>
+                    <td>{`Rs.${vehicle.Price}`}</td>
                     <td>{vehicle.Register}</td>
                     <td>
                       {" "}
                       <div
                         className={`Table-status-field ${
                           vehicle.Status === "Available"
-                            ? "Table-ActiveField"
-                            : "Table-InActiveField"
-                          }`}
+                            ? "Available-Field"
+                            : vehicle.Status === "Pending"
+                            ? "Pending-Field"
+                            : "Sold-Field"
+                        }`}
                       >
                         {vehicle.Status}
                       </div>

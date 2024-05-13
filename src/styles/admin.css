@@ -32,12 +32,15 @@
     text-align: center;
 }
 
-.Table-ActiveField {
+.Available-Field {
     background: #17B530 !important;
-
 }
 
-.Table-InActiveField {
+.Pending-Field {
+    background: #FFBE18 !important;
+}
+
+.Sold-Field {
     background: #F73B3B !important;
 }
 
@@ -103,9 +106,74 @@
 
     .Login-home-content h1 {
         font-size: 30px;
-       
+
     }
+
     .Login-home-content h4 {
         font-size: 20px;
     }
 }
+
+
+
+.Filter-Search-Container {
+    box-shadow: var(--box-shadow);
+    background-color: #fff;
+    border-bottom: 4px solid var(--primary-color);
+    border-radius: 4px;
+}
+
+.Filter-Search-Container h1 {
+    border-left: 4px solid var(--primary, #07326C);
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 4px 0px 0px 0px;
+}
+
+
+.search-input-container {
+    position: relative;
+}
+
+.SearchBox {
+    width: 100%;
+    padding-left: 5px;
+    border-radius: 5px;
+    background: #ffffff;
+    height: 35px;
+    border: 1px solid #ccc;
+    outline: none;
+    transition: border-color 0.2s ease-in-out;
+}
+
+.search-icon {
+    position: absolute;
+    right: 2%;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #555;
+    cursor: pointer;
+}
+
+.search-icon:hover {
+    color: #05004b;
+}
+
+.SearchBox:hover {
+    border-color: #007bff;
+}
+
+.Modal-Title{
+    font-size: 24px;
+    color: var(--primary-color);
+    text-transform: uppercase;
+    font-weight: 700;
+}
+
+.Customer-View-Name{
+    font-size: 24px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+

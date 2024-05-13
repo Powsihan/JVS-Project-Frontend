@@ -19,7 +19,7 @@ const TextField = ({ value, label, placeholder, type, onChange,width,disable }) 
         className="form-control"
         placeholder={placeholder}
         onChange={handleChange}
-        readOnly={disable}
+        disabled={disable}
       />
     </div>
   );
