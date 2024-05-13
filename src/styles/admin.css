@@ -32,12 +32,14 @@
     text-align: center;
 }
 
-.Table-ActiveField {
+.Available-Field {
     background: #17B530 !important;
-
+}
+.Pending-Field {
+    background: #FFBE18 !important;
 }
 
-.Table-InActiveField {
+.Sold-Field {
     background: #F73B3B !important;
 }
 

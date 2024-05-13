@@ -16,9 +16,12 @@ import Profile from "../assets/icons/profile.svg";
 import Logout from "../assets/icons/logout.svg";
 
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname,useRouter } from "next/navigation";
+import { logout } from "../redux/action/user.js";
+
 
 const Sidebar = () => {
+  const router =useRouter();
   const pathname = usePathname();
   const routes = [
     { name: "Dashboard", image: dashboard, path: "admin/dashboard" },
@@ -41,6 +44,13 @@ const Sidebar = () => {
     { name: "Profile", image: Profile, path: "admin/profile" },
     { name: "Log Out", image: Logout, path: "/admin/login" },
   ]
+
+  const handleLogout = async (e) =>  {
+    e.preventDefault();
+    logout();
+    router.push('/admin/login');
+    
+  };
   return (
     <div class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100">
       <div className="Sidebar-Logo">
@@ -91,6 +101,7 @@ const Sidebar = () => {
                     pathname === `/${item.path}` ? "active-field" : ""
                   }`}
                   href={`/${item.path}`}
+                  onClick={item.name === "Log Out" ? handleLogout : null}
                 >
                   <div class="d-flex gap-2 align-items-center">
                     <div>

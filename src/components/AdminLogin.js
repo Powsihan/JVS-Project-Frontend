@@ -3,10 +3,10 @@ import TextField from "./TextField";
 import CommonButton from "./CommonButton";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
-import { useRouter} from "next/navigation";
+import { useRouter } from "next/navigation";
+import { userLogin } from "../redux/action/user";
+import Cookies from "js-cookie";
 const AdminLogin = () => {
-
-    
   const router = useRouter();
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
   const { email, password } = inputValue;
@@ -27,27 +27,54 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    try {
-      const response = await axios.post(
-        "http://localhost:5000/api/users/auth",
-        {
-          username: email,
-          password: password,
+    userLogin(
+      {
+        username: email,
+        password: password,
+      },
+      (res) => {
+        console.log(res);
+        console.log("jgwdjgcdjegc");
+        if (res.status == 200) {
+          toast.success(res.data.message);
+          const cookieOptions = {
+            path: "/",
+          };
+          Cookies.set("token", res.data.data.token, cookieOptions);
+          router.push('/admin/dashboard');
+        } else {
+          toast.error(res.data.message);
         }
-      );
-      if (response.status == 200) {
-        toast.success(response.data.message);
-        console.log("Login successful");
-        console.log(response.data);
-        router.push("/admin/dashboard");
-      } else {
-        toast.error(error.response.data.message);
+
+        // if(res.status == 200){
+        //   toast.success(res.data.message);
+        //   router.push("/admin/dashboard");
+        // }else{
+        //   toast.error(res.data.message);
+        // }
       }
-    } catch (error) {
-      // Handle error
-      toast.error(error.response.data.message);
-      console.error("Login failed:", error.response.data.message);
-    }
+    );
+    // try {
+    //   const response = await axios.post(
+    //     "http://localhost:5000/api/users/auth",
+    //     {
+    //       username: email,
+    //       password: password,
+    //     }
+    //   );
+    //   if (response.status == 200) {
+    //     toast.success(response.data.message);
+    //     console.log("Login successful");
+    //     console.log(response.data);
+    //     router.push("/admin/dashboard");
+    //   } else {
+    //     toast.error(error.response.data.message);
+    //   }
+    // } catch (error) {
+    //   // Handle error
+    //   toast.error(error.response.data.message);
+    //   console.error("Login failed:", error.response.data.message);
+    // }
   };
   return (
     <div className="p-5 rounded Admin-LoginIn-Container">
