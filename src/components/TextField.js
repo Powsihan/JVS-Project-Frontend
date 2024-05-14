@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import "../styles/component.css"
 
 
-const TextField = ({ value, label, placeholder, type, onChange,width,disable }) => {
+const TextField = ({ value, label, placeholder, type, onChange,width,disable,defaultValue }) => {
   const handleChange = (e) => {
     const { value } = e.target;
     onChange(value);
@@ -15,6 +15,7 @@ const TextField = ({ value, label, placeholder, type, onChange,width,disable }) 
       {label && <label htmlFor="input-field" className="Text-input-label">{label}</label>}
       <input
         type={type}
+        defaultValue={defaultValue}
         value={value}
         className="form-control"
         placeholder={placeholder}

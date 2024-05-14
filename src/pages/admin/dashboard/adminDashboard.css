@@ -50,7 +50,7 @@
   height: 300px;
   flex-shrink: 0;
   border-radius: 4px;
-  border-bottom: 4px solid var(--primary, #07326c);
+  border-bottom: 6px solid var(--primary, #07326c);
   background: var(--Light-mode-Background-Default, #fff);
   box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
     0px 4px 6px 0px rgba(0, 0, 0, 0.05);
