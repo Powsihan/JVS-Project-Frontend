@@ -7,7 +7,7 @@ import editprof from "../../../assets/images/Editprof.png";
 import changepass from "../../../assets/images/Changepass.png";
 import ProfileEdit from "../../../assets/images/Profileedit.svg";
 import "../../../styles/admin.css";
-
+import { Cloudinary } from "cloudinary-core";
 import "./profile.css";
 
 import TextField from "@/src/components/TextField";
@@ -15,10 +15,12 @@ import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
+import axios from "axios";
 
 const index = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState({});
+  const [file, setFile] = useState(null);
 
   const [userUpdatedData, setUserUpdatedData] = useState({
     name: "",
@@ -34,6 +36,8 @@ const index = () => {
     }
   }, []);
 
+  console.log(userData);
+
   const handleOpen = () => {
     setShowProfile(!showProfile);
   };
@@ -48,12 +52,22 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const userId = userData._id;
-    userProfileEdit(userId,userUpdatedData , (res) => {
-      console.log(res);
-      if(res.status===201){
-        toast.info(res.data.message);
+    let data = { ...userUpdatedData };
+    if (file) {
+      const uploadedImageUrl = await handleUpload(file);
+      if (uploadedImageUrl) {
+        console.log(uploadedImageUrl);
+        data.profilePic = uploadedImageUrl;
       }
-      else if (res.status === 200) {
+    }
+
+    userProfileEdit(userId, data, (res) => {
+      console.log(res);
+      if (res.status === 201) {
+        setFile(null);
+        toast.info(res.data.message);
+      } else if (res.status === 200) {
+        setFile(null);
         toast.success(res.data.message);
         const cookieOptions = {
           path: "/",
@@ -68,6 +82,39 @@ const index = () => {
       }
     });
   };
+
+  const handleUpload = async (file) => {
+    if (!file) return false;
+
+    try {
+      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "JV-Project");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Upload successful. Public ID:", data.public_id);
+        console.log(data);
+        return data.secure_url;
+      } else {
+        console.error("Upload failed.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      return false;
+    }
+  };
+
   return (
     <Adminlayout>
       <div className="container-fluid Profile-Edit-Section">
@@ -132,12 +179,24 @@ const index = () => {
                     </div>
                     {showProfile && (
                       <div className="col-lg-6 col-sm-12 mb-3">
-                        <TextField
-                          label="Choose Profile Picture"
-                          placeholder="Choose Profile Picture"
-                          type="file"
-                          id="profilePicture"
-                        />
+                        <div className="form-group">
+                          <label
+                            htmlFor="input-field"
+                            className="Text-input-label"
+                          >
+                            Choose Profile Picture
+                          </label>
+                          <input
+                            className="form-control"
+                            placeholder="Choose Profile Picture"
+                            type="file"
+                            id="profilePicture"
+                            onChange={(e) => {
+                              console.log(e);
+                              e?.target && setFile(e.target.files[0]);
+                            }}
+                          />
+                        </div>
                       </div>
                     )}
                   </div>
