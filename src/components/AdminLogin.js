@@ -45,36 +45,9 @@ const AdminLogin = () => {
         } else {
           toast.error(res.data.message);
         }
-
-        // if(res.status == 200){
-        //   toast.success(res.data.message);
-        //   router.push("/admin/dashboard");
-        // }else{
-        //   toast.error(res.data.message);
-        // }
+        
       }
     );
-    // try {
-    //   const response = await axios.post(
-    //     "http://localhost:5000/api/users/auth",
-    //     {
-    //       username: email,
-    //       password: password,
-    //     }
-    //   );
-    //   if (response.status == 200) {
-    //     toast.success(response.data.message);
-    //     console.log("Login successful");
-    //     console.log(response.data);
-    //     router.push("/admin/dashboard");
-    //   } else {
-    //     toast.error(error.response.data.message);
-    //   }
-    // } catch (error) {
-    //   // Handle error
-    //   toast.error(error.response.data.message);
-    //   console.error("Login failed:", error.response.data.message);
-    // }
   };
   return (
     <div className="p-5 rounded Admin-LoginIn-Container">

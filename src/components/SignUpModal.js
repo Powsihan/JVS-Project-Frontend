@@ -1,40 +1,63 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 import TextField from "./TextField";
-
+import "../styles/component.css";
+import CommonButton from "./CommonButton";
 
 function SignUpModal(props) {
-    const { show, onHide } = props;
+  const { show, onHide } = props;
+  const [inputValue, setInputValue] = useState({ email: "", password: "" });
+  const { email, password } = inputValue;
 
-    return (
-        <Modal show={show} onHide={onHide} centered backdrop="static" size="md">
-            <Modal.Header closeButton>
-                <Modal.Title className="Modal-Title">Sign in to Account</Modal.Title>
-                {/* <div>
-                    <h6 style={{ display: 'block' }}>Enter Your Email & Password to login</h6>
-                </div> */}
-            </Modal.Header>
-            <Modal.Body>
-                <>
+  const handleEmailChange = (value) => {
+    setInputValue((prevInputValue) => ({
+      ...prevInputValue,
+      email: value,
+    }));
+  };
 
-                    <TextField label={"Email Address"} placeholder={"abc@gmail.com"} />
-                    <TextField label={"Password"} placeholder={"............"} />
-                    <label> <input type="checkbox" /> </label> <label>Remember Password</label>
-                    <label style={{ display: 'block', textAlign: 'right' , padding: '10px'  }}>Forget Password?</label>
-                    <button className='btn btn-primary' style={{ width: '100%' , padding: '10px'}} onClick={() => Signin()}>Sign in</button>
-                   
-                    
-                    <label style={{ display: 'block', textAlign: 'center', padding: '15px' }}>Don't have an account? Create one.</label>
-                </>
-            </Modal.Body>
+  const handlePasswordChange = (value) => {
+    setInputValue((prevInputValue) => ({
+      ...prevInputValue,
+      password: value,
+    }));
+  };
 
-            {/* <Modal.Footer>
-        <Button variant="secondary"  onClick={onHide}>
-          Close
-        </Button>
-      </Modal.Footer> */}
-        </Modal>
-    );
+  return (
+    <Modal show={show} onHide={onHide} centered backdrop="static" size="md">
+      <Modal.Header closeButton>
+        <Modal.Title className="SignIn-Modal-Title">
+          Sign in to Account
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
+        <div className="container-fluid">
+          <div className="d-flex flex-column gap-2">
+            <TextField label={"Email"} placeholder={"Enter Your Email"} value={email} onChange={handleEmailChange} type={"text"}/>
+            <TextField label={"Password"} placeholder={"Enter the Password"} value={password} onChange={handlePasswordChange} type={"password"}/>
+          </div>
+          <div class="form-check pt-2">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              value=""
+              id="flexCheckDefault"
+            />
+            <label class="form-check-label" for="flexCheckDefault">
+              Remember Me
+            </label>
+          </div>
+          <div className="d-flex justify-content-end pe-2 pt-2 pb-2">
+            Forget Password?
+          </div>
+          <CommonButton text={"SignIn"} width={"100%"} />
+          <div className="d-flex justify-content-center pe-2 pt-2 pb-2">
+            Don't have an account ?<span>Create one</span>
+          </div>
+        </div>
+      </Modal.Body>
+    </Modal>
+  );
 }
 
 export default SignUpModal;

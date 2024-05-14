@@ -6,11 +6,12 @@ import logo from "../assets/images/Logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 import notification from "../assets/icons/bell.svg";
-import avatar from "../assets/images/Avatar.png";
+import avatar from "../assets/images/avatar.svg";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import SignUpModal from "../components/SignUpModal";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -21,6 +22,17 @@ const Navbar = () => {
     { name: "Customization", path: "customization" },
     { name: "Auction", path: "auction" },
   ];
+
+  const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [showLoginView, setShowLoginView] = useState(false);
+
+  const LoginViewModal = () => {
+    setShowLoginView(true);
+  };
+
+  const toggleDropdown = () => {
+    setDropdownOpen(!dropdownOpen);
+  };
 
   return (
     <>
@@ -74,17 +86,15 @@ const Navbar = () => {
             </div>
           </div>
           <div className="d-flex align-items-center">
-            <div className="dropdown">
-              <a
-                className="link-secondary me-3"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                aria-expanded="false"
-              >
-                <Image src={notification} alt="" width={25} />
-              </a>
-            </div>
+            <a
+              className="link-secondary me-3"
+              href="#"
+              id="navbarDropdownMenuLink"
+              role="button"
+              aria-expanded="false"
+            >
+              <Image src={notification} alt="" width={25} />
+            </a>
 
             <div className="dropdown">
               <a
@@ -93,26 +103,32 @@ const Navbar = () => {
                 id="navbarDropdownMenuAvatar"
                 role="button"
                 aria-expanded="false"
+                data-bs-toggle="dropdown"
+                aria-haspopup="true"
+                onClick={toggleDropdown}
               >
-                <Image src={avatar} alt="" />
+                <Image src={avatar} alt="" width={50} />
               </a>
               <ul
-                className="dropdown-menu dropdown-menu-end"
+                className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
+                  dropdownOpen ? "show" : ""
+                }`}
                 aria-labelledby="navbarDropdownMenuAvatar"
               >
                 <li>
-                  <a className="dropdown-item" href="#">
-                    My profile
+                  <a className="dropdown-item" >
+                    Sign up
                   </a>
                 </li>
                 <li>
-                  <a className="dropdown-item" href="#">
-                    Settings
+                  <a className="dropdown-item" onClick={() => LoginViewModal()}>
+                    Log in
                   </a>
                 </li>
+                <hr />
                 <li>
                   <a className="dropdown-item" href="#">
-                    Logout
+                    Help Center
                   </a>
                 </li>
               </ul>
@@ -120,6 +136,7 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+      <SignUpModal show={showLoginView} onHide={() => setShowLoginView(false)} />
     </>
   );
 };
