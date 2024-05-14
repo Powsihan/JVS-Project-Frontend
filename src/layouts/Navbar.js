@@ -24,14 +24,20 @@ const Navbar = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLoginView, setShowLoginView] = useState(false);
+  // const [ShowWelcomeView, setShowWelcomeView] = useState(false);
 
   const LoginViewModal = () => {
     setShowLoginView(true);
   };
 
+  // const WelcomeViewModal = () => {
+  //   setShowWelcomeView(true);
+  // };
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top">
@@ -114,7 +120,8 @@ const Navbar = () => {
                 aria-labelledby="navbarDropdownMenuAvatar"
               >
                 <li>
-                  <a className="dropdown-item">Sign Up</a>
+                  <a className="dropdown-item" onClick={()=> LoginViewModal()}>
+                    Sign Up</a>
                 </li>
                 <li>
                   <a className="dropdown-item" onClick={() => LoginViewModal()}>
@@ -136,6 +143,10 @@ const Navbar = () => {
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
       />
+      {/* <WelcomeModal
+        show={showLoginView}
+        onHide={() => setShowWelcomeView(false)}
+      /> */}
     </>
   );
 };
