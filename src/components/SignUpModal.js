@@ -3,6 +3,10 @@ import { Modal, Button } from "react-bootstrap";
 import TextField from "./TextField";
 import "../styles/component.css";
 import CommonButton from "./CommonButton";
+import welcome from "../assets/images/welcome.png";
+import Image from "next/image";
+import finish from "../assets/images/finish.png";
+
 
 function SignUpModal(props) {
   const { show, onHide } = props;
@@ -31,12 +35,13 @@ function SignUpModal(props) {
         </Modal.Title>
       </Modal.Header>
       <Modal.Body>
+
         <div className="container-fluid">
           <div className="d-flex flex-column gap-2">
             <TextField label={"Email"} placeholder={"Enter Your Email"} value={email} onChange={handleEmailChange} type={"text"}/>
             <TextField label={"Password"} placeholder={"Enter the Password"} value={password} onChange={handlePasswordChange} type={"password"}/>
           </div>
-          <div class="form-check pt-2">
+          <div className="form-check pt-2">
             <input
               class="form-check-input"
               type="checkbox"
@@ -55,8 +60,16 @@ function SignUpModal(props) {
             Don't have an account ?<span>Create one</span>
           </div>
         </div>
+
+
+
+        
+
+
+
       </Modal.Body>
     </Modal>
+
   );
 }
 
