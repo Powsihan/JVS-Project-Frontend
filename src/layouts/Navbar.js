@@ -32,10 +32,6 @@ const Navbar = () => {
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
-
-
-  
-console.log(userData,"Useerdata");
   return (
     <>
       <nav className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top">
