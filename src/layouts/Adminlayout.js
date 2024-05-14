@@ -9,6 +9,7 @@ import chat from "../assets/icons/chat.png";
 import Image from "next/image";
 
 import { usePathname } from "next/navigation";
+import Cookies from "js-cookie";
 const Adminlayout = ({ children }) => {
   const [typingText, setTypingText] = useState("");
   const pathname = usePathname();
@@ -18,6 +19,15 @@ const Adminlayout = ({ children }) => {
     const splitPath = path.split("/");
     return splitPath[splitPath.length - 1];
   };
+
+  const [userData, setUserData] = useState(null);
+
+  useEffect(() => {
+    const storedUserData = Cookies.get("token");
+    if (storedUserData) {
+      setUserData(JSON.parse(storedUserData));
+    }
+  }, []);
 
   useEffect(() => {
     switch (getPageName(pathname)) {
@@ -117,7 +127,7 @@ const Adminlayout = ({ children }) => {
               <div className="d-flex align-items-center justify-content-center gap-3">
                 <Image src={chat} alt="" />
                 <Image src={notification} alt="" />
-                <Image src={profile} alt="" />
+                <Image src={userData && userData.profilePic ? userData.profilePic : profile} alt="" width={50} height={50} className="rounded-circle "/>
               </div>
             </div>
           </div>

@@ -40,7 +40,7 @@ const AdminLogin = () => {
           const cookieOptions = {
             path: "/",
           };
-          Cookies.set("token", res.data.data.token, cookieOptions);
+          Cookies.set("token", JSON.stringify(res.data.data), cookieOptions);
           router.push('/admin/dashboard');
         } else {
           toast.error(res.data.message);

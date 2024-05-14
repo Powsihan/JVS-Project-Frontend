@@ -12,7 +12,6 @@ import Contact from "../assets/icons/Headset.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SignUpModal from "../components/SignUpModal";
-
 const Navbar = () => {
   const pathname = usePathname();
   const routes = [
@@ -34,6 +33,9 @@ const Navbar = () => {
     setDropdownOpen(!dropdownOpen);
   };
 
+
+  
+console.log(userData,"Useerdata");
   return (
     <>
       <nav className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top">
