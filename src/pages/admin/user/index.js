@@ -10,6 +10,8 @@ import { useEffect, useState } from "react";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import CustomerView from "@/src/components/modals/CustomerView";
 
+import { districts } from "../../../data/datas.js";
+
 const index = () => {
   const [customerdata, setCustomerdata] = useState([]);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
@@ -48,11 +50,11 @@ const index = () => {
       (customers) =>
         customers.fname.toLowerCase().includes(searchName.toLowerCase()) &&
         customers.nic.toLowerCase().includes(searchNic.toLowerCase()) &&
-        customers.email.toLowerCase().includes(searchEmail.toLowerCase())&&
+        customers.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
         (selectedCity === "" || customers.city === selectedCity)
     );
     setFilteredCustomersList(filteredData);
-  }, [searchName,searchNic,searchEmail,selectedCity, customerdata]);
+  }, [searchName, searchNic, searchEmail, selectedCity, customerdata]);
 
   const OpenCustomerViewModal = (customer) => {
     setSelectedCustomerdata(customer);
@@ -159,10 +161,12 @@ const index = () => {
                   value={selectedCity}
                   onChange={HandleSelectCity}
                 >
-                  <option value={""}>Select a City</option>
-                  <option value={"Jaffna"}>Jaffna</option>
-                  <option value={"Storage"}>Storage</option>
-                  <option value={"Display"}>Display</option>
+                  <option value="">Select the City</option>
+                  {districts.map((data, index) => (
+                    <option key={index} value={data}>
+                      {data}
+                    </option>
+                  ))}
                 </select>
 
                 {selectedCity && (
@@ -247,10 +251,10 @@ const index = () => {
         </div>
       </div>
       <CustomerView
-              show={showViewModal}
-              onHide={() => setShowViewModal(false)}
-              customerDetails={selectedCustomerdata}
-            />
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        customerDetails={selectedCustomerdata}
+      />
     </Adminlayout>
   );
 };
