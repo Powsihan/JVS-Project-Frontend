@@ -2,8 +2,7 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import TextField from "../TextField";
 import Image from "next/image";
-import DefaultDp from "../../assets/images/avatar.svg"
-
+import DefaultDp from "../../assets/images/avatar.svg";
 const CustomerView = (props) => {
   const { show, onHide, customerDetails } = props;
   return (
@@ -16,10 +15,24 @@ const CustomerView = (props) => {
         </Modal.Header>
         <Modal.Body>
           <>
-          <div className="d-flex flex-column align-items-center justify-content-center mb-3">
-            <Image src={DefaultDp} alt="" width={150}/>
-            <h1 className="Customer-View-Name">{`${customerDetails && customerDetails.fname} ${customerDetails && customerDetails.lname}`}</h1>
-          </div>
+            <div className="d-flex flex-column align-items-center justify-content-center mb-3">
+              <div className="p-1 rounded-circle bg-dark">
+                <Image
+                  src={
+                    customerDetails && customerDetails.profilePic
+                      ? customerDetails.profilePic
+                      : DefaultDp
+                  }
+                  alt=""
+                  width={150}
+                  height={150}
+                  className="rounded-circle"
+                />
+              </div>
+              <h1 className="Customer-View-Name">{`${
+                customerDetails && customerDetails.fname
+              } ${customerDetails && customerDetails.lname}`}</h1>
+            </div>
             <div className="row mb-2">
               <div className="col-6">
                 <div className="row">
