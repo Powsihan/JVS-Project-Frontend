@@ -50,12 +50,19 @@ const index = () => {
     const userId = userData._id;
     userProfileEdit(userId,userUpdatedData , (res) => {
       console.log(res);
-      if (res.status === 200) {
+      if(res.status===201){
+        toast.info(res.data.message);
+      }
+      else if (res.status === 200) {
         toast.success(res.data.message);
         const cookieOptions = {
           path: "/",
         };
         Cookies.set("token", JSON.stringify(res.data.data), cookieOptions);
+
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         toast.error(res.data.message);
       }
@@ -175,7 +182,7 @@ const index = () => {
             </div>
           ) : (
             <div className="col-lg-8 col-md-6 col-sm-12 Profile-Edit-Section d-flex flex-column align-items-center justify-content-center ">
-              <h1>Hi Powsi</h1>
+              <h1>Hi {userData && userData.name}</h1>
               <p>Welcome to Profile Section</p>
               <Image src={ProfileEdit} alt="" width={400} />
             </div>
