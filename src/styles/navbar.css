@@ -33,6 +33,14 @@
 .dropdown-Menu-custom{
     padding: 10px;
     width: 220px;
+    background-color: #fff;
+    border: none;
+    box-shadow: var(--box-shadow);
+}
+
+.dropdown-item{
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 .dropdown-item:hover{

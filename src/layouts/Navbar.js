@@ -116,13 +116,11 @@ const Navbar = () => {
                 aria-labelledby="navbarDropdownMenuAvatar"
               >
                 <li>
-                  <a className="dropdown-item" >
-                    Sign up
-                  </a>
+                  <a className="dropdown-item">Sign Up</a>
                 </li>
                 <li>
                   <a className="dropdown-item" onClick={() => LoginViewModal()}>
-                    Log in
+                    Log In
                   </a>
                 </li>
                 <hr />
@@ -136,7 +134,10 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <SignUpModal show={showLoginView} onHide={() => setShowLoginView(false)} />
+      <SignUpModal
+        show={showLoginView}
+        onHide={() => setShowLoginView(false)}
+      />
     </>
   );
 };
