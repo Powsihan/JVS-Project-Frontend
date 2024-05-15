@@ -108,6 +108,18 @@ const CustomerView = (props) => {
                 />
               </div>
             </div>
+            <div className="row mb-2">
+            <div className="form-group">
+              <label htmlFor="input-field" className="Text-input-label">
+                Description
+              </label>
+              <textarea
+                className="form-control"
+                disabled
+                value={customerDetails && customerDetails.description}
+              />
+            </div>
+            </div>
           </>
         </Modal.Body>
         <Modal.Footer>
