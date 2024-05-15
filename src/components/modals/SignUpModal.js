@@ -11,6 +11,21 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 function SignUpModal(props) {
+  const [customerData, setCustomerData] = useState({
+    fname: "",
+    lname: "",
+    dob: "",
+    gender: "",
+    email: "",
+    password: "",
+    phoneNo: "",
+    nic: "",
+    address: "",
+    city: "",
+    description: "",
+    profilePic: "",
+  });
+
   const { show, onHide } = props;
   const [activeStep, setActiveStep] = useState(0);
   const [completedSteps, setCompletedSteps] = useState(
@@ -63,6 +78,7 @@ function SignUpModal(props) {
                 placeholder={"Enter Your First Name"}
                 // value={email}
                 type={"text"}
+                onChange={(value) => handleChange("fname", value)}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -71,6 +87,7 @@ function SignUpModal(props) {
                 placeholder={"Enter the Last name"}
                 // value={password}
                 type={"text"}
+                onChange={(value) => handleChange("lname", value)}
               />
             </div>
           </div>
@@ -82,6 +99,7 @@ function SignUpModal(props) {
                 placeholder={"DD-MM-YYYY"}
                 // value={email}
                 type={"date"}
+                onChange={(value) => handleChange("dob", value)}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">

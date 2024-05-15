@@ -4,7 +4,7 @@ import CommonButton from "@/src/components/CommonButton";
 import Image from "next/image";
 import avatar from "../../../assets/images/avatar.svg";
 import editprof from "../../../assets/images/Editprof.png";
-import changepass from "../../../assets/images/Changepass.png";
+import changepass from "../../../assets/images/changepassword.png";
 import ProfileEdit from "../../../assets/images/Profileedit.svg";
 import "../../../styles/admin.css";
 import { Cloudinary } from "cloudinary-core";
@@ -15,7 +15,7 @@ import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
-import axios from "axios";
+
 
 const index = () => {
   const [showProfile, setShowProfile] = useState(false);
@@ -69,11 +69,6 @@ const index = () => {
       } else if (res.status === 200) {
         setFile(null);
         toast.success(res.data.message);
-        const cookieOptions = {
-          path: "/",
-        };
-        Cookies.set("token", JSON.stringify(res.data.data), cookieOptions);
-
         setTimeout(() => {
           window.location.reload();
         }, 2000);

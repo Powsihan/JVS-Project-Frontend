@@ -42,6 +42,10 @@ export const userProfileEdit = (userId,data, callback) => {
       .put(endpoint, data)
       .then((response) => {
         callback(response);
+        const cookieOptions = {
+            path: "/",
+          };
+          Cookies.set("token", JSON.stringify(response.data.data), cookieOptions);
       })
       .catch((error) => {
         callback(error.response);
