@@ -33,7 +33,7 @@ const index = () => {
                 <div>
                   <Button variant="secondary">Cancel</Button>
                 </div>
-                <CommonButton text="Save Changes" width={128} />
+                <CommonButton text="Save Changes" width={150} />
               </div>
             </div>
             <div className="row">
@@ -146,7 +146,7 @@ const index = () => {
                 <div>
                   <Button variant="secondary">Cancel</Button>
                 </div>
-                <CommonButton text="Save Changes" width={128} />
+                <CommonButton text="Save Changes" width={150} />
               </div>
             </div>
             <div className="row">
