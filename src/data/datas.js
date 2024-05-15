@@ -1,4 +1,4 @@
-const districts = [
+const Districts = [
   "Ampara",
   "Anuradhapura",
   "Badulla",
@@ -78,11 +78,14 @@ const VehicleTransmission = ["Automatic", "Manual", "Other", "Tiptronic"];
 
 const FuelType = ["Diesel", "Hybrid", "Petrol", "Electric"];
 
+const Gender = ["Male", "Female", "Other"];
+
 export {
-  districts,
+  Districts,
   Brand,
   Vehicletype,
   VehicleCondition,
   VehicleTransmission,
   FuelType,
+  Gender,
 };

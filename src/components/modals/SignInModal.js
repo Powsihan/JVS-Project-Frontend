@@ -1,14 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import TextField from "./TextField";
-import "../styles/component.css";
-import CommonButton from "./CommonButton";
-import welcome from "../assets/images/welcome.png";
-import Image from "next/image";
-import finish from "../assets/images/finish.png";
+import TextField from "../TextField";
+import "../../styles/component.css";
+import CommonButton from "../CommonButton";
 
 
-function SignUpModal(props) {
+function SignInModal(props) {
   const { show, onHide } = props;
   const [inputValue, setInputValue] = useState({ email: "", password: "" });
   const { email, password } = inputValue;
@@ -60,17 +57,10 @@ function SignUpModal(props) {
             Don't have an account ?<span>Create one</span>
           </div>
         </div>
-
-
-
-        
-
-
-
       </Modal.Body>
     </Modal>
 
   );
 }
 
-export default SignUpModal;
+export default SignInModal;

@@ -9,8 +9,7 @@ import "../../../styles/admin.css";
 import { useEffect, useState } from "react";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import CustomerView from "@/src/components/modals/CustomerView";
-
-import { districts } from "../../../data/datas.js";
+import { Districts } from "../../../data/datas.js";
 
 const index = () => {
   const [customerdata, setCustomerdata] = useState([]);
@@ -162,7 +161,7 @@ const index = () => {
                   onChange={HandleSelectCity}
                 >
                   <option value="">Select the City</option>
-                  {districts.map((data, index) => (
+                  {Districts.map((data, index) => (
                     <option key={index} value={data}>
                       {data}
                     </option>

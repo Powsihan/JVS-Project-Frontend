@@ -14,4 +14,28 @@
     text-transform: uppercase;
     font-weight: 700;
 }
+
+.SignUp-Welcome-Container h1{
+    font-size: 30px;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.SignUp-Welcome-Container p{
+    font-size: 16px;
+    color: #b3b3b3;
+    font-weight: 500;
+}
+
+.Account-created h1{
+    font-size: 24px;
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.Account-created h3{
+    color: #a1a1a1;
+    font-size: 16px;
+    font-weight: 500;
+}
     

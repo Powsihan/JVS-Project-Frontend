@@ -11,7 +11,9 @@ import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import SignUpModal from "../components/SignUpModal";
+import SignInModal from "../components/modals/SignInModal";
+import SignUpModal from "../components/modals/SignUpModal";
+
 const Navbar = () => {
   const pathname = usePathname();
   const routes = [
@@ -24,15 +26,15 @@ const Navbar = () => {
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLoginView, setShowLoginView] = useState(false);
-  // const [ShowWelcomeView, setShowWelcomeView] = useState(false);
+  const [showSignUpView, setShowSignUpView] = useState(false);
 
   const LoginViewModal = () => {
     setShowLoginView(true);
   };
 
-  // const WelcomeViewModal = () => {
-  //   setShowWelcomeView(true);
-  // };
+  const SignUpViewModal = () => {
+    setShowSignUpView(true);
+  };
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
@@ -120,7 +122,7 @@ const Navbar = () => {
                 aria-labelledby="navbarDropdownMenuAvatar"
               >
                 <li>
-                  <a className="dropdown-item" onClick={()=> LoginViewModal()}>
+                  <a className="dropdown-item" onClick={()=> SignUpViewModal()}>
                     Sign Up</a>
                 </li>
                 <li>
@@ -139,14 +141,14 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
-      <SignUpModal
+      <SignInModal
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
       />
-      {/* <WelcomeModal
-        show={showLoginView}
-        onHide={() => setShowWelcomeView(false)}
-      /> */}
+      <SignUpModal
+        show={showSignUpView}
+        onHide={() => setShowSignUpView(false)}
+      />
     </>
   );
 };
