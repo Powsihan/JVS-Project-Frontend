@@ -7,13 +7,15 @@ import welcome from "../../assets/images/welcome.png";
 import Image from "next/image";
 import finish from "../../assets/images/finish.png";
 import { Districts, Gender } from "@/src/data/datas";
-import RadioButtonCheckedIcon from '@mui/icons-material/RadioButtonChecked';
+import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 
 function SignUpModal(props) {
   const { show, onHide } = props;
   const [activeStep, setActiveStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState(new Array(4).fill(false));
+  const [completedSteps, setCompletedSteps] = useState(
+    new Array(4).fill(false)
+  );
 
   const handleNext = () => {
     setActiveStep((prevStep) => prevStep + 1);
@@ -244,12 +246,14 @@ function SignUpModal(props) {
     <>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
         <Modal.Body>
-          <div
-            className="d-flex align-items-center justify-content-center gap-5"
-          >
-            {completedSteps.map((completed, index) => (
-              completed ? <CheckCircleIcon key={index} sx={{color:'green'}}/> : <RadioButtonCheckedIcon key={index} sx={{color:'#a1a1a1'}}/>
-            ))}
+          <div className="d-flex align-items-center justify-content-center gap-5 pb-4">
+            {completedSteps.map((completed, index) =>
+              completed ? (
+                <CheckCircleIcon key={index} sx={{ color: "green" }} />
+              ) : (
+                <RadioButtonCheckedIcon key={index} sx={{ color: "#a1a1a1" }} />
+              )
+            )}
           </div>
           {steps[activeStep].content}
         </Modal.Body>

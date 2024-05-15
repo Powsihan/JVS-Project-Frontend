@@ -1,16 +1,59 @@
 .customer-personal-information {
     border-radius: 10px;
     background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
-}
-
-.customer-change-password {
-    border-radius: 10px;
-    background: #FFF;
-    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    box-shadow: var(--box-shadow);
+    border-bottom: 5px solid var(--primary-color);
 }
 
 .customer-delete-account {
     border-radius: 15px;
     background: rgba(200, 19, 19, 0.20);
+    box-shadow: var(--box-shadow);
+}
+
+.custom-profile-header {
+    border-left: 5px solid var(--primary-color);
+    border-radius: 10px 0 0 0;
+}
+
+.custom-profile-header h2{
+    color: var(--primary-color);
+    font-weight: 600
+}
+
+.custom-profile-header p{
+    color: #8E9193;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.customer-delete-account h6{
+    color:rgb(194, 0, 0);
+    font-weight: 600;
+    font-size: 16px
+}
+
+
+@media only screen and (max-width: 576px) {
+    .custom-profile-header h2{
+        font-size:20px;
+    }
+    
+    .custom-profile-header p{
+        display: none;
+    }
+
+    .custom-profile-header{
+        width: 100%;
+        gap: 5px;
+        padding-bottom: 20px
+    }
+    .profile-button-group{
+        display: flex;
+        align-items: center;
+        justify-content: end;
+        padding-left: 430px;
+        width: 100%;
+    }
+
 }
