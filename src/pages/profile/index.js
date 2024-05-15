@@ -46,7 +46,7 @@ const index = () => {
                   height={150}
                 />
                 <h3>Thanushika</h3>
-                <CommonButton text="Change Avatar" />
+                <CommonButton text="Change Profile"/>
               </div>
 
               <div className="col-lg-8 d-flex p-2 pb-3 flex-column ps-5 pe-5">
