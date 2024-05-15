@@ -76,7 +76,9 @@ const index = () => {
   const deleteTask  = (userID)=>{
     deleteCustomer(userID,(res)=>{
       if(res.status==200){
-        toast.success(res.data.message)
+        toast.success(res.data.message);
+        setCustomerdata(customerdata.filter(customer => customer._id !== userID));
+        closeDeleteConfirmationModal();
       }else {
         toast.error(res.data.message);
       }
