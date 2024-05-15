@@ -6,5 +6,8 @@ module.exports = {
         domains: [
           'res.cloudinary.com'
         ],
+    },
+    experimental: {
+      esmExternals: false
     }
   }

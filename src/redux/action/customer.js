@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 import HttpInterceptor from "../../service/HttpInterceptor.js";
-import Cookies from "js-cookie";
 const http = new HttpInterceptor();
 
 

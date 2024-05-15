@@ -1,6 +1,8 @@
 import axios from "axios";
-import { logout } from "../redux/action/user";
-// import Cookies from "js-cookie";
+import { logout } from "../redux/action/bookinb";
+
+
+
 
 
 class HttpInterceptor {

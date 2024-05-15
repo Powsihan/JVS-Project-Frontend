@@ -1,6 +1,10 @@
 import { useRouter } from "next/router";
-import HttpInterceptor from "../../service/HttpInterceptor.js";
+
 import Cookies from "js-cookie";
+import HttpInterceptor from "@/src/service/HttpInterceptor";
+
+
+
 const http = new HttpInterceptor();
 
 export const userLogin = (data, callback) => {
@@ -55,6 +59,3 @@ export const userProfileEdit = (userId,data, callback) => {
   }
 };
 
-export const logout = () => {
-  Cookies.remove("token", { path: "/" });
-};
