@@ -19,6 +19,7 @@ const Navbar = () => {
   const routes = [
     { name: "Home", path: "home" },
     { name: "AboutUS", path: "about" },
+    { name: "Vehicle", path: "vehicle" },
     { name: "SellVehicles", path: "sell" },
     { name: "Customization", path: "customization" },
     { name: "Auction", path: "auction" },
