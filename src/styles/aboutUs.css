@@ -1,0 +1,93 @@
+.aboutUs {
+  padding-top: 200px;
+}
+
+.aboutUs-heading h1 {
+  font-size: 40px;
+  color: var(--primary-color);
+}
+.aboutUs-heading h4 {
+  font-size: 20px;
+  color: gray;
+}
+.aboutUs-heading p {
+  font-size: 15px;
+  color: var(--primary-color);
+  font-family: "Times New Roman", Times, serif;
+}
+.line hr {
+  height: 1px;
+}
+.chooseUs-heading h5 {
+  align-items: center;
+  color: gray;
+}
+.chooseUs-heading h2 {
+  color: var(--primary-color);
+}
+.chooseUs h5 {
+  color: var(--primary-color);
+}
+.chooseUs h6,
+h1,
+h4 {
+  color: white;
+}
+.choose h6,
+h4 {
+  color: white;
+}
+
+.chooseUs button {
+  color: white;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  display: flex;
+  width: auto;
+  gap: 12px;
+}
+.choose h5,
+h2 {
+  color: rgb(207, 203, 203);
+}
+.employee h1 {
+  color: var(--primary-color);
+}
+.contactUsImage {
+  background-image: url("../assets/images/CONTACTUS-1.png");
+  width: 1800px;
+  height: 500px;
+}
+.experience h6{
+color:grey;
+font-size: 14px;
+}
+.experience p{
+    font-size: 12px;
+    color: gray;
+}
+.card-contact{
+    border-radius: 20px;
+    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+    margin-top: -100px;
+}
+.card-contact button{
+    color: white;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  display: flex;
+  width: 120px;
+  gap: 12px;
+}
+.card-contact h5{
+color:var(--primary-color);
+}
+
+
+@media (max-width: 768px) {
+    .card-contact{
+        margin-top: 0;
+    }
+  
+}
