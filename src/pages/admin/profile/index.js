@@ -16,11 +16,50 @@ import Cookies from "js-cookie";
 import { userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
 
-
 const index = () => {
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState({});
   const [file, setFile] = useState(null);
+
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+
+  const handleCurrentPasswordChange = (value) => {
+    setCurrentPassword(value);
+  };
+
+  const handleNewPasswordChange = (value) => {
+    setNewPassword(value);
+  };
+
+  const handleConfirmPasswordChange = (value) => {
+    setConfirmPassword(value);
+  };
+
+  const handlePasswordChangeSubmit = (e) => {
+    e.preventDefault();
+    const userId = userData._id;
+    const datapass = {
+      password: newPassword,
+    };
+    if (newPassword !== confirmPassword) {
+      toast.error("Password not match");
+      return;
+    }
+   
+    userProfileEdit(userId, datapass, (res) => {
+      console.log(res);
+      if (res.status === 200) {
+        toast.success("Password changed successfully.");
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error("Current password is Wrong");
+      }
+    });
+  };
 
   const [userUpdatedData, setUserUpdatedData] = useState({
     name: "",
@@ -36,7 +75,7 @@ const index = () => {
     }
   }, []);
 
-  console.log(userData);
+  // console.log(userData);
 
   const handleOpen = () => {
     setShowProfile(!showProfile);
@@ -206,32 +245,43 @@ const index = () => {
               </form>
 
               <div className="col-lg-12 Profile-Edit-Section mt-2">
-                <h5 className="custom-border ps-2">Password Change</h5>
+                <form onSubmit={handlePasswordChangeSubmit}>
+                  <h5 className="custom-border ps-2">Password Change</h5>
 
-                <div className="row p-2">
-                  <div className="col-lg-7 d-flex flex-column gap-2">
-                    <TextField
-                      label={"Current Password"}
-                      placeholder={"current password"}
-                    />
-                    <TextField
-                      label={"New Password"}
-                      placeholder={"new password"}
-                    />
-                    <TextField
-                      label={"Confirm Password"}
-                      placeholder={"confirm password"}
-                    />
+                  <div className="row p-2">
+                    <div className="col-lg-7 d-flex flex-column gap-2">
+                      <TextField
+                        label={"Current Password"}
+                        placeholder={"current password"}
+                        type={"password"}
+                        value={currentPassword}
+                        onChange={(value) => handleCurrentPasswordChange(value)}
+                      />
+                      <TextField
+                        label={"New Password"}
+                        placeholder={"new password"}
+                        type={"password"}
+                        value={newPassword}
+                        onChange={(value) => handleNewPasswordChange(value)}
+                      />
+                      <TextField
+                        label={"Confirm Password"}
+                        placeholder={"confirm password"}
+                        type={"password"}
+                        value={confirmPassword}
+                        onChange={(value) => handleConfirmPasswordChange(value)}
+                      />
+                    </div>
+                    <div className="col-lg-5 d-flex justify-content-center align-items-center">
+                      <Image src={changepass} alt="Password" />
+                    </div>
                   </div>
-                  <div className="col-lg-5 d-flex justify-content-center align-items-center">
-                    <Image src={changepass} alt="Password" />
+                  <hr />
+                  <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
+                    <CommonButton text="Save Changes" />
+                    <Button variant="secondary">Cancel</Button>
                   </div>
-                </div>
-                <hr />
-                <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
-                  <CommonButton text="Save Changes" />
-                  <Button variant="secondary">Cancel</Button>
-                </div>
+                </form>
               </div>
             </div>
           ) : (
