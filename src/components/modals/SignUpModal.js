@@ -9,6 +9,8 @@ import finish from "../../assets/images/finish.png";
 import { Districts, Gender } from "@/src/data/datas";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import { registerCustomer } from "@/src/redux/action/customer";
+import { toast,ToastContainer } from "react-toastify";
 
 function SignUpModal(props) {
   const [customerData, setCustomerData] = useState({
@@ -34,13 +36,29 @@ function SignUpModal(props) {
 
   const handleNext = () => {
     setActiveStep((prevStep) => prevStep + 1);
-    const updatedCompletedSteps = [...completedSteps];
-    updatedCompletedSteps[activeStep] = true;
-    setCompletedSteps(updatedCompletedSteps);
   };
 
   const handleBack = () => {
     setActiveStep((prevStep) => prevStep - 1);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(customerData, "customerdataaaaa");
+    registerCustomer(customerData, (res) => {
+      if (res.status === 200) {
+        toast.success(res.data.message);
+      } else {
+        toast.error(res.data.message);
+      }
+    });
+  };
+
+  const handleChange = (field, value) => {
+    setCustomerData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
   };
   const steps = [
     {
@@ -50,7 +68,7 @@ function SignUpModal(props) {
           <h1>Welcome</h1>
           <p
             className="d-flex justify-content-center align-items-center"
-            // style={{ backgroundColor: "green" }}
+           
           >
             Join Us at JVS - Where Your Journey Begins!
           </p>
@@ -76,7 +94,6 @@ function SignUpModal(props) {
               <TextField
                 label={"First Name"}
                 placeholder={"Enter Your First Name"}
-                // value={email}
                 type={"text"}
                 onChange={(value) => handleChange("fname", value)}
               />
@@ -85,7 +102,6 @@ function SignUpModal(props) {
               <TextField
                 label={"Last Name"}
                 placeholder={"Enter the Last name"}
-                // value={password}
                 type={"text"}
                 onChange={(value) => handleChange("lname", value)}
               />
@@ -97,7 +113,6 @@ function SignUpModal(props) {
               <TextField
                 label={"Date Of Birth"}
                 placeholder={"DD-MM-YYYY"}
-                // value={email}
                 type={"date"}
                 onChange={(value) => handleChange("dob", value)}
               />
@@ -109,8 +124,7 @@ function SignUpModal(props) {
                 </label>
                 <select
                   className="form-control"
-                  // value={selectedCity}
-                  // onChange={HandleSelectCity}
+                  onChange={(e) => handleChange("gender", e.target.value)}
                 >
                   <option value="">Select the Gender</option>
                   {Gender.map((data, index) => (
@@ -128,18 +142,16 @@ function SignUpModal(props) {
               <TextField
                 label={"Email"}
                 placeholder={"Enter Your Email"}
-                // value={email}
-                // onChange={handleEmailChange}
                 type={"text"}
+                onChange={(value) => handleChange("email", value)}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
               <TextField
                 label={"Password"}
                 placeholder={"Enter the Password"}
-                // value={password}
-                // onChange={handlePasswordChange}
                 type={"password"}
+                onChange={(value) => handleChange("password", value)}
               />
             </div>
           </div>
@@ -149,16 +161,16 @@ function SignUpModal(props) {
               <TextField
                 label={"Phone number"}
                 placeholder={"Enter Your Phone Number"}
-                // value={email}
                 type={"text"}
+                onChange={(value) => handleChange("phoneNo", value)}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
               <TextField
                 label={"NIC"}
                 placeholder={"Enter the NIC Number"}
-                // value={password}
-                type={"number"}
+                type={"text"}
+                onChange={(value) => handleChange("nic", value)}
               />
             </div>
           </div>
@@ -168,8 +180,8 @@ function SignUpModal(props) {
               <TextField
                 label={"Address"}
                 placeholder={"Enter Your Address"}
-                // value={email}
                 type={"text"}
+                onChange={(value) => handleChange("address", value)}
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
@@ -179,8 +191,7 @@ function SignUpModal(props) {
                 </label>
                 <select
                   className="form-control"
-                  // value={selectedCity}
-                  // onChange={HandleSelectCity}
+                  onChange={(e) => handleChange("city", e.target.value)}
                 >
                   <option value="">Select the City</option>
                   {Districts.map((data, index) => (
@@ -190,6 +201,7 @@ function SignUpModal(props) {
                   ))}
                 </select>
               </div>
+             
             </div>
           </div>
 
@@ -215,6 +227,7 @@ function SignUpModal(props) {
                 className="form-control"
                 placeholder={"Small description about your self"}
                 rows={5}
+                onChange={(e) => handleChange("description", e.target.value)}
               />
             </div>
           </div>
@@ -233,7 +246,7 @@ function SignUpModal(props) {
           <div className="row">
             <div className="d-flex gap-2 align-items-end justify-content-end">
               <CommonButton text={"Back"} width={100} onClick={handleBack} />
-              <CommonButton text={"Finish"} width={100} onClick={handleNext} />
+              <CommonButton text={"Finish"} width={100} type="submit" />
             </div>
           </div>
         </div>
@@ -273,9 +286,10 @@ function SignUpModal(props) {
               )
             )}
           </div>
-          {steps[activeStep].content}
+          <form onSubmit={handleSubmit}>{steps[activeStep].content}</form>
         </Modal.Body>
       </Modal>
+      <ToastContainer/>
     </>
   );
 }

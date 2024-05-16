@@ -27,10 +27,12 @@ export const registerCustomer =(data,callback)=>{
     try {
         http.post(endpoint,data).then((response)=>{
             callback(response);
+            if (response.status === 200) {
             const cookieOptions = {
                 path: "/",
               };
               Cookies.set("customer", JSON.stringify(response.data.data), cookieOptions);
+            }
         }).catch((error)=>{
             callback(error.response)
         })
