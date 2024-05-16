@@ -80,6 +80,8 @@ const FuelType = ["Diesel", "Hybrid", "Petrol", "Electric"];
 
 const Gender = ["Male", "Female", "Other"];
 
+const Status=["Requested","Available","Sold","Pending"]
+
 export {
   Districts,
   Brand,
@@ -88,4 +90,5 @@ export {
   VehicleTransmission,
   FuelType,
   Gender,
+  Status
 };
