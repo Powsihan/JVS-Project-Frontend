@@ -20,7 +20,7 @@ const Footer = () => (
           </div>
         </div>
         <div className="col-10 h-100 align-items-center justify-content-center ">
-          <div className="d-flex align-items-center justify-content-start pt-3 pb-0 gap-4 links" >
+          <div className="d-flex align-items-center justify-content-center pt-3 pb-0 gap-4 links" >
               <a href="#home">Home</a>
               <a href="#AboutUs">AboutUs</a>
               <a href="#Vehicles">Vehicles</a>
@@ -33,7 +33,7 @@ const Footer = () => (
          
          
           <div className="row">
-            <div className="col-7  d-flex justify-content-start" >
+            <div className="col-7  d-flex justify-content-center" >
               <div className="d-flex flex-column justify-content-center align-items-center ps-3">
                 <div className="d-flex gap-4">
                   <Image src={facebook} alt="" />
@@ -63,6 +63,7 @@ const Footer = () => (
             </div>
           </div>
         </div>
+        
       </div>
     </div>
     <hr className="white-line " style={{ color: "white" }} />
