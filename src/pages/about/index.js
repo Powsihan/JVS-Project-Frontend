@@ -276,7 +276,7 @@ const index = () => {
           <div className="d-flex contactUsImage">
             {/* <Image src={contactUs} alt="" /> */}
           </div>
-          <div className="row d-flex " style={{backgroundColor:'green'}}>
+          <div className="row d-flex ">
             <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
               <div
                 className="card d-flex align-items-center justify-content-center card-contact"
