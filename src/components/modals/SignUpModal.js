@@ -10,7 +10,7 @@ import { Districts, Gender } from "@/src/data/datas";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { registerCustomer } from "@/src/redux/action/customer";
-import { toast,ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 
 function SignUpModal(props) {
   const [customerData, setCustomerData] = useState({
@@ -30,12 +30,14 @@ function SignUpModal(props) {
 
   const { show, onHide } = props;
   const [activeStep, setActiveStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState(
-    new Array(4).fill(false)
-  );
+  const [completedSteps, setCompletedSteps] = useState(new Array(4).fill(false));
+
 
   const handleNext = () => {
     setActiveStep((prevStep) => prevStep + 1);
+    setCompletedSteps((prevSteps) =>
+      prevSteps.map((step, index) => (index === activeStep ? true : step))
+    );
   };
 
   const handleBack = () => {
@@ -44,10 +46,12 @@ function SignUpModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(customerData, "customerdataaaaa");
     registerCustomer(customerData, (res) => {
       if (res.status === 200) {
         toast.success(res.data.message);
+        handleNext();
+      }else if(res.status===500){
+        toast.error("Invalid User Data");
       } else {
         toast.error(res.data.message);
       }
@@ -66,10 +70,7 @@ function SignUpModal(props) {
       content: (
         <div className="container-fluid SignUp-Welcome-Container">
           <h1>Welcome</h1>
-          <p
-            className="d-flex justify-content-center align-items-center"
-           
-          >
+          <p className="d-flex justify-content-center align-items-center">
             Join Us at JVS - Where Your Journey Begins!
           </p>
           <div className="welcomeimage d-flex align-items-center justify-content-center p-4 pt-4 pb-5">
@@ -201,7 +202,6 @@ function SignUpModal(props) {
                   ))}
                 </select>
               </div>
-             
             </div>
           </div>
 
@@ -280,16 +280,22 @@ function SignUpModal(props) {
           <div className="d-flex align-items-center justify-content-center gap-5 pb-4">
             {completedSteps.map((completed, index) =>
               completed ? (
-                <CheckCircleIcon key={index} sx={{ color: "green" }} />
+                <CheckCircleIcon
+                  key={`step-${index}`}
+                  sx={{ color: "green" }}
+                />
               ) : (
-                <RadioButtonCheckedIcon key={index} sx={{ color: "#a1a1a1" }} />
+                <RadioButtonCheckedIcon
+                  key={`step-${index}`}
+                  sx={{ color: "#a1a1a1" }}
+                />
               )
             )}
           </div>
           <form onSubmit={handleSubmit}>{steps[activeStep].content}</form>
         </Modal.Body>
       </Modal>
-      <ToastContainer/>
+      <ToastContainer />
     </>
   );
 }
