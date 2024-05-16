@@ -7,9 +7,11 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import "../../../styles/admin.css";
 import { useEffect, useState } from "react";
-import { getCustomerDetails } from "@/src/redux/action/customer";
+import { deleteCustomer, getCustomerDetails } from "@/src/redux/action/customer";
 import CustomerView from "@/src/components/modals/CustomerView";
 import { Districts } from "../../../data/datas.js";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { toast, ToastContainer } from "react-toastify";
 
 const index = () => {
   const [customerdata, setCustomerdata] = useState([]);
@@ -21,6 +23,7 @@ const index = () => {
   const [filteredCustomersList, setFilteredCustomersList] = useState([]);
 
   const [showViewModal, setShowViewModal] = useState(false);
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
   useEffect(() => {
     getCustomerDetails((res) => {
@@ -59,6 +62,28 @@ const index = () => {
     setSelectedCustomerdata(customer);
     setShowViewModal(true);
   };
+
+  const openDeleteConfirmationModal = (userID) => {
+    setSelectedCustomerdata(userID);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+
+  const deleteTask  = (userID)=>{
+    deleteCustomer(userID,(res)=>{
+      if(res.status==200){
+        toast.success(res.data.message);
+        setCustomerdata(customerdata.filter(customer => customer._id !== userID));
+        closeDeleteConfirmationModal();
+      }else {
+        toast.error(res.data.message);
+      }
+    })
+  }
 
   return (
     <Adminlayout>
@@ -233,7 +258,7 @@ const index = () => {
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        // onClick={() => handleDelete(product.id)}
+                        onClick={() => openDeleteConfirmationModal(customer._id)}
                       >
                         <DeleteIcon className="text-danger" />
                       </IconButton>
@@ -254,6 +279,15 @@ const index = () => {
         onHide={() => setShowViewModal(false)}
         customerDetails={selectedCustomerdata}
       />
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete this User?"
+        heading="Confirmation Delete !"
+        variant="danger"
+        onConfirm={() => deleteTask(selectedCustomerdata)}
+        onCancel={closeDeleteConfirmationModal}
+      />
+      <ToastContainer/>
     </Adminlayout>
   );
 };

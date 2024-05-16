@@ -44,6 +44,10 @@
     background: #F73B3B !important;
 }
 
+.Requested-Field{
+    background: #0010a5 !important;
+}
+
 .admin-login-section h2 {
     color: var(--primary-color);
     font-size: 2rem;
@@ -175,5 +179,21 @@
     font-size: 24px;
     color: var(--primary-color);
     font-weight: 500;
+}
+
+
+.Add-Vehicle-Section{
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    border-bottom: 4px solid var(--primary-color);
+    border-radius: 4px;
+}
+
+.Add-Vehicle-Section h1{
+    border-left: 4px solid var(--primary, #07326C);
+    color: var(--primary-color);
+    font-size: 18px;
+    font-weight: 700;
+    border-radius: 4px 0px 0px 0px;
 }
 

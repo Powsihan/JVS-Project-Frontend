@@ -1,6 +1,5 @@
 import Navbar from "@/src/layouts/Navbar";
 import React from "react";
-// import { buildUrl } from 'cloudinary-build-url';
 import Image from "next/image";
 import JVS from "../../assets/images/JVS1.png";
 import cardemo from "../../assets/images/cardemo.png";
@@ -141,9 +140,6 @@ const index = () => {
             
       </div>
                        
-
       </>
-  );
-};
 
 export default index;

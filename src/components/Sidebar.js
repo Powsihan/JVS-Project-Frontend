@@ -17,7 +17,7 @@ import Logout from "../assets/icons/logout.svg";
 
 import Link from "next/link";
 import { usePathname,useRouter } from "next/navigation";
-import { logout } from "../redux/action/user.js";
+import { logout } from "../redux/action/bookinb";
 
 
 const Sidebar = () => {
@@ -49,8 +49,9 @@ const Sidebar = () => {
     e.preventDefault();
     logout();
     router.push('/admin/login');
-    
   };
+
+  
   return (
     <div class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100">
       <div className="Sidebar-Logo">
