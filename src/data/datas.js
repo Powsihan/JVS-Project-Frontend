@@ -80,7 +80,42 @@ const FuelType = ["Diesel", "Hybrid", "Petrol", "Electric"];
 
 const Gender = ["Male", "Female", "Other"];
 
-const Status=["Requested","Available","Sold","Pending"]
+const Status = ["Requested", "Available", "Sold", "Pending"];
+
+const CarColors = [
+  "Black",
+  "White",
+  "Silver",
+  "Gray",
+  "Red",
+  "Blue",
+  "Green",
+  "Yellow",
+  "Orange",
+  "Brown",
+  "Purple",
+  "Pink",
+];
+
+const OwnershipOptions = [1, 2, 3, 4, 5];
+const GearCount = [1, 2, 3, 4, 5, 6];
+
+const Features = [
+  "Power Steering",
+  "Heated Seats",
+  "Rear Parking Sensor",
+  "USB Port",
+  "AC",
+  "Memory Seat",
+  "Roof Rack",
+  "Sound System",
+  "Alarm",
+  "Power Windows",
+  "Bluetooth",
+  "Wifi",
+  "Cruise Control",
+  "Sunroof",
+];
 
 export {
   Districts,
@@ -90,5 +125,9 @@ export {
   VehicleTransmission,
   FuelType,
   Gender,
-  Status
+  Status,
+  CarColors,
+  OwnershipOptions,
+  GearCount,
+  Features,
 };
