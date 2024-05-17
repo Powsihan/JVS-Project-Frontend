@@ -13,8 +13,10 @@ import {
   VehicleTransmission,
   Vehicletype,
 } from "../data/datas";
+import CommonButton from "./CommonButton";
+import { Button } from "react-bootstrap";
 
-const AddVehicle = () => {
+const AddVehicle = (props) => {
   const generateYears = () => {
     const years = [];
     for (let year = 1950; year <= 2023; year++) {
@@ -276,17 +278,17 @@ const AddVehicle = () => {
           </div>
         </div>
       </div>
-      <div className="row" style={{ backgroundColor: "green" }}>
-        <h3 className="Text-input-label">Features</h3>
-        <div className="container-fluid ms-2" style={{backgroundColor:'red'}}>
+      <hr />
+      <h3 className="Text-input-label fw-bold">Features</h3>
+      <div className="container-fluid">
         <div className="row">
           {Features.slice(0, 6).map((option, index) => (
-            <div className="form-check col-2">
+            <div className="form-check col-lg-2 col-md-4 col-sm-6">
               <input
                 className="form-check-input"
                 type="checkbox"
                 value={option}
-                id={`checkbox-${index}`}    
+                id={`checkbox-${index}`}
               />
               <label className="Text-input-label" htmlFor={`checkbox-${index}`}>
                 {option}
@@ -294,10 +296,24 @@ const AddVehicle = () => {
             </div>
           ))}
         </div>
+        <div className="row">
+          {Features.slice(6, 12).map((option, index) => (
+            <div className="form-check col-lg-2 col-md-4 col-sm-6">
+              <input
+                className="form-check-input"
+                type="checkbox"
+                value={option}
+                id={`checkbox-${index}`}
+              />
+              <label className="Text-input-label" htmlFor={`checkbox-${index}`}>
+                {option}
+              </label>
+            </div>
+          ))}
         </div>
-        <div className="d-flex justify-content-between">
-          {Features.slice(7, 13).map((option, index) => (
-            <div className="form-check col-2">
+        <div className="row">
+          {Features.slice(12, 14).map((option, index) => (
+            <div className="form-check col-lg-2 col-md-4 col-sm-6">
               <input
                 className="form-check-input"
                 type="checkbox"
@@ -311,7 +327,22 @@ const AddVehicle = () => {
           ))}
         </div>
       </div>
+      <hr/>
+      <div className="row">
+        <div className="col-lg-6 col-md-6 col-sm-12">
+          <TextField label={"Documents"} type={"file"} />
+        </div>
+        <div className="col-lg-6 col-md-6 col-sm-12">
+        <TextField label={"Images"} type={"file"} />
+        </div>
+      </div>
+      <hr/>
+      <div className="d-flex gap-2 justify-content-end pe-2 pb-3">
+        <CommonButton text={"Add"} width={164}/>
+        <Button variant="secondary"  onClick={props.handleClose} style={{width:111}}>Close</Button>
+      </div>
     </div>
+   
   );
 };
 
