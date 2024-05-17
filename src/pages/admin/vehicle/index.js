@@ -14,6 +14,7 @@ import { Status } from "@/src/data/datas";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import AddVehicle from "@/src/components/AddVehicle";
+import { ToastContainer } from "react-toastify";
 
 const index = () => {
   const [vehicleData, setVehicleData] = useState([]);
@@ -330,6 +331,7 @@ const index = () => {
           </div>
         </div>
       )}
+      <ToastContainer/>
     </Adminlayout>
   );
 };
