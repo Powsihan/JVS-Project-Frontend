@@ -44,6 +44,12 @@
 }
 
 /* page 2 styles */
-.vehicle-details{
+/* .vehicle-details{
   padding-top: 150px;
+} */
+
+.vehicle-details{
+  color: var(--primary-color);
+  font-weight: bold;
+  font-size: 20px;
 }
