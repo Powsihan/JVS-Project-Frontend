@@ -1,20 +1,46 @@
-
-.set-image button{
-    color: white;
-    border-radius: 5px;
-    background-color: var(--primary-color);
-    display: flex;
-    width: auto;
-    border: 0;
+.set-image button {
+  color: white;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  display: flex;
+  width: auto;
+  border: 0;
 }
-h3{
-    color:  var(--primary-color);
-    
+h3 {
+  color: var(--primary-color);
 }
-.set-image{
-    
-    border-radius: 20px;
-    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+.set-image {
+  border-radius: 20px;
+  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
     0px 4px 6px 0px rgba(0, 0, 0, 0.05);
-   
+}
+.heading {
+  padding-top: 120px;
+}
+.details h6{
+  color: gray;
+ 
+}
+.carmenu{
+    box-shadow:  0px 10px 15px 0px rgba(0, 0, 0, 0.1),
+    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+    border-radius: 10px;
+}
+
+h5{
+  color: var(--primary-color);
+}
+.carpic{
+    width: 47%;
+}
+
+.cardetails{
+    color: var(--primary-color);
+    font-weight: bold;
+}
+.bidButton{
+  color: white;
+  border-radius: 5px;
+  background-color: var(--primary-color);
+  border: 0;
 }

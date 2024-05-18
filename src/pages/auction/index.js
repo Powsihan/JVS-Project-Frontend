@@ -8,6 +8,7 @@ import "../../styles/auction.css";
 import carmodel from "../../assets/icons/f7_car-fill.svg";
 import automanu from "../../assets/icons/auto-manu.svg";
 import currency from "../../assets/icons/cash-coin 1.svg";
+import { useRouter } from "next/navigation";
 
 
 const index = () => {
@@ -16,6 +17,7 @@ const index = () => {
 //       cloudName: 'dkvtkwars',
 //     },
 //   });
+const router=useRouter();
  
   return (
     <>
@@ -130,7 +132,7 @@ const index = () => {
                  Rs.400000</h6>
                  </div>
                   <div className="pt-2 pb-2 d-flex align-items-center justify-content-center">
-                  <button className="justify-content-center align-items-center w-100">
+                  <button className="justify-content-center align-items-center w-100" onClick={()=>{router.push('/auction/detail')}}>
                    View details
                    </button>
                    </div>
