@@ -1,93 +1,138 @@
-.aboutUs {
-  padding-top: 200px;
-}
-
 .aboutUs-heading h1 {
   font-size: 40px;
   color: var(--primary-color);
-}
-.aboutUs-heading h4 {
-  font-size: 20px;
-  color: gray;
-}
-.aboutUs-heading p {
-  font-size: 15px;
-  color: var(--primary-color);
-  font-family: "Times New Roman", Times, serif;
-}
-.line hr {
-  height: 1px;
-}
-.chooseUs-heading h5 {
-  align-items: center;
-  color: gray;
-}
-.chooseUs-heading h2 {
-  color: var(--primary-color);
-}
-.chooseUs h5 {
-  color: var(--primary-color);
-}
-.chooseUs h6,
-h1,
-h4 {
-  color: white;
-}
-.choose h6,
-h4 {
-  color: white;
+  font-weight: 700;
+  text-transform: uppercase;
 }
 
-.chooseUs button {
-  color: white;
-  border-radius: 5px;
-  background-color: var(--primary-color);
-  display: flex;
-  width: auto;
-  gap: 12px;
+.aboutUs-heading h4 {
+  font-size: 20px;
+  color: #AEAEAE;
+  font-weight: 600;
 }
+
+.aboutUs-heading p {
+  font-size: 16px;
+  color: var(--primary-color);
+  text-align: justify;
+
+}
+
+.about-who-we-are h2 {
+  color: var(--primary-color);
+  font-size: 40px;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+.about-who-we-are h4 {
+  font-size: 20px;
+  font-weight: 500;
+  color: #AEAEAE;
+}
+
+.about-who-we-are h5 {
+  color: var(--primary-color);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.about-who-we-are p {
+  font-size: 14px;
+  font-weight: 500;
+  color: #AEAEAE;
+  text-align: justify;
+}
+
+
+
 .choose h5,
 h2 {
   color: rgb(207, 203, 203);
 }
+
 .employee h1 {
   color: var(--primary-color);
 }
+
 .contactUsImage {
-  background-image: url("../assets/images/CONTACTUS-1.png");
-  width: 1800px;
+  background-image: url("../assets/images/ContactUs-back.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
   height: 500px;
 }
-.experience h6{
-color:grey;
-font-size: 14px;
+.experience h1 {
+  color: #FFF;
+  font-size: 40px;
+  text-transform: uppercase;
+  font-weight: 700;
 }
-.experience p{
-    font-size: 12px;
-    color: gray;
+.experience h6 {
+  color: rgb(255, 255, 255);
+  font-size: 20px;
 }
-.card-contact{
-    border-radius: 20px;
-    box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
-    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
-    margin-top: -100px;
+.experience h5 {
+  color: #AEAEAE;
+  font-size: 20px;
 }
-.card-contact button{
-    color: white;
+
+.experience p {
+  font-size: 12px;
+  color: gray;
+}
+.experience h4 {
+  font-size: 25px;
+  color: #D9D9D9;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+.experience h2 {
+  font-size: 50px;
+  color: rgba(237, 237, 237, 0.50);
+  font-weight: 800;
+  font-style: italic;
+  letter-spacing: 2px;
+}
+
+.card-contact {
+  border-radius: 10px;
+  background-color: #fff;
+  box-shadow: var(--box-shadow);
+  margin-top: -200px;
+  height: 370px;
+  border-bottom: 5px solid var(--primary-color);
+}
+
+.card-contact:hover {
+  transform: scale(1.05);
+  transition: 100ms ease-in-out;
+  cursor: pointer;
+}
+
+.card-contact button {
+  color: white;
   border-radius: 5px;
   background-color: var(--primary-color);
   display: flex;
   width: 120px;
   gap: 12px;
 }
-.card-contact h5{
-color:var(--primary-color);
+
+.card-contact h5 {
+  color: var(--primary-color);
+  font-size: 18px;
+  font-weight: 700;
+}
+.card-contact p {
+  color: #A3A3A3;
+  font-size: 14px;
+  text-align: justify;
 }
 
 
 @media (max-width: 768px) {
-    .card-contact{
-        margin-top: 0;
-    }
-  
+  .card-contact {
+    margin-top: 0;
+  }
+
 }

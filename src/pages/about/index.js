@@ -15,7 +15,6 @@ import useraccount from "../../assets/images/User Account.png";
 import experience from "../../assets/images/experience.png";
 import vehicle from "../../assets/images/vehicle1.png";
 import branch from "../../assets/images/Company.png";
-import contactUs from "../../assets/images/CONTACTUS-1.png";
 import contactCompany from "../../assets/images/contactCompany.png";
 import facebook from "../../assets/icons/facebook.png";
 import call from "../../assets/icons/call.png";
@@ -23,29 +22,79 @@ import mail from "../../assets/icons/mail.png";
 import chatmaessage from "../../assets/images/Chat Message.png";
 import contactExpert from "../../assets/images/contactExperts.png";
 import contactChat from "../../assets/images/contactChat.png";
+import CommonButton from "@/src/components/CommonButton";
+import Footer from "@/src/components/Footer";
 
 const index = () => {
+  const data = [
+    {
+      heading: "Vehicle Buying and Selling",
+      content:
+        "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
+      image: vehicleBuy,
+    },
+    {
+      heading: "Preferred Vehicle Request",
+      content:
+        "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
+      image: vehicleRequest,
+    },
+    {
+      heading: "Vehicle Customization",
+      content:
+        "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
+      image: vehicleCustomize,
+    },
+    {
+      heading: "Vehicle Auctions",
+      content:
+        "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
+      image: vehicleAuction,
+    },
+  ];
+  const data2 = [
+    {
+      heading: "Contact With Company",
+      content: "Contact with admin clarify any doubts and inquiries ",
+      buttonText: "Contact",
+      image: contactCompany,
+      time: true,
+      contact: true,
+    },
+    {
+      heading: "Contact With Expert",
+      content:
+        "Contact vehicle experts to clarify any doubts and inquiries related to vehicles",
+      buttonText: "Contact",
+      image: contactExpert,
+      time: true,
+      contact: false,
+    },
+    {
+      heading: "Contact With Chat Bot ",
+      content:
+        "Contact the AI chatbot specialized in vehicles to ask only vehicle-related questions and address any doubts",
+      buttonText: "Chat",
+      image: contactChat,
+      time: false,
+      contact: false,
+    },
+  ];
   return (
     <>
       <Navbar />
-      <div className="row d-flex align-content-center aboutUs justify-content-center min-vh-100 ">
-        <div className="col-lg-6 col-md-12 col-sm-12 d-flex align-content-center justify-content-center pt-4 p-4 ">
-          <div className="image d-flex align-content-center justify-content-center ">
+      <div className="container-fluid min-vh-100">
+        <div className="row min-vh-100">
+          <div className="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
             <Image
               src={aboutUs}
               alt=""
-              style={{ width: "auto", height: "auto" }}
+              // style={{ width: "auto", height: "auto" }}
             />
           </div>
-        </div>
-        <div className="col-lg-6 col-md-12 col-sm-12 pt-4 aboutUs-heading">
-          <div>
+          <div className="col-lg-6 col-md-12 col-sm-12 d-flex flex-column justify-content-center aboutUs-heading">
             <h1>Who we are</h1>
-          </div>
-          <div>
             <h4>We Have 10 Years Of Experience In This Field</h4>
-          </div>
-          <div>
             <p className=" justify-content-center align-content-center pt-2">
               At JAFFNA Vehicle Spot (PVT) LTD, we are more than just a vehicle
               buying and selling company – we are your trusted automotive
@@ -63,122 +112,38 @@ const index = () => {
         </div>
       </div>
 
-      <div className=" p-1 line">
-        <hr style={{ color: "#07326C" }} />
-      </div>
-
-      <div className="mt-2 chooseUs-heading">
-        <div className="justify-content-center align-content-center d-flex">
+      <div className="container-fluid min-vh-100 d-flex flex-column justify-content-center  about-who-we-are">
+        <div className="d-flex flex-column justify-content-center align-items-center">
           <h2>WHY CHOOSE US</h2>
-        </div>
-        <div className="justify-content-center align-content-center d-flex">
-          <h5>
+          <h4>
             Trust us to keep your automobile running smoothly and reliably.
-          </h5>
+          </h4>
+        </div>
+        <div className="row pt-5 d-flex">
+          {data.map((data, index) => (
+            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5">
+              <div className="row">
+                <div className="d-flex pt-2 justify-content-center align-items-center">
+                  <Image src={data.image} alt="" />
+                </div>
+                <div className="justify-content-center align-items-center pt-3 d-flex">
+                  <h5>{data.heading}</h5>
+                </div>
+                <div className="pt-4 d-flex justify-content-center align-items-center ps-5 pe-5">
+                  <p>{data.content}</p>
+                </div>
+                <div className="justify-content-center align-items-center d-flex">
+                  <CommonButton text={"Go Visit"} image={vector} width={200} />
+                </div>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
 
-      <div className="container-fluid chooseUs min-vh-100 ">
-        <div className="row mt-5  d-flex">
-          <div className="col-lg-3 col-sm-6 col-md-4 d-flex align-items-center justify-content-center pt-4 p-4">
-            <div className="row">
-              <div className="d-flex pt-2 justify-content-center align-items-center">
-                <Image src={vehicleBuy} alt="" />
-              </div>
-              <div className="justify-content-center align-items-center pt-3 d-flex">
-                <h5>Vehicle Buying and Selling</h5>
-              </div>
-              <div className="pt-4 d-flex justify-content-center align-items-center">
-                <p>
-                  We utilize cutting-edge diagnostics and techniques to ensure
-                  optimal condition. Elevate car's electrical system to peak
-                  performance with our specialized expertise.
-                </p>
-              </div>
-              <div className="justify-content-center align-items-center d-flex">
-                <button className="justify-content-between align-items-center ">
-                  <Image src={vector} alt="" /> Go visit
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-lg-3 col-sm-6 col-md-4 d-flex align-items-center justify-content-center pt-4 p-4">
-            <div className="row">
-              <div className="d-flex pt-2 justify-content-center align-items-center">
-                <Image src={vehicleRequest} alt="" />
-              </div>
-              <div className="justify-content-center align-items-center pt-3 d-flex">
-                <h5>Preferred Vehicle Request</h5>
-              </div>
-              <div className="pt-4">
-                <p>
-                  We utilize cutting-edge diagnostics and techniques to ensure
-                  optimal condition. Elevate car's electrical system to peak
-                  performance with our specialized expertise.
-                </p>
-              </div>
-              <div className="justify-content-center align-items-center d-flex">
-                <button className="justify-content-between align-items-center ">
-                  <Image src={vector} alt="" /> Go visit
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-sm-6 col-md-4 d-flex align-items-center justify-content-center pt-4 p-4">
-            <div className="row">
-              <div className="d-flex pt-2 justify-content-center align-items-center">
-                <Image src={vehicleCustomize} alt="" />
-              </div>
-              <div className="justify-content-center align-items-center pt-3 d-flex">
-                <h5>Vehicle Customization</h5>
-              </div>
-              <div className="pt-4">
-                <p>
-                  We utilize cutting-edge diagnostics and techniques to ensure
-                  optimal condition. Elevate car's electrical system to peak
-                  performance with our specialized expertise.
-                </p>
-              </div>
-              <div className="justify-content-center align-items-center d-flex">
-                <button className="justify-content-between align-items-center ">
-                  <Image src={vector} alt="" /> Go visit
-                </button>
-              </div>
-            </div>
-          </div>
-          <div className="col-lg-3 col-sm-6 col-md-4 d-flex align-items-center justify-content-center pt-4 p-4">
-            <div className="row">
-              <div className="d-flex pt-2 justify-content-center align-items-center">
-                <Image src={vehicleAuction} alt="" />
-              </div>
-              <div className="justify-content-center align-items-center pt-3 d-flex">
-                <h5>Vehicle Auctions</h5>
-              </div>
-              <div className="pt-4">
-                <p>
-                  We utilize cutting-edge diagnostics and techniques to ensure
-                  optimal condition. Elevate car's electrical system to peak
-                  performance with our specialized expertise.
-                </p>
-              </div>
-              <div className="justify-content-center align-items-center d-flex">
-                <button className="justify-content-between align-items-center ">
-                  <Image src={vector} alt="" /> Go visit
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className=" p-1 line">
-        <hr style={{ color: "#07326C" }} />
-      </div>
-
-      <div className="container-fluid choose min-vh-100 ">
+      <div className="container-fluid min-vh-100 d-flex flex-column justify-content-center ">
         <div
-          className="row mt-5  d-flex experience"
+          className="row d-flex align-items-center justify-content-center experience"
           style={{ backgroundColor: "var(--primary-color) " }}
         >
           <div className="justify-content-center align-content-center d-flex pt-5">
@@ -190,12 +155,14 @@ const index = () => {
               pride in delivering top-tier servicing for your beloved vehicle
             </h5>
           </div>
-          <div className="justify-content-center align-content-center d-flex ">
-            <h6 className="justify-content-between align-items-center ">
-              Rating <Image src={Ratingitem} alt="" />
+          <div className="d-flex flex-column justify-content-center align-items-center">
+            <h6>Rating</h6>
+            <div className="d-flex align-items-center justify-content-center gap-2">
+              <Image src={Ratingitem} alt="" />
+              <Image src={Ratingitem} alt="" />
               <Image src={Ratingitem} alt="" />
               <Image src={Ratinghalf} alt="" />
-            </h6>
+            </div>
           </div>
           <div className="row mt-5  d-flex">
             <div className=" col-lg-3 col-sm-6 col-md-4 d-flex align-items-center justify-content-center">
@@ -254,10 +221,7 @@ const index = () => {
         </div>
       </div>
 
-      <div className=" p-1 line">
-        <hr style={{ color: "#07326C" }} />
-      </div>
-      <div className="container-fluid employee min-vh-100 ">
+      <div className="container-fluid min-vh-100 d-flex flex-column justify-content-center  ">
         <div className="row mt-3  d-flex ">
           <div className="justify-content-center align-content-center d-flex pt-5">
             <h1>OUR EMPLOYEES</h1>
@@ -267,98 +231,49 @@ const index = () => {
           </div>
         </div>
       </div>
-      {/* <div className=" p-1 line">
-        <hr style={{ color: "#07326C" }} />
-      </div> */}
 
-      <div className="container-fluid experience min-vh-100">
-        <div className="row d-flex ">
-          <div className="d-flex contactUsImage">
-            {/* <Image src={contactUs} alt="" /> */}
-          </div>
-          <div className="row d-flex ">
+      <div className="container-fluid min-vh-100">
+        <div className="row contactUsImage d-lg-block d-none"></div>
+        <div className="row d-flex">
+          {data2.map((data) => (
             <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
-              <div
-                className="card d-flex align-items-center justify-content-center card-contact"
-                style={{ width: "20rem",height:"23rem"}}
-              >
-                <Image src={contactCompany} alt="" />
-                <div className=" row card-body d-flex align-items-center justify-content-center ">
+              <div className="card d-flex align-items-center justify-content-center card-contact">
+                <Image src={data.image} alt="" className="mt-1" />
+                <div className="row card-body d-flex align-items-center justify-content-center ">
                   <h5 className="card-title ps-3 d-flex align-items-center justify-content-center ">
-                  Contact With Company</h5>
-                  <p className="card-text ps-3">
-                    Contact with admin clarify any doubts and inquiries
+                    {data.heading}
+                  </h5>
+                  <p className="card-text d-flex align-items-center justify-content-center ">
+                    {data.content}
                   </p>
-                  <div className="d-flex flex-column justify-content-center align-items-center ps-3">
-                    <h6 className="mt-2" style={{ color: "gray" }}>
-                      Time : 8 am - 6 pm (Monday-Saturday)
-                    </h6>
-                    <div className="d-flex gap-4">
+                  {data.time && (
+                    <div className="d-flex justify-content-center align-items-center ps-3">
+                      <h6 className="mt-2" style={{ color: "gray" }}>
+                        Time : 8 am - 6 pm (Monday-Saturday)
+                      </h6>
+                    </div>
+                  )}
+                  {data.contact && (
+                    <div className="d-flex  justify-content-center align-items-center  gap-4">
                       <Image src={facebook} alt="" />
                       <Image src={call} alt="" />
                       <Image src={mail} alt="" />
                     </div>
-                  </div>
-                  <div className="pt-2 d-flex align-items-center justify-content-center">
-                  <button className="justify-content-around align-items-center ">
-                   <Image src={chatmaessage} alt=""/> Contact
-                   </button>
-                  </div>
-                 
-                </div>
-              </div>
-            </div>
-            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
-            <div
-                className="card d-flex align-items-center justify-content-center card-contact"
-                style={{ width: "20rem",height:"23rem"}}
-              >
-                <Image src={contactExpert} alt="" />
-                <div className=" row card-body d-flex align-items-center justify-content-center ">
-                  <h5 className="card-title ps-3 d-flex align-items-center justify-content-center ">
-                  Contact With Expert</h5>
-                  <p className="card-text ps-3">
-                  Contact vehicle experts to clarify any doubts and inquiries related to vehicles
-                  </p>
-                  <div className="d-flex flex-column justify-content-center align-items-center ps-3">
-                    <h6 className="mt-2" style={{ color: "gray" }}>
-                      Time : 8 am - 6 pm (Monday-Saturday)
-                    </h6>
-                  </div>
+                  )}
                   <div className="pt-3 d-flex align-items-center justify-content-center">
-                  <button className="justify-content-around align-items-center ">
-                   <Image src={chatmaessage} alt=""/> Contact
-                   </button>
-                   </div>
-                 
+                    <CommonButton
+                      text={data.buttonText}
+                      image={chatmaessage}
+                      width={200}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
-            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
-            <div
-                className="card d-flex align-items-center justify-content-center card-contact"
-                style={{ width: "20rem", height:"23rem"}}
-              >
-                <Image src={contactChat} alt="" />
-                <div className=" row card-body d-flex align-items-center justify-content-center ">
-                  <h5 className="card-title ps-3 d-flex align-items-center justify-content-center ">
-                  Contact With Chat Bot</h5>
-                  <p className="card-text ps-3">
-                  Contact the AI chatbot specialized in vehicles to ask only vehicle-related questions and address any doubts
-                  </p>
-                  
-                  <div className="pt-4 d-flex align-items-center justify-content-center">
-                  <button className="justify-content-around align-items-center ">
-                   <Image src={chatmaessage} alt=""/> Contact
-                   </button>
-                   </div>
-                 
-                </div>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
+      <Footer/>
     </>
   );
 };
