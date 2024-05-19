@@ -7,14 +7,12 @@ import "../../styles/auction.css";
 import carmodel from "../../assets/icons/f7_car-fill.svg";
 import automanu from "../../assets/icons/auto-manu.svg";
 import currency from "../../assets/icons/cash-coin 1.svg";
+import { useRouter } from "next/navigation";
 
 const index = () => {
-  //   const url = buildUrl('samples/powsi/1_ac11zf', {
-  //     cloud: {
-  //       cloudName: 'dkvtkwars',
-  //     },
-  //   });
 
+const router=useRouter();
+ 
   return (
     <>
       <Navbar />
