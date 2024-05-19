@@ -54,3 +54,20 @@ export const deleteCustomer =(userId,callback)=>{
         callback(error.response);
     }
 }
+
+
+export const customerLogin = (data, callback) => {
+    const endpoint = `${process.env.api_base_url}/customers/auth`;
+    try {
+      http
+        .post(endpoint, data)
+        .then((response) => {
+          callback(response);
+        })
+        .catch((error) => {
+          callback(error.response);
+        });
+    } catch (error) {
+      callback(error.response);
+    }
+  };
