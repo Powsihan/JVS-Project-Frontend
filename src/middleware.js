@@ -27,7 +27,7 @@ export default async function middleware(req) {
     cookie &&
     !req.nextUrl.pathname.startsWith('admin/dashboard')
   ) {
-    return NextResponse.redirect(new URL('admin/dashboard', req.nextUrl))
+    // return NextResponse.redirect(new URL('login', req.nextUrl))
   }
  
   return NextResponse.next()
