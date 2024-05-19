@@ -13,6 +13,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -28,6 +29,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLoginView, setShowLoginView] = useState(false);
   const [showSignUpView, setShowSignUpView] = useState(false);
+  const [customerData, setCustomerData] = useState(null);
 
   const LoginViewModal = () => {
     setShowLoginView(true);
@@ -39,6 +41,18 @@ const Navbar = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  useEffect(() => {
+    const storedCustomerData = Cookies.get("customer");
+    if (storedCustomerData) {
+      setCustomerData(JSON.parse(storedCustomerData));
+    }
+  }, []);
+
+  const logout = () => {
+    Cookies.remove("customer", { path: "/" });
+    window.location.reload();
   };
 
   return (
@@ -114,30 +128,77 @@ const Navbar = () => {
                 aria-haspopup="true"
                 onClick={toggleDropdown}
               >
-                <Image src={avatar} alt="" width={50} />
+                <Image
+                  src={
+                    customerData && customerData.profilePic
+                      ? customerData.profilePic
+                      : avatar
+                  }
+                  alt=""
+                  width={50}
+                  height={50}
+                  className="avatar rounded-circle"
+                />
               </a>
-              <ul
-                className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
-                  dropdownOpen ? "show" : ""
-                }`}
-                aria-labelledby="navbarDropdownMenuAvatar"
-              >
-                <li>
-                  <a className="dropdown-item" onClick={()=> SignUpViewModal()}>
-                    Sign Up</a>
-                </li>
-                <li>
-                  <a className="dropdown-item" onClick={() => LoginViewModal()}>
-                    Log In
-                  </a>
-                </li>
-                <hr />
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Help Center
-                  </a>
-                </li>
-              </ul>
+              {!customerData ? (
+                <ul
+                  className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
+                    dropdownOpen ? "show" : ""
+                  }`}
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => SignUpViewModal()}
+                    >
+                      Sign Up
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => LoginViewModal()}
+                    >
+                      Log In
+                    </a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Help Center
+                    </a>
+                  </li>
+                </ul>
+              ) : (
+                <ul
+                  className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
+                    dropdownOpen ? "show" : ""
+                  }`}
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  <li>
+                    <a className="dropdown-item">Messages</a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item">Notifications</a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item">History</a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Account
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" onClick={logout}>
+                      Log out
+                    </a>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </div>
