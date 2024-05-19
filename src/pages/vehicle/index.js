@@ -16,7 +16,7 @@ const index = () => {
   return (
     <>
       <Navbar />
-      <div className="container-fluid Vehicle-Container "> page 1
+      {/* <div className="container-fluid Vehicle-Container "> page 1
         <div className='row '>
           <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
             <div class="carousel-inner d-flex align-items-center ">
@@ -223,6 +223,63 @@ const index = () => {
             </div>
           </div>
         </div>
+      </div> */}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      {/* 
+<div className='container-fluid d-flex min-vh-100'>
+  <div className='col-6 vehicle-details justify-content-center align-items-center d-flex ' style={{marginTop:'50px'}}>
+<Image src={vehicle1} alt=''/>
+  </div>
+  <div className='col-6 ' style={{backgroundColor:"red" }} >
+    <div className=''>
+      <h3 style={{backgroundColor:"yellow" }}>fscs</h3>
+      <h3>fsvs</h3>
+    </div>
+  </div>
+</div> */}
+
+
+
+      <div className='container-fluid min-vh-100 d-flex ' style={{ marginTop: '200px',  }} >
+        
+          <div className='col-6  align-items-center justify-content-center ' >
+            <Image src={vehicle1} className="d-block w-100" alt="..." />
+          </div>
+          <div className='col-6  ' >
+            <div className='vehicle-details  justify-content-around  d-flex  '>
+              <div className=' justify-content-center  ' >MARUTI BALENO</div>
+              <div className='justify-content-center  '>Rs 400,000.00</div>
+            </div>
+            <div className='row justify-content-center align-items-center pt-2' >
+              <div className='col-4 justify-content-center d-flex align-items-center'>acs</div>
+              <div className='col-4 justify-content-center d-flex align-items-center'>acs</div>
+              <div className='col-4 justify-content-center d-flex align-items-center'>acs</div>
+            </div>
+            
+            {/* <div className='row justify-content-center d-flex align-items-center ' >
+            <button className='see-more-button d-flex align-items-center justify-content-center w-100' >
+                    See More
+                  </button>
+            </div> */}
+            </div>
+       
       </div>
 
 
@@ -230,30 +287,6 @@ const index = () => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-     
 
 
 
