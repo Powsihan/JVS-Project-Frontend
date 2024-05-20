@@ -57,7 +57,6 @@ function SignInModal(props) {
           setTimeout(() => {
             window.location.reload();
           }, 2000);
-          // router.push('/admin/dashboard');
         } else {
           toast.error(res.data.message);
         }

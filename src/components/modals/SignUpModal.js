@@ -346,7 +346,7 @@ function SignUpModal(props) {
           <form onSubmit={handleSubmit}>{steps[activeStep].content}</form>
         </Modal.Body>
       </Modal>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 }

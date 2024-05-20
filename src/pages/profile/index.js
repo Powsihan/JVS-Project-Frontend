@@ -2,7 +2,7 @@ import "../../app/globals.css";
 import CommonButton from "@/src/components/CommonButton";
 import Navbar from "@/src/layouts/Navbar";
 import Image from "next/image";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "../../styles/home.css";
 import { Button } from "react-bootstrap";
 import TextField from "@/src/components/TextField";
@@ -13,8 +13,112 @@ import danger from "../../assets/images/Danger.svg";
 
 import "./customerprofile.css";
 import { Districts } from "@/src/data/datas";
+import Cookies from "js-cookie";
+import { customerProfileEdit } from "@/src/redux/action/customer";
+import { toast } from "react-toastify";
+import { Cloudinary } from "cloudinary-core";
 
 const index = () => {
+  const [customerData, setCustomerData] = useState({});
+  const [file, setFile] = useState(null);
+  const fileInputRef = useRef(null);
+  useEffect(() => {
+    const storecustomerData = Cookies.get("customer");
+    if (storecustomerData) {
+      setCustomerData(JSON.parse(storecustomerData));
+    }
+  }, []);
+
+  const [customerUpdatedData, setCustomerUpdatedData] = useState({
+    fname: "",
+    lname: "",
+    email: "",
+    password: "",
+    profilePic: "",
+    dob: "",
+    address: "",
+    nic: "",
+    gender: "",
+    phoneNo: "",
+    city: "",
+    description: "",
+  });
+
+  const handleChange = (field, value) => {
+    setCustomerUpdatedData((prevCustomerData) => ({
+      ...prevCustomerData,
+      [field]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const customerId = customerData._id;
+    let data = { ...customerUpdatedData };
+    if (file) {
+      const uploadedImageUrl = await handleUpload(file);
+      if (uploadedImageUrl) {
+        console.log(uploadedImageUrl);
+        data.profilePic = uploadedImageUrl;
+      }
+    }
+
+    customerProfileEdit(customerId, data, (res) => {
+      console.log(res);
+      if (res.status === 201) {
+        setFile(null);
+        toast.info(res.data.message);
+      } else if (res.status === 200) {
+        setFile(null);
+        toast.success(res.data.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error(res.data.message);
+      }
+    });
+  };
+
+  const handleUpload = async (file) => {
+    if (!file) return false;
+
+    try {
+      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "JV-Project");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Upload successful. Public ID:", data.public_id);
+        console.log(data);
+        return data.secure_url;
+      } else {
+        console.error("Upload failed.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      return false;
+    }
+  };
+
+  const handleProfileChangeClick = () => {
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
   return (
     <>
       <Navbar />
@@ -22,118 +126,144 @@ const index = () => {
         className="container-fluid min-vh-100 p-5 d-flex flex-column gap-5 alig-items-center justify-content-center"
         style={{ marginTop: "100px" }}
       >
-        <div className="container-fluid customer-personal-information">
-          <form>
-            <div className="row d-flex justify-content-between align-items-center custom-profile-header">
-              <div className="col-6 d-flex justify-content-start flex-column pt-1">
-                <h2>Personal Information</h2>
-                <p>Here You can change your Personal Details.</p>
-              </div>
-              <div className="col-6 d-flex justify-content-end pe-5 gap-3 profile-button-group">
-                <div>
-                  <Button variant="secondary">Cancel</Button>
+        
+          <div className="container-fluid customer-personal-information">
+            <form onSubmit={handleSubmit}>
+              <div className="row d-flex justify-content-between align-items-center custom-profile-header">
+                <div className="col-6 d-flex justify-content-start flex-column pt-1">
+                  <h2>Personal Information</h2>
+                  <p>Here You can change your Personal Details.</p>
                 </div>
-                <CommonButton text="Save Changes" width={150} />
+                <div className="col-6 d-flex justify-content-end pe-5 gap-3 profile-button-group">
+                  <div>
+                    <Button variant="secondary">Cancel</Button>
+                  </div>
+                  <CommonButton text="Save Changes" width={150} />
+                </div>
               </div>
-            </div>
-            <div className="row">
-              <div className="col-lg-4 d-flex flex-column align-items-center">
-                <Image
-                  src={avatar}
-                  className="avatar rounded-circle"
-                  alt="avatar"
-                  width={150}
-                  height={150}
+              <div className="row">
+                <div className="col-lg-4 d-flex flex-column align-items-center">
+                  <Image
+                    src={
+                      customerData && customerData.profilePic
+                        ? customerData.profilePic
+                        : avatar
+                    }
+                    className="avatar rounded-circle"
+                    alt="avatar"
+                    width={150}
+                    height={150}
+                  />
+                  <h3>{`${customerData && customerData.fname} ${
+                    customerData && customerData.lname
+                  }`}</h3>
+                  <CommonButton text="Change Profile" onClick={handleProfileChangeClick}/>
+                  <input
+                  type="file"
+                  ref={fileInputRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
                 />
-                <h3>Thanushika</h3>
-                <CommonButton text="Change Profile"/>
-              </div>
+                </div>
 
-              <div className="col-lg-8 d-flex p-2 pb-3 flex-column ps-5 pe-5">
-                <div className="row pb-2">
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField
-                      label="First Name"
-                      placeholder="Enter your first name"
-                    />
+                <div className="col-lg-8 d-flex p-2 pb-3 flex-column ps-5 pe-5">
+                  <div className="row pb-2">
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="First Name"
+                        placeholder="Enter your first name"
+                        defaultValue={customerData && customerData.fname}
+                        onChange={(value) => handleChange("fname", value)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="Last Name"
+                        placeholder="Enter your last name"
+                        defaultValue={customerData && customerData.lname}
+                        onChange={(value) => handleChange("lname", value)}
+                      />
+                    </div>
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField
-                      label="Last Name"
-                      placeholder="Enter your last name"
-                    />
+                  <div className="row pb-2">
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="Date of Birth"
+                        placeholder="DD-MM-YY"
+                        type={"date"}
+                        defaultValue={customerData && customerData.date}
+                        onChange={(value) => handleChange("date", value)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="Phone Number"
+                        placeholder="Enter your phone number"
+                        defaultValue={customerData && customerData.phoneNo}
+                        onChange={(value) => handleChange("phoneNo", value)}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="row pb-2">
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField
-                      label="Date of Birth"
-                      placeholder="DD-MM-YY"
-                      type={"date"}
-                    />
+                  <div className="row pb-2">
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="Email Address"
+                        placeholder="Enter your Email Address"
+                        defaultValue={customerData && customerData.email}
+                        onChange={(value) => handleChange("email", value)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="Address"
+                        placeholder="Enter your Address"
+                        defaultValue={customerData && customerData.address}
+                        onChange={(value) => handleChange("address", value)}
+                      />
+                    </div>
                   </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField
-                      label="Phone Number"
-                      placeholder="Enter your phone number"
-                    />
+                  <div className="row pb-2">
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="NIC"
+                        placeholder="Enter your NIC"
+                        defaultValue={customerData && customerData.nic}
+                        onChange={(value) => handleChange("nic", value)}
+                      />
+                    </div>
+                    <div className="col-lg-6 col-md-6 col-sm-12">
+                      <TextField
+                        label="City"
+                        placeholder="Select the City"
+                        defaultValue={customerData.city}
+                        onChange={(value) => handleChange("city", value)}
+                        select
+                        options={Districts}
+                      />
+                    </div>
                   </div>
-                </div>
-                <div className="row pb-2">
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField
-                      label="Email Address"
-                      placeholder="Enter your Email Address"
-                    />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField
-                      label="Address"
-                      placeholder="Enter your Address"
-                    />
-                  </div>
-                </div>
-                <div className="row pb-2">
-                  <div className="col-lg-6 col-md-6 col-sm-12">
-                    <TextField label="NIC" placeholder="Enter your NIC" />
-                  </div>
-                  <div className="col-lg-6 col-md-6 col-sm-12">
+
+                  <div className="row pb-2">
                     <div className="form-group">
                       <label htmlFor="input-field" className="Text-input-label">
-                        City
+                        About me
                       </label>
-                      <select
+                      <textarea
                         className="form-control"
-                        // value={selectedCity}
-                        // onChange={HandleSelectCity}
-                      >
-                        <option value="">Select the City</option>
-                        {Districts.map((data, index) => (
-                          <option key={index} value={data}>
-                            {data}
-                          </option>
-                        ))}
-                      </select>
+                        placeholder={"Small description about your self"}
+                        rows={5}
+                        defaultValue={customerData && customerData.description}
+                        onChange={(e) =>
+                          handleChange("description", e.target.value)
+                        }
+                      />
                     </div>
                   </div>
                 </div>
-
-                <div className="row pb-2">
-                  <div className="form-group">
-                    <label htmlFor="input-field" className="Text-input-label">
-                      About me
-                    </label>
-                    <textarea
-                      className="form-control"
-                      placeholder={"Small description about your self"}
-                      rows={5}
-                    />
-                  </div>
-                </div>
               </div>
-            </div>
-          </form>
-        </div>
+            </form>
+          </div>
+       
 
         <div className="container-fluid customer-personal-information">
           <form>

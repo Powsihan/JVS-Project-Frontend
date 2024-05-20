@@ -10,13 +10,14 @@ import avatar from "../assets/images/avatar.svg";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname,useRouter } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import Cookies from "js-cookie";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router =useRouter();
   const routes = [
     { name: "Home", path: "home" },
     { name: "AboutUS", path: "about" },
@@ -188,8 +189,8 @@ const Navbar = () => {
                   </li>
                   <hr />
                   <li>
-                    <a className="dropdown-item" href="#">
-                      Account
+                    <a className="dropdown-item" onClick={()=>{router.push('/profile')}} >
+                      Profile
                     </a>
                   </li>
                   <li>

@@ -4,6 +4,7 @@ import BootstrapClient from "../components/BootstrapClient";
 import "../app/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 import StoreProvider from "../redux/Provider";
+import { ToastContainer } from "react-toastify";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -11,6 +12,7 @@ function MyApp({ Component, pageProps }) {
       <StoreProvider>
         <Component {...pageProps} />
         <BootstrapClient />
+        <ToastContainer/>
       </StoreProvider>
     </>
   );
