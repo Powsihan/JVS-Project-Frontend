@@ -40,14 +40,14 @@ const CustomerView = (props) => {
                     <TextField
                       label={"FirstName"}
                       disable={true}
-                      value={customerDetails && customerDetails.fname}
+                      defaultValue={customerDetails && customerDetails.fname}
                     />
                   </div>
                   <div className="col-6">
                     <TextField
                       label={"LastName"}
                       disable={true}
-                      value={customerDetails && customerDetails.lname}
+                      defaultValue={customerDetails && customerDetails.lname}
                     />
                   </div>
                 </div>
@@ -56,7 +56,7 @@ const CustomerView = (props) => {
                 <TextField
                   label={"Date of birth"}
                   disable={true}
-                  value={customerDetails && customerDetails.dob}
+                  defaultValue={customerDetails && customerDetails.dob}
                 />
               </div>
             </div>
@@ -65,14 +65,14 @@ const CustomerView = (props) => {
                 <TextField
                   label={"Email address"}
                   disable={true}
-                  value={customerDetails && customerDetails.email}
+                  defaultValue={customerDetails && customerDetails.email}
                 />
               </div>
               <div className="col-6">
                 <TextField
                   label={"Gender"}
                   disable={true}
-                  value={customerDetails && customerDetails.gender}
+                  defaultValue={customerDetails && customerDetails.gender}
                 />
               </div>
             </div>
@@ -81,14 +81,14 @@ const CustomerView = (props) => {
                 <TextField
                   label={"Address"}
                   disable={true}
-                  value={customerDetails && customerDetails.address}
+                  defaultValue={customerDetails && customerDetails.address}
                 />
               </div>
               <div className="col-6">
                 <TextField
                   label={"NIC"}
                   disable={true}
-                  value={customerDetails && customerDetails.nic}
+                  defaultValue={customerDetails && customerDetails.nic}
                 />
               </div>
             </div>
@@ -97,14 +97,14 @@ const CustomerView = (props) => {
                 <TextField
                   label={"City"}
                   disable={true}
-                  value={customerDetails && customerDetails.city}
+                  defaultValue={customerDetails && customerDetails.city}
                 />
               </div>
               <div className="col-6">
                 <TextField
                   label={"Phone Number"}
                   disable={true}
-                  value={customerDetails && customerDetails.phoneNo}
+                  defaultValue={customerDetails && customerDetails.phoneNo}
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ const CustomerView = (props) => {
               <textarea
                 className="form-control"
                 disabled
-                value={customerDetails && customerDetails.description}
+                defaultValue={customerDetails && customerDetails.description}
               />
             </div>
             </div>
