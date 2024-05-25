@@ -17,10 +17,9 @@ import CommonButton from "./CommonButton";
 import { Button } from "react-bootstrap";
 import { addVehicle } from "../redux/action/vehicle";
 import { toast } from "react-toastify";
-import { customerData } from "../redux/reducer/customerSlice";
+
 
 const AddVehicle = (props) => {
-
   const generateYears = () => {
     const years = [];
     for (let year = 1950; year <= 2023; year++) {
@@ -62,7 +61,7 @@ const AddVehicle = (props) => {
     addVehicle(vehicleData, (res) => {
       if (res.status === 200) {
         toast.success(res.data.message);
-        setTimeout(() => {  
+        setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
@@ -76,6 +75,15 @@ const AddVehicle = (props) => {
       ...prevData,
       [field]: value,
     }));
+  };
+
+  const handleFeatureChange = (feature) => {
+    setVehicleData((prevData) => {
+      const features = prevData.features.includes(feature)
+        ? prevData.features.filter((f) => f !== feature)
+        : [...prevData.features, feature];
+      return { ...prevData, features };
+    });
   };
 
   return (
@@ -126,54 +134,22 @@ const AddVehicle = (props) => {
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Vehicle Type
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("type", e.target.value)}
-            >
-              <option value="">Select the Type</option>
-              {Vehicletype.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
-           <InputField
-                        label="Vehicle Type"
-                        placeholder="Select the Type"
-                        onChange={(value) => handleChange("type", value)}
-                        select
-                        options={Vehicletype}
-                      />
+          <InputField
+            label="Vehicle Type"
+            placeholder="Select the Type"
+            onChange={(value) => handleChange("type", value)}
+            select
+            options={Vehicletype}
+          />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Brand
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("brand", e.target.value)}
-            >
-              <option value="">Select the Brand</option>
-              {Brand.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <InputField
-                        label="Brand"
-                        placeholder="Select the Brand"
-                        onChange={(value) => handleChange("brand", value)}
-                        select
-                        options={Brand}
-                      />
+            label="Brand"
+            placeholder="Select the Brand"
+            onChange={(value) => handleChange("brand", value)}
+            select
+            options={Brand}
+          />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
           <InputField
@@ -193,129 +169,49 @@ const AddVehicle = (props) => {
       <hr />
       <div className="row">
         <div className="col-lg-3 col-md-4 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Transmission
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("transmission", e.target.value)}
-            >
-              <option value="">Select the Type</option>
-              {VehicleTransmission.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <InputField
-                        label="Transmission"
-                        placeholder="Select the Transmission"
-                        onChange={(value) => handleChange("transmission", value)}
-                        select
-                        options={VehicleTransmission}
-                      />
+            label="Transmission"
+            placeholder="Select the Transmission"
+            onChange={(value) => handleChange("transmission", value)}
+            select
+            options={VehicleTransmission}
+          />
         </div>
         <div className="col-lg-2 col-md-4 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Gear Box
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("gear", e.target.value)}
-            >
-              <option value="">Select the Gear Count</option>
-              {GearCount.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <InputField
-                        label="Gear Box"
-                        placeholder="Select the Gear Count"
-                        onChange={(value) => handleChange("gear", value)}
-                        select
-                        options={GearCount}
-                      />
+            label="Gear Box"
+            placeholder="Select the Gear Count"
+            onChange={(value) => handleChange("gear", value)}
+            select
+            options={GearCount}
+          />
         </div>
         <div className="col-lg-2 col-md-4 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Color
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("color", e.target.value)}
-            >
-              <option value="">Select the Year</option>
-              {CarColors.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <InputField
-                        label="Color"
-                        placeholder="Select the Color"
-                        onChange={(value) => handleChange("color", value)}
-                        select
-                        options={VehicleColors}
-                      />
+            label="Color"
+            placeholder="Select the Color"
+            onChange={(value) => handleChange("color", value)}
+            select
+            options={VehicleColors}
+          />
         </div>
         <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              YOM
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("yom", e.target.value)}
-            >
-              <option value="">Select the Year</option>
-              {years.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
-           <InputField
-                        label="YOM"
-                        placeholder="Select the Year"
-                        onChange={(value) => handleChange("yom", value)}
-                        select
-                        options={years}
-                      />
+          <InputField
+            label="YOM"
+            placeholder="Select the Year"
+            onChange={(value) => handleChange("yom", value)}
+            select
+            options={years}
+          />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          {/* <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Fuel
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("fuel", e.target.value)}
-            >
-              <option value="">Select Fuel</option>
-              {FuelType.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div> */}
           <InputField
-                        label="Fuel"
-                        placeholder="Select Fuel"
-                        onChange={(value) => handleChange("fuel", value)}
-                        select
-                        options={FuelType}
-                      />
+            label="Fuel"
+            placeholder="Select Fuel"
+            onChange={(value) => handleChange("fuel", value)}
+            select
+            options={FuelType}
+          />
         </div>
       </div>
       <div className="row">
@@ -364,29 +260,13 @@ const AddVehicle = (props) => {
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              {/* <div className="form-group">
-                <label htmlFor="input-field" className="Text-input-label">
-                  District
-                </label>
-                <select
-                  className="form-control"
-                  onChange={(e) => handleChange("district", e.target.value)}
-                >
-                  <option value="">Select District</option>
-                  {Districts.map((data, index) => (
-                    <option key={index} value={data}>
-                      {data}
-                    </option>
-                  ))}
-                </select>
-              </div> */}
               <InputField
-                        label="District"
-                        placeholder="Select District"
-                        onChange={(value) => handleChange("district", value)}
-                        select
-                        options={Districts}
-                      />
+                label="District"
+                placeholder="Select District"
+                onChange={(value) => handleChange("district", value)}
+                select
+                options={Districts}
+              />
             </div>
           </div>
         </div>
@@ -409,12 +289,13 @@ const AddVehicle = (props) => {
       <div className="container-fluid">
         <div className="row">
           {Features.slice(0, 6).map((option, index) => (
-            <div className="form-check col-lg-2 col-md-4 col-sm-6">
+            <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
               <input
                 className="form-check-input"
                 type="checkbox"
                 value={option}
                 id={`checkbox-${index}`}
+                onChange={() => handleFeatureChange(option)}
               />
               <label className="Text-input-label" htmlFor={`checkbox-${index}`}>
                 {option}
@@ -424,12 +305,13 @@ const AddVehicle = (props) => {
         </div>
         <div className="row">
           {Features.slice(6, 12).map((option, index) => (
-            <div className="form-check col-lg-2 col-md-4 col-sm-6">
-              <input
+            <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
+             <input
                 className="form-check-input"
                 type="checkbox"
                 value={option}
                 id={`checkbox-${index}`}
+                onChange={() => handleFeatureChange(option)}
               />
               <label className="Text-input-label" htmlFor={`checkbox-${index}`}>
                 {option}
