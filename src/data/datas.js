@@ -82,7 +82,7 @@ const Gender = ["Male", "Female", "Other"];
 
 const Status = ["Requested", "Available", "Sold", "Pending"];
 
-const CarColors = [
+const VehicleColors = [
   "Black",
   "White",
   "Silver",
@@ -126,7 +126,7 @@ export {
   FuelType,
   Gender,
   Status,
-  CarColors,
+  VehicleColors,
   OwnershipOptions,
   GearCount,
   Features,

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../styles/component.css";
 
-const TextField = ({ value, label, placeholder, type, onChange, width, disable, defaultValue, select, options }) => {
+const InputField = ({ value, label, placeholder, type, onChange, width, disable, defaultValue, select, options }) => {
   const [inputValue, setInputValue] = useState(defaultValue);
 
   useEffect(() => {
@@ -40,4 +40,4 @@ const TextField = ({ value, label, placeholder, type, onChange, width, disable, 
   );
 };
 
-export default TextField;
+export default InputField;

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import TextField from "./TextField";
+import InputField from "./InputField";
 import CommonButton from "./CommonButton";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
@@ -55,7 +55,7 @@ const AdminLogin = () => {
         <h2 className="d-flex align-items-center mb-4">Login Here</h2>
         <hr />
         <div className="d-flex flex-column gap-3">
-          <TextField
+          <InputField
             type="text"
             value={email}
             placeholder="Email"
@@ -65,7 +65,7 @@ const AdminLogin = () => {
             // disable={true}
           />
 
-          <TextField
+          <InputField
             type={"password"}
             value={password}
             placeholder="Password"

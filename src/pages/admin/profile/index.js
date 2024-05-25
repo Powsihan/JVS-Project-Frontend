@@ -10,7 +10,7 @@ import "../../../styles/admin.css";
 import { Cloudinary } from "cloudinary-core";
 import "./profile.css";
 
-import TextField from "@/src/components/TextField";
+import InputField from "@/src/components/InputField";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { userProfileEdit } from "@/src/redux/action/user";
@@ -188,7 +188,7 @@ const index = () => {
                   <h5 className="custom-border ps-2">Profile Edit</h5>
                   <div className="row p-2">
                     <div className="col-lg-6 col-sm-12 mb-3">
-                      <TextField
+                      <InputField
                         label={"Name"}
                         placeholder={"Name"}
                         defaultValue={userData.name}
@@ -196,7 +196,7 @@ const index = () => {
                       />
                     </div>
                     <div className="col-lg-6 col-sm-12 mb-3">
-                      <TextField
+                      <InputField
                         label={"Email"}
                         placeholder={"email"}
                         defaultValue={userData.email}
@@ -204,7 +204,7 @@ const index = () => {
                       />
                     </div>
                     <div className="col-lg-6 col-sm-12 mb-3">
-                      <TextField
+                      <InputField
                         label={"Phone No"}
                         placeholder={"phone no"}
                         defaultValue={userData.phoneNumber}
@@ -250,21 +250,21 @@ const index = () => {
 
                   <div className="row p-2">
                     <div className="col-lg-7 d-flex flex-column gap-2">
-                      <TextField
+                      <InputField
                         label={"Current Password"}
                         placeholder={"current password"}
                         type={"password"}
                         value={currentPassword}
                         onChange={(value) => handleCurrentPasswordChange(value)}
                       />
-                      <TextField
+                      <InputField
                         label={"New Password"}
                         placeholder={"new password"}
                         type={"password"}
                         value={newPassword}
                         onChange={(value) => handleNewPasswordChange(value)}
                       />
-                      <TextField
+                      <InputField
                         label={"Confirm Password"}
                         placeholder={"confirm password"}
                         type={"password"}

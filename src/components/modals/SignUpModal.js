@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import TextField from "../TextField";
+import InputField from "../InputField";
 import "../../styles/component.css";
 import CommonButton from "../CommonButton";
 import welcome from "../../assets/images/welcome.png";
@@ -137,7 +137,7 @@ function SignUpModal(props) {
           </p>
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"First Name"}
                 placeholder={"Enter Your First Name"}
                 type={"text"}
@@ -145,7 +145,7 @@ function SignUpModal(props) {
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Last Name"}
                 placeholder={"Enter the Last name"}
                 type={"text"}
@@ -156,7 +156,7 @@ function SignUpModal(props) {
 
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Date Of Birth"}
                 placeholder={"DD-MM-YYYY"}
                 type={"date"}
@@ -185,7 +185,7 @@ function SignUpModal(props) {
 
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Email"}
                 placeholder={"Enter Your Email"}
                 type={"text"}
@@ -193,7 +193,7 @@ function SignUpModal(props) {
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Password"}
                 placeholder={"Enter the Password"}
                 type={"password"}
@@ -204,7 +204,7 @@ function SignUpModal(props) {
 
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Phone number"}
                 placeholder={"Enter Your Phone Number"}
                 type={"text"}
@@ -212,7 +212,7 @@ function SignUpModal(props) {
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"NIC"}
                 placeholder={"Enter the NIC Number"}
                 type={"text"}
@@ -223,7 +223,7 @@ function SignUpModal(props) {
 
           <div class="row pb-4">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Address"}
                 placeholder={"Enter Your Address"}
                 type={"text"}

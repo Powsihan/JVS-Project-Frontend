@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import TextField from "../TextField";
+import InputField from "../InputField";
 import "../../styles/component.css";
 import CommonButton from "../CommonButton";
 import Link from "next/link";
@@ -77,14 +77,14 @@ function SignInModal(props) {
           <form onSubmit={handleSubmit}>
             <div className="container-fluid">
               <div className="d-flex flex-column gap-2">
-                <TextField
+                <InputField
                   label={"Email"}
                   placeholder={"Enter Your Email"}
                   value={email}
                   onChange={handleEmailChange}
                   type={"text"}
                 />
-                <TextField
+                <InputField
                   label={"Password"}
                   placeholder={"Enter the Password"}
                   value={password}

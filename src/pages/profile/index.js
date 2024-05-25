@@ -5,7 +5,7 @@ import Image from "next/image";
 import React, { useState, useEffect, useRef } from "react";
 import "../../styles/home.css";
 import { Button } from "react-bootstrap";
-import TextField from "@/src/components/TextField";
+import InputField from "@/src/components/InputField";
 import avatar from "../../assets/images/avatar.svg";
 import chnagepassword from "../../assets/images/changepassword.png";
 import chnagepassword2 from "../../assets/images/changepassword2.png";
@@ -169,7 +169,7 @@ const index = () => {
                 <div className="col-lg-8 d-flex p-2 pb-3 flex-column ps-5 pe-5">
                   <div className="row pb-2">
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="First Name"
                         placeholder="Enter your first name"
                         defaultValue={customerData && customerData.fname}
@@ -177,7 +177,7 @@ const index = () => {
                       />
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="Last Name"
                         placeholder="Enter your last name"
                         defaultValue={customerData && customerData.lname}
@@ -187,7 +187,7 @@ const index = () => {
                   </div>
                   <div className="row pb-2">
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="Date of Birth"
                         placeholder="DD-MM-YY"
                         type={"date"}
@@ -196,7 +196,7 @@ const index = () => {
                       />
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="Phone Number"
                         placeholder="Enter your phone number"
                         defaultValue={customerData && customerData.phoneNo}
@@ -206,7 +206,7 @@ const index = () => {
                   </div>
                   <div className="row pb-2">
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="Email Address"
                         placeholder="Enter your Email Address"
                         defaultValue={customerData && customerData.email}
@@ -214,7 +214,7 @@ const index = () => {
                       />
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="Address"
                         placeholder="Enter your Address"
                         defaultValue={customerData && customerData.address}
@@ -224,7 +224,7 @@ const index = () => {
                   </div>
                   <div className="row pb-2">
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="NIC"
                         placeholder="Enter your NIC"
                         defaultValue={customerData && customerData.nic}
@@ -232,7 +232,7 @@ const index = () => {
                       />
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12">
-                      <TextField
+                      <InputField
                         label="City"
                         placeholder="Select the City"
                         defaultValue={customerData.city}
@@ -281,17 +281,17 @@ const index = () => {
             </div>
             <div className="row">
               <div className="col-lg-6 d-flex flex-column gap-3  justify-content-center ps-5">
-                <TextField
+                <InputField
                   label="Current Password"
                   placeholder="Enter your current password"
                   width={"70%"}
                 />
-                <TextField
+                <InputField
                   label="New Password"
                   placeholder="Enter your new password"
                   width={"70%"}
                 />
-                <TextField
+                <InputField
                   label="Confirm Password"
                   placeholder="Confirm your password"
                   width={"70%"}

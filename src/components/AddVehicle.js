@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import "../styles/admin.css";
 import "../styles/component.css";
-import TextField from "./TextField";
+import InputField from "./InputField";
 import {
   Brand,
-  CarColors,
   Districts,
   Features,
   FuelType,
   GearCount,
   OwnershipOptions,
+  VehicleColors,
   VehicleTransmission,
   Vehicletype,
 } from "../data/datas";
@@ -20,6 +20,7 @@ import { toast } from "react-toastify";
 import { customerData } from "../redux/reducer/customerSlice";
 
 const AddVehicle = (props) => {
+
   const generateYears = () => {
     const years = [];
     for (let year = 1950; year <= 2023; year++) {
@@ -82,14 +83,14 @@ const AddVehicle = (props) => {
       <h1 className="row ps-2 mb-3">Add Vehicles</h1>
       <div className="row">
         <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Vehicle Register No"}
             placeholder={"Enter the Regsiter No"}
             onChange={(value) => handleChange("registerno", value)}
           />
         </div>
         <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Name"}
             placeholder={"Enter the Vehicle Name"}
             onChange={(value) => handleChange("name", value)}
@@ -125,7 +126,7 @@ const AddVehicle = (props) => {
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               Vehicle Type
             </label>
@@ -140,10 +141,17 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+           <InputField
+                        label="Vehicle Type"
+                        placeholder="Select the Type"
+                        onChange={(value) => handleChange("type", value)}
+                        select
+                        options={Vehicletype}
+                      />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               Brand
             </label>
@@ -158,17 +166,24 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+          <InputField
+                        label="Brand"
+                        placeholder="Select the Brand"
+                        onChange={(value) => handleChange("brand", value)}
+                        select
+                        options={Brand}
+                      />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Model"}
             placeholder={"Enter the Modal"}
             onChange={(value) => handleChange("model", value)}
           />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Price"}
             placeholder={"Enter the Price"}
             onChange={(value) => handleChange("price", value)}
@@ -178,7 +193,7 @@ const AddVehicle = (props) => {
       <hr />
       <div className="row">
         <div className="col-lg-3 col-md-4 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               Transmission
             </label>
@@ -193,10 +208,17 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+          <InputField
+                        label="Transmission"
+                        placeholder="Select the Transmission"
+                        onChange={(value) => handleChange("transmission", value)}
+                        select
+                        options={VehicleTransmission}
+                      />
         </div>
         <div className="col-lg-2 col-md-4 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               Gear Box
             </label>
@@ -211,10 +233,17 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+          <InputField
+                        label="Gear Box"
+                        placeholder="Select the Gear Count"
+                        onChange={(value) => handleChange("gear", value)}
+                        select
+                        options={GearCount}
+                      />
         </div>
         <div className="col-lg-2 col-md-4 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               Color
             </label>
@@ -229,10 +258,17 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+          <InputField
+                        label="Color"
+                        placeholder="Select the Color"
+                        onChange={(value) => handleChange("color", value)}
+                        select
+                        options={VehicleColors}
+                      />
         </div>
         <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               YOM
             </label>
@@ -247,10 +283,17 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+           <InputField
+                        label="YOM"
+                        placeholder="Select the Year"
+                        onChange={(value) => handleChange("yom", value)}
+                        select
+                        options={years}
+                      />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
+          {/* <div className="form-group">
             <label htmlFor="input-field" className="Text-input-label">
               Fuel
             </label>
@@ -265,14 +308,21 @@ const AddVehicle = (props) => {
                 </option>
               ))}
             </select>
-          </div>
+          </div> */}
+          <InputField
+                        label="Fuel"
+                        placeholder="Select Fuel"
+                        onChange={(value) => handleChange("fuel", value)}
+                        select
+                        options={FuelType}
+                      />
         </div>
       </div>
       <div className="row">
         <div className="col-lg-6 col-md-12 col-sm-12">
           <div className="row">
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"Fuel Capacity"}
                 placeholder={"In L"}
                 type={"number"}
@@ -280,7 +330,7 @@ const AddVehicle = (props) => {
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"Power"}
                 placeholder={"In CC"}
                 type={"number"}
@@ -288,7 +338,7 @@ const AddVehicle = (props) => {
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"Mileage"}
                 placeholder={"In Km"}
                 type={"number"}
@@ -298,7 +348,7 @@ const AddVehicle = (props) => {
           </div>
           <div className="row">
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"No Of Doors"}
                 placeholder={""}
                 type={"number"}
@@ -306,7 +356,7 @@ const AddVehicle = (props) => {
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"No Of Seats"}
                 placeholder={""}
                 type={"number"}
@@ -314,7 +364,7 @@ const AddVehicle = (props) => {
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <div className="form-group">
+              {/* <div className="form-group">
                 <label htmlFor="input-field" className="Text-input-label">
                   District
                 </label>
@@ -329,7 +379,14 @@ const AddVehicle = (props) => {
                     </option>
                   ))}
                 </select>
-              </div>
+              </div> */}
+              <InputField
+                        label="District"
+                        placeholder="Select District"
+                        onChange={(value) => handleChange("district", value)}
+                        select
+                        options={Districts}
+                      />
             </div>
           </div>
         </div>
@@ -399,10 +456,10 @@ const AddVehicle = (props) => {
       <hr />
       <div className="row">
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <TextField label={"Documents"} type={"file"} />
+          <InputField label={"Documents"} type={"file"} />
         </div>
         <div className="col-lg-6 col-md-6 col-sm-12">
-          <TextField label={"Images"} type={"file"} />
+          <InputField label={"Images"} type={"file"} />
         </div>
       </div>
       <hr />

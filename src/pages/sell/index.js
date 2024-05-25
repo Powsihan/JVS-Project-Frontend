@@ -4,7 +4,7 @@ import Image from "next/image";
 import sellvh from "../../assets/images/Sellvh.png";
 import CommonButton from "@/src/components/CommonButton";
 import "./sellvehicle.css";
-import TextField from "@/src/components/TextField";
+import InputField from "@/src/components/InputField";
 import sellvehicon from "../../assets/images/sellvehicon.svg";
 import sellvehicle from "../../assets/images/sellvehicle.png";
 import { Button } from "react-bootstrap";
@@ -51,14 +51,14 @@ const index = () => {
               <div className="col">
                 <div className="row">
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="Vehicle Register No"
                       placeholder="Enter the register no"
                       width={"70%"}
                     />
                   </div>
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="Name"
                       placeholder="Enter the vehicle name"
                       width={"70%"}
@@ -68,7 +68,7 @@ const index = () => {
 
                 <div className="row">
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="District"
                       placeholder="Select your district"
                       width={"70%"}
@@ -100,14 +100,14 @@ const index = () => {
 
                 <div className="row">
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="Vehicle Type"
                       placeholder="Select category"
                       width={"70%"}
                     />
                   </div>
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="Price"
                       placeholder="Enter the price"
                       width={"70%"}
@@ -117,14 +117,14 @@ const index = () => {
 
                 <div className="row">
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="Brand"
                       placeholder="Enter the brand"
                       width={"70%"}
                     />
                   </div>
                   <div className="col-lg-6">
-                    <TextField
+                    <InputField
                       label="Modal"
                       placeholder="Enter the modal"
                       width={"70%"}
@@ -139,35 +139,35 @@ const index = () => {
           <hr />
           <div className="row">
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Fuel Capacity"
                 placeholder="Enter the Fuel Capaci"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Power"
                 placeholder="Enter the Power"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Mileage"
                 placeholder="Enter the mileage"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="No Of Seats"
                 placeholder="4"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="No Of Doors"
                 placeholder="4"
                 width={"70%"}
@@ -178,35 +178,35 @@ const index = () => {
 
           <div className="row">
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Transmission"
                 placeholder="Select Transmission"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Gear Box"
                 placeholder="Select Gear"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Color"
                 placeholder="Select Color "
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Vehicle Modal Year"
                 placeholder="Select YOM"
                 width={"70%"}
               />
             </div>
             <div className="col d-flex justify-content-center align-items-center">
-              <TextField
+              <InputField
                 label="Fuel"
                 placeholder="Select Fuel"
                 width={"70%"}
@@ -329,10 +329,10 @@ const index = () => {
 
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField label={"Documents"} type={"file"} />
+              <InputField label={"Documents"} type={"file"} />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField label={"Images"} type={"file"} />
+              <InputField label={"Images"} type={"file"} />
             </div>
           </div>
 

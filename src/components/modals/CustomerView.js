@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import TextField from "../TextField";
+import InputField from "../InputField";
 import Image from "next/image";
 import DefaultDp from "../../assets/images/avatar.svg";
 const CustomerView = (props) => {
@@ -37,14 +37,14 @@ const CustomerView = (props) => {
               <div className="col-6">
                 <div className="row">
                   <div className="col-6">
-                    <TextField
+                    <InputField
                       label={"FirstName"}
                       disable={true}
                       defaultValue={customerDetails && customerDetails.fname}
                     />
                   </div>
                   <div className="col-6">
-                    <TextField
+                    <InputField
                       label={"LastName"}
                       disable={true}
                       defaultValue={customerDetails && customerDetails.lname}
@@ -53,7 +53,7 @@ const CustomerView = (props) => {
                 </div>
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Date of birth"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.dob}
@@ -62,14 +62,14 @@ const CustomerView = (props) => {
             </div>
             <div className="row mb-2">
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Email address"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.email}
                 />
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Gender"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.gender}
@@ -78,14 +78,14 @@ const CustomerView = (props) => {
             </div>
             <div className="row mb-2">
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Address"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.address}
                 />
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"NIC"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.nic}
@@ -94,14 +94,14 @@ const CustomerView = (props) => {
             </div>
             <div className="row mb-2">
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"City"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.city}
                 />
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Phone Number"}
                   disable={true}
                   defaultValue={customerDetails && customerDetails.phoneNo}
