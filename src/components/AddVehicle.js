@@ -17,9 +17,25 @@ import CommonButton from "./CommonButton";
 import { Button } from "react-bootstrap";
 import { addVehicle } from "../redux/action/vehicle";
 import { toast } from "react-toastify";
-
+import { FileUploader } from "react-drag-drop-files";
+import { Cloudinary } from "cloudinary-core";
 
 const AddVehicle = (props) => {
+  const fileTypes = ["JPG", "PNG", "GIF"];
+  const [mainImageFile, setMainImageFile] = useState(null);
+  const [outsideViewFiles, setOutsideViewFiles] = useState([]);
+  const [insideViewFiles, setInsideViewFiles] = useState([]);
+
+  const handleFileChange = (files, category) => {
+    if (category === "main") {
+      setMainImageFile(files);
+    }else if (category === "outside") {
+      setOutsideViewFiles((prevFiles) => [...prevFiles, ...files]); 
+    } else if (category === "inside") {
+      setInsideViewFiles((prevFiles) => [...prevFiles, ...files]); 
+    }
+  };
+
   const generateYears = () => {
     const years = [];
     for (let year = 1950; year <= 2023; year++) {
@@ -57,8 +73,39 @@ const AddVehicle = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(vehicleData, "vehicleeeeeeeee");
-    addVehicle(vehicleData, (res) => {
+    
+    const imageUrls = [];
+
+    if (mainImageFile) {
+      const uploadedImageUrl = await handleUpload(mainImageFile);
+      if (uploadedImageUrl) {
+        imageUrls.push(uploadedImageUrl);
+      }
+    }
+    if (outsideViewFiles.length > 0) {
+      for (const file of outsideViewFiles) {
+        const uploadedImageUrl = await handleUpload(file);
+        if (uploadedImageUrl) {
+          imageUrls.push(uploadedImageUrl);
+        }
+      }
+    }
+    if (insideViewFiles.length > 0) {
+      for (const file of insideViewFiles) {
+        const uploadedImageUrl = await handleUpload(file);
+        if (uploadedImageUrl) {
+          imageUrls.push(uploadedImageUrl);
+        }
+      }
+    }
+   
+
+    const updatedVehicleData = {
+      ...vehicleData,
+      image: imageUrls,
+    };
+
+    addVehicle(updatedVehicleData, (res) => {
       if (res.status === 200) {
         toast.success(res.data.message);
         setTimeout(() => {
@@ -84,6 +131,39 @@ const AddVehicle = (props) => {
         : [...prevData.features, feature];
       return { ...prevData, features };
     });
+  };
+
+
+  const handleUpload = async (file) => {
+    if (!file) return false;
+
+    try {
+      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "JV-Project");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Upload successful. Public ID:", data.public_id);
+        console.log(data);
+        return data.secure_url;
+      } else {
+        console.error("Upload failed.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      return false;
+    }
   };
 
   return (
@@ -306,7 +386,7 @@ const AddVehicle = (props) => {
         <div className="row">
           {Features.slice(6, 12).map((option, index) => (
             <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
-             <input
+              <input
                 className="form-check-input"
                 type="checkbox"
                 value={option}
@@ -337,11 +417,34 @@ const AddVehicle = (props) => {
       </div>
       <hr />
       <div className="row">
-        <div className="col-lg-6 col-md-6 col-sm-12">
-          <InputField label={"Documents"} type={"file"} />
+        <label htmlFor="input-field" className="Text-input-label mb-2">
+          Upload Images
+        </label>
+        <div className="col-lg-4 col-md-4 col-sm-12 mb-2">
+          <FileUploader
+           handleChange={(file) => handleFileChange(file, "main")}
+            name="file"
+            types={fileTypes}
+            label={"Upload Main Image"}
+          />
         </div>
-        <div className="col-lg-6 col-md-6 col-sm-12">
-          <InputField label={"Images"} type={"file"} />
+        <div className="col-lg-4 col-md-4 col-sm-12 mb-2">
+          <FileUploader
+            handleChange={(files) => handleFileChange(files, "outside")}
+            name="file"
+            types={fileTypes}
+            label={"Upload OutSide View Images"}
+            multiple
+          />
+        </div>
+        <div className="col-lg-4 col-md-4 col-sm-12 mb-2">
+          <FileUploader
+            handleChange={(files) => handleFileChange(files, "inside")}
+            name="file"
+            types={fileTypes}
+            label={"Upload InSide View Images"}
+            multiple
+          />
         </div>
       </div>
       <hr />
