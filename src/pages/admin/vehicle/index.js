@@ -340,7 +340,7 @@ const index = () => {
                           className="viewbutt"
                           onClick={() => OpenVehicleViewModal(vehicle)}
                         >
-                          <VisibilityIcon className="text-" />
+                          <VisibilityIcon className="" />
                         </IconButton>
                         <IconButton
                           aria-label="delete"
