@@ -25,10 +25,14 @@ const index = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
+
   useEffect(() => {
     getCustomerDetails((res) => {
-      setCustomerdata(res.data);
-      console.log(res.data);
+      if (res && res.data) {
+        setCustomerdata(res.data);
+      } else {
+        toast.error("Error fetching Customer details");
+      }
     });
   }, []);
 
@@ -73,7 +77,7 @@ const index = () => {
   };
 
 
-  const deleteTask  = (userID)=>{
+  const deleteCustomerData  = (userID)=>{
     deleteCustomer(userID,(res)=>{
       if(res.status==200){
         toast.success(res.data.message);
@@ -284,10 +288,9 @@ const index = () => {
         message="Are you sure you want to delete this User?"
         heading="Confirmation Delete !"
         variant="danger"
-        onConfirm={() => deleteTask(selectedCustomerdata)}
+        onConfirm={() => deleteCustomerData(selectedCustomerdata)}
         onCancel={closeDeleteConfirmationModal}
       />
-      <ToastContainer/>
     </Adminlayout>
   );
 };

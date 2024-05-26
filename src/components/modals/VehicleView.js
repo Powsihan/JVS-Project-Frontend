@@ -1,22 +1,41 @@
 import React from "react";
-import { Modal, Button} from "react-bootstrap";
+import { Modal, Button } from "react-bootstrap";
 import InputField from "../InputField";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-
+import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
-
+import { IconButton } from "@mui/material";
+import PendingIcon from '@mui/icons-material/Pending';
 const VehicleView = (props) => {
   const { show, onHide, vehicleDetails } = props;
 
- 
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'Available':
+        return '#17B530 ';
+      case 'Sold':
+        return '#F73B3B';
+      case 'Pending':
+        return '#FFBE18';
+      default:
+        return '#0010a5';
+    }
+  };
+
   return (
     <div>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="xl">
-        <Modal.Header className="header-outer">
+        <Modal.Header className="header-outer d-flex justify-content-between">
           <Modal.Title className="Modal-Title">
             Vehicle Details View
           </Modal.Title>
+          <div className="d-flex justify-content-center align-items-center gap-2">
+            <div className="fw-bold" style={{color:'var(--primary-color)'}}>{vehicleDetails && vehicleDetails.status}</div>
+            <IconButton>
+              <CircleIcon sx={{color: getStatusColor(vehicleDetails && vehicleDetails.status)}}/>
+            </IconButton>
+          </div>
         </Modal.Header>
         <Modal.Body>
           <div className="container-fluid">
@@ -198,14 +217,22 @@ const VehicleView = (props) => {
                   </div>
                 </div>
                 <div className="row">
-                  <div className="col-lg-6 col-md-12 col-sm-12"></div>
-                  <div className="col-lg-6 col-md-12 col-sm-12">
+                  <label
+                    htmlFor="features-dropdown"
+                    className="Text-input-label"
+                  >
+                    Features
+                  </label>
                   <div className="form-group">
-                      <label htmlFor="features-dropdown" className="Text-input-label">
-                        Features
-                      </label>
-                      
-                    </div>
+                    <select id="features-dropdown" className="form-control">
+                      {vehicleDetails &&
+                        vehicleDetails.features &&
+                        vehicleDetails.features.map((feature, index) => (
+                          <option key={index} value={feature}>
+                            {feature}
+                          </option>
+                        ))}
+                    </select>
                   </div>
                 </div>
               </div>

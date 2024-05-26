@@ -9,13 +9,14 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 
 import "../../../styles/admin.css";
-import { getVehicleDetails } from "@/src/redux/action/vehicle";
+import { deleteVehicle, getVehicleDetails } from "@/src/redux/action/vehicle";
 import { Status } from "@/src/data/datas";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import AddVehicle from "@/src/components/AddVehicle";
-import { ToastContainer } from "react-toastify";
+import { toast, ToastContainer } from "react-toastify";
 import VehicleView from "@/src/components/modals/VehicleView";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 
 const index = () => {
   const [vehicleData, setVehicleData] = useState([]);
@@ -29,6 +30,7 @@ const index = () => {
   const [filteredVehiclesList, setFilteredVehiclesList] = useState([]);
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
   const HandleSearchRegNo = (event) => {
     setSearchRegNo(event.target.value);
@@ -51,7 +53,12 @@ const index = () => {
 
   useEffect(() => {
     getVehicleDetails((res) => {
-      setVehicleData(res.data);
+      if (res && res.data) {
+        setVehicleData(res.data);
+      } else {
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
     });
   }, []);
 
@@ -79,10 +86,32 @@ const index = () => {
   };
 
 
-  const OpenVehicleViewModal = (customer) => {
-    setSelectedVehicledata(customer);
+  const OpenVehicleViewModal = (vehicle) => {
+    setSelectedVehicledata(vehicle);
     setShowViewModal(true);
   };
+
+
+  const openDeleteConfirmationModal = (vehicleID) => {
+    setSelectedVehicledata(vehicleID);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const deleteVehicleData  = (vehicleID)=>{
+    deleteVehicle(vehicleID,(res)=>{
+      if(res.status===200){
+        toast.success(res.data.message);
+        setVehicleData(vehicleData.filter(vehicle => vehicle._id !== vehicleID));
+        closeDeleteConfirmationModal();
+      }else {
+        toast.error(res.data.message);
+      }
+    })
+  }
 
   return (
     <Adminlayout>
@@ -323,7 +352,7 @@ const index = () => {
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          // onClick={() => handleDelete(product.id)}
+                          onClick={() => openDeleteConfirmationModal(vehicle._id)}
                         >
                           <DeleteIcon className="text-danger" />
                         </IconButton>
@@ -345,6 +374,14 @@ const index = () => {
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
         vehicleDetails={selectedVehicledata}
+      />
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete this Vehicle?"
+        heading="Confirmation Delete !"
+        variant="danger"
+        onConfirm={() => deleteVehicleData(selectedVehicledata)}
+        onCancel={closeDeleteConfirmationModal}
       />
     </Adminlayout>
   );
