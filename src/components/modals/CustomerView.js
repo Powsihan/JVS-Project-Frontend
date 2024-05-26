@@ -8,8 +8,8 @@ const CustomerView = (props) => {
   return (
     <div>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
-        <Modal.Header>
-          <Modal.Title className="Modal-Title">
+        <Modal.Header className="header-outer">
+          <Modal.Title className="Modal-Title" >
             Customer Details View
           </Modal.Title>
         </Modal.Header>

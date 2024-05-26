@@ -21,7 +21,7 @@ import { FileUploader } from "react-drag-drop-files";
 import { Cloudinary } from "cloudinary-core";
 
 const AddVehicle = (props) => {
-  const fileTypes = ["JPG", "PNG", "GIF"];
+  const fileTypes = ["JPG", "PNG", "GIF","JPEG"];
   const [mainImageFile, setMainImageFile] = useState(null);
   const [outsideViewFiles, setOutsideViewFiles] = useState([]);
   const [insideViewFiles, setInsideViewFiles] = useState([]);

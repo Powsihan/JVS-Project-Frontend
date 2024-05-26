@@ -15,6 +15,7 @@ import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import AddVehicle from "@/src/components/AddVehicle";
 import { ToastContainer } from "react-toastify";
+import VehicleView from "@/src/components/modals/VehicleView";
 
 const index = () => {
   const [vehicleData, setVehicleData] = useState([]);
@@ -26,6 +27,8 @@ const index = () => {
   const [showAddSection, setShowAddSection] = useState(false);
 
   const [filteredVehiclesList, setFilteredVehiclesList] = useState([]);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedVehicledata, setSelectedVehicledata] = useState(null);
 
   const HandleSearchRegNo = (event) => {
     setSearchRegNo(event.target.value);
@@ -73,6 +76,12 @@ const index = () => {
 
   const handleOpenAddSection = () => {
     setShowAddSection(!showAddSection);
+  };
+
+
+  const OpenVehicleViewModal = (customer) => {
+    setSelectedVehicledata(customer);
+    setShowViewModal(true);
   };
 
   return (
@@ -300,7 +309,7 @@ const index = () => {
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          // onClick={() => productViewModal(product)}
+                          onClick={() => OpenVehicleViewModal(vehicle)}
                         >
                           <VisibilityIcon className="text-" />
                         </IconButton>
@@ -331,7 +340,12 @@ const index = () => {
           </div>
         </div>
       )}
-      <ToastContainer/>
+      {/* <ToastContainer/> */}
+      <VehicleView
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        vehicleDetails={selectedVehicledata}
+      />
     </Adminlayout>
   );
 };

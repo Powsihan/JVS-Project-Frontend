@@ -1,45 +1,45 @@
-.Text-input-label{
+.Text-input-label {
     color: var(--primary-color);
     font-weight: 500;
     font-size: 16px;
 }
 
-.form-control::placeholder{
-   color: #cfcfcf;
+.form-control::placeholder {
+    color: #cfcfcf;
 }
 
-.SignIn-Modal-Title{
+.SignIn-Modal-Title {
     color: var(--primary-color);
     font-size: 25px;
     text-transform: uppercase;
     font-weight: 700;
 }
 
-.SignUp-Welcome-Container h1{
+.SignUp-Welcome-Container h1 {
     font-size: 30px;
     color: var(--primary-color);
     font-weight: 700;
 }
 
-.SignUp-Welcome-Container p{
+.SignUp-Welcome-Container p {
     font-size: 16px;
     color: #b3b3b3;
     font-weight: 500;
 }
 
-.Account-created h1{
+.Account-created h1 {
     font-size: 24px;
     color: var(--primary-color);
     font-weight: 500;
 }
 
-.Account-created h3{
+.Account-created h3 {
     color: #a1a1a1;
     font-size: 16px;
     font-weight: 500;
 }
 
-.Confirm-Modaal-Header{
+.Confirm-Modaal-Header {
     font-size: 30px;
     text-transform: uppercase;
     color: darkred;
@@ -47,9 +47,24 @@
     letter-spacing: 0.5px;
 }
 
-.Confirm-Modaal-body{
+.Confirm-Modaal-body {
     font-size: 18;
     color: var(--primary-color);
     font-weight: 600;
 }
-    
+
+
+.header-outer {
+    border-radius: 5px 0px 0px 0px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.carousel{
+    text-align: center;
+    border-radius: 10px;
+}
+
+.carousel .thumb{
+    width: 5%;
+    height: 50px;
+}
