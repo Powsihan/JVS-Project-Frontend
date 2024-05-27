@@ -65,7 +65,7 @@ const Brand = [
 const Vehicletype = [
   "Cars",
   "Lorries",
-  "Motorcycles & Scooters",
+  "Motorcycles",
   "Quadricycles",
   "SUV",
   "Three-wheelers",
