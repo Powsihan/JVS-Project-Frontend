@@ -7,13 +7,19 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import "../../../styles/admin.css";
 import { useEffect, useState } from "react";
-import { deleteCustomer, getCustomerDetails } from "@/src/redux/action/customer";
+import {
+  deleteCustomer,
+  getCustomerDetails,
+} from "@/src/redux/action/customer";
 import CustomerView from "@/src/components/modals/CustomerView";
 import { Districts } from "../../../data/datas.js";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast, ToastContainer } from "react-toastify";
+import { useDispatch} from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 const index = () => {
+  const dispatch = useDispatch();
   const [customerdata, setCustomerdata] = useState([]);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [searchName, setSearchName] = useState("");
@@ -25,12 +31,14 @@ const index = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
-
   useEffect(() => {
+    dispatch(setLoading(true));
     getCustomerDetails((res) => {
       if (res && res.data) {
         setCustomerdata(res.data);
+        dispatch(setLoading(false)); 
       } else {
+        dispatch(setLoading(false));
         toast.error("Error fetching Customer details");
       }
     });
@@ -76,18 +84,19 @@ const index = () => {
     setDeleteConfirmationModal(false);
   };
 
-
-  const deleteCustomerData  = (userID)=>{
-    deleteCustomer(userID,(res)=>{
-      if(res.status==200){
+  const deleteCustomerData = (userID) => {
+    deleteCustomer(userID, (res) => {
+      if (res.status == 200) {
         toast.success(res.data.message);
-        setCustomerdata(customerdata.filter(customer => customer._id !== userID));
+        setCustomerdata(
+          customerdata.filter((customer) => customer._id !== userID)
+        );
         closeDeleteConfirmationModal();
-      }else {
+      } else {
         toast.error(res.data.message);
       }
-    })
-  }
+    });
+  };  
 
   return (
     <Adminlayout>
@@ -262,7 +271,9 @@ const index = () => {
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        onClick={() => openDeleteConfirmationModal(customer._id)}
+                        onClick={() =>
+                          openDeleteConfirmationModal(customer._id)
+                        }
                       >
                         <DeleteIcon className="text-danger" />
                       </IconButton>

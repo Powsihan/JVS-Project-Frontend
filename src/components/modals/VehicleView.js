@@ -104,7 +104,6 @@ const VehicleView = (props) => {
                     />
                   </div>
                   <div className="col-lg-4 col-md-12 col-sm-12">
-                    {" "}
                     <InputField
                       label={"Brand"}
                       disable={true}
@@ -112,7 +111,6 @@ const VehicleView = (props) => {
                     />
                   </div>
                   <div className="col-lg-4 col-md-12 col-sm-12">
-                    {" "}
                     <InputField
                       label={"Model"}
                       disable={true}
@@ -171,21 +169,21 @@ const VehicleView = (props) => {
               </div>
               <div className="col-lg-2 col-md-4 col-sm-12">
                 <InputField
-                  label={"Fuel Capacity"}
+                  label={"Fuel Capacity (L)"}
                   disable={true}
                   defaultValue={vehicleDetails && vehicleDetails.fuelcap}
                 />
               </div>
               <div className="col-lg-2 col-md-4 col-sm-12">
                 <InputField
-                  label={"Mileage"}
+                  label={"Mileage (Km)"}
                   disable={true}
                   defaultValue={vehicleDetails && vehicleDetails.mileage}
                 />
               </div>
               <div className="col-lg-2 col-md-4 col-sm-12">
                 <InputField
-                  label={"Power"}
+                  label={"Power (CC)"}
                   disable={true}
                   defaultValue={vehicleDetails && vehicleDetails.power}
                 />

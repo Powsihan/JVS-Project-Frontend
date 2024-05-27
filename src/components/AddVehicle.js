@@ -19,12 +19,18 @@ import { addVehicle } from "../redux/action/vehicle";
 import { toast } from "react-toastify";
 import { FileUploader } from "react-drag-drop-files";
 import { Cloudinary } from "cloudinary-core";
+import {useDispatch } from "react-redux";
+import { setLoading } from "../redux/reducer/loaderSlice";
+
+
 
 const AddVehicle = (props) => {
   const fileTypes = ["JPG", "PNG", "GIF","JPEG"];
   const [mainImageFile, setMainImageFile] = useState(null);
   const [outsideViewFiles, setOutsideViewFiles] = useState([]);
   const [insideViewFiles, setInsideViewFiles] = useState([]);
+
+  const dispatch = useDispatch();
 
   const handleFileChange = (files, category) => {
     if (category === "main") {
@@ -73,7 +79,7 @@ const AddVehicle = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    dispatch(setLoading(true));
     const imageUrls = [];
 
     if (mainImageFile) {
@@ -106,6 +112,7 @@ const AddVehicle = (props) => {
     };
 
     addVehicle(updatedVehicleData, (res) => {
+      dispatch(setLoading(false));
       if (res.status === 200) {
         toast.success(res.data.message);
         setTimeout(() => {
@@ -299,7 +306,7 @@ const AddVehicle = (props) => {
           <div className="row">
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
               <InputField
-                label={"Fuel Capacity"}
+                label={"Fuel Capacity (L)"}
                 placeholder={"In L"}
                 type={"number"}
                 onChange={(value) => handleChange("fuelcap", value)}
@@ -307,7 +314,7 @@ const AddVehicle = (props) => {
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
               <InputField
-                label={"Power"}
+                label={"Power (CC)"}
                 placeholder={"In CC"}
                 type={"number"}
                 onChange={(value) => handleChange("power", value)}
@@ -315,7 +322,7 @@ const AddVehicle = (props) => {
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
               <InputField
-                label={"Mileage"}
+                label={"Mileage (Km)"}
                 placeholder={"In Km"}
                 type={"number"}
                 onChange={(value) => handleChange("mileage", value)}
