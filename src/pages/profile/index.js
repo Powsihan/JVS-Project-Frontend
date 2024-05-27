@@ -17,8 +17,11 @@ import Cookies from "js-cookie";
 import { customerProfileEdit } from "@/src/redux/action/customer";
 import { toast } from "react-toastify";
 import { Cloudinary } from "cloudinary-core";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 const index = () => {
+  const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({});
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
@@ -53,6 +56,7 @@ const index = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
     const customerId = customerData._id;
     let data = { ...customerUpdatedData };
     if (file) {
@@ -67,14 +71,17 @@ const index = () => {
       console.log(res);
       if (res.status === 201) {
         setFile(null);
+        dispatch(setLoading(false));
         toast.info(res.data.message);
       } else if (res.status === 200) {
         setFile(null);
+        dispatch(setLoading(false));
         toast.success(res.data.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
+        dispatch(setLoading(false));
         toast.error(res.data.message);
       }
     });

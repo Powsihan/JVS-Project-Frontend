@@ -15,8 +15,11 @@ import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 const index = () => {
+  const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState({});
   const [file, setFile] = useState(null);
@@ -90,6 +93,7 @@ const index = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
     const userId = userData._id;
     let data = { ...userUpdatedData };
     if (file) {
@@ -104,9 +108,11 @@ const index = () => {
       console.log(res);
       if (res.status === 201) {
         setFile(null);
+        dispatch(setLoading(false));
         toast.info(res.data.message);
       } else if (res.status === 200) {
         setFile(null);
+        dispatch(setLoading(false));
         toast.success(res.data.message);
         setTimeout(() => {
           window.location.reload();

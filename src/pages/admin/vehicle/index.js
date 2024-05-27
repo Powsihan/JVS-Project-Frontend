@@ -17,8 +17,11 @@ import AddVehicle from "@/src/components/AddVehicle";
 import { toast, ToastContainer } from "react-toastify";
 import VehicleView from "@/src/components/modals/VehicleView";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 const index = () => {
+  const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
   const [searchRegNo, setSearchRegNo] = useState("");
   const [searchName, setSearchName] = useState("");
@@ -52,10 +55,13 @@ const index = () => {
   };
 
   useEffect(() => {
+    dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
         setVehicleData(res.data);
+        dispatch(setLoading(false)); 
       } else {
+        dispatch(setLoading(false)); 
         console.error("Error fetching vehicle details", res);
         toast.error("Error fetching vehicle details");
       }
