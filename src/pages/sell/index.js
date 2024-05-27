@@ -1,5 +1,5 @@
 import Navbar from "@/src/layouts/Navbar";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import sellvh from "../../assets/images/Sellvh.png";
 import CommonButton from "@/src/components/CommonButton";
@@ -27,9 +27,11 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { addVehicle } from "@/src/redux/action/vehicle";
 import { toast } from "react-toastify";
+import Cookies from "js-cookie";
 
 const index = () => {
   const dispatch = useDispatch();
+  const [customerData, setCustomerData] = useState(null);
   const fileTypes = ["JPG", "PNG", "GIF","JPEG"];
   const [mainImageFile, setMainImageFile] = useState(null);
   const [outsideViewFiles, setOutsideViewFiles] = useState([]);
@@ -57,7 +59,24 @@ const index = () => {
     features: "",
     documents: "",
     image: "",
+    customerId:"",
   });
+
+  
+
+  useEffect(() => {
+    const storedCustomerData = Cookies.get("customer");
+    if (storedCustomerData) {
+      const parsedCustomerData = JSON.parse(storedCustomerData);
+      setCustomerData(parsedCustomerData);
+      setVehicleData((prevData) => ({
+        ...prevData,
+        customerId: parsedCustomerData._id,
+      }));
+    }
+  }, []);
+
+  
 
   const scrollToSellVehicle = () => {
     const salesSection = document.getElementById("sales");

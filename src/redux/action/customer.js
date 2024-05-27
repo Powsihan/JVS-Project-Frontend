@@ -19,6 +19,23 @@ export const getCustomerDetails = (callback) => {
   }
 };
 
+
+export const getCustomerInfo = (userId,callback) => {
+  const endpoint = `${process.env.api_base_url}/customers/${userId}`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
+
 export const registerCustomer = (data, callback) => {
   const endpoint = `${process.env.api_base_url}/customers/register`;
   try {
