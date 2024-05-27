@@ -63,4 +63,14 @@ const aboutuscontent2 = [
   },
 ];
 
-export { aboutuscontent,aboutuscontent2 };
+
+const sellvehiclecontent=[
+  "Quick and Easy Sales",
+  "Trusted Buyer Network",
+  "Nationwide Pickup Service",
+  "Maximum Value Guaranteed",
+  "Expert Vehicle Appraisals",
+  "Sell with Confidence",
+]
+
+export { aboutuscontent,aboutuscontent2,sellvehiclecontent };

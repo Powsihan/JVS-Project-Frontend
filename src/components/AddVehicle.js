@@ -175,7 +175,7 @@ const AddVehicle = (props) => {
 
   return (
     <div className="container-fluid Add-Vehicle-Section">
-      <h1 className="row ps-2 mb-3">Add Vehicles</h1>
+      <h1 className="row ps-2 pb-3">Add Vehicles</h1>
       <div className="row">
         <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
           <InputField
@@ -250,11 +250,12 @@ const AddVehicle = (props) => {
             label={"Price"}
             placeholder={"Enter the Price"}
             onChange={(value) => handleChange("price", value)}
+            type={"number"}
           />
         </div>
       </div>
       <hr />
-      <div className="row">
+      <div className="row pb-2">
         <div className="col-lg-3 col-md-4 col-sm-12 pb-2">
           <InputField
             label="Transmission"
@@ -333,7 +334,7 @@ const AddVehicle = (props) => {
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
               <InputField
                 label={"No Of Doors"}
-                placeholder={""}
+                placeholder="Enter No Of Doors"
                 type={"number"}
                 onChange={(value) => handleChange("noofdoors", value)}
               />
@@ -341,7 +342,7 @@ const AddVehicle = (props) => {
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
               <InputField
                 label={"No Of Seats"}
-                placeholder={""}
+                placeholder="Enter No Of Seats"
                 type={"number"}
                 onChange={(value) => handleChange("noofseats", value)}
               />
@@ -424,10 +425,10 @@ const AddVehicle = (props) => {
       </div>
       <hr />
       <div className="row">
-        <label htmlFor="input-field" className="Text-input-label mb-2">
+        <label htmlFor="input-field" className="Text-input-label pb-2">
           Upload Images
         </label>
-        <div className="col-lg-4 col-md-4 col-sm-12 mb-2">
+        <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
           <FileUploader
            handleChange={(file) => handleFileChange(file, "main")}
             name="file"
@@ -435,7 +436,7 @@ const AddVehicle = (props) => {
             label={"Upload Main Image"}
           />
         </div>
-        <div className="col-lg-4 col-md-4 col-sm-12 mb-2">
+        <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
           <FileUploader
             handleChange={(files) => handleFileChange(files, "outside")}
             name="file"
@@ -444,7 +445,7 @@ const AddVehicle = (props) => {
             multiple
           />
         </div>
-        <div className="col-lg-4 col-md-4 col-sm-12 mb-2">
+        <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
           <FileUploader
             handleChange={(files) => handleFileChange(files, "inside")}
             name="file"
