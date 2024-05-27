@@ -20,7 +20,6 @@ const Navbar = () => {
   const router =useRouter();
   const routes = [
     { name: "Home", path: "home" },
-    { name: "AboutUS", path: "about" },
     { name: "Vehicle", path: "vehicle" },
     { name: "SellVehicles", path: "sell" },
     { name: "Customization", path: "customization" },
@@ -54,6 +53,13 @@ const Navbar = () => {
   const logout = () => {
     Cookies.remove("customer", { path: "/" });
     window.location.reload();
+  };
+
+  const scrollToContactUs = () => {
+    const contactUsSection = document.getElementById("contactus");
+    if (contactUsSection) {
+      contactUsSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -103,7 +109,7 @@ const Navbar = () => {
                 })}
               </ul>
               <div className="d-flex align-items-center justify-content-center">
-                <CommonButton text={"Contact"} image={Contact} width={110} />
+                <CommonButton text={"Contact"} image={Contact} width={110} onClick={scrollToContactUs}/>
               </div>
             </div>
           </div>
