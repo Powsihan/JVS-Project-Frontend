@@ -14,6 +14,7 @@ import { usePathname,useRouter } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import Cookies from "js-cookie";
+import { Customerlogout } from "../redux/action/logout";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -51,8 +52,7 @@ const Navbar = () => {
   }, []);
 
   const logout = () => {
-    Cookies.remove("customer", { path: "/" });
-    window.location.reload();
+    Customerlogout();
   };
 
   const scrollToContactUs = () => {

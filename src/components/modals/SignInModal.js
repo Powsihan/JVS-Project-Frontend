@@ -9,9 +9,12 @@ import { customerLogin } from "@/src/redux/action/customer";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 function SignInModal(props) {
   const router = useRouter();
+  const dispatch = useDispatch();
   const { show, onHide } = props;
   const [showSignUp, setShowSignUp] = useState(false);
 
@@ -42,6 +45,7 @@ function SignInModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
     customerLogin(
       {
         username: email,
@@ -49,15 +53,13 @@ function SignInModal(props) {
       },
       (res) => {
         if (res.status == 200) {
+          dispatch(setLoading(false));
           toast.success(res.data.message);
-          const cookieOptions = {
-            path: "/",
-          };
-          Cookies.set("customer", JSON.stringify(res.data.data), cookieOptions);
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } else {
+          dispatch(setLoading(false));
           toast.error(res.data.message);
         }
         
