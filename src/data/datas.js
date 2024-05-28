@@ -103,7 +103,7 @@ const GearCount = [1, 2, 3, 4, 5, 6];
 const Features = [
   "Power Steering",
   "Heated Seats",
-  "Rear Parking Sensor",
+  "Sunroof",
   "USB Port",
   "AC",
   "Memory Seat",
@@ -114,7 +114,7 @@ const Features = [
   "Bluetooth",
   "Wifi",
   "Cruise Control",
-  "Sunroof",
+  "Rear Parking Sensor",
 ];
 
 export {

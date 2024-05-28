@@ -69,19 +69,17 @@ const index = () => {
 
     customerProfileEdit(customerId, data, (res) => {
       console.log(res);
+      dispatch(setLoading(false));
       if (res.status === 201) {
         setFile(null);
-        dispatch(setLoading(false));
         toast.info(res.data.message);
       } else if (res.status === 200) {
         setFile(null);
-        dispatch(setLoading(false));
         toast.success(res.data.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        dispatch(setLoading(false));
         toast.error(res.data.message);
       }
     });

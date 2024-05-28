@@ -51,3 +51,19 @@ export const deleteVehicle = (vehicleId, callback) => {
     callback(error.response);
   }
 };
+
+export const vehicleEdit = (vehicleId, data, callback) => {
+  const endpoint = `${process.env.api_base_url}/vehicles/${vehicleId}`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

@@ -124,7 +124,7 @@ const VehicleView = (props) => {
                   <div className="col-lg-4 col-md-12 col-sm-12">
                     {" "}
                     <InputField
-                      label={"Price"}
+                      label={"Price (Rs)"}
                       disable={true}
                       defaultValue={vehicleDetails && vehicleDetails.price}
                     />

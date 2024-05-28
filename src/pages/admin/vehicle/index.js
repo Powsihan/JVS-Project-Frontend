@@ -19,6 +19,7 @@ import VehicleView from "@/src/components/modals/VehicleView";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import VehicleEdit from "@/src/components/modals/VehicleEdit";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -32,6 +33,7 @@ const index = () => {
 
   const [filteredVehiclesList, setFilteredVehiclesList] = useState([]);
   const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
@@ -59,9 +61,9 @@ const index = () => {
     getVehicleDetails((res) => {
       if (res && res.data) {
         setVehicleData(res.data);
-        dispatch(setLoading(false)); 
+        dispatch(setLoading(false));
       } else {
-        dispatch(setLoading(false)); 
+        dispatch(setLoading(false));
         console.error("Error fetching vehicle details", res);
         toast.error("Error fetching vehicle details");
       }
@@ -91,12 +93,20 @@ const index = () => {
     setShowAddSection(!showAddSection);
   };
 
-
   const OpenVehicleViewModal = (vehicle) => {
     setSelectedVehicledata(vehicle);
     setShowViewModal(true);
   };
 
+  const OpenVehicleEditModal = (vehicle) => {
+    setSelectedVehicledata(vehicle);
+    setShowEditModal(true);
+  };
+
+  const handleEditModalClose = (vehicle) => {
+    setShowEditModal(false);
+    fetchUpdatedData();
+  };
 
   const openDeleteConfirmationModal = (vehicleID) => {
     setSelectedVehicledata(vehicleID);
@@ -107,22 +117,40 @@ const index = () => {
     setDeleteConfirmationModal(false);
   };
 
-  const deleteVehicleData  = (vehicleID)=>{
-    deleteVehicle(vehicleID,(res)=>{
-      if(res.status===200){
+  const deleteVehicleData = (vehicleID) => {
+    deleteVehicle(vehicleID, (res) => {
+      if (res.status === 200) {
         toast.success(res.data.message);
-        setVehicleData(vehicleData.filter(vehicle => vehicle._id !== vehicleID));
+        setVehicleData(
+          vehicleData.filter((vehicle) => vehicle._id !== vehicleID)
+        );
         closeDeleteConfirmationModal();
-      }else {
+      } else {
         toast.error(res.data.message);
       }
-    })
-  }
+    });
+  };
+
+  const fetchUpdatedData = () => {
+    dispatch(setLoading(true)); 
+    getVehicleDetails((res) => {
+      if (res && res.data) {
+        setVehicleData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
+    });
+  };
+  
+  
 
   return (
     <Adminlayout>
       {showAddSection ? (
-          <AddVehicle handleClose={handleOpenAddSection} />
+        <AddVehicle handleClose={handleOpenAddSection} />
       ) : (
         <div>
           <div className="d-flex justify-content-end pe-3 pb-3">
@@ -351,14 +379,16 @@ const index = () => {
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          // onClick={() => productEditModal(product)}
+                          onClick={() => OpenVehicleEditModal(vehicle)}
                         >
                           <EditIcon className="text-success" />
                         </IconButton>
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => openDeleteConfirmationModal(vehicle._id)}
+                          onClick={() =>
+                            openDeleteConfirmationModal(vehicle._id)
+                          }
                         >
                           <DeleteIcon className="text-danger" />
                         </IconButton>
@@ -379,6 +409,11 @@ const index = () => {
       <VehicleView
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
+        vehicleDetails={selectedVehicledata}
+      />
+      <VehicleEdit
+        show={showEditModal}
+        onHide={handleEditModalClose}
         vehicleDetails={selectedVehicledata}
       />
       <ConfirmationModal
