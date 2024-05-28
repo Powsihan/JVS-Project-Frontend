@@ -1,0 +1,408 @@
+import React, { useEffect, useState } from "react";
+import { Modal, Button } from "react-bootstrap";
+import InputField from "../InputField";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import CircleIcon from "@mui/icons-material/Circle";
+import "../../styles/component.css";
+import { IconButton } from "@mui/material";
+import PendingIcon from "@mui/icons-material/Pending";
+import { Features } from "@/src/data/datas";
+import { FileUploader } from "react-drag-drop-files";
+import { vehicleEdit } from "@/src/redux/action/vehicle";
+import { toast } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+
+const VehicleEdit = (props) => {
+  const dispatch = useDispatch();
+  const { show, onHide, vehicleDetails } = props;
+  const [vehicleData, setVehicleData] = useState({
+    features: [],
+  });
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Available":
+        return "#17B530 ";
+      case "Sold":
+        return "#F73B3B";
+      case "Pending":
+        return "#FFBE18";
+      default:
+        return "#0010a5";
+    }
+  };
+
+  useEffect(() => {
+    if (vehicleDetails) {
+      setVehicleData((prevData) => ({
+        ...prevData,
+        features: vehicleDetails.features || [],
+      }));
+    }
+  }, [vehicleDetails]);
+
+  const handleChange = (field, value) => {
+    setVehicleData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  const handleFeatureChange = (feature) => {
+    setVehicleData((prevData) => {
+      const features = prevData.features.includes(feature)
+        ? prevData.features.filter((f) => f !== feature)
+        : [...prevData.features, feature];
+      return { ...prevData, features };
+    });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    dispatch(setLoading(true));
+    const updatedVehicleData = {
+      ...vehicleData,
+    };
+
+    const vehicleID = vehicleDetails && vehicleDetails._id;
+
+    const changesMade = Object.keys(updatedVehicleData).some(
+      (key) => updatedVehicleData[key] !== vehicleDetails[key]
+    );
+
+    if (!changesMade) {
+      dispatch(setLoading(false));
+      toast.info("No changes made");
+    } else {
+      vehicleEdit(vehicleID, updatedVehicleData, (res) => {
+        dispatch(setLoading(false));
+        if (res.status === 200) {
+          toast.success(res.data.message);
+          onHide();
+        } else {
+          toast.error(res.data.message);
+        }
+      });
+    }
+  };
+
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <Modal show={show} onHide={onHide} centered backdrop="static" size="xl">
+          <Modal.Header className="header-outer d-flex justify-content-between">
+            <Modal.Title className="Modal-Title">
+              Vehicle Details Edit
+            </Modal.Title>
+            <div className="d-flex justify-content-center align-items-center gap-2">
+              <div
+                className="fw-bold"
+                style={{ color: "var(--primary-color)" }}
+              >
+                {vehicleDetails && vehicleDetails.status}
+              </div>
+              <IconButton>
+                <CircleIcon
+                  sx={{
+                    color: getStatusColor(
+                      vehicleDetails && vehicleDetails.status
+                    ),
+                  }}
+                />
+              </IconButton>
+            </div>
+          </Modal.Header>
+          <Modal.Body>
+            <div className="container-fluid">
+              <div className="row">
+                <div className="col-lg-4 col-md-12 col-sm-12">
+                  {vehicleDetails && vehicleDetails.image && (
+                    <Carousel
+                      showThumbs={true}
+                      autoPlay={true}
+                      infiniteLoop={true}
+                    >
+                      {vehicleDetails.image.map((image, index) => (
+                        <div
+                          key={index}
+                          style={{
+                            position: "relative",
+                            width: "100%",
+                            height: "170px",
+                          }}
+                        >
+                          <img
+                            src={image}
+                            style={{
+                              width: "100%",
+                              height: "100%",
+                              objectFit: "fill",
+                            }}
+                          />
+                        </div>
+                      ))}
+                    </Carousel>
+                  )}
+                </div>
+                <div className="col-lg-8 col-md-12 col-sm-12">
+                  <div className="row pb-3">
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"Vehicle Register No"}
+                        defaultValue={
+                          vehicleDetails && vehicleDetails.registerno
+                        }
+                        onChange={(value) => handleChange("registerno", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      {" "}
+                      <InputField
+                        label={"Name"}
+                        defaultValue={vehicleDetails && vehicleDetails.name}
+                        onChange={(value) => handleChange("name", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      {" "}
+                      <InputField
+                        label={"Price (Rs)"}
+                        defaultValue={vehicleDetails && vehicleDetails.price}
+                        onChange={(value) => handleChange("price", value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"Vehicle Type"}
+                        defaultValue={vehicleDetails && vehicleDetails.type}
+                        onChange={(value) => handleChange("type", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"Brand"}
+                        defaultValue={vehicleDetails && vehicleDetails.brand}
+                        onChange={(value) => handleChange("brand", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"Model"}
+                        defaultValue={vehicleDetails && vehicleDetails.model}
+                        onChange={(value) => handleChange("model", value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="row mb-3">
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"Color"}
+                        defaultValue={vehicleDetails && vehicleDetails.color}
+                        onChange={(value) => handleChange("color", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      {" "}
+                      <InputField
+                        label={"Vehicle Modal Year"}
+                        defaultValue={vehicleDetails && vehicleDetails.yom}
+                        onChange={(value) => handleChange("yom", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      {" "}
+                      <InputField
+                        label={"Ownership"}
+                        defaultValue={
+                          vehicleDetails && vehicleDetails.ownership
+                        }
+                        onChange={(value) => handleChange("ownership", value)}
+                      />
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="row pb-2">
+                <div className="col-lg-2 col-md-4 col-sm-12">
+                  <InputField
+                    label={"Transmission"}
+                    defaultValue={vehicleDetails && vehicleDetails.transmission}
+                    onChange={(value) => handleChange("transmission", value)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-4 col-sm-12">
+                  <InputField
+                    label={"Gear Box"}
+                    defaultValue={vehicleDetails && vehicleDetails.gear}
+                    onChange={(value) => handleChange("gear", value)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-4 col-sm-12">
+                  <InputField
+                    label={"Fuel"}
+                    defaultValue={vehicleDetails && vehicleDetails.fuel}
+                    onChange={(value) => handleChange("fuel", value)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-4 col-sm-12">
+                  <InputField
+                    label={"Fuel Capacity (L)"}
+                    defaultValue={vehicleDetails && vehicleDetails.fuelcap}
+                    onChange={(value) => handleChange("fuelcap", value)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-4 col-sm-12">
+                  <InputField
+                    label={"Mileage (Km)"}
+                    defaultValue={vehicleDetails && vehicleDetails.mileage}
+                    onChange={(value) => handleChange("mileage", value)}
+                  />
+                </div>
+                <div className="col-lg-2 col-md-4 col-sm-12">
+                  <InputField
+                    label={"Power (CC)"}
+                    defaultValue={vehicleDetails && vehicleDetails.power}
+                    onChange={(value) => handleChange("power", value)}
+                  />
+                </div>
+              </div>
+              <div className="row pb-4">
+                <div className="col-lg-6 col-md-12 col-sm-12">
+                  <div className="row mb-2">
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"No Of Doors"}
+                        defaultValue={
+                          vehicleDetails && vehicleDetails.noofdoors
+                        }
+                        onChange={(value) => handleChange("noofdoors", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"No Of Seats"}
+                        defaultValue={
+                          vehicleDetails && vehicleDetails.noofseats
+                        }
+                        onChange={(value) => handleChange("noofseats", value)}
+                      />
+                    </div>
+                    <div className="col-lg-4 col-md-12 col-sm-12">
+                      <InputField
+                        label={"District"}
+                        defaultValue={vehicleDetails && vehicleDetails.district}
+                        onChange={(value) => handleChange("district", value)}
+                      />
+                    </div>
+                  </div>
+                  <div className="row"></div>
+                </div>
+                <div className="col-lg-6 col-md-12 col-sm-12">
+                  <div className="form-group">
+                    <label htmlFor="input-field" className="Text-input-label">
+                      Description
+                    </label>
+                    <textarea
+                      className="form-control"
+                      defaultValue={
+                        vehicleDetails && vehicleDetails.description
+                      }
+                      rows={4}
+                      onChange={(e) =>
+                        handleChange("description", e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+              <hr />
+
+              <h3 className="Text-input-label fw-bold">Features</h3>
+              <div className="container-fluid">
+                <div className="row">
+                  {Features.slice(0, 6).map((option, index) => (
+                    <div
+                      className="form-check col-lg-2 col-md-4 col-sm-6"
+                      key={index}
+                    >
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={option}
+                        id={`checkbox-${index}`}
+                        checked={vehicleData.features.includes(option)}
+                        onChange={() => handleFeatureChange(option)}
+                      />
+                      <label
+                        className="Text-input-label"
+                        htmlFor={`checkbox-${index}`}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <div className="row">
+                  {Features.slice(6, 12).map((option, index) => (
+                    <div
+                      className="form-check col-lg-2 col-md-4 col-sm-6"
+                      key={index}
+                    >
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={option}
+                        id={`checkbox-${index}`}
+                        checked={vehicleData.features.includes(option)}
+                        onChange={() => handleFeatureChange(option)}
+                      />
+                      <label
+                        className="Text-input-label"
+                        htmlFor={`checkbox-${index}`}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+                <div className="row">
+                  {Features.slice(12, 14).map((option, index) => (
+                    <div className="form-check col-lg-2 col-md-4 col-sm-6">
+                      <input
+                        className="form-check-input"
+                        type="checkbox"
+                        value={option}
+                        checked={vehicleData.features.includes(option)}
+                        id={`checkbox-${index}`}
+                      />
+                      <label
+                        className="Text-input-label"
+                        htmlFor={`checkbox-${index}`}
+                      >
+                        {option}
+                      </label>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <hr />
+            </div>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="primary" onClick={handleSubmit}>
+              Save Changes
+            </Button>
+            <Button variant="secondary" onClick={onHide}>
+              Cancel
+            </Button>
+          </Modal.Footer>
+        </Modal>
+      </form>
+    </div>
+  );
+};
+
+export default VehicleEdit;

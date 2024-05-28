@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-import TextField from "../TextField";
+import InputField from "../InputField";
 import "../../styles/component.css";
 import CommonButton from "../CommonButton";
 import welcome from "../../assets/images/welcome.png";
@@ -11,8 +11,12 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { registerCustomer } from "@/src/redux/action/customer";
 import { toast, ToastContainer } from "react-toastify";
+import { Cloudinary } from "cloudinary-core";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 function SignUpModal(props) {
+  const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({
     fname: "",
     lname: "",
@@ -28,10 +32,13 @@ function SignUpModal(props) {
     profilePic: "",
   });
 
+  const [file, setFile] = useState(null);
+
   const { show, onHide } = props;
   const [activeStep, setActiveStep] = useState(0);
-  const [completedSteps, setCompletedSteps] = useState(new Array(4).fill(false));
-
+  const [completedSteps, setCompletedSteps] = useState(
+    new Array(4).fill(false)
+  );
 
   const handleNext = () => {
     setActiveStep((prevStep) => prevStep + 1);
@@ -46,13 +53,26 @@ function SignUpModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    registerCustomer(customerData, (res) => {
+    dispatch(setLoading(true));
+    let data = { ...customerData };
+    if (file) {
+      const uploadedImageUrl = await handleUpload(file);
+      if (uploadedImageUrl) {
+        console.log(uploadedImageUrl);
+        data.profilePic = uploadedImageUrl;
+      }
+    }
+    registerCustomer(data, (res) => {
       if (res.status === 200) {
+        setFile(null);
+        dispatch(setLoading(false));
         toast.success(res.data.message);
         handleNext();
-      }else if(res.status===500){
+      } else if (res.status === 500) {
+        dispatch(setLoading(false));
         toast.error("Invalid User Data");
       } else {
+        dispatch(setLoading(false));
         toast.error(res.data.message);
       }
     });
@@ -63,6 +83,38 @@ function SignUpModal(props) {
       ...prevData,
       [field]: value,
     }));
+  };
+
+  const handleUpload = async (file) => {
+    if (!file) return false;
+
+    try {
+      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "JV-Project");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Upload successful. Public ID:", data.public_id);
+        console.log(data);
+        return data.secure_url;
+      } else {
+        console.error("Upload failed.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      return false;
+    }
   };
   const steps = [
     {
@@ -92,7 +144,7 @@ function SignUpModal(props) {
           </p>
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"First Name"}
                 placeholder={"Enter Your First Name"}
                 type={"text"}
@@ -100,7 +152,7 @@ function SignUpModal(props) {
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Last Name"}
                 placeholder={"Enter the Last name"}
                 type={"text"}
@@ -111,7 +163,7 @@ function SignUpModal(props) {
 
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Date Of Birth"}
                 placeholder={"DD-MM-YYYY"}
                 type={"date"}
@@ -140,7 +192,7 @@ function SignUpModal(props) {
 
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Email"}
                 placeholder={"Enter Your Email"}
                 type={"text"}
@@ -148,7 +200,7 @@ function SignUpModal(props) {
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Password"}
                 placeholder={"Enter the Password"}
                 type={"password"}
@@ -159,7 +211,7 @@ function SignUpModal(props) {
 
           <div class="row pb-2">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Phone number"}
                 placeholder={"Enter Your Phone Number"}
                 type={"text"}
@@ -167,7 +219,7 @@ function SignUpModal(props) {
               />
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"NIC"}
                 placeholder={"Enter the NIC Number"}
                 type={"text"}
@@ -178,7 +230,7 @@ function SignUpModal(props) {
 
           <div class="row pb-4">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              <TextField
+              <InputField
                 label={"Address"}
                 placeholder={"Enter Your Address"}
                 type={"text"}
@@ -232,15 +284,21 @@ function SignUpModal(props) {
             </div>
           </div>
           <div className="row pb-4">
-            <TextField
-              label={"Upload Your Photo"}
-              placeholder={
-                "Upload a file or rag and drop PNG,JPG,GIF upto 10mb"
-              }
-              // value={password}
-              // onChange={handlePasswordChange}
-              type={"file"}
-            />
+            <div className="form-group">
+              <label htmlFor="input-field" className="Text-input-label">
+                Choose Profile Picture
+              </label>
+              <input
+                className="form-control"
+                placeholder="Choose Profile Picture"
+                type="file"
+                id="profilePicture"
+                onChange={(e) => {
+                  console.log(e);
+                  e?.target && setFile(e.target.files[0]);
+                }}
+              />
+            </div>
           </div>
 
           <div className="row">
@@ -295,7 +353,7 @@ function SignUpModal(props) {
           <form onSubmit={handleSubmit}>{steps[activeStep].content}</form>
         </Modal.Body>
       </Modal>
-      <ToastContainer />
+      {/* <ToastContainer /> */}
     </>
   );
 }

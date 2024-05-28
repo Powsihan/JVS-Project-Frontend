@@ -10,15 +10,17 @@ import avatar from "../assets/images/avatar.svg";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname,useRouter } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
+import Cookies from "js-cookie";
+import { Customerlogout } from "../redux/action/logout";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const router =useRouter();
   const routes = [
     { name: "Home", path: "home" },
-    { name: "AboutUS", path: "about" },
     { name: "Vehicle", path: "vehicle" },
     { name: "SellVehicles", path: "sell" },
     { name: "Customization", path: "customization" },
@@ -28,6 +30,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLoginView, setShowLoginView] = useState(false);
   const [showSignUpView, setShowSignUpView] = useState(false);
+  const [customerData, setCustomerData] = useState(null);
 
   const LoginViewModal = () => {
     setShowLoginView(true);
@@ -39,6 +42,24 @@ const Navbar = () => {
 
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
+  };
+
+  useEffect(() => {
+    const storedCustomerData = Cookies.get("customer");
+    if (storedCustomerData) {
+      setCustomerData(JSON.parse(storedCustomerData));
+    }
+  }, []);
+
+  const logout = () => {
+    Customerlogout();
+  };
+
+  const scrollToContactUs = () => {
+    const contactUsSection = document.getElementById("contactus");
+    if (contactUsSection) {
+      contactUsSection.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
@@ -88,7 +109,7 @@ const Navbar = () => {
                 })}
               </ul>
               <div className="d-flex align-items-center justify-content-center">
-                <CommonButton text={"Contact"} image={Contact} width={110} />
+                <CommonButton text={"Contact"} image={Contact} width={110} onClick={scrollToContactUs}/>
               </div>
             </div>
           </div>
@@ -114,30 +135,77 @@ const Navbar = () => {
                 aria-haspopup="true"
                 onClick={toggleDropdown}
               >
-                <Image src={avatar} alt="" width={50} />
+                <Image
+                  src={
+                    customerData && customerData.profilePic
+                      ? customerData.profilePic
+                      : avatar
+                  }
+                  alt=""
+                  width={50}
+                  height={50}
+                  className="avatar rounded-circle"
+                />
               </a>
-              <ul
-                className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
-                  dropdownOpen ? "show" : ""
-                }`}
-                aria-labelledby="navbarDropdownMenuAvatar"
-              >
-                <li>
-                  <a className="dropdown-item" onClick={()=> SignUpViewModal()}>
-                    Sign Up</a>
-                </li>
-                <li>
-                  <a className="dropdown-item" onClick={() => LoginViewModal()}>
-                    Log In
-                  </a>
-                </li>
-                <hr />
-                <li>
-                  <a className="dropdown-item" href="#">
-                    Help Center
-                  </a>
-                </li>
-              </ul>
+              {!customerData ? (
+                <ul
+                  className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
+                    dropdownOpen ? "show" : ""
+                  }`}
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => SignUpViewModal()}
+                    >
+                      Sign Up
+                    </a>
+                  </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => LoginViewModal()}
+                    >
+                      Log In
+                    </a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a className="dropdown-item" href="#">
+                      Help Center
+                    </a>
+                  </li>
+                </ul>
+              ) : (
+                <ul
+                  className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
+                    dropdownOpen ? "show" : ""
+                  }`}
+                  aria-labelledby="navbarDropdownMenuAvatar"
+                >
+                  <li>
+                    <a className="dropdown-item">Messages</a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item">Notifications</a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item">History</a>
+                  </li>
+                  <hr />
+                  <li>
+                    <a className="dropdown-item" onClick={()=>{router.push('/profile')}} >
+                      Profile
+                    </a>
+                  </li>
+                  <li>
+                    <a className="dropdown-item" onClick={logout}>
+                      Log out
+                    </a>
+                  </li>
+                </ul>
+              )}
             </div>
           </div>
         </div>
