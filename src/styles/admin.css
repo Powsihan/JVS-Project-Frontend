@@ -48,6 +48,16 @@
     background: #0010a5 !important;
 }
 
+.Sale-Field{
+    background: #17B530 !important;
+}
+
+.Buy-Field{
+    background: #0010a5 !important;
+}
+
+
+
 .admin-login-section h2 {
     color: var(--primary-color);
     font-size: 2rem;

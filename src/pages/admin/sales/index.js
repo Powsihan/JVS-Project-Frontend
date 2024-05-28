@@ -1,5 +1,5 @@
 import Adminlayout from "@/src/layouts/Adminlayout";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
@@ -9,18 +9,38 @@ import ClearIcon from "@mui/icons-material/Clear";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import AddSales from "@/src/components/page/AddSales";
-
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { getSalesDetails } from "@/src/redux/action/sales";
+import "../../../styles/admin.css";
 const index = () => {
-
+  const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
- 
+  const [salesData, setSalesData] = useState([]);
   const handleOpenAddSection = () => {
     setShowAddSection(!showAddSection);
   };
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getSalesDetails((res) => {
+      if (res && res.data) {
+        setSalesData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
+    });
+  }, []);
+
+  
+
   return (
     <Adminlayout>
       {showAddSection ? (
-        <AddSales handleClose={handleOpenAddSection}/>
+        <AddSales handleClose={handleOpenAddSection} />
       ) : (
         <div>
           <div className="d-flex justify-content-end pe-3 pb-3">
@@ -50,7 +70,10 @@ const index = () => {
                     Customer NIC
                   </th>
                   <th scope="col" className="col-1">
-                    Current Price
+                    Price
+                  </th>
+                  <th scope="col" className="col-1">
+                    Status
                   </th>
                   <th scope="col" className="col-2">
                     Action
@@ -58,26 +81,22 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* {filteredVehiclesList.length > 0 ? (
-                  filteredVehiclesList.map((vehicle, index) => (
+                {salesData.length > 0 ? (
+                  salesData.map((vehicle, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{vehicle.name}</td>
-                      <td>{vehicle.type}</td>
-                      <td>{vehicle.model}</td>
-                      <td>{`Rs.${vehicle.price}`}</td>
-                      <td>{vehicle.registerno}</td>
+                      <td>{vehicle.salesRefID}</td>
+                      <td>{vehicle.creationDate}</td>
+                      <td>{vehicle.vehicleId}</td>
+                      <td>{vehicle.customerId}</td>
+                      <td>{vehicle.price}</td>
                       <td>
-                        {" "}
                         <div
                           className={`Table-status-field ${
-                            vehicle.status === "Available"
-                              ? "Available-Field"
-                              : vehicle.status === "Pending"
-                              ? "Pending-Field"
-                              : vehicle.status === "Requested"
-                              ? "Requested-Field"
-                              : "Sold-Field"
+                            vehicle.status === "Sale"
+                              ? "Sale-Field"
+                              : vehicle.status === "Buy"
+                              ? "Buy-Field":""
                           }`}
                         >
                           {vehicle.status}
@@ -114,7 +133,7 @@ const index = () => {
                   <tr>
                     <td colSpan="8">No results found</td>
                   </tr>
-                )} */}
+                )}
               </tbody>
             </table>
           </div>
