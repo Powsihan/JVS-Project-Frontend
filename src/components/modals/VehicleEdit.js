@@ -7,7 +7,18 @@ import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
 import { IconButton } from "@mui/material";
 import PendingIcon from "@mui/icons-material/Pending";
-import { Features } from "@/src/data/datas";
+import {
+  Brand,
+  Districts,
+  Features,
+  FuelType,
+  GearCount,
+  OwnershipOptions,
+  Status,
+  VehicleColors,
+  VehicleTransmission,
+  Vehicletype,
+} from "@/src/data/datas";
 import { FileUploader } from "react-drag-drop-files";
 import { vehicleEdit } from "@/src/redux/action/vehicle";
 import { toast } from "react-toastify";
@@ -38,6 +49,7 @@ const VehicleEdit = (props) => {
       setVehicleData((prevData) => ({
         ...prevData,
         features: vehicleDetails.features || [],
+        ownership:vehicleDetails.ownership,
       }));
     }
   }, [vehicleDetails]);
@@ -86,6 +98,16 @@ const VehicleEdit = (props) => {
       });
     }
   };
+
+  const generateYears = () => {
+    const years = [];
+    for (let year = 1950; year <= 2023; year++) {
+      years.push(year);
+    }
+    return years;
+  };
+
+  const years = generateYears();
 
   return (
     <div>
@@ -157,7 +179,6 @@ const VehicleEdit = (props) => {
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
-                      {" "}
                       <InputField
                         label={"Name"}
                         defaultValue={vehicleDetails && vehicleDetails.name}
@@ -165,7 +186,6 @@ const VehicleEdit = (props) => {
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
-                      {" "}
                       <InputField
                         label={"Price (Rs)"}
                         defaultValue={vehicleDetails && vehicleDetails.price}
@@ -179,6 +199,8 @@ const VehicleEdit = (props) => {
                         label={"Vehicle Type"}
                         defaultValue={vehicleDetails && vehicleDetails.type}
                         onChange={(value) => handleChange("type", value)}
+                        select
+                        options={Vehicletype}
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
@@ -186,6 +208,8 @@ const VehicleEdit = (props) => {
                         label={"Brand"}
                         defaultValue={vehicleDetails && vehicleDetails.brand}
                         onChange={(value) => handleChange("brand", value)}
+                        select
+                        options={Brand}
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
@@ -202,25 +226,51 @@ const VehicleEdit = (props) => {
                         label={"Color"}
                         defaultValue={vehicleDetails && vehicleDetails.color}
                         onChange={(value) => handleChange("color", value)}
+                        select
+                        options={VehicleColors}
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
-                      {" "}
                       <InputField
                         label={"Vehicle Modal Year"}
                         defaultValue={vehicleDetails && vehicleDetails.yom}
                         onChange={(value) => handleChange("yom", value)}
+                        select
+                        options={years}
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
-                      {" "}
-                      <InputField
-                        label={"Ownership"}
-                        defaultValue={
-                          vehicleDetails && vehicleDetails.ownership
-                        }
-                        onChange={(value) => handleChange("ownership", value)}
-                      />
+                      <div className="form-group">
+                        <label
+                          htmlFor="input-field"
+                          className="Text-input-label"
+                        >
+                          OwnerShip
+                        </label>
+                        <div className="d-flex gap-3">
+                          {OwnershipOptions.map((option, index) => (
+                            <div className="form-check" key={index}>
+                              <input
+                                className="form-check-input"
+                                type="radio"
+                                name="ownership"
+                                id={`ownership-${option}`}
+                                value={option}
+                                checked={vehicleData.ownership === option}
+                                onChange={(e) =>
+                                  handleChange("ownership", e.target.value)
+                                }
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor={`ownership-${option}`}
+                              >
+                                {option}
+                              </label>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -231,6 +281,8 @@ const VehicleEdit = (props) => {
                     label={"Transmission"}
                     defaultValue={vehicleDetails && vehicleDetails.transmission}
                     onChange={(value) => handleChange("transmission", value)}
+                    select
+                    options={VehicleTransmission}
                   />
                 </div>
                 <div className="col-lg-2 col-md-4 col-sm-12">
@@ -238,6 +290,8 @@ const VehicleEdit = (props) => {
                     label={"Gear Box"}
                     defaultValue={vehicleDetails && vehicleDetails.gear}
                     onChange={(value) => handleChange("gear", value)}
+                    select
+                    options={GearCount}
                   />
                 </div>
                 <div className="col-lg-2 col-md-4 col-sm-12">
@@ -245,6 +299,8 @@ const VehicleEdit = (props) => {
                     label={"Fuel"}
                     defaultValue={vehicleDetails && vehicleDetails.fuel}
                     onChange={(value) => handleChange("fuel", value)}
+                    select
+                    options={FuelType}
                   />
                 </div>
                 <div className="col-lg-2 col-md-4 col-sm-12">
@@ -252,6 +308,7 @@ const VehicleEdit = (props) => {
                     label={"Fuel Capacity (L)"}
                     defaultValue={vehicleDetails && vehicleDetails.fuelcap}
                     onChange={(value) => handleChange("fuelcap", value)}
+                    type={"Number"}
                   />
                 </div>
                 <div className="col-lg-2 col-md-4 col-sm-12">
@@ -259,6 +316,7 @@ const VehicleEdit = (props) => {
                     label={"Mileage (Km)"}
                     defaultValue={vehicleDetails && vehicleDetails.mileage}
                     onChange={(value) => handleChange("mileage", value)}
+                    type={"Number"}
                   />
                 </div>
                 <div className="col-lg-2 col-md-4 col-sm-12">
@@ -266,6 +324,7 @@ const VehicleEdit = (props) => {
                     label={"Power (CC)"}
                     defaultValue={vehicleDetails && vehicleDetails.power}
                     onChange={(value) => handleChange("power", value)}
+                    type={"Number"}
                   />
                 </div>
               </div>
@@ -279,6 +338,7 @@ const VehicleEdit = (props) => {
                           vehicleDetails && vehicleDetails.noofdoors
                         }
                         onChange={(value) => handleChange("noofdoors", value)}
+                        type={"Number"}
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
@@ -288,6 +348,7 @@ const VehicleEdit = (props) => {
                           vehicleDetails && vehicleDetails.noofseats
                         }
                         onChange={(value) => handleChange("noofseats", value)}
+                        type={"Number"}
                       />
                     </div>
                     <div className="col-lg-4 col-md-12 col-sm-12">
@@ -295,10 +356,20 @@ const VehicleEdit = (props) => {
                         label={"District"}
                         defaultValue={vehicleDetails && vehicleDetails.district}
                         onChange={(value) => handleChange("district", value)}
+                        select
+                        options={Districts}
                       />
                     </div>
                   </div>
-                  <div className="row"></div>
+                  <div className="row">
+                  <InputField
+                        label={"Status"}
+                        defaultValue={vehicleDetails && vehicleDetails.status}
+                        onChange={(value) => handleChange("status", value)}
+                        select
+                        options={Status}
+                      />
+                  </div>
                 </div>
                 <div className="col-lg-6 col-md-12 col-sm-12">
                   <div className="form-group">

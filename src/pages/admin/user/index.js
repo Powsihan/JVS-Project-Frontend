@@ -15,7 +15,7 @@ import CustomerView from "@/src/components/modals/CustomerView";
 import { Districts } from "../../../data/datas.js";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast, ToastContainer } from "react-toastify";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 const index = () => {
@@ -36,7 +36,7 @@ const index = () => {
     getCustomerDetails((res) => {
       if (res && res.data) {
         setCustomerdata(res.data);
-        dispatch(setLoading(false)); 
+        dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
         toast.error("Error fetching Customer details");
@@ -85,8 +85,10 @@ const index = () => {
   };
 
   const deleteCustomerData = (userID) => {
+    dispatch(setLoading(true));
     deleteCustomer(userID, (res) => {
       if (res.status == 200) {
+        dispatch(setLoading(false));
         toast.success(res.data.message);
         setCustomerdata(
           customerdata.filter((customer) => customer._id !== userID)
@@ -96,7 +98,7 @@ const index = () => {
         toast.error(res.data.message);
       }
     });
-  };  
+  };
 
   return (
     <Adminlayout>
