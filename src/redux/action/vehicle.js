@@ -67,3 +67,19 @@ export const vehicleEdit = (vehicleId, data, callback) => {
     callback(error.response);
   }
 };
+
+export const getVehicleInfo = (vehicleId, callback) => {
+  const endpoint = `${process.env.api_base_url}/vehicles/${vehicleId}`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

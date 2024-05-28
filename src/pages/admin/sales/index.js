@@ -13,29 +13,87 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getSalesDetails } from "@/src/redux/action/sales";
 import "../../../styles/admin.css";
+import SalesView from "@/src/components/modals/SalesView";
+import { getCustomerInfo } from "@/src/redux/action/customer";
+import { getVehicleInfo } from "@/src/redux/action/vehicle";
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
   const [salesData, setSalesData] = useState([]);
+
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [selectedSalesdata, setSelectedSalesdata] = useState(null);
+  const [customerData, setCustomerData] = useState({});
+  const [vehicleData, setVehicleData] = useState({});
   const handleOpenAddSection = () => {
     setShowAddSection(!showAddSection);
   };
 
   useEffect(() => {
     dispatch(setLoading(true));
-    getSalesDetails((res) => {
+    getSalesDetails(async (res) => {
       if (res && res.data) {
-        setSalesData(res.data);
+        const sales = res.data;
+        setSalesData(sales);
         dispatch(setLoading(false));
+        const customerInfoPromises = sales.map(
+          (sale) =>
+            new Promise((resolve) => {
+              getCustomerInfo(sale.customerId, (response) => resolve({ customerId: sale.customerId, data: response.data }));
+            })
+        );
+
+        const vehicleInfoPromises = sales.map(
+          (sale) =>
+            new Promise((resolve) => {
+              getVehicleInfo(sale.vehicleId, (response) => resolve({ vehicleId: sale.vehicleId, data: response.data }));
+            })
+        );
+
+        try {
+          const customerInfoResponses = await Promise.all(customerInfoPromises);
+          const vehicleInfoResponses = await Promise.all(vehicleInfoPromises);
+
+          const customerDataMap = {};
+          const vehicleDataMap = {};
+
+          customerInfoResponses.forEach((response) => {
+            if (response.data) {
+              customerDataMap[response.customerId] = response.data;
+            }
+          });
+
+          vehicleInfoResponses.forEach((response) => {
+            if (response.data) {
+              vehicleDataMap[response.vehicleId] = response.data;
+            }
+          });
+
+          setCustomerData(customerDataMap);
+          setVehicleData(vehicleDataMap);
+        } catch (error) {
+          console.error("Error fetching customer or vehicle details", error);
+          toast.error("Error fetching additional details");
+        }
       } else {
         dispatch(setLoading(false));
-        console.error("Error fetching vehicle details", res);
-        toast.error("Error fetching vehicle details");
+        console.error("Error fetching Sales details", res);
+        toast.error("Error fetching Sales details");
       }
     });
   }, []);
 
-  
+  const OpenSalesViewModal = (sales) => {
+    setSelectedSalesdata(sales);
+    setShowViewModal(true);
+  };
+
+  const formatDate = (dateString) => {
+    const options = { year: "numeric", month: "numeric", day: "numeric" };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
+
 
   return (
     <Adminlayout>
@@ -67,7 +125,7 @@ const index = () => {
                     Vehicle RegNo
                   </th>
                   <th scope="col" className="col-2">
-                    Customer NIC
+                    Customer Email
                   </th>
                   <th scope="col" className="col-1">
                     Price
@@ -82,31 +140,31 @@ const index = () => {
               </thead>
               <tbody>
                 {salesData.length > 0 ? (
-                  salesData.map((vehicle, index) => (
+                  salesData.map((sales, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{vehicle.salesRefID}</td>
-                      <td>{vehicle.creationDate}</td>
-                      <td>{vehicle.vehicleId}</td>
-                      <td>{vehicle.customerId}</td>
-                      <td>{vehicle.price}</td>
+                      <td>{sales.salesRefID}</td>
+                      <td>{formatDate(sales.creationDate)}</td>
+                      <td>{vehicleData[sales.vehicleId]?.registerno || "N/A"}</td>
+                      <td>{customerData[sales.customerId]?.email || "N/A"}</td>
+                      <td>{sales.price}</td>
                       <td>
                         <div
                           className={`Table-status-field ${
-                            vehicle.status === "Sale"
+                            sales.status === "Sale"
                               ? "Sale-Field"
-                              : vehicle.status === "Buy"
+                              : sales.status === "Buy"
                               ? "Buy-Field":""
                           }`}
                         >
-                          {vehicle.status}
+                          {sales.status}
                         </div>
                       </td>
                       <td className="col-2">
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          // onClick={() => OpenVehicleViewModal(vehicle)}
+                          onClick={() => OpenSalesViewModal(sales)}
                         >
                           <VisibilityIcon className="" />
                         </IconButton>
@@ -139,6 +197,11 @@ const index = () => {
           </div>
         </div>
       )}
+      <SalesView
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        salesDetails={selectedSalesdata}
+      />
     </Adminlayout>
   );
 };

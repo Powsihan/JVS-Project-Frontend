@@ -2,7 +2,7 @@ import Navbar from "@/src/layouts/Navbar";
 import React from "react";
 import "../../../styles/auction.css";
 import Image from "next/image";
-import TextField from "@/src/components/TextField";
+import InputField from "@/src/components/InputField";
 import CommonButton from "@/src/components/CommonButton";
 import BMW from "../../../assets/images/bmw.png";
 import BMWPART1 from "../../../assets/images/bmv-1.png";
@@ -223,7 +223,7 @@ const index = () => {
                     <h6>Your Bid</h6>
                   </div>
                   <div className="col-7">
-                  <TextField
+                  <InputField
                       placeholder=""
                       width={"75%"}
                     />
@@ -318,7 +318,7 @@ const index = () => {
                   </div>
                 </div>
                 <div>
-                <TextField
+                <InputField
                       placeholder="Add a comment.."
                       width={"100%"}
                     />

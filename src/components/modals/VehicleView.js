@@ -45,10 +45,6 @@ const VehicleView = (props) => {
     setShowViewModal(true);
   };
 
-  const handleCustomerViewClose = () => {
-    setShowViewModal(false);
-  };
-
   return (
     <div>
       {!showViewModal && (
