@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../../styles/admin.css";
 import "../../styles/component.css";
 import addSalesimg from "../../assets/images/addsales.svg";
@@ -11,8 +11,14 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { addSales } from "@/src/redux/action/sales";
 import { toast } from "react-toastify";
+import { getCustomerDetails } from "@/src/redux/action/customer";
+import { getVehicleDetails } from "@/src/redux/action/vehicle";
 const AddSales = (props) => {
   const dispatch = useDispatch();
+  const [customerdata, setCustomerdata] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
+  const [filteredEmails, setFilteredEmails] = useState([]);
+  const [filteredRegsiterNo, setFilteredRegsiterNo] = useState([]);
   const [salesData, setSalesData] = useState({
     registerno: "",
     email: "",
@@ -26,6 +32,12 @@ const AddSales = (props) => {
       ...prevData,
       [field]: value,
     }));
+    if (field === "email") {
+      handleEmailChange(value);
+    }
+    if (field === "registerno") {
+      handleRegsiterNoChange(value);
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -47,6 +59,58 @@ const AddSales = (props) => {
       }
     });
   };
+
+  useEffect(() => {
+    getCustomerDetails((res) => {
+      if (res && res.data) {
+        setCustomerdata(res.data);
+      } else {
+        dispatch(setLoading(false));
+        toast.error("Error fetching Customer details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    getVehicleDetails((res) => {
+      if (res && res.data) {
+        setVehicleData(res.data);
+      } else {
+        dispatch(setLoading(false));
+        toast.error("Error fetching Customer details");
+      }
+    });
+  }, []);
+
+  const handleEmailChange = (value) => {
+    const filtered = customerdata.filter((customer) =>
+      customer.email.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredEmails(filtered);
+  };
+  const handleRegsiterNoChange = (value) => {
+    const filteredno = vehicleData.filter((vehicle) =>
+      vehicle.registerno.toLowerCase().includes(value.toLowerCase())
+    );
+    setFilteredRegsiterNo(filteredno);
+  };
+
+  const handleSelectEmail = (email) => {
+    setSalesData((prevData) => ({
+      ...prevData,
+      email,
+    }));
+    setFilteredEmails([]);
+  };
+
+  const handleSelectRegsiterNo = (registerno) => {
+    setSalesData((prevData) => ({
+      ...prevData,
+      registerno,
+    }));
+    setFilteredRegsiterNo([]);
+  };
+
   return (
     <div className="container-fluid Add-Vehicle-Section">
       <form>
@@ -60,16 +124,50 @@ const AddSales = (props) => {
               <InputField
                 label={"Vehicle Register No"}
                 placeholder={"Enter the Regsiter No"}
+                defaultValue={salesData.registerno}
                 onChange={(value) => handleChange("registerno", value)}
               />
             </div>
+            {filteredRegsiterNo.length > 0 && (
+              <div
+                className="dropdown-menu show suggestion-menu"
+                style={{ width: "100%" }}
+              >
+                {filteredRegsiterNo.map((vehicle, index) => (
+                  <div
+                    key={index}
+                    className="dropdown-item suggestion-items"
+                    onClick={() => handleSelectRegsiterNo(vehicle.registerno)}
+                  >
+                    {vehicle.registerno}
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="row pb-3">
               <InputField
                 label={"Customer Email"}
                 placeholder={"Enter the Email"}
+                defaultValue={salesData.email}
                 onChange={(value) => handleChange("email", value)}
               />
             </div>
+            {filteredEmails.length > 0 && (
+              <div
+                className="dropdown-menu show suggestion-menu"
+                style={{ width: "100%" }}
+              >
+                {filteredEmails.map((customer, index) => (
+                  <div
+                    key={index}
+                    className="dropdown-item suggestion-items"
+                    onClick={() => handleSelectEmail(customer.email)}
+                  >
+                    {customer.email}
+                  </div>
+                ))}
+              </div>
+            )}
             <div className="row pb-3">
               <InputField
                 label={"Price"}

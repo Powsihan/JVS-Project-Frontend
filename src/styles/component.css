@@ -87,4 +87,21 @@
     justify-content: center;
     align-items: center;
   }
+
+  .suggestion-menu {
+    position: absolute;
+    background-color: white;
+    border: 1px solid #ddd;
+    z-index: 1000;
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .suggestion-items {
+    padding: 8px 16px;
+    cursor: pointer;
+  }
+  .suggestion-items:hover {
+    background-color: #f1f1f1;
+  }
+  
   
