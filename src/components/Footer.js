@@ -14,12 +14,10 @@ const Footer = () => (
   >
     <div className="container-fluid footer text-center text-md-left h-250">
       <div className="row footer-row align-items-center justify-content-around  ">
-        <div className="col-2 h-100 align-items-center justify-content-center pt-4">
+        <div className="h-150 align-items-center justify-content-center pt-4">
           <div>
             <Image src={logo} alt="" />
           </div>
-        </div>
-        <div className="col-10 h-100 align-items-center justify-content-center ">
           <div className="d-flex align-items-center justify-content-center pt-3 pb-0 gap-4 links" >
               <a href="#home">Home</a>
               <a href="#AboutUs">AboutUs</a>
@@ -28,14 +26,7 @@ const Footer = () => (
               <a href="#Auction">Auction</a>
               
           </div>
-          
-            <hr className="white-line " style={{ color: "white" }} />
-         
-         
-          <div className="row">
-            <div className="col-7  d-flex justify-content-center" >
-              <div className="d-flex flex-column justify-content-center align-items-center ps-3">
-                <div className="d-flex gap-4">
+          <div className="d-flex gap-4 align-items-center justify-content-center pt-3 pb-0">
                   <Image src={facebook} alt="" />
                   <Image src={call} alt="" />
                   <Image src={mail} alt="" />
@@ -43,31 +34,43 @@ const Footer = () => (
                 <h6 className="mt-2" style={{ color: "white" }}>
                   Contact Us
                 </h6>
+        </div>
+        {/* <div className="col-10 h-100 align-items-center justify-content-center "> */}
+          
+          
+            {/* <hr className="white-line " style={{ color: "white" }} /> */}
+         
+         
+          <div className="row">
+            <div className="col-7  d-flex justify-content-center" >
+              <div className="d-flex flex-column justify-content-center align-items-center ps-3">
+               
+                
               </div>
             </div>
             
-            <div className="col-5 d-flex justify-content-around flex-column"> 
-            <div className="joinwith d-flex justify-content-around align-items-right">
+            {/* <div className="col-5 d-flex justify-content-around flex-column">  */}
+            {/* <div className="joinwith d-flex justify-content-around align-items-right">
                 <h6 style={{ color: "white" }}>Lets join with us</h6>
               </div>
               <div className=" row contacts d-flex justify-content-around align-items-center ">
                 
-              </div>
-              <div className="joinwith d-flex justify-content-around align-items-right">
+              </div> */}
+              {/* <div className="joinwith d-flex justify-content-around align-items-right">
                 <input
                   className="search"
                   placeholder=" Email"
                   style={{ borderRadius: "8px" }}
                 />
-              </div>
-            </div>
+              </div> */}
+            {/* </div> */}
           </div>
-        </div>
+        {/* </div> */}
         
       </div>
     </div>
     <hr className="white-line " style={{ color: "white" }} />
-    <div className="footer-copyright text-center py-3"  style={{ color: "white" }}>
+    <div className="footer-copyright text-center py-1"  style={{ color: "white" }}>
     © 2024 JAFFNA Vehicle Spot (PVT) LTD @ All Rights Reserved
      </div>
   </footer>

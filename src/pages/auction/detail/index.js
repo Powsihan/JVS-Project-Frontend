@@ -2,11 +2,19 @@ import Navbar from "@/src/layouts/Navbar";
 import React from "react";
 import "../../../styles/auction.css";
 import Image from "next/image";
+import TextField from "@/src/components/TextField";
+import CommonButton from "@/src/components/CommonButton";
 import BMW from "../../../assets/images/bmw.png";
 import BMWPART1 from "../../../assets/images/bmv-1.png";
 import BMWpart2 from "../../../assets/images/bmw-2.png";
 import BMWPART3 from "../../../assets/images/bmw-3.png";
 import BMWPART4 from "../../../assets/images/bmw-4.png";
+// import enter from "../../../assets/icons/enter.svg";
+import carpana from "../../../assets/icons/Front car-pana.svg";
+import person from "../../../assets/icons/person.svg";
+import time from "../../../assets/icons/alarm 1.svg";
+import bid from "../../../assets/icons/Arrow 1.svg";
+import chat from "../../../assets/icons/chat 1.svg";
 
 const index = () => {
   return (
@@ -17,7 +25,7 @@ const index = () => {
           <h3>2023 BMW 530 XI</h3>
         </div>
 
-        <div className="  line">
+        <div className="line">
           <hr style={{ color: "#07326C" }} />
         </div>
 
@@ -51,7 +59,7 @@ const index = () => {
                 </div>
                 <hr />
 
-                <div className="row pt-2 pb-2">
+                <div className="row">
                   <div className="col-5">
                     <h6>Engine Type</h6>
                   </div>
@@ -157,7 +165,7 @@ const index = () => {
                     <p className="cardetails">SCFEKBCR2FGS01907</p>
                   </div>
                 </div>
-                <div className="row pt-2 pb-2">
+                <div className="row  ">
                   <div className="col-5">
                     <h6>Seller</h6>
                   </div>
@@ -172,7 +180,7 @@ const index = () => {
             <div className="form-container carmenu p-3">
               <div className="card-body details">
                 <div className="row">
-                  <div className="col">
+                  <div className="col ">
                     <h5>Bid information</h5>
                   </div>
                 </div>
@@ -215,61 +223,155 @@ const index = () => {
                     <h6>Your Bid</h6>
                   </div>
                   <div className="col-7">
-                    <input className="cardetails w-75"/>
+                  <TextField
+                      placeholder=""
+                      width={"75%"}
+                    />
                   </div>
                 </div>
                 <div className="pt-2 pb-2 d-flex align-items-center justify-content-center">
-                <button className="justify-content-center bidButton align-items-center w-50">
-                   View details
-                   </button>
+                <CommonButton text="View details" className="justify-content-center bidButton align-items-center w-50" />
+                  {/* <button className="justify-content-center bidButton align-items-center w-50">
+                    View details
+                  </button> */}
                 </div>
               </div>
             </div>
-            <div className="sale inform pt-5">
+            <div className="sale inform pt-4">
+              <div className="form-container carmenu p-3">
+                <div className="card-body details">
+                  <div className="row">
+                    <div className="col">
+                      <h5>Sale information</h5>
+                    </div>
+                  </div>
+                  <hr />
+
+                  <div className="row pt-2 pb-2">
+                    <div className="col-5">
+                      <h6>Sale Name</h6>
+                    </div>
+                    <div className="col-7">
+                      <p className="cardetails">TX-DALLAS</p>
+                    </div>
+                  </div>
+                  <div className="row pt-2 pb-2">
+                    <div className="col-5">
+                      <h6>Sale Location</h6>
+                    </div>
+                    <div className="col-7">
+                      <p className="cardetails">TX-DALLAS </p>
+                    </div>
+                  </div>
+                  <div className="row pt-2 pb-2">
+                    <div className="col-5">
+                      <h6>Sale Date</h6>
+                    </div>
+                    <div className="col-7">
+                      <p className="cardetails">12-05-09,2024 10:30PM </p>
+                    </div>
+                  </div>
+                  <div className="row pt-2 pb-2">
+                    <div className="col-5">
+                      <h6>Last Updated</h6>
+                    </div>
+                    <div className="col-7">
+                      <p className="cardetails">07/05/2024 7:42am</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="row placeBid align-items-start justify-content-start d-flex ps-1 gap-2 pt-2 m-0">
+          <div className="col-md-5 bid d-flex align-items-center ps-2 " >
+           <div className=" col-4 d-flex  justify-content-start ps-1 pt-2 ">
+           <Image src={time} alt="" />
+           <h6 className="ps-1">Time Left</h6>
+           <p className="ps-1">52.03</p>
+           </div>
+           <div className=" col-4 d-flex justify-content-center ps-1 pt-2">
+           <Image src={bid} alt="" />
+           <h6 className="ps-1">High Bid</h6>
+           <p className="ps-1">Rs.158,000</p>
+           </div>
+           <div className=" col-4 d-flex justify-content-end ps-1 pt-2">
+           <Image src={chat} alt="" />
+           <h6 className="ps-1">Comments</h6>
+           <p className="ps-1">14</p>
+           </div>
+          </div>
+          <div className="col-md-1 d-flex align-items-center justify-content-center placeBidbutton ">
+          <CommonButton text="Place Bid" width={100} />
+          </div>
+        </div>
+
+        <div className="row align-items-start justify-content-start d-flex pt-3">
+          <div className="col-md-6">
             <div className="form-container carmenu p-3">
               <div className="card-body details">
                 <div className="row">
                   <div className="col">
-                    <h5>Sale information</h5>
+                    <h5>Comments & Bids</h5>
                   </div>
                 </div>
-                <hr />
+                <div>
+                <TextField
+                      placeholder="Add a comment.."
+                      width={"100%"}
+                    />
+                  {/* <input
+                    className=" justify content-end w-100"
+                    placeholder="Add a comment... "
+                  /> */}
+                  {/* <Image src={enter} alt=""/> */}
+                </div>
+                <div className="d-flex flex-start pt-3">
+                  <Image src={person} alt="" />
+                  <div className="d-flex">
+                    <h5 className="fw-bold mb-1 pt-1 ps-1 ">Jack daniel</h5>
+                    <p className="ps-1 pt-2">30m</p>
+                  </div>
+                </div>
+                <div className="fw-bold ps-5">Bid Rs.158000</div>
 
-                <div className="row pt-2 pb-2">
-                  <div className="col-5">
-                    <h6>Sale Name</h6>
-                  </div>
-                  <div className="col-7">
-                    <p className="cardetails">TX - DALLAS</p>
-                  </div>
-                </div>
-                <div className="row pt-2 pb-2">
-                  <div className="col-5">
-                    <h6>Sale Location</h6>
-                  </div>
-                  <div className="col-7">
-                    <p className="cardetails">TX - DALLAS </p>
+                <div className="d-flex flex-start pt-3">
+                  <Image src={person} alt="" />
+                  <div className="d-flex">
+                    <h5 className="fw-bold mb-1 pt-1 ps-1 ">Jack daniel</h5>
+                    <p className="ps-1 pt-2">30m</p>
                   </div>
                 </div>
-                <div className="row pt-2 pb-2">
-                  <div className="col-5">
-                    <h6>Sale Date</h6>
-                  </div>
-                  <div className="col-7">
-                    <p className="cardetails">Thu-May-09,2024 10:30 PM </p>
-                  </div>
-                </div>
-                <div className="row pt-2 pb-2">
-                  <div className="col-5">
-                    <h6>Last Updated</h6>
-                  </div>
-                  <div className="col-7">
-                    <p className="cardetails">07/05/2024 7:42 am</p>
+                <div className="fw-bold ps-5">Any chance we could get a video at higher rpm’s? Preferably parked and driving.
+And I know it’s last min but if you could find a way to post the results 
+of the/or a compression test I think this auction would see a lot more activity 
+in the closing hours.0ReplyFlag as inappropriate.
+</div>
+
+                <div className="d-flex flex-start pt-3">
+                  <Image src={person} alt="" />
+                  <div className="d-flex">
+                    <h5 className="fw-bold mb-1 pt-1 ps-1 ">Jack daniel</h5>
+                    <p className="ps-1 pt-2">30m</p>
                   </div>
                 </div>
+                <div className="fw-bold ps-5">Did you get the car inspected with the current mods?</div>
+
+                <div className="d-flex flex-start pt-3">
+                  <Image src={person} alt="" />
+                  <div className="d-flex">
+                    <h5 className="fw-bold mb-1 pt-1 ps-1 ">Jack daniel</h5>
+                    <p className="ps-1 pt-2">30m</p>
+                  </div>
+                </div>
+                <div className="fw-bold ps-5">Yess</div>
               </div>
             </div>
-            </div>
+          </div>
+          <div className="col-md-6 align-items-center justify-content-center">
+            <Image src={carpana} alt="" className="img-fluid w-100 align-items-center pt-2"/>
           </div>
         </div>
       </div>
