@@ -13,7 +13,7 @@ import { deleteVehicle, getVehicleDetails } from "@/src/redux/action/vehicle";
 import { Status } from "@/src/data/datas";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
-import AddVehicle from "@/src/components/AddVehicle";
+import AddVehicle from "@/src/components/page/AddVehicle";
 import { toast, ToastContainer } from "react-toastify";
 import VehicleView from "@/src/components/modals/VehicleView";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";

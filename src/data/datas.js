@@ -117,6 +117,8 @@ const Features = [
   "Rear Parking Sensor",
 ];
 
+const SalesStatus = ["Sale", "Buy"];
+
 export {
   Districts,
   Brand,
@@ -130,4 +132,5 @@ export {
   OwnershipOptions,
   GearCount,
   Features,
+  SalesStatus,
 };

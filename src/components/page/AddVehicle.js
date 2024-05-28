@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import "../styles/admin.css";
-import "../styles/component.css";
-import InputField from "./InputField";
+import "../../styles/admin.css";
+import "../../styles/component.css";
+import InputField from "../InputField";
 import {
   Brand,
   Districts,
@@ -12,15 +12,15 @@ import {
   VehicleColors,
   VehicleTransmission,
   Vehicletype,
-} from "../data/datas";
-import CommonButton from "./CommonButton";
+} from "../../data/datas";
+import CommonButton from "../CommonButton";
 import { Button } from "react-bootstrap";
-import { addVehicle } from "../redux/action/vehicle";
+import { addVehicle } from "../../redux/action/vehicle";
 import { toast } from "react-toastify";
 import { FileUploader } from "react-drag-drop-files";
 import { Cloudinary } from "cloudinary-core";
 import {useDispatch } from "react-redux";
-import { setLoading } from "../redux/reducer/loaderSlice";
+import { setLoading } from "../../redux/reducer/loaderSlice";
 
 
 

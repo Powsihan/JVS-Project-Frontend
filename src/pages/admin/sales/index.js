@@ -1,22 +1,33 @@
-import Adminlayout from '@/src/layouts/Adminlayout'
-import React from 'react'
+import Adminlayout from "@/src/layouts/Adminlayout";
+import React, { useState } from "react";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import CommonButton from '@/src/components/CommonButton';
+import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
+import AddSales from "@/src/components/page/AddSales";
+
 const index = () => {
+
+  const [showAddSection, setShowAddSection] = useState(false);
+ 
+  const handleOpenAddSection = () => {
+    setShowAddSection(!showAddSection);
+  };
   return (
-  <Adminlayout>
-    <div>
+    <Adminlayout>
+      {showAddSection ? (
+        <AddSales handleClose={handleOpenAddSection}/>
+      ) : (
+        <div>
           <div className="d-flex justify-content-end pe-3 pb-3">
             <CommonButton
               text={"Add Sales"}
               image={add}
-              // onClick={handleOpenAddSection}
+              onClick={handleOpenAddSection}
             />
           </div>
           <div className="TableSection">
@@ -108,9 +119,9 @@ const index = () => {
             </table>
           </div>
         </div>
-  </Adminlayout>
-  )
-}
+      )}
+    </Adminlayout>
+  );
+};
 
-export default index
-
+export default index;
