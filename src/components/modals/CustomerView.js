@@ -1,6 +1,6 @@
 import React from "react";
 import { Modal, Button } from "react-bootstrap";
-import TextField from "../TextField";
+import InputField from "../InputField";
 import Image from "next/image";
 import DefaultDp from "../../assets/images/avatar.svg";
 const CustomerView = (props) => {
@@ -8,8 +8,8 @@ const CustomerView = (props) => {
   return (
     <div>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
-        <Modal.Header>
-          <Modal.Title className="Modal-Title">
+        <Modal.Header className="header-outer">
+          <Modal.Title className="Modal-Title" >
             Customer Details View
           </Modal.Title>
         </Modal.Header>
@@ -37,74 +37,74 @@ const CustomerView = (props) => {
               <div className="col-6">
                 <div className="row">
                   <div className="col-6">
-                    <TextField
+                    <InputField
                       label={"FirstName"}
                       disable={true}
-                      value={customerDetails && customerDetails.fname}
+                      defaultValue={customerDetails && customerDetails.fname}
                     />
                   </div>
                   <div className="col-6">
-                    <TextField
+                    <InputField
                       label={"LastName"}
                       disable={true}
-                      value={customerDetails && customerDetails.lname}
+                      defaultValue={customerDetails && customerDetails.lname}
                     />
                   </div>
                 </div>
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Date of birth"}
                   disable={true}
-                  value={customerDetails && customerDetails.dob}
+                  defaultValue={customerDetails && customerDetails.dob}
                 />
               </div>
             </div>
             <div className="row mb-2">
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Email address"}
                   disable={true}
-                  value={customerDetails && customerDetails.email}
+                  defaultValue={customerDetails && customerDetails.email}
                 />
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Gender"}
                   disable={true}
-                  value={customerDetails && customerDetails.gender}
+                  defaultValue={customerDetails && customerDetails.gender}
                 />
               </div>
             </div>
             <div className="row mb-2">
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Address"}
                   disable={true}
-                  value={customerDetails && customerDetails.address}
+                  defaultValue={customerDetails && customerDetails.address}
                 />
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"NIC"}
                   disable={true}
-                  value={customerDetails && customerDetails.nic}
+                  defaultValue={customerDetails && customerDetails.nic}
                 />
               </div>
             </div>
             <div className="row mb-2">
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"City"}
                   disable={true}
-                  value={customerDetails && customerDetails.city}
+                  defaultValue={customerDetails && customerDetails.city}
                 />
               </div>
               <div className="col-6">
-                <TextField
+                <InputField
                   label={"Phone Number"}
                   disable={true}
-                  value={customerDetails && customerDetails.phoneNo}
+                  defaultValue={customerDetails && customerDetails.phoneNo}
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ const CustomerView = (props) => {
               <textarea
                 className="form-control"
                 disabled
-                value={customerDetails && customerDetails.description}
+                defaultValue={customerDetails && customerDetails.description}
               />
             </div>
             </div>

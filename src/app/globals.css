@@ -13,6 +13,7 @@
 body {
     background-color: var(--background-color) !important;
     min-height: 100vh !important;
+    scroll-behavior: smooth !important;
 }
 
 

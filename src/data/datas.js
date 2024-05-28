@@ -65,7 +65,7 @@ const Brand = [
 const Vehicletype = [
   "Cars",
   "Lorries",
-  "Motorcycles & Scooters",
+  "Motorcycles",
   "Quadricycles",
   "SUV",
   "Three-wheelers",
@@ -82,7 +82,7 @@ const Gender = ["Male", "Female", "Other"];
 
 const Status = ["Requested", "Available", "Sold", "Pending"];
 
-const CarColors = [
+const VehicleColors = [
   "Black",
   "White",
   "Silver",
@@ -103,7 +103,7 @@ const GearCount = [1, 2, 3, 4, 5, 6];
 const Features = [
   "Power Steering",
   "Heated Seats",
-  "Rear Parking Sensor",
+  "Sunroof",
   "USB Port",
   "AC",
   "Memory Seat",
@@ -114,7 +114,7 @@ const Features = [
   "Bluetooth",
   "Wifi",
   "Cruise Control",
-  "Sunroof",
+  "Rear Parking Sensor",
 ];
 
 export {
@@ -126,7 +126,7 @@ export {
   FuelType,
   Gender,
   Status,
-  CarColors,
+  VehicleColors,
   OwnershipOptions,
   GearCount,
   Features,

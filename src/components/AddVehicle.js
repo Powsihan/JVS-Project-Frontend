@@ -1,15 +1,15 @@
 import React, { useState } from "react";
 import "../styles/admin.css";
 import "../styles/component.css";
-import TextField from "./TextField";
+import InputField from "./InputField";
 import {
   Brand,
-  CarColors,
   Districts,
   Features,
   FuelType,
   GearCount,
   OwnershipOptions,
+  VehicleColors,
   VehicleTransmission,
   Vehicletype,
 } from "../data/datas";
@@ -17,9 +17,31 @@ import CommonButton from "./CommonButton";
 import { Button } from "react-bootstrap";
 import { addVehicle } from "../redux/action/vehicle";
 import { toast } from "react-toastify";
-import { customerData } from "../redux/reducer/customerSlice";
+import { FileUploader } from "react-drag-drop-files";
+import { Cloudinary } from "cloudinary-core";
+import {useDispatch } from "react-redux";
+import { setLoading } from "../redux/reducer/loaderSlice";
+
+
 
 const AddVehicle = (props) => {
+  const fileTypes = ["JPG", "PNG", "GIF","JPEG"];
+  const [mainImageFile, setMainImageFile] = useState(null);
+  const [outsideViewFiles, setOutsideViewFiles] = useState([]);
+  const [insideViewFiles, setInsideViewFiles] = useState([]);
+
+  const dispatch = useDispatch();
+
+  const handleFileChange = (files, category) => {
+    if (category === "main") {
+      setMainImageFile(files);
+    }else if (category === "outside") {
+      setOutsideViewFiles((prevFiles) => [...prevFiles, ...files]); 
+    } else if (category === "inside") {
+      setInsideViewFiles((prevFiles) => [...prevFiles, ...files]); 
+    }
+  };
+
   const generateYears = () => {
     const years = [];
     for (let year = 1950; year <= 2023; year++) {
@@ -57,11 +79,43 @@ const AddVehicle = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log(vehicleData, "vehicleeeeeeeee");
-    addVehicle(vehicleData, (res) => {
+    dispatch(setLoading(true));
+    const imageUrls = [];
+
+    if (mainImageFile) {
+      const uploadedImageUrl = await handleUpload(mainImageFile);
+      if (uploadedImageUrl) {
+        imageUrls.push(uploadedImageUrl);
+      }
+    }
+    if (outsideViewFiles.length > 0) {
+      for (const file of outsideViewFiles) {
+        const uploadedImageUrl = await handleUpload(file);
+        if (uploadedImageUrl) {
+          imageUrls.push(uploadedImageUrl);
+        }
+      }
+    }
+    if (insideViewFiles.length > 0) {
+      for (const file of insideViewFiles) {
+        const uploadedImageUrl = await handleUpload(file);
+        if (uploadedImageUrl) {
+          imageUrls.push(uploadedImageUrl);
+        }
+      }
+    }
+   
+
+    const updatedVehicleData = {
+      ...vehicleData,
+      image: imageUrls,
+    };
+
+    addVehicle(updatedVehicleData, (res) => {
+      dispatch(setLoading(false));
       if (res.status === 200) {
         toast.success(res.data.message);
-        setTimeout(() => {  
+        setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
@@ -77,19 +131,61 @@ const AddVehicle = (props) => {
     }));
   };
 
+  const handleFeatureChange = (feature) => {
+    setVehicleData((prevData) => {
+      const features = prevData.features.includes(feature)
+        ? prevData.features.filter((f) => f !== feature)
+        : [...prevData.features, feature];
+      return { ...prevData, features };
+    });
+  };
+
+
+  const handleUpload = async (file) => {
+    if (!file) return false;
+
+    try {
+      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("upload_preset", "JV-Project");
+
+      const response = await fetch(
+        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Upload successful. Public ID:", data.public_id);
+        console.log(data);
+        return data.secure_url;
+      } else {
+        console.error("Upload failed.");
+        return false;
+      }
+    } catch (error) {
+      console.error("Upload error:", error);
+      return false;
+    }
+  };
+
   return (
     <div className="container-fluid Add-Vehicle-Section">
-      <h1 className="row ps-2 mb-3">Add Vehicles</h1>
+      <h1 className="row ps-2 pb-3">Add Vehicles</h1>
       <div className="row">
         <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Vehicle Register No"}
             placeholder={"Enter the Regsiter No"}
             onChange={(value) => handleChange("registerno", value)}
           />
         </div>
         <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Name"}
             placeholder={"Enter the Vehicle Name"}
             onChange={(value) => handleChange("name", value)}
@@ -125,171 +221,109 @@ const AddVehicle = (props) => {
       </div>
       <div className="row">
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Vehicle Type
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("type", e.target.value)}
-            >
-              <option value="">Select the Type</option>
-              {Vehicletype.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Vehicle Type"
+            placeholder="Select the Type"
+            onChange={(value) => handleChange("type", value)}
+            select
+            options={Vehicletype}
+          />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Brand
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("brand", e.target.value)}
-            >
-              <option value="">Select the Brand</option>
-              {Brand.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Brand"
+            placeholder="Select the Brand"
+            onChange={(value) => handleChange("brand", value)}
+            select
+            options={Brand}
+          />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Model"}
             placeholder={"Enter the Modal"}
             onChange={(value) => handleChange("model", value)}
           />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <TextField
+          <InputField
             label={"Price"}
             placeholder={"Enter the Price"}
             onChange={(value) => handleChange("price", value)}
+            type={"number"}
           />
         </div>
       </div>
       <hr />
-      <div className="row">
+      <div className="row pb-2">
         <div className="col-lg-3 col-md-4 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Transmission
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("transmission", e.target.value)}
-            >
-              <option value="">Select the Type</option>
-              {VehicleTransmission.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Transmission"
+            placeholder="Select the Transmission"
+            onChange={(value) => handleChange("transmission", value)}
+            select
+            options={VehicleTransmission}
+          />
         </div>
         <div className="col-lg-2 col-md-4 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Gear Box
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("gear", e.target.value)}
-            >
-              <option value="">Select the Gear Count</option>
-              {GearCount.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Gear Box"
+            placeholder="Select the Gear Count"
+            onChange={(value) => handleChange("gear", value)}
+            select
+            options={GearCount}
+          />
         </div>
         <div className="col-lg-2 col-md-4 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Color
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("color", e.target.value)}
-            >
-              <option value="">Select the Year</option>
-              {CarColors.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Color"
+            placeholder="Select the Color"
+            onChange={(value) => handleChange("color", value)}
+            select
+            options={VehicleColors}
+          />
         </div>
         <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              YOM
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("yom", e.target.value)}
-            >
-              <option value="">Select the Year</option>
-              {years.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="YOM"
+            placeholder="Select the Year"
+            onChange={(value) => handleChange("yom", value)}
+            select
+            options={years}
+          />
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-          <div className="form-group">
-            <label htmlFor="input-field" className="Text-input-label">
-              Fuel
-            </label>
-            <select
-              className="form-control"
-              onChange={(e) => handleChange("fuel", e.target.value)}
-            >
-              <option value="">Select Fuel</option>
-              {FuelType.map((data, index) => (
-                <option key={index} value={data}>
-                  {data}
-                </option>
-              ))}
-            </select>
-          </div>
+          <InputField
+            label="Fuel"
+            placeholder="Select Fuel"
+            onChange={(value) => handleChange("fuel", value)}
+            select
+            options={FuelType}
+          />
         </div>
       </div>
       <div className="row">
         <div className="col-lg-6 col-md-12 col-sm-12">
           <div className="row">
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
-                label={"Fuel Capacity"}
+              <InputField
+                label={"Fuel Capacity (L)"}
                 placeholder={"In L"}
                 type={"number"}
                 onChange={(value) => handleChange("fuelcap", value)}
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
-                label={"Power"}
+              <InputField
+                label={"Power (CC)"}
                 placeholder={"In CC"}
                 type={"number"}
                 onChange={(value) => handleChange("power", value)}
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
-                label={"Mileage"}
+              <InputField
+                label={"Mileage (Km)"}
                 placeholder={"In Km"}
                 type={"number"}
                 onChange={(value) => handleChange("mileage", value)}
@@ -298,38 +332,29 @@ const AddVehicle = (props) => {
           </div>
           <div className="row">
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"No Of Doors"}
-                placeholder={""}
+                placeholder="Enter No Of Doors"
                 type={"number"}
                 onChange={(value) => handleChange("noofdoors", value)}
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <TextField
+              <InputField
                 label={"No Of Seats"}
-                placeholder={""}
+                placeholder="Enter No Of Seats"
                 type={"number"}
                 onChange={(value) => handleChange("noofseats", value)}
               />
             </div>
             <div className="col-lg-4 col-md-12 col-sm-12 pb-2">
-              <div className="form-group">
-                <label htmlFor="input-field" className="Text-input-label">
-                  District
-                </label>
-                <select
-                  className="form-control"
-                  onChange={(e) => handleChange("district", e.target.value)}
-                >
-                  <option value="">Select District</option>
-                  {Districts.map((data, index) => (
-                    <option key={index} value={data}>
-                      {data}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <InputField
+                label="District"
+                placeholder="Select District"
+                onChange={(value) => handleChange("district", value)}
+                select
+                options={Districts}
+              />
             </div>
           </div>
         </div>
@@ -352,12 +377,13 @@ const AddVehicle = (props) => {
       <div className="container-fluid">
         <div className="row">
           {Features.slice(0, 6).map((option, index) => (
-            <div className="form-check col-lg-2 col-md-4 col-sm-6">
+            <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
               <input
                 className="form-check-input"
                 type="checkbox"
                 value={option}
                 id={`checkbox-${index}`}
+                onChange={() => handleFeatureChange(option)}
               />
               <label className="Text-input-label" htmlFor={`checkbox-${index}`}>
                 {option}
@@ -367,12 +393,13 @@ const AddVehicle = (props) => {
         </div>
         <div className="row">
           {Features.slice(6, 12).map((option, index) => (
-            <div className="form-check col-lg-2 col-md-4 col-sm-6">
+            <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
               <input
                 className="form-check-input"
                 type="checkbox"
                 value={option}
                 id={`checkbox-${index}`}
+                onChange={() => handleFeatureChange(option)}
               />
               <label className="Text-input-label" htmlFor={`checkbox-${index}`}>
                 {option}
@@ -398,11 +425,34 @@ const AddVehicle = (props) => {
       </div>
       <hr />
       <div className="row">
-        <div className="col-lg-6 col-md-6 col-sm-12">
-          <TextField label={"Documents"} type={"file"} />
+        <label htmlFor="input-field" className="Text-input-label pb-2">
+          Upload Images
+        </label>
+        <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+          <FileUploader
+           handleChange={(file) => handleFileChange(file, "main")}
+            name="file"
+            types={fileTypes}
+            label={"Upload Main Image"}
+          />
         </div>
-        <div className="col-lg-6 col-md-6 col-sm-12">
-          <TextField label={"Images"} type={"file"} />
+        <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+          <FileUploader
+            handleChange={(files) => handleFileChange(files, "outside")}
+            name="file"
+            types={fileTypes}
+            label={"Upload OutSide View Images"}
+            multiple
+          />
+        </div>
+        <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+          <FileUploader
+            handleChange={(files) => handleFileChange(files, "inside")}
+            name="file"
+            types={fileTypes}
+            label={"Upload InSide View Images"}
+            multiple
+          />
         </div>
       </div>
       <hr />
