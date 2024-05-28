@@ -12,8 +12,11 @@ import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { registerCustomer } from "@/src/redux/action/customer";
 import { toast, ToastContainer } from "react-toastify";
 import { Cloudinary } from "cloudinary-core";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 function SignUpModal(props) {
+  const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({
     fname: "",
     lname: "",
@@ -50,6 +53,7 @@ function SignUpModal(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    dispatch(setLoading(true));
     let data = { ...customerData };
     if (file) {
       const uploadedImageUrl = await handleUpload(file);
@@ -61,11 +65,14 @@ function SignUpModal(props) {
     registerCustomer(data, (res) => {
       if (res.status === 200) {
         setFile(null);
+        dispatch(setLoading(false));
         toast.success(res.data.message);
         handleNext();
       } else if (res.status === 500) {
+        dispatch(setLoading(false));
         toast.error("Invalid User Data");
       } else {
+        dispatch(setLoading(false));
         toast.error(res.data.message);
       }
     });

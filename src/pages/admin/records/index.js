@@ -1,4 +1,4 @@
-import ApexChart from '@/src/components/charts/ApexChart'
+import ApexChart from '@/src/components/charts/CategoryChart'
 import Adminlayout from '@/src/layouts/Adminlayout'
 import React from 'react'
 
