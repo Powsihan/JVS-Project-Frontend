@@ -70,15 +70,63 @@ const index = () => {
     });
   }, []);
 
+  const handleSearchByRegNo = (event) => {
+    event.preventDefault();
+    const searchedRef = vehicleData.find(
+      (vehicle) => vehicle.registerno === searchRegNo
+    );
+    if (searchedRef) {
+      setSelectedVehicledata(searchedRef);
+      setShowViewModal(true);
+      setSearchRegNo("");
+    } else {
+      toast.error("Invalid RegNo");
+    }
+  };
+
+  const handleSearchByName = (event) => {
+    event.preventDefault();
+    const searchedRef = vehicleData.find(
+      (vehicle) => vehicle.name === searchName
+    );
+    if (searchedRef) {
+      setSelectedVehicledata(searchedRef);
+      setShowViewModal(true);
+      setSearchName("");
+    } else {
+      toast.error("Invalid Name");
+    }
+  };
+
   useEffect(() => {
-    const filteredData = vehicleData.filter(
-      (vehicle) =>
+    const filteredData = vehicleData.filter((vehicle) => {
+      const isWithinPriceRange = (price) => {
+        switch (selectedPrice) {
+          case "50000-100000":
+            return price >= 50000 && price <= 100000;
+          case "100000-500000":
+            return price >= 100000 && price <= 500000;
+          case "500000-1000000":
+            return price >= 500000 && price <= 1000000;
+          case "1000000-5000000":
+            return price >= 1000000 && price <= 5000000;
+          case "5000000-10000000":
+            return price >= 5000000 && price <= 10000000;
+          case "over10000000":
+            return price > 10000000;
+          default:
+            return true;
+        }
+      };
+
+      return (
         vehicle.registerno.toLowerCase().includes(searchRegNo.toLowerCase()) &&
         vehicle.name.toLowerCase().includes(searchName.toLowerCase()) &&
         vehicle.model.toLowerCase().includes(searchModel.toLowerCase()) &&
         (selectedStatus === "" || vehicle.status === selectedStatus) &&
-        (selectedPrice === "" || vehicle.price === selectedPrice)
-    );
+        isWithinPriceRange(vehicle.price)
+      );
+    });
     setFilteredVehiclesList(filteredData);
   }, [
     searchRegNo,
@@ -132,7 +180,7 @@ const index = () => {
   };
 
   const fetchUpdatedData = () => {
-    dispatch(setLoading(true)); 
+    dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
         setVehicleData(res.data);
@@ -144,8 +192,6 @@ const index = () => {
       }
     });
   };
-  
-  
 
   return (
     <Adminlayout>
@@ -165,7 +211,7 @@ const index = () => {
             <div className="row pb-2">
               <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
-                  <form>
+                  <form onSubmit={handleSearchByRegNo}>
                     <input
                       className="SearchBox"
                       type="text"
@@ -194,7 +240,7 @@ const index = () => {
               </div>
               <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
-                  <form>
+                  <form onSubmit={handleSearchByName}>
                     <input
                       className="SearchBox"
                       type="text"
@@ -288,11 +334,20 @@ const index = () => {
                     onChange={HandleSelectPrice}
                   >
                     <option value="">Price Range</option>
-                    {/* {Districts.map((data, index) => (
-                    <option key={index} value={data}>
-                      {data}
+                    <option value="50000-100000">Rs. 50,000 - 1L</option>
+                    <option value="100000-500000">
+                      Rs. 1L - 5L
                     </option>
-                  ))} */}
+                    <option value="500000-1000000">
+                      Rs. 5L - 10L
+                    </option>
+                    <option value="1000000-5000000">
+                      Rs. 10L - 50L
+                    </option>
+                    <option value="5000000-10000000">
+                      Rs. 50L - 1C
+                    </option>
+                    <option value="over10000000">Over Rs. 1C</option>
                   </select>
 
                   {selectedPrice && (
@@ -303,7 +358,7 @@ const index = () => {
                         backgroundColor: "white",
                         right: "2%",
                       }}
-                      onClick={() => setSelectedCity("")}
+                      onClick={() => setSelectedPrice("")}
                     >
                       <ClearIcon />
                     </div>
@@ -320,6 +375,9 @@ const index = () => {
                     No
                   </th>
                   <th scope="col" className="col-2">
+                    Register No
+                  </th>
+                  <th scope="col" className="col-2">
                     Vehicle Name
                   </th>
                   <th scope="col" className="col-1">
@@ -330,9 +388,6 @@ const index = () => {
                   </th>
                   <th scope="col" className="col-1">
                     Price
-                  </th>
-                  <th scope="col" className="col-2">
-                    Register No
                   </th>
                   <th scope="col" className="col-1">
                     Status
@@ -347,11 +402,11 @@ const index = () => {
                   filteredVehiclesList.map((vehicle, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
+                      <td>{vehicle.registerno}</td>
                       <td>{vehicle.name}</td>
                       <td>{vehicle.type}</td>
                       <td>{vehicle.model}</td>
                       <td>{`Rs.${vehicle.price}`}</td>
-                      <td>{vehicle.registerno}</td>
                       <td>
                         {" "}
                         <div
