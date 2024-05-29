@@ -4,7 +4,7 @@ import Navbar from "@/src/layouts/Navbar";
 import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import "../../styles/home.css";
-import Footer from "@/src/components/Footer";
+import Footer from "@/src/layouts/Footer";
 
 import { IconButton } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";

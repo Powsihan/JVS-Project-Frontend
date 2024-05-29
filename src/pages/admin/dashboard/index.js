@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import PieChart from "@/src/components/charts/PieChart";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -187,11 +188,12 @@ const index = () => {
             </div>
           </div>
           <div className="col-lg-5 col-md-12 col-sm-12">
-            <div className="vehicleStatus">
-              <div className="card-row card-dashboard-display">
-                <div className="card-inner ">
-                  <h4>Vehicle Status</h4>
-                </div>
+            <div className="container-fluid vehicleStatus">
+              <div className="row card-dashboard-display">
+                <h4>Vehicle Brand</h4>
+              </div>
+              <div className="row">
+                <PieChart />
               </div>
             </div>
           </div>
