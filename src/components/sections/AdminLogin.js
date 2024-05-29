@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
-import InputField from "./InputField";
-import CommonButton from "./CommonButton";
+import InputField from "../InputField";
+import CommonButton from "../CommonButton";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { useRouter } from "next/navigation";
-import { userLogin } from "../redux/action/user";
+import { userLogin } from "../../redux/action/user";
 import Cookies from "js-cookie";
 const AdminLogin = () => {
   const router = useRouter();

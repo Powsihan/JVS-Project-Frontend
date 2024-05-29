@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../styles/sidebar.css";
-import Sidebar from "../components/Sidebar";
+import Sidebar from "./Sidebar";
 
 import profile from "../assets/images/avatar.svg";
 import notification from "../assets/icons/notification.svg";

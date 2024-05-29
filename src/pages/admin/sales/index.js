@@ -8,7 +8,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
-import AddSales from "@/src/components/page/AddSales";
+import AddSales from "@/src/components/sections/AddSales";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getSalesDetails } from "@/src/redux/action/sales";

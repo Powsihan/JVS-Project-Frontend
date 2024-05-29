@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { MutatingDots } from "react-loader-spinner";
 import "../../../styles/admin.css";
-import AdminLogin from "@/src/components/AdminLogin";
+import AdminLogin from "@/src/components/sections/AdminLogin";
 import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
 
