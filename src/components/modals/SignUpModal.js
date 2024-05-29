@@ -14,8 +14,10 @@ import { toast, ToastContainer } from "react-toastify";
 import { Cloudinary } from "cloudinary-core";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { useRouter } from "next/navigation";
 
 function SignUpModal(props) {
+  const router=useRouter();
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({
     fname: "",
@@ -322,8 +324,8 @@ function SignUpModal(props) {
             <h3>Now you can start exploring !</h3>
           </div>
           <div className="d-flex flex-column justify-content-center gap-2 ps-5 pe-5">
-            <CommonButton text={"Start exploring"} width={"100%"} />
-            <Button variant="secondary" width={"100%"}>
+            <CommonButton text={"Start exploring"} width={"100%"} onClick={()=>{router.push('/home')}}/>
+            <Button variant="secondary" width={"100%"} onClick={()=>{router.push('/profile')}}>
               Go to Profile
             </Button>
           </div>

@@ -10,7 +10,7 @@ import avatar from "../assets/images/avatar.svg";
 import CommonButton from "../components/CommonButton";
 import Contact from "../assets/icons/Headset.png";
 import Link from "next/link";
-import { usePathname,useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import Cookies from "js-cookie";
@@ -18,7 +18,7 @@ import { Customerlogout } from "../redux/action/logout";
 
 const Navbar = () => {
   const pathname = usePathname();
-  const router =useRouter();
+  const router = useRouter();
   const routes = [
     { name: "Home", path: "home" },
     { name: "Vehicle", path: "vehicle" },
@@ -53,6 +53,7 @@ const Navbar = () => {
 
   const logout = () => {
     Customerlogout();
+    router.push("/home");
   };
 
   const scrollToContactUs = () => {
@@ -109,7 +110,12 @@ const Navbar = () => {
                 })}
               </ul>
               <div className="d-flex align-items-center justify-content-center">
-                <CommonButton text={"Contact"} image={Contact} width={110} onClick={scrollToContactUs}/>
+                <CommonButton
+                  text={"Contact"}
+                  image={Contact}
+                  width={110}
+                  onClick={scrollToContactUs}
+                />
               </div>
             </div>
           </div>
@@ -195,7 +201,12 @@ const Navbar = () => {
                   </li>
                   <hr />
                   <li>
-                    <a className="dropdown-item" onClick={()=>{router.push('/profile')}} >
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        router.push("/profile");
+                      }}
+                    >
                       Profile
                     </a>
                   </li>
