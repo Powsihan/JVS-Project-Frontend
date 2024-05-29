@@ -12,25 +12,39 @@ import AreaChart from "@/src/components/charts/AreaChart";
 import RadiusChart from "@/src/components/charts/RadiusChart";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
 import { toast } from "react-toastify";
+import { getCustomerDetails } from "@/src/redux/action/customer";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 
 const index = () => {
+  const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
-
-  const cardsData = [
-    { title: "Customers", count: 400, image: customer, color: "#F00" },
-    { title: "Vehicles", count: 300, image: vehicles, color: "#3DBE00" },
-    { title: "Experts", count: 200, image: experts, color: "#0075FF" },
-    { title: "Requests", count: 100, image: requests, color: "#FF007A" },
-    { title: "Reviews", count: 50, image: reviews, color: "#FFC700" },
-  ];
+  const [customerData, setCustomerData] = useState([]);
 
   useEffect(() => {
+    dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
         setVehicleData(res.data);
+        dispatch(setLoading(false));
       } else {
+        dispatch(setLoading(false));
         console.error("Error fetching vehicle details", res);
         toast.error("Error fetching vehicle details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getCustomerDetails((res) => {
+      if (res && res.data) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching Customer details", res);
+        toast.error("Error fetching Customer details");
       }
     });
   }, []);
@@ -79,6 +93,39 @@ const index = () => {
       color: "#0010a5",
     },
   ];
+
+  const [cardsData, setCardsData] = useState([
+    { title: "Customers", count: 400, image: customer, color: "#F00" },
+    { title: "Vehicles", count: 0, image: vehicles, color: "#3DBE00" },
+    { title: "Experts", count: 200, image: experts, color: "#0075FF" },
+    { title: "Requests", count: 100, image: requests, color: "#FF007A" },
+    { title: "Reviews", count: 50, image: reviews, color: "#FFC700" },
+  ]);
+
+  useEffect(() => {
+    if (vehicleData.length > 0) {
+      const filteredData = vehicleData.filter(
+        (vehicle) => vehicle.status !== "Sold"
+      );
+      const totalVehicles = filteredData.length;
+      setCardsData((prevCardsData) =>
+        prevCardsData.map((card) =>
+          card.title === "Vehicles" ? { ...card, count: totalVehicles } : card
+        )
+      );
+    }
+  }, [vehicleData]);
+
+  useEffect(() => {
+    if (customerData.length > 0) {
+      const totalCustomers = customerData.length;
+      setCardsData((prevCardsData) =>
+        prevCardsData.map((card) =>
+          card.title === "Customers" ? { ...card, count: totalCustomers } : card
+        )
+      );
+    }
+  }, [customerData]);
 
   return (
     <Adminlayout>
@@ -130,7 +177,7 @@ const index = () => {
                 {radiusChartData.map((data, index) => (
                   <div key={index} className="col-lg-4 col-md-12 col-sm-12">
                     <RadiusChart
-                      series={[parseFloat(data.series)]} 
+                      series={[parseFloat(data.series)]}
                       label={data.label}
                       color={data.color}
                     />

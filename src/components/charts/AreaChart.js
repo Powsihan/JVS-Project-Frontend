@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import dynamic from 'next/dynamic';
+import { getSalesDetails } from '@/src/redux/action/sales';
+import { toast } from 'react-toastify';
 
 const ReactApexChart = dynamic(() => import('react-apexcharts'), { ssr: false });
 
@@ -8,13 +10,7 @@ class AreaChart extends Component {
     super(props);
 
     this.state = {
-      series: [{
-        name: 'series1',
-        data: [31, 40, 28, 51, 42, 109, 100]
-      }, {
-        name: 'series2',
-        data: [11, 32, 45, 32, 34, 52, 41]
-      }],
+      series: [],
       options: {
         chart: {
           height: 350,
@@ -27,25 +23,73 @@ class AreaChart extends Component {
           curve: 'smooth'
         },
         xaxis: {
-          type: 'datetime',
-          categories: [
-            "2018-09-19T00:00:00.000Z",
-            "2018-09-19T01:30:00.000Z",
-            "2018-09-19T02:30:00.000Z",
-            "2018-09-19T03:30:00.000Z",
-            "2018-09-19T04:30:00.000Z",
-            "2018-09-19T05:30:00.000Z",
-            "2018-09-19T06:30:00.000Z"
-          ]
+          type: 'category'
         },
         tooltip: {
           x: {
-            format: 'dd/MM/yy HH:mm'
+            format: 'MMM yyyy'
           },
         },
       },
     };
   }
+
+  componentDidMount() {
+    this.fetchSalesData();
+  }
+
+  fetchSalesData() {
+    getSalesDetails((res) => {
+      if (res && res.data) {
+        const salesData = res.data;
+        const groupedData = this.groupSalesByStatusAndMonth(salesData);
+        this.setState({ series: groupedData });
+      } else {
+        console.error("Error fetching Sales details", res);
+        toast.error("Error fetching Sales details");
+      }
+    });
+  }
+
+  groupSalesByStatusAndMonth(salesData) {
+    const salesCountByMonth = {
+      Buy: {},
+      Sale: {}
+    };
+  
+    const currentYear = new Date().getFullYear();
+   
+    for (let month = 1; month <= 12; month++) {
+      const monthYear = `${currentYear}-${month.toString().padStart(2, '0')}`;
+      salesCountByMonth.Buy[monthYear] = 0;
+      salesCountByMonth.Sale[monthYear] = 0;
+    }
+  
+    salesData.forEach(sale => {
+      const saleYear = new Date(sale.creationDate).getFullYear();
+      if (saleYear === currentYear) {
+        const monthYear = sale.creationDate.split('-').slice(0, 2).join('-');
+        if (salesCountByMonth[sale.status][monthYear]) {
+          salesCountByMonth[sale.status][monthYear]++;
+        } else {
+          salesCountByMonth[sale.status][monthYear] = 1;
+        }
+      }
+    });
+  
+    const sortedMonths = Object.keys(salesCountByMonth.Buy).sort();
+    const seriesData = Object.keys(salesCountByMonth).map(status => ({
+      name: status,
+      data: sortedMonths.map(monthYear => ({
+        x: monthYear,
+        y: salesCountByMonth[status][monthYear]
+      }))
+    }));
+  
+    return seriesData;
+  }
+  
+  
 
   render() {
     return (
