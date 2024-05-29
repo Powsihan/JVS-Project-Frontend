@@ -119,7 +119,7 @@ const Adminlayout = ({ children }) => {
           </div>
         </div>
         <div class="col-lg-10 col-md-10 col-sm-10 p-0 min-vh-100 dashboard-body">
-          <div className="sticky-top m-0 dashboard-navbar row">
+          <div className="sticky-top m-0 dashboard-navbar row z-3">
             <div className="col-6 d-flex align-items-center">
               <h1>{typingText}</h1>
             </div>

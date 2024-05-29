@@ -37,6 +37,15 @@ const index = () => {
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [vehiclePerPage, setvehiclePerPage] = useState(10);
+  const indexOfLastVehicle = currentPage * vehiclePerPage;
+  const indexOfFirstVehicle = indexOfLastVehicle - vehiclePerPage;
+  const currentVehicles = filteredVehiclesList.slice(
+    indexOfFirstVehicle,
+    indexOfLastVehicle
+  );
+
   const HandleSearchRegNo = (event) => {
     setSearchRegNo(event.target.value);
   };
@@ -335,18 +344,10 @@ const index = () => {
                   >
                     <option value="">Price Range</option>
                     <option value="50000-100000">Rs. 50,000 - 1L</option>
-                    <option value="100000-500000">
-                      Rs. 1L - 5L
-                    </option>
-                    <option value="500000-1000000">
-                      Rs. 5L - 10L
-                    </option>
-                    <option value="1000000-5000000">
-                      Rs. 10L - 50L
-                    </option>
-                    <option value="5000000-10000000">
-                      Rs. 50L - 1C
-                    </option>
+                    <option value="100000-500000">Rs. 1L - 5L</option>
+                    <option value="500000-1000000">Rs. 5L - 10L</option>
+                    <option value="1000000-5000000">Rs. 10L - 50L</option>
+                    <option value="5000000-10000000">Rs. 50L - 1C</option>
                     <option value="over10000000">Over Rs. 1C</option>
                   </select>
 
@@ -367,7 +368,7 @@ const index = () => {
               </div>
             </div>
           </div>
-          <div className="TableSection">
+          <div className="TableSection mb-3">
             <table className="table table-striped table-hover">
               <thead className="top-0 position-sticky z-1">
                 <tr>
@@ -398,8 +399,8 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredVehiclesList.length > 0 ? (
-                  filteredVehiclesList.map((vehicle, index) => (
+                {currentVehicles.length > 0 ? (
+                  currentVehicles.map((vehicle, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
                       <td>{vehicle.registerno}</td>
@@ -457,6 +458,32 @@ const index = () => {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className="Filter-Search-Container d-flex justify-content-between pe-3 p-4">
+            <div className="Pagination-Text">
+              <p>
+                Page {currentPage} of{" "}
+                {Math.ceil(filteredVehiclesList.length / vehiclePerPage)}
+              </p>
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                className="btn btn-primary"
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{ width: 120 }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={indexOfLastVehicle >= filteredVehiclesList.length}
+                style={{ width: 120 }}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       )}

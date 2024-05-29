@@ -20,7 +20,7 @@
     background-color: #ffff;
     padding: 0 10px;
     overflow-y: scroll;
-    max-height: calc(100vh - 340px) !important;
+    max-height: calc(100vh - 300px) !important;
 }
 
 .Table-status-field {
@@ -205,5 +205,12 @@
     font-size: 18px;
     font-weight: 700;
     border-radius: 4px 0px 0px 0px;
+}
+
+
+.Pagination-Text p{
+    color: var(--primary-color);
+    font-size: 20px;
+    font-weight: 700;
 }
 

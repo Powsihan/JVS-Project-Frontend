@@ -38,6 +38,15 @@ const index = () => {
   const [searchDate, setSearchDate] = useState(null);
   const [filteredSalesList, setFilteredSalesList] = useState([]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [salesPerPage, setcustomerPerPage] = useState(10);
+  const indexOfLastSales = currentPage * salesPerPage;
+  const indexOfFirstSales = indexOfLastSales - salesPerPage;
+  const currentSales = filteredSalesList.slice(
+    indexOfFirstSales,
+    indexOfLastSales
+  );
+
   const HandleSearchRegNo = (event) => {
     setSearchRegNo(event.target.value);
   };
@@ -57,10 +66,11 @@ const index = () => {
     setShowAddSection(!showAddSection);
   };
 
-
   const handleSearchByRefID = (event) => {
     event.preventDefault();
-    const searchedRef = salesData.find((sales) => sales.salesRefID === searchRef);
+    const searchedRef = salesData.find(
+      (sales) => sales.salesRefID === searchRef
+    );
     if (searchedRef) {
       setSelectedSalesdata(searchedRef);
       setShowViewModal(true);
@@ -165,18 +175,39 @@ const index = () => {
     const options = { year: "numeric", month: "numeric", day: "numeric" };
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
-  
+
   useEffect(() => {
     const filteredData = salesData.filter((sales) => {
-      const regNoMatch = vehicleData[sales.vehicleId]?.registerno.toLowerCase().includes(searchRegNo.toLowerCase()) || false;
-      const emailMatch = customerData[sales.customerId]?.email.toLowerCase().includes(searchEmail.toLowerCase()) || false;
-      const refMatch = sales.salesRefID.toLowerCase().includes(searchRef.toLowerCase());
-      const statusMatch = selectedStatus === "" || sales.status === selectedStatus;
-      const dateMatch = searchDate === null || new Date(sales.creationDate).toLocaleDateString() === new Date(searchDate).toLocaleDateString();
+      const regNoMatch =
+        vehicleData[sales.vehicleId]?.registerno
+          .toLowerCase()
+          .includes(searchRegNo.toLowerCase()) || false;
+      const emailMatch =
+        customerData[sales.customerId]?.email
+          .toLowerCase()
+          .includes(searchEmail.toLowerCase()) || false;
+      const refMatch = sales.salesRefID
+        .toLowerCase()
+        .includes(searchRef.toLowerCase());
+      const statusMatch =
+        selectedStatus === "" || sales.status === selectedStatus;
+      const dateMatch =
+        searchDate === null ||
+        new Date(sales.creationDate).toLocaleDateString() ===
+          new Date(searchDate).toLocaleDateString();
       return regNoMatch && emailMatch && refMatch && statusMatch && dateMatch;
     });
     setFilteredSalesList(filteredData);
-  }, [salesData, searchRegNo, searchEmail, searchRef, selectedStatus, searchDate, customerData, vehicleData]);
+  }, [
+    salesData,
+    searchRegNo,
+    searchEmail,
+    searchRef,
+    selectedStatus,
+    searchDate,
+    customerData,
+    vehicleData,
+  ]);
 
   return (
     <Adminlayout>
@@ -312,7 +343,7 @@ const index = () => {
                 </div>
               </div>
               <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-              <div className="search-input-container">
+                <div className="search-input-container">
                   <DatePicker
                     selected={searchDate}
                     onChange={(date) => setSearchDate(date)}
@@ -336,7 +367,7 @@ const index = () => {
               </div>
             </div>
           </div>
-          <div className="TableSection">
+          <div className="TableSection mb-3">
             <table className="table table-striped table-hover">
               <thead className="top-0 position-sticky z-1">
                 <tr>
@@ -367,8 +398,8 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredSalesList.length > 0 ? (
-                  filteredSalesList.map((sales, index) => (
+                {currentSales.length > 0 ? (
+                  currentSales.map((sales, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
                       <td>{sales.salesRefID}</td>
@@ -425,6 +456,32 @@ const index = () => {
                 )}
               </tbody>
             </table>
+          </div>
+          <div className="Filter-Search-Container d-flex justify-content-between pe-3 p-4">
+            <div className="Pagination-Text">
+              <p>
+                Page {currentPage} of{" "}
+                {Math.ceil(filteredSalesList.length / salesPerPage)}
+              </p>
+            </div>
+            <div className="d-flex gap-2">
+              <button
+                className="btn btn-primary"
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 1}
+                style={{ width: 120 }}
+              >
+                Previous
+              </button>
+              <button
+                className="btn btn-primary"
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={indexOfLastSales >= filteredSalesList.length}
+                style={{ width: 120 }}
+              >
+                Next
+              </button>
+            </div>
           </div>
         </div>
       )}

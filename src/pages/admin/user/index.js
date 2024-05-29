@@ -31,6 +31,15 @@ const index = () => {
   const [showViewModal, setShowViewModal] = useState(false);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [customerPerPage, setcustomerPerPage] = useState(10);
+  const indexOfLastCustomer = currentPage * customerPerPage;
+  const indexOfFirstCustomer = indexOfLastCustomer - customerPerPage;
+  const currentCustomers = filteredCustomersList.slice(
+    indexOfFirstCustomer,
+    indexOfLastCustomer
+  );
+
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
@@ -100,6 +109,48 @@ const index = () => {
     });
   };
 
+  const handleSearchByNIC = (event) => {
+    event.preventDefault();
+    const searchedRef = customerdata.find(
+      (customer) => customer.nic === searchNic
+    );
+    if (searchedRef) {
+      setSelectedCustomerdata(searchedRef);
+      setShowViewModal(true);
+      setSearchNic("");
+    } else {
+      toast.error("Invalid NIC");
+    }
+  };
+
+  const handleSearchByName = (event) => {
+    event.preventDefault();
+    const searchedRef = customerdata.find(
+      (customer) => customer.fname === searchName
+    );
+    if (searchedRef) {
+      setSelectedCustomerdata(searchedRef);
+      setShowViewModal(true);
+      setSearchName("");
+    } else {
+      toast.error("Invalid Name");
+    }
+  };
+
+  const handleSearchByEmail = (event) => {
+    event.preventDefault();
+    const searchedRef = customerdata.find(
+      (customer) => customer.email === searchEmail
+    );
+    if (searchedRef) {
+      setSelectedCustomerdata(searchedRef);
+      setShowViewModal(true);
+      setSearchEmail("");
+    } else {
+      toast.error("Invalid Email");
+    }
+  };
+
   return (
     <Adminlayout>
       <div>
@@ -108,7 +159,7 @@ const index = () => {
           <div className="row pb-2">
             <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
               <div className="search-input-container">
-                <form>
+                <form onSubmit={handleSearchByName}>
                   <input
                     className="SearchBox"
                     type="text"
@@ -137,7 +188,7 @@ const index = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
               <div className="search-input-container">
-                <form>
+                <form onSubmit={handleSearchByNIC}>
                   <input
                     className="SearchBox"
                     type="text"
@@ -166,7 +217,7 @@ const index = () => {
             </div>
             <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
               <div className="search-input-container">
-                <form>
+                <form onSubmit={handleSearchByEmail}>
                   <input
                     className="SearchBox"
                     type="text"
@@ -225,7 +276,7 @@ const index = () => {
             </div>
           </div>
         </div>
-        <div className="TableSection">
+        <div className="TableSection mb-3">
           <table className="table table-striped table-hover">
             <thead className="top-0 position-sticky z-1">
               <tr>
@@ -253,8 +304,8 @@ const index = () => {
               </tr>
             </thead>
             <tbody>
-              {filteredCustomersList.length > 0 ? (
-                filteredCustomersList.map((customer, index) => (
+              {currentCustomers.length > 0 ? (
+                currentCustomers.map((customer, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
                     <td>{`${customer.fname} ${customer.lname}`}</td>
@@ -289,6 +340,32 @@ const index = () => {
               )}
             </tbody>
           </table>
+        </div>
+        <div className="Filter-Search-Container d-flex justify-content-between pe-3 p-4">
+          <div className="Pagination-Text">
+            <p>
+              Page {currentPage} of{" "}
+              {Math.ceil(filteredCustomersList.length / customerPerPage)}
+            </p>
+          </div>
+          <div className="d-flex gap-2">
+            <button
+              className="btn btn-primary"
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{ width: 120 }}
+            >
+              Previous
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={indexOfLastCustomer >= filteredCustomersList.length}
+              style={{ width: 120 }}
+            >
+              Next
+            </button>
+          </div>
         </div>
       </div>
       <CustomerView
