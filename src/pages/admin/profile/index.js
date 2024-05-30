@@ -159,8 +159,8 @@ const index = () => {
     <Adminlayout>
       <div className="container-fluid Profile-Edit-Section">
         <div className="row p-1">
-          <div className="col-lg-4 col-md-6 col-sm-12 d-flex flex-column justify-content-center Profile-Edit-Section p-2">
-            <div className="d-flex alig-items-center justify-content-center">
+          <div className="col-lg-4 col-md-6 col-sm-12  Profile-Edit-Section p-2 mb-2">
+            <div className="d-flex alig-items-center justify-content-center pt-5">
               <Image
                 src={
                   userData && userData.profilePic ? userData.profilePic : avatar
@@ -188,7 +188,7 @@ const index = () => {
             </div>
           </div>
           {showProfile ? (
-            <div className="col-lg-8 col-md-6 col-sm-12">
+            <div className="col-lg-8 col-md-6 col-sm-12 mb-2">
               <form onSubmit={handleSubmit}>
                 <div className="col-sm-12 Profile-Edit-Section">
                   <h5 className="custom-border ps-2">Profile Edit</h5>
@@ -291,10 +291,12 @@ const index = () => {
               </div>
             </div>
           ) : (
-            <div className="col-lg-8 col-md-6 col-sm-12 Profile-Edit-Section d-flex flex-column align-items-center justify-content-center ">
+            <div className="col-lg-8 col-md-6 col-sm-12 mb-2">
+              <div className="Profile-Edit-Section d-flex flex-column align-items-center justify-content-center h-100">
               <h1>Hi {userData && userData.name}</h1>
               <p>Welcome to Profile Section</p>
               <Image src={ProfileEdit} alt="" width={400} />
+              </div>
             </div>
           )}
         </div>
