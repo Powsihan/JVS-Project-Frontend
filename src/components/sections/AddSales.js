@@ -88,9 +88,12 @@ const AddSales = (props) => {
     );
     setFilteredEmails(filtered);
   };
-  const handleRegsiterNoChange = (value) => {
-    const filteredno = vehicleData.filter((vehicle) =>
-      vehicle.registerno.toLowerCase().includes(value.toLowerCase())
+
+ const handleRegsiterNoChange = (value) => {
+    const filteredno = vehicleData.filter(
+      (vehicle) =>
+        vehicle.registerno.toLowerCase().includes(value.toLowerCase()) &&
+        vehicle.status !== "Sold"
     );
     setFilteredRegsiterNo(filteredno);
   };
