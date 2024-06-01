@@ -178,14 +178,16 @@ const index = () => {
 
   useEffect(() => {
     const filteredData = salesData.filter((sales) => {
-      const regNoMatch =
-        vehicleData[sales.vehicleId]?.registerno
-          .toLowerCase()
-          .includes(searchRegNo.toLowerCase()) || false;
-      const emailMatch =
-        customerData[sales.customerId]?.email
-          .toLowerCase()
-          .includes(searchEmail.toLowerCase()) || false;
+      const regNoMatch = vehicleData[sales.vehicleId]?.registerno
+        ? vehicleData[sales.vehicleId].registerno
+            .toLowerCase()
+            .includes(searchRegNo.toLowerCase())
+        : false;
+      const emailMatch = customerData[sales.customerId]?.email
+        ? customerData[sales.customerId].email
+            .toLowerCase()
+            .includes(searchEmail.toLowerCase())
+        : false;
       const refMatch = sales.salesRefID
         .toLowerCase()
         .includes(searchRef.toLowerCase());
