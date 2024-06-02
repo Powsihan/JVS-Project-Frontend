@@ -49,3 +49,19 @@ export const deleteContent = (contentId, callback) => {
     callback(error.response);
   }
 };
+
+export const contentEdit = (contentId, data, callback) => {
+  const endpoint = `${process.env.api_base_url}/content/${contentId}`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

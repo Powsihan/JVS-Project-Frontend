@@ -18,6 +18,8 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import ContentView from "@/src/components/modals/ContentView";
+import ContentUpdate from "@/src/components/modals/ContentUpdate";
 
 const index = () => {
   const [contentData, setContentData] = useState({
@@ -43,6 +45,8 @@ const index = () => {
 
   const [selectedContentdata, setSelectedContentdata] = useState(null);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const openDeleteConfirmationModal = (contentID) => {
     setSelectedContentdata(contentID);
@@ -159,6 +163,23 @@ const index = () => {
     fetchContentDetails();
   }, []);
 
+
+  const OpenContentViewModal = (content) => {
+    setSelectedContentdata(content);
+    setShowViewModal(true);
+  };
+
+  const OpenVehicleEditModal = (content) => {
+    setSelectedContentdata(content);
+    setShowEditModal(true);
+  };
+
+
+  const handleEditModalClose = (content) => {
+    setShowEditModal(false);
+    fetchContentDetails();
+  };
+
   return (
     <Adminlayout>
       <div>
@@ -255,14 +276,14 @@ const index = () => {
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        // onClick={() => OpenSalesViewModal(sales)}
+                        onClick={() => OpenContentViewModal(content)}
                       >
                         <VisibilityIcon className="" />
                       </IconButton>
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        // onClick={() => OpenVehicleEditModal(vehicle)}
+                        onClick={() => OpenVehicleEditModal(content)}
                       >
                         <EditIcon className="text-success" />
                       </IconButton>
@@ -318,6 +339,16 @@ const index = () => {
         variant="danger"
         onConfirm={() => deleteContentData(selectedContentdata)}
         onCancel={closeDeleteConfirmationModal}
+      />
+       <ContentView
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        contentDetails={selectedContentdata}
+      />
+      <ContentUpdate
+        show={showEditModal}
+        onHide={handleEditModalClose}
+        contentDetails={selectedContentdata}
       />
     </Adminlayout>
   );

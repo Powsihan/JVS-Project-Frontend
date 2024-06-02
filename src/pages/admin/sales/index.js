@@ -460,13 +460,13 @@ const index = () => {
                         >
                           <VisibilityIcon className="" />
                         </IconButton>
-                        <IconButton
+                        {/* <IconButton
                           aria-label="delete"
                           className="viewbutt"
                           // onClick={() => OpenVehicleEditModal(vehicle)}
                         >
                           <EditIcon className="text-success" />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
