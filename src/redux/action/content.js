@@ -1,11 +1,9 @@
-import { useRouter } from "next/router";
-
 import HttpInterceptor from "@/src/service/HttpInterceptor";
 
 const http = new HttpInterceptor();
 
-export const addSales = (data, callback) => {
-  const endpoint = `${process.env.api_base_url}/sales/addsales`;
+export const addContent = (data, callback) => {
+  const endpoint = `${process.env.api_base_url}/content/addcontent`;
   try {
     http
       .post(endpoint, data)
@@ -20,8 +18,8 @@ export const addSales = (data, callback) => {
   }
 };
 
-export const getSalesDetails = (callback) => {
-  const endpoint = `${process.env.api_base_url}/sales/`;
+export const getContentDetails = (callback) => {
+  const endpoint = `${process.env.api_base_url}/content/`;
   try {
     http
       .get(endpoint)
@@ -36,8 +34,8 @@ export const getSalesDetails = (callback) => {
   }
 };
 
-export const deleteSales = (saleId, callback) => {
-  const endpoint = `${process.env.api_base_url}/sales/${saleId}`;
+export const deleteContent = (contentId, callback) => {
+  const endpoint = `${process.env.api_base_url}/content/${contentId}`;
   try {
     http
       .delete(endpoint)

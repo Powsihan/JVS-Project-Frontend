@@ -56,6 +56,13 @@
     background: #0010a5 !important;
 }
 
+.Active-Field{
+    background: #17B530 !important;
+}
+.InActive-Field{
+    background: #F73B3B !important;
+}
+
 
 
 .admin-login-section h2 {

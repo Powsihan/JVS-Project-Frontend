@@ -11,7 +11,7 @@ import add from "../../../assets/icons/add.png";
 import AddSales from "@/src/components/sections/AddSales";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
-import { getSalesDetails } from "@/src/redux/action/sales";
+import { deleteSales, getSalesDetails } from "@/src/redux/action/sales";
 import "../../../styles/admin.css";
 import SalesView from "@/src/components/modals/SalesView";
 import { getCustomerInfo } from "@/src/redux/action/customer";
@@ -21,6 +21,7 @@ import { SalesStatus } from "@/src/data/datas";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
@@ -66,6 +67,29 @@ const index = () => {
     setShowAddSection(!showAddSection);
   };
 
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
+
+  const openDeleteConfirmationModal = (salesID) => {
+    setSelectedSalesdata(salesID);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const deleteSalesData = (salesID) => {
+    deleteSales(salesID, (res) => {
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        fetchSalesDetails();
+        closeDeleteConfirmationModal();
+      } else {
+        toast.error(res.data.message);
+      }
+    });
+  };
+
   const handleSearchByRefID = (event) => {
     event.preventDefault();
     const searchedRef = salesData.find(
@@ -109,6 +133,10 @@ const index = () => {
   };
 
   useEffect(() => {
+    fetchSalesDetails();
+  }, []);
+
+  const fetchSalesDetails = () => {
     dispatch(setLoading(true));
     getSalesDetails(async (res) => {
       if (res && res.data) {
@@ -164,7 +192,7 @@ const index = () => {
         toast.error("Error fetching Sales details");
       }
     });
-  }, []);
+  };
 
   const OpenSalesViewModal = (sales) => {
     setSelectedSalesdata(sales);
@@ -442,9 +470,9 @@ const index = () => {
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          // onClick={() =>
-                          //   openDeleteConfirmationModal(vehicle._id)
-                          // }
+                          onClick={() =>
+                            openDeleteConfirmationModal(sales._id)
+                          }
                         >
                           <DeleteIcon className="text-danger" />
                         </IconButton>
@@ -491,6 +519,14 @@ const index = () => {
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
         salesDetails={selectedSalesdata}
+      />
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete this Details?"
+        heading="Confirmation Delete !"
+        variant="danger"
+        onConfirm={() => deleteSalesData(selectedSalesdata)}
+        onCancel={closeDeleteConfirmationModal}
       />
     </Adminlayout>
   );
