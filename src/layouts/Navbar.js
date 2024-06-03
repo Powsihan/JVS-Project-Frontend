@@ -21,7 +21,7 @@ const Navbar = () => {
   const router = useRouter();
   const routes = [
     { name: "Home", path: "home" },
-    { name: "Vehicle", path: "vehicle" },
+    { name: "Vehicles", path: "vehicle" },
     { name: "SellVehicles", path: "sell" },
     { name: "Customization", path: "customization" },
     { name: "Auction", path: "auction" },

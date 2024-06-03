@@ -1,300 +1,426 @@
-import Navbar from '@/src/layouts/Navbar'
-import React from 'react'
-import "../../styles/vehicle.css"
-import Image from 'next/image';
-import vehicle1 from "../../assets/images/vehicle1.jpeg";
-import vehicle2 from "../../assets/images/Home_min_Back.png";
-import vehicle3 from "../../assets/images/Login-home-back.png";
+import Navbar from "@/src/layouts/Navbar";
+import { getContentDetails } from "@/src/redux/action/content";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Carousel } from "react-responsive-carousel";
+import "react-responsive-carousel/lib/styles/carousel.min.css";
+import { toast } from "react-toastify";
+import "../../styles/vehicle.css";
+import "../../styles/admin.css";
+
 import SearchIcon from "@mui/icons-material/Search";
-import car from "../../assets/icons/car.svg";
-import calender from "../../assets/icons/calender.svg";
-import settings from "../../assets/icons/settings.svg";
-import fuel from "../../assets/icons/fuel.svg";
-import CommonButton from '@/src/components/CommonButton';
+import ClearIcon from "@mui/icons-material/Clear";
+import {
+  Brand,
+  Districts,
+  FuelType,
+  VehicleColors,
+  Vehicletype,
+} from "@/src/data/datas";
+import Image from "next/image";
+import vehicleCardicon1 from "../../assets/icons/Vehicle-Card-icon-1.svg";
+import vehicleCardicon2 from "../../assets/icons/Vehicle-Card-icon-2.svg";
+import vehicleCardicon3 from "../../assets/icons/Vehicle-Card-icon-3.svg";
+import vehicleCardicon4 from "../../assets/icons/Vehicle-Card-icon-4.svg";
+import vehicleCardicon5 from "../../assets/icons/Vehicle-Card-icon-5.svg";
+import CommonButton from "@/src/components/CommonButton";
+import { getVehicleDetails } from "@/src/redux/action/vehicle";
 
 const index = () => {
+  const [contentimage, setContentImages] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
+  const [searchModel, setSearchModel] = useState("");
+  const [selectedType, setSelectedType] = useState("");
+  const [selectedBrand, setSelectedBrand] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedFuel, setSelectedFuel] = useState("");
+  const [selectedPrice, setSelectedPrice] = useState("");
+  const [filteredVehiclesList, setFilteredVehiclesList] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getContentDetails((res) => {
+      if (res && res.data) {
+        const activeContent = res.data.filter(
+          (content) => content.status === "Active"
+        );
+        setContentImages(activeContent);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        toast.error("Error fetching Content details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getVehicleDetails((res) => {
+      if (res && res.data) {
+        setVehicleData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    const filteredData = vehicleData.filter((vehicle) => {
+      const isWithinPriceRange = (price) => {
+        switch (selectedPrice) {
+          case "50000-100000":
+            return price >= 50000 && price <= 100000;
+          case "100000-500000":
+            return price >= 100000 && price <= 500000;
+          case "500000-1000000":
+            return price >= 500000 && price <= 1000000;
+          case "1000000-5000000":
+            return price >= 1000000 && price <= 5000000;
+          case "5000000-10000000":
+            return price >= 5000000 && price <= 10000000;
+          case "over10000000":
+            return price > 10000000;
+          default:
+            return true;
+        }
+      };
+
+      return (
+        vehicle.model.toLowerCase().includes(searchModel.toLowerCase()) &&
+        (selectedType === "" || vehicle.type === selectedType) &&
+        (selectedBrand === "" || vehicle.brand === selectedBrand) &&
+        (selectedColor === "" || vehicle.color === selectedColor) &&
+        (selectedFuel === "" || vehicle.fuel === selectedFuel) &&
+        isWithinPriceRange(vehicle.price)
+      );
+    });
+    setFilteredVehiclesList(filteredData);
+  }, [
+    searchModel,
+    selectedType,
+    selectedBrand,
+    selectedColor,
+    selectedFuel,
+    selectedPrice,
+    vehicleData,
+  ]);
+
+  const HandleSearchModel = (event) => {
+    setSearchModel(event.target.value);
+  };
+
+  const HandleSelectPrice = (event) => {
+    setSelectedPrice(event.target.value);
+  };
+  const HandleSelectType = (event) => {
+    setSelectedType(event.target.value);
+  };
+  const HandleSelectBrand = (event) => {
+    setSelectedBrand(event.target.value);
+  };
+  const HandleSelectColor = (event) => {
+    setSelectedColor(event.target.value);
+  };
+  const HandleSelectFuel = (event) => {
+    setSelectedFuel(event.target.value);
+  };
+
   return (
-    <>
+    <div>
       <Navbar />
-      {/* <div className="container-fluid Vehicle-Container "> page 1
-        <div className='row '>
-          <div id="carouselExampleAutoplaying" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner d-flex align-items-center ">
-              <div class="carousel-item active">
-                <Image src={vehicle1} class="d-block w-100" alt="..." />
+      <div className="container-fluid min-vh-100">
+        <div className="row" style={{ paddingTop: "120px" }}>
+          <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>
+            {contentimage.map((content, index) => (
+              <div
+                key={index}
+                style={{
+                  position: "relative",
+                  width: "100%",
+                  height: "100%",
+                }}
+              >
+                <img
+                  src={content.image}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "fill",
+                  }}
+                />
               </div>
-              <div class="carousel-item">
-                <Image src={vehicle2} class="d-block w-100" alt="..." />
-              </div>
-              <div class="carousel-item">
-                <Image src={vehicle3} class="d-block w-100" alt="..." />
-              </div>
-            </div>
-            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="prev">
-              <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleAutoplaying" data-bs-slide="next">
-              <span class="carousel-control-next-icon" aria-hidden="true"></span>
-              <span class="visually-hidden">Next</span>
-            </button>
-          </div>
+            ))}
+          </Carousel>
         </div>
-
-        <div className='justify-content-center align-items-center d-flex pt-2' >
-          <div className='container row pb-3 ' style={{backgroundColor:"#f2f3f3" ,borderRadius: "15px"}}>
-            <div className='col-lg-4 col-md-6 col-sm-12 pt-3'>
-              <div className="search-input-container" >
-                <form>
-                  <div className='' >
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Year"
-                      value={""} />
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12 pt-3'>
-              <div className="search-input-container" >
-                <form>
-                  <div className='' >
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Price Range"
-                      value={""} />
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12 pt-3'>
-              <div className="search-input-container" >
-                <form>
-                  <div className='' >
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Fuel Type"
-                      value={""} />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className='justify-content-center align-items-center d-flex pt-1'>
-          <div className='container row pb-3 '  style={{backgroundColor:"#f2f3f3", borderRadius: "15px"}}>
-            <div className='col-lg-4 col-md-6 col-sm-12 pt-3'>
-              <div className="search-input-container" >
-                <form>
-                  <div className='' >
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Colour"
-                      value={""} />
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12 pt-3'>
-              <div className="search-input-container" >
-                <form>
-                  <div className='' >
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Modal"
-                      value={""} />
-                  </div>
-                </form>
-              </div>
-            </div>
-            <div className='col-lg-4 col-md-6 col-sm-12 pt-3'>
-              <div className="search-input-container" >
-                <form>
-                  <div className='' >
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Brand"
-                      value={""} />
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <div className='justify-content-center align-item-center d-flex pt-4 Related-Vehicles'><h4>Related Vehicles</h4></div>
-        <div className='row'>
-          <div className='vehicle-card justify-content-center align-item-center d-flex col-lg-3 col-md-6 col-sm-12 pt-3 gap-3'>
-            <div className="card car" >
-              <Image src={vehicle1} class="d-block w-100" alt="..." />
-              <div className="card-body">
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={car} alt="" /> Pre Owned</h5>
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={calender} alt="" />2000</h5>
-                </div>
-
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h6 class="card-text justify-content-around d-flex gap-3"><Image src={settings} alt="" />Automic </h6>
-                  <h6 class="card-text justify-content-around d-flex gap-2"><Image src={fuel} alt="" />Petrol </h6>
-                </div>
-                <h5 className="card-title pb-2">Rs 400,000.00</h5>
-                <div className="  d-flex align-items-center justify-content-center "  >
-                  <button className='see-more-button d-flex align-items-center justify-content-center w-100' >
-                    See More
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='vehicle-card justify-content-center align-item-center d-flex col-lg-3 col-md-6 col-sm-12 pt-3 gap-3'>
-            <div className="card car" >
-              <Image src={vehicle1} class="d-block w-100" alt="..." />
-              <div className="card-body">
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={car} alt="" /> Pre Owned</h5>
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={calender} alt="" />2000</h5>
-                </div>
-
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h6 class="card-text justify-content-around d-flex gap-3"><Image src={settings} alt="" />Automic </h6>
-                  <h6 class="card-text justify-content-around d-flex gap-2"><Image src={fuel} alt="" />Petrol </h6>
-                </div>
-                <h5 className="card-title pb-2">Rs 400,000.00</h5>
-                <div className="  d-flex align-items-center justify-content-center "  >
-                  <button className='see-more-button d-flex align-items-center justify-content-center w-100' >
-                    See More
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='vehicle-card justify-content-center align-item-center d-flex col-lg-3 col-md-6 col-sm-12 pt-3 gap-3'>
-            <div className="card car" >
-              <Image src={vehicle1} class="d-block w-100" alt="..." />
-              <div className="card-body">
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={car} alt="" /> Pre Owned</h5>
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={calender} alt="" />2000</h5>
-                </div>
-
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h6 class="card-text justify-content-around d-flex gap-3"><Image src={settings} alt="" />Automic </h6>
-                  <h6 class="card-text justify-content-around d-flex gap-2"><Image src={fuel} alt="" />Petrol </h6>
-                </div>
-                <h5 className="card-title pb-2">Rs 400,000.00</h5>
-                <div className="  d-flex align-items-center justify-content-center "  >
-                  <button className='see-more-button d-flex align-items-center justify-content-center w-100' >
-                    See More
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className='vehicle-card justify-content-center align-item-center d-flex col-lg-3 col-md-6 col-sm-12 pt-3 gap-3'>
-            <div className="card car" >
-              <Image src={vehicle1} class="d-block w-100" alt="..." />
-              <div className="card-body">
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={car} alt="" /> Pre Owned</h5>
-                  <h5 className="card-title justify-content-around d-flex gap-2"><Image src={calender} alt="" />2000</h5>
-                </div>
-
-                <div className="d-flex  align-items-center justify-content-between ">
-                  <h6 class="card-text justify-content-around d-flex gap-3"><Image src={settings} alt="" />Automic </h6>
-                  <h6 class="card-text justify-content-around d-flex gap-2"><Image src={fuel} alt="" />Petrol </h6>
-                </div>
-                <h5 className="card-title pb-2">Rs 400,000.00</h5>
-                <div className="  d-flex align-items-center justify-content-center "  >
-                  <button className='see-more-button d-flex align-items-center justify-content-center w-100' >
-                    See More
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div> */}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-      {/* 
-<div className='container-fluid d-flex min-vh-100'>
-  <div className='col-6 vehicle-details justify-content-center align-items-center d-flex ' style={{marginTop:'50px'}}>
-<Image src={vehicle1} alt=''/>
-  </div>
-  <div className='col-6 ' style={{backgroundColor:"red" }} >
-    <div className=''>
-      <h3 style={{backgroundColor:"yellow" }}>fscs</h3>
-      <h3>fsvs</h3>
-    </div>
-  </div>
-</div> */}
-
-
-
-      <div className='container-fluid min-vh-100 d-flex ' style={{ marginTop: '200px',  }} >
-        
-          <div className='col-6  align-items-center justify-content-center ' >
-            <Image src={vehicle1} className="d-block w-100" alt="..." />
-          </div>
-          <div className='col-6  ' >
-            <div className='vehicle-details  justify-content-around  d-flex  '>
-              <div className=' justify-content-center  ' >MARUTI BALENO</div>
-              <div className='justify-content-center  '>Rs 400,000.00</div>
-            </div>
-            <div className='row justify-content-center align-items-center pt-2' >
-              <div className='col-4 justify-content-center d-flex align-items-center'>acs</div>
-              <div className='col-4 justify-content-center d-flex align-items-center'>acs</div>
-              <div className='col-4 justify-content-center d-flex align-items-center'>acs</div>
-            </div>
-            
-            {/* <div className='row justify-content-center d-flex align-items-center ' >
-            <button className='see-more-button d-flex align-items-center justify-content-center w-100' >
-                    See More
-                  </button>
-            </div> */}
-            </div>
-       
       </div>
+      <div className="container-fluid min-vh-100">
+        <div className="row ps-5 pe-5 mb-5" style={{ paddingTop: "120px" }}>
+          <div className="Filter-Search-Container mb-4">
+            <h1 className="row ps-2 mb-3">Filter and Search</h1>
+            <div className="row pb-2">
+              <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+                <div className="search-input-container">
+                  <select
+                    className="SearchBox"
+                    value={selectedType}
+                    onChange={HandleSelectType}
+                  >
+                    <option value="">Select the Catgegory</option>
+                    {Vehicletype.map((data, index) => (
+                      <option key={index} value={data}>
+                        {data}
+                      </option>
+                    ))}
+                  </select>
 
+                  {selectedType && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "1%",
+                      }}
+                      onClick={() => setSelectedType("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+                <div className="search-input-container">
+                  <form>
+                    <input
+                      className="SearchBox"
+                      type="text"
+                      placeholder="Filter By Model Name"
+                      value={searchModel}
+                      onChange={HandleSearchModel}
+                    />
+                    <div className="search-icon">
+                      <SearchIcon />
+                    </div>
+                    {searchModel && (
+                      <div
+                        className="search-icon"
+                        style={{
+                          zIndex: "100",
+                          backgroundColor: "white",
+                          right: "2%",
+                        }}
+                        onClick={() => setSearchModel("")}
+                      >
+                        <ClearIcon />
+                      </div>
+                    )}
+                  </form>
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+                <div className="search-input-container">
+                  <select
+                    className="SearchBox"
+                    value={selectedBrand}
+                    onChange={HandleSelectBrand}
+                  >
+                    <option value="">Select the Brand</option>
+                    {Brand.map((data, index) => (
+                      <option key={index} value={data}>
+                        {data}
+                      </option>
+                    ))}
+                  </select>
 
+                  {selectedBrand && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "1%",
+                      }}
+                      onClick={() => setSelectedBrand("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            <div className="row pb-2">
+              <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+                <div className="search-input-container">
+                  <select
+                    className="SearchBox"
+                    value={selectedColor}
+                    onChange={HandleSelectColor}
+                  >
+                    <option value="">Select the Color</option>
+                    {VehicleColors.map((data, index) => (
+                      <option key={index} value={data}>
+                        {data}
+                      </option>
+                    ))}
+                  </select>
 
+                  {selectedColor && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "1%",
+                      }}
+                      onClick={() => setSelectedColor("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+                <div className="search-input-container">
+                  <select
+                    className="SearchBox"
+                    value={selectedFuel}
+                    onChange={HandleSelectFuel}
+                  >
+                    <option value="">Select the FuelType</option>
+                    {FuelType.map((data, index) => (
+                      <option key={index} value={data}>
+                        {data}
+                      </option>
+                    ))}
+                  </select>
 
+                  {selectedFuel && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "1%",
+                      }}
+                      onClick={() => setSelectedFuel("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
+                <div className="search-input-container">
+                  <select
+                    className="SearchBox"
+                    value={selectedPrice}
+                    onChange={HandleSelectPrice}
+                  >
+                    <option value="">Price Range</option>
+                    <option value="50000-100000">Rs. 50,000 - 1L</option>
+                    <option value="100000-500000">Rs. 1L - 5L</option>
+                    <option value="500000-1000000">Rs. 5L - 10L</option>
+                    <option value="1000000-5000000">Rs. 10L - 50L</option>
+                    <option value="5000000-10000000">Rs. 50L - 1C</option>
+                    <option value="over10000000">Over Rs. 1C</option>
+                  </select>
 
+                  {selectedPrice && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "1%",
+                      }}
+                      onClick={() => setSelectedPrice("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
 
+        <div className="row ps-5 pe-5 mb-5">
+          {filteredVehiclesList.length > 0 ? (
+            filteredVehiclesList.map((vehicle, index) => {
+              const vehicleshortDetails = [
+                {
+                  icon: vehicleCardicon1,
+                  name:
+                    vehicle.ownership && vehicle.ownership === 1
+                      ? "Brand-New"
+                      : "Pre-Owned",
+                },
+                { icon: vehicleCardicon2, name: vehicle.yom },
+                { icon: vehicleCardicon3, name: vehicle.fuel },
+                { icon: vehicleCardicon4, name: vehicle.color },
+                { icon: vehicleCardicon5, name: `${vehicle.power} CC` },
+              ];
+              return (
+                <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
+                  <div className="Vehicle-display-card p-1">
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "250px",
+                      }}
+                    >
+                      <Image
+                        src={vehicle.image[0]}
+                        alt={`Vehicle ${index}`}
+                        layout="fill"
+                        objectFit="cover"
+                        priority
+                      />
+                    </div>
+                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                      <h1>{vehicle.name}</h1>
+                      <h4>{`Rs ${vehicle.price}`}</h4>
+                    </div>
+                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                      {vehicleshortDetails.map((content, index) => (
+                        <div
+                          className="d-flex flex-column align-items-center justify-content-center"
+                          key={index}
+                        >
+                          <div className="Vehicle-card-display-icon p-3">
+                            <Image src={content.icon} />
+                          </div>
+                          <h6 className="pt-1">{content.name}</h6>
+                        </div>
+                      ))}
+                    </div>
+                    <hr />
+                    <div className="row mb-2 ps-3 pe-3">
+                      <div className="col-9">
+                        <CommonButton text={"More Details"} width={"100%"} />
+                      </div>
+                      <div className="col-3">
+                        <button className="btn btn-secondary">Contact</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div>
+              <h1>No results found</h1>
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
-
-
-
-
-
-    </>
-  )
-}
-
-export default index
+export default index;

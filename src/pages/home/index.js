@@ -30,8 +30,9 @@ import chatmaessage from "../../assets/images/Chat Message.png";
 
 import "../../styles/aboutUs.css";
 import { aboutuscontent, aboutuscontent2 } from "@/src/data/content";
+import { useRouter } from "next/navigation";
 const index = () => {
-  
+  const router=useRouter();
   return (
     <>
       <Navbar />
@@ -45,7 +46,7 @@ const index = () => {
               <div className="mt-5 d-flex flex-column gap-2">
                 <h4>Driving dreams, one click away</h4>
                 <div className="d-flex justify-content-center">
-                  <CommonButton text={"Explore"} image={explore} width={180} />
+                  <CommonButton text={"Explore"} image={explore} width={180} onClick={()=>{router.push('/vehicle')}}/>
                 </div>
               </div>
               <div className="mt-5">
