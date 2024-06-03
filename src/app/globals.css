@@ -62,3 +62,13 @@ tbody {
 input:disabled {
     background-color: #1f1f1f17 !important;
 }
+
+.Page-Not-Found h2{
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+.Page-Not-Found p{
+    color: var(--primary-color);
+    font-weight: 600;
+}
