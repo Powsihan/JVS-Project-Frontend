@@ -11,7 +11,7 @@ import "../../styles/admin.css";
 
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import { Brand, Districts, VehicleColors, Vehicletype } from "@/src/data/datas";
+import { Brand, Districts, FuelType, VehicleColors, Vehicletype } from "@/src/data/datas";
 import Image from "next/image";
 
 import vehicledisplayimage from "../../assets/images/vehicle-display-Image.png";
@@ -21,9 +21,11 @@ import vehicleCardicon3 from "../../assets/icons/Vehicle-Card-icon-3.svg";
 import vehicleCardicon4 from "../../assets/icons/Vehicle-Card-icon-4.svg";
 import vehicleCardicon5 from "../../assets/icons/Vehicle-Card-icon-5.svg";
 import CommonButton from "@/src/components/CommonButton";
+import { getVehicleDetails } from "@/src/redux/action/vehicle";
 
 const index = () => {
   const [contentimage, setContentImages] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(setLoading(true));
@@ -42,19 +44,29 @@ const index = () => {
   }, []);
 
   const vehicleshortDetails = [
-    { icon: vehicleCardicon1, name: "Pre-owned" },
-    { icon: vehicleCardicon2, name: "2019" },
-    { icon: vehicleCardicon3, name: "Petrol" },
-    { icon: vehicleCardicon4, name: "White" },
-    { icon: vehicleCardicon5, name: "250 CC" },
+    { icon: vehicleCardicon1, name: vehicleData.ownership },
+    { icon: vehicleCardicon2, name: vehicleData.yom },
+    { icon: vehicleCardicon3, name: vehicleData.fuel },
+    { icon: vehicleCardicon4, name: vehicleData.color },
+    { icon: vehicleCardicon5, name: vehicleData.power },
   ];
 
-  const sampleVehicleData = Array.from({ length: 10 }, (_, index) => ({
-    name: `Vehicle Name ${index + 1}`,
-    price: `Rs.${(index + 1) * 250000}`,
-    image: vehicledisplayimage,
-    details: vehicleshortDetails,
-  }));
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getVehicleDetails((res) => {
+      if (res && res.data) {
+        setVehicleData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
+    });
+  }, []);
+
+  console.log(vehicleData, "imageeeeeeeeeeeeeee");
+
   return (
     <div>
       <Navbar />
@@ -219,8 +231,8 @@ const index = () => {
                     // value={selectedCity}
                     // onChange={HandleSelectCity}
                   >
-                    <option value="">Select the District</option>
-                    {Districts.map((data, index) => (
+                    <option value="">Select the FuelType</option>
+                    {FuelType.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -278,54 +290,62 @@ const index = () => {
         </div>
 
         <div className="row ps-5 pe-5 mb-5">
-          {sampleVehicleData.map((vehicle, index) => (
-            <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
-              <div className="Vehicle-display-card p-1">
-                <div
-                  style={{
-                    position: "relative",
-                    width: "100%",
-                    height: "250px",
-                  }}
-                >
-                  <Image
-                    src={vehicle.image}
+          {vehicleData.map((vehicle, index) => {
+            const vehicleshortDetails = [
+              { icon: vehicleCardicon1, name: vehicle.ownership && vehicle.ownership===1 ? "Brand-New":"Pre-Owned" },
+              { icon: vehicleCardicon2, name: vehicle.yom },
+              { icon: vehicleCardicon3, name: vehicle.fuel },
+              { icon: vehicleCardicon4, name: vehicle.color },
+              { icon: vehicleCardicon5, name: `${vehicle.power} CC` },
+            ];
+            return (
+              <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
+                <div className="Vehicle-display-card p-1">
+                  <div
                     style={{
+                      position: "relative",
                       width: "100%",
-                      height: "100%",
-                      objectFit: "fill",
+                      height: "250px",
                     }}
-                  />
-                </div>
-                <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                  <h1>{vehicle.name}</h1>
-                  <h4>{vehicle.price}</h4>
-                </div>
-                <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                  {vehicle.details.map((content, index) => (
-                    <div
-                      className="d-flex flex-column align-items-center justify-content-center"
-                      key={index}
-                    >
-                      <div className="Vehicle-card-display-icon p-3">
-                        <Image src={content.icon} />
-                      </div>
-                      <h6 className="pt-1">{content.name}</h6>
-                    </div>
-                  ))}
-                </div>
-                <hr />
-                <div className="row mb-2">
-                  <div className="col-9">
-                    <CommonButton text={"More Details"} width={"100%"} />
+                  >
+                    <Image
+                      src={vehicle.image[0]}
+                      alt={`Vehicle ${index}`}
+                      layout="fill"
+                      objectFit="cover"
+                      priority
+                    />
                   </div>
-                  <div className="col-3">
-                    <button className="btn btn-secondary">Contact</button>
+                  <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                    <h1>{vehicle.name}</h1>
+                    <h4>{vehicle.price}</h4>
+                  </div>
+                  <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                    {vehicleshortDetails.map((content, index) => (
+                      <div
+                        className="d-flex flex-column align-items-center justify-content-center"
+                        key={index}
+                      >
+                        <div className="Vehicle-card-display-icon p-3">
+                          <Image src={content.icon} />
+                        </div>
+                        <h6 className="pt-1">{content.name}</h6>
+                      </div>
+                    ))}
+                  </div>
+                  <hr />
+                  <div className="row mb-2 ps-3 pe-3">
+                    <div className="col-9">
+                      <CommonButton text={"More Details"} width={"100%"} />
+                    </div>
+                    <div className="col-3">
+                      <button className="btn btn-secondary">Contact</button>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
