@@ -26,8 +26,10 @@ import vehicleCardicon4 from "../../assets/icons/Vehicle-Card-icon-4.svg";
 import vehicleCardicon5 from "../../assets/icons/Vehicle-Card-icon-5.svg";
 import CommonButton from "@/src/components/CommonButton";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
+import { useRouter } from "next/navigation";
 
 const index = () => {
+  const router = useRouter();
   const [contentimage, setContentImages] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const [searchModel, setSearchModel] = useState("");
@@ -402,7 +404,13 @@ const index = () => {
                     <hr />
                     <div className="row mb-2 ps-3 pe-3">
                       <div className="col-9">
-                        <CommonButton text={"More Details"} width={"100%"} />
+                        <CommonButton
+                          text={"More Details"}
+                          width={"100%"}
+                          onClick={() => {
+                            router.push(`/vehicle/${vehicle._id}`);
+                          }}
+                        />
                       </div>
                       <div className="col-3">
                         <button className="btn btn-secondary">Contact</button>
