@@ -5,14 +5,16 @@ import "../../styles/component.css"
 
 
 const ConfirmationModal = ({ show, onConfirm, onCancel,message,heading,variant}) => {
+  const headingStyle = {
+    color: variant === "success" ? "green" : "",
+  };
   return (
     <Modal show={show} onHide={onCancel} size="lg" centered backdrop="static">
       <Modal.Header>
-        <Modal.Title className="Confirm-Modaal-Header">{heading}</Modal.Title>
+        <Modal.Title className="Confirm-Modaal-Header" style={headingStyle}>{heading}</Modal.Title>
       </Modal.Header>
       <Modal.Body style={{ background: "white" }}>
         <p className="Confirm-Modaal-body">{message}</p>
-
       </Modal.Body>
       <Modal.Footer>
       <Button variant={variant}  onClick={onConfirm} style={{width:200}}>

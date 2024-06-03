@@ -19,14 +19,28 @@ import upicon from "../../../assets/icons/upicon.svg";
 
 import Image from "next/image";
 import CommonButton from "@/src/components/CommonButton";
+import SignInModal from "@/src/components/modals/SignInModal";
+import Cookies from "js-cookie";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();
+  const [customerData, setCustomerData] = useState(null);
   const router = useRouter();
   const { id } = router.query;
   const [vehicleData, setVehicleData] = useState(null);
   const [showAllDetails, setShowAllDetails] = useState(false);
   const [activeSection, setActiveSection] = useState("details");
+  const [showLoginView, setShowLoginView] = useState(false);
+  const [sendConfirmationModal, setSendConfirmationModal] = useState(false);
+
+  useEffect(() => {
+    const storedCustomerData = Cookies.get("customer");
+    if (storedCustomerData) {
+      const parsedCustomerData = JSON.parse(storedCustomerData);
+      setCustomerData(parsedCustomerData);
+    }
+  }, []);
 
   useEffect(() => {
     if (id) {
@@ -86,6 +100,18 @@ const VehicleDetail = () => {
     setActiveSection(section);
   };
 
+  const LoginViewModal = () => {
+    setShowLoginView(true);
+  };
+
+  const openSendConfirmationModal = () => {
+    setSendConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setSendConfirmationModal(false);
+  };
+
   return (
     <div>
       <Navbar />
@@ -143,8 +169,16 @@ const VehicleDetail = () => {
               </div>
               <hr />
               <div className="d-flex flex-row justify-content-around align-items-center mt-3">
-                <CommonButton text={"Purchase"} width={250} />
-                <CommonButton text={"Make an Inquiry"} width={300} />
+                <CommonButton
+                  text={"Purchase"}
+                  width={250}
+                  onClick={customerData ? openSendConfirmationModal : LoginViewModal}
+                />
+                <CommonButton
+                  text={"Make an Inquiry"}
+                  width={300}
+                  onClick={customerData ? openSendConfirmationModal : LoginViewModal}
+                />
               </div>
               <hr />
               <div className="row details-feature-section">
@@ -165,7 +199,7 @@ const VehicleDetail = () => {
                   Features
                 </div>
               </div>
-              <hr/>
+              <hr />
               {activeSection === "details" ? (
                 <div className="container-fluid ps-5 pe-5 pt-3">
                   {(showAllDetails
@@ -206,6 +240,16 @@ const VehicleDetail = () => {
           </div>
         </div>
       )}
+      <SignInModal
+        show={showLoginView}
+        onHide={() => setShowLoginView(false)}
+      />
+      <ConfirmationModal
+      show={sendConfirmationModal}
+      message="Are you sure you want to Purchase this Vehicle?"
+      heading="Confirmation To Purchase!"
+      variant="success"
+      onCancel={closeDeleteConfirmationModal}/>
     </div>
   );
 };

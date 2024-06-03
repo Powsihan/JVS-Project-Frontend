@@ -60,7 +60,8 @@ const index = () => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
-        setVehicleData(res.data);
+        const filteredVehicleData = res.data.filter(vehicle => vehicle.status !== "Requested");
+        setVehicleData(filteredVehicleData);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -366,9 +367,23 @@ const index = () => {
                 { icon: vehicleCardicon4, name: vehicle.color },
                 { icon: vehicleCardicon5, name: `${vehicle.power} CC` },
               ];
+
+              const statusStyle = {
+                backgroundColor: vehicle.status === "Available" 
+                  ? "#17B530" 
+                  : vehicle.status === "Pending" 
+                  ? "#FFBE18" 
+                  : "#F73B3B"
+              };
+              
               return (
                 <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
                   <div className="Vehicle-display-card p-1">
+                  <div className="d-flex justify-content-end">
+                    <div className="d-flex justify-content-center align-items-center vehicle-status-indicator" style={statusStyle}>
+                    {vehicle.status}
+                    </div>
+                    </div>
                     <div
                       style={{
                         position: "relative",
