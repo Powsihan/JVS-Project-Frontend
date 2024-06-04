@@ -33,3 +33,19 @@ export const getAuctionDetails = (callback) => {
     callback(error.response);
   }
 };
+
+export const deleteAuction = (auctionId, callback) => {
+  const endpoint = `${process.env.api_base_url}/auction/${auctionId}`;
+  try {
+    http
+      .delete(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

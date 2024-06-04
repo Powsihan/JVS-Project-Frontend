@@ -9,24 +9,27 @@ import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import { useDispatch } from "react-redux";
 import AddAuction from "@/src/components/sections/AddAuction";
-import { getAuctionDetails } from "@/src/redux/action/auction";
+import { deleteAuction, getAuctionDetails } from "@/src/redux/action/auction";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import { AuctionStatus } from "@/src/data/datas";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { toast } from "react-toastify";
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
   const [auctionData, setAuctionData] = useState([]);
   const [vehicleData, setVehicleData] = useState({});
-
+  const [selectedAuctiondata, setSelectedAuctiondata] = useState(null);
   const [searchRegNo, setSearchRegNo] = useState("");
   const [searchRef, setsearchRef] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
   const [searchStartDate, setSearchStartDate] = useState(null);
   const [searchEndDate, setSearchEndDate] = useState(null);
   const [filteredAuctionList, setFilteredAuctionList] = useState([]);
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [auctionPerPage, setauctionPerPage] = useState(10);
@@ -132,6 +135,28 @@ const index = () => {
     searchEndDate,
     vehicleData,
   ]);
+
+
+  const openDeleteConfirmationModal = (auctionID) => {
+    setSelectedAuctiondata(auctionID);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const deleteAuctionData = (auctionID) => {
+    deleteAuction(auctionID, (res) => {
+      if (res.status === 200) {
+        toast.success(res.data.message);
+        fetchAuctionDetails();
+        closeDeleteConfirmationModal();
+      } else {
+        toast.error(res.data.message);
+      }
+    });
+  };
 
   return (
     <Adminlayout>
@@ -402,6 +427,15 @@ const index = () => {
           </div>
         </div>
       )}
+
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete this Details?"
+        heading="Confirmation Delete !"
+        variant="danger"
+        onConfirm={() => deleteAuctionData(selectedAuctiondata)}
+        onCancel={closeDeleteConfirmationModal}
+      />
     </Adminlayout>
   );
 };

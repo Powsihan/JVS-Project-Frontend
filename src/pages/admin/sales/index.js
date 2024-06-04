@@ -37,7 +37,8 @@ const index = () => {
   const [selectedStatus, setSelectedStatus] = useState("");
   const [searchDate, setSearchDate] = useState(null);
   const [filteredSalesList, setFilteredSalesList] = useState([]);
-
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
+  
   const [currentPage, setCurrentPage] = useState(1);
   const [salesPerPage, setcustomerPerPage] = useState(10);
   const indexOfLastSales = currentPage * salesPerPage;
@@ -66,7 +67,7 @@ const index = () => {
     setShowAddSection(!showAddSection);
   };
 
-  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
+  
 
   const openDeleteConfirmationModal = (salesID) => {
     setSelectedSalesdata(salesID);
