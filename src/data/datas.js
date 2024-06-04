@@ -119,6 +119,8 @@ const Features = [
 
 const SalesStatus = ["Sale", "Buy"];
 
+const EmployeeRole = ["Expert", "Mechanic", "Accountant", "Other"];
+
 export {
   Districts,
   Brand,
@@ -133,4 +135,5 @@ export {
   GearCount,
   Features,
   SalesStatus,
+  EmployeeRole,
 };

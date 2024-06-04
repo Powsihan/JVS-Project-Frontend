@@ -21,7 +21,7 @@ export const userLogin = (data, callback) => {
   }
 };
 
-export const getUserDetails = (data, callback) => {
+export const getUserDetails = (callback) => {
   const endpoint = `${process.env.api_base_url}/users/`;
   try {
     http
