@@ -26,7 +26,7 @@ const Sidebar = () => {
   const routes = [
     { name: "Dashboard", image: dashboard, path: "admin/dashboard" },
     { name: "Vehicle", image: Vehicle, path: "admin/vehicle" },
-    { name: "User", image: User, path: "admin/user" },
+    { name: "Customers", image: User, path: "admin/customer" },
     { name: "Sales & Buy", image: Sales, path: "admin/sales" },
     { name: "Employee", image: Employee, path: "admin/employee" },
     {
