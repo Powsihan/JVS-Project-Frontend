@@ -14,6 +14,7 @@ import { registerEmployee } from "@/src/redux/action/employee";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const AddEmployee = (props) => {
   const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const AddEmployee = (props) => {
     e.preventDefault();
     dispatch(setLoading(true));
 
-    const uploadedImageUrl = await handleUpload(file);
+    const uploadedImageUrl = await dispatch(uploadImage(file));
 
     const updatedEmployeeData = {
       ...employeeData,
@@ -61,37 +62,37 @@ const AddEmployee = (props) => {
     });
   };
 
-  const handleUpload = async (file) => {
-    if (!file) return false;
+  // const handleUpload = async (file) => {
+  //   if (!file) return false;
 
-    try {
-      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "JV-Project");
+  //   try {
+  //     const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
+  //     const formData = new FormData();
+  //     formData.append("file", file);
+  //     formData.append("upload_preset", "JV-Project");
 
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
+  //     const response = await fetch(
+  //       `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
+  //       {
+  //         method: "POST",
+  //         body: formData,
+  //       }
+  //     );
 
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful. Public ID:", data.public_id);
-        console.log(data);
-        return data.secure_url;
-      } else {
-        console.error("Upload failed.");
-        return false;
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      return false;
-    }
-  };
+  //     if (response.ok) {
+  //       const data = await response.json();
+  //       console.log("Upload successful. Public ID:", data.public_id);
+  //       console.log(data);
+  //       return data.secure_url;
+  //     } else {
+  //       console.error("Upload failed.");
+  //       return false;
+  //     }
+  //   } catch (error) {
+  //     console.error("Upload error:", error);
+  //     return false;
+  //   }
+  // };
 
   return (
     <div className="container-fluid Add-Vehicle-Section">
