@@ -45,7 +45,7 @@ const AddEmployee = (props) => {
 
     const updatedEmployeeData = {
       ...employeeData,
-      image: uploadedImageUrl,
+      profilePic: uploadedImageUrl,
     };
 
     registerEmployee(updatedEmployeeData, (res) => {

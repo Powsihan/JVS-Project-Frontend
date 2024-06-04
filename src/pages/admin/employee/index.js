@@ -8,13 +8,15 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
-import { getEmployeeDetails } from "@/src/redux/action/employee";
+import { deleteEmployee, getEmployeeDetails } from "@/src/redux/action/employee";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import AddEmployee from "@/src/components/sections/AddEmployee";
 import { toast } from "react-toastify";
 import { customerData } from "@/src/redux/reducer/customerSlice";
 import { EmployeeRole } from "@/src/data/datas";
+import EmployeeView from "@/src/components/modals/EmployeeView";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 const index = () => {
   const dispatch = useDispatch();
   const [employeeData, setEmployeedata] = useState([]);
@@ -24,7 +26,9 @@ const index = () => {
   const [searchEmail, setSearchEmail] = useState("");
   const [selectedRole, setSelectedRole] = useState("");
   const [filteredEmployeeList, setFilteredEmployeeList] = useState([]);
-
+  const [selectedEmployeedata, setSelectedEmployeedata] = useState(null);
+  const [showViewModal, setShowViewModal] = useState(false);
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [employeePerPage, setemployeePerPage] = useState(10);
   const indexOfLastEmployee = currentPage * employeePerPage;
@@ -59,7 +63,7 @@ const index = () => {
         (selectedRole === "" || employees.role === selectedRole)
     );
     setFilteredEmployeeList(filteredData);
-  }, [searchName, searchEmail,searchPhoneNo, selectedRole, employeeData]);
+  }, [searchName, searchEmail, searchPhoneNo, selectedRole, employeeData]);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -77,6 +81,80 @@ const index = () => {
   const handleOpenAddSection = () => {
     setShowAddSection(!showAddSection);
   };
+
+  const OpenCustomerViewModal = (employee) => {
+    setSelectedEmployeedata(employee);
+    setShowViewModal(true);
+  };
+
+
+  const openDeleteConfirmationModal = (employeeID) => {
+    setSelectedEmployeedata(employeeID);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const deleteEmployeeData = (employeeID) => {
+    dispatch(setLoading(true));
+    deleteEmployee(employeeID, (res) => {
+      if (res.status == 200) {
+        dispatch(setLoading(false));
+        toast.success(res.data.message);
+        setEmployeedata(
+          employeeData.filter((employee) => employee._id !== employeeID)
+        );
+        closeDeleteConfirmationModal();
+      } else {
+        toast.error(res.data.message);
+      }
+    });
+  };
+
+  const handleSearchByEmail = (event) => {
+    event.preventDefault();
+    const searchedRef = employeeData.find(
+      (employee) => employee.email === searchEmail
+    );
+    if (searchedRef) {
+      setSelectedEmployeedata(searchedRef);
+      setShowViewModal(true);
+      setSearchEmail("");
+    } else {
+      toast.error("Invalid Email");
+    }
+  };
+
+  const handleSearchByName = (event) => {
+    event.preventDefault();
+    const searchedRef = employeeData.find(
+      (employee) => employee.name === searchName
+    );
+    if (searchedRef) {
+      setSelectedEmployeedata(searchedRef);
+      setShowViewModal(true);
+      setSearchEmail("");
+    } else {
+      toast.error("Invalid Name");
+    }
+  };
+
+  const handleSearchByPhoneNo = (event) => {
+    event.preventDefault();
+    const searchedRef = employeeData.find(
+      (employee) => employee.phoneNumber === searchPhoneNo
+    );
+    if (searchedRef) {
+      setSelectedEmployeedata(searchedRef);
+      setShowViewModal(true);
+      setSearchEmail("");
+    } else {
+      toast.error("Invalid PhoneNo");
+    }
+  };
+
   return (
     <div>
       <Adminlayout>
@@ -96,7 +174,7 @@ const index = () => {
               <div className="row pb-2">
                 <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                   <div className="search-input-container">
-                    <form>
+                    <form onSubmit={handleSearchByName}>
                       <input
                         className="SearchBox"
                         type="text"
@@ -125,7 +203,7 @@ const index = () => {
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                   <div className="search-input-container">
-                    <form>
+                    <form onSubmit={handleSearchByEmail}>
                       <input
                         className="SearchBox"
                         type="text"
@@ -154,7 +232,7 @@ const index = () => {
                 </div>
                 <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                   <div className="search-input-container">
-                    <form>
+                    <form onSubmit={handleSearchByPhoneNo}>
                       <input
                         className="SearchBox"
                         type="text"
@@ -302,6 +380,19 @@ const index = () => {
             </div>
           </div>
         )}
+        <EmployeeView
+          show={showViewModal}
+          onHide={() => setShowViewModal(false)}
+          employeeDetails={selectedEmployeedata}
+        />
+        <ConfirmationModal
+          show={deleteConfirmationModal}
+          message="Are you sure you want to delete this Employee?"
+          heading="Confirmation Delete !"
+          variant="danger"
+          onConfirm={() => deleteEmployeeData(selectedEmployeedata)}
+          onCancel={closeDeleteConfirmationModal}
+        />
       </Adminlayout>
     </div>
   );
