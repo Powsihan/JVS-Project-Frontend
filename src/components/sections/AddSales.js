@@ -18,7 +18,7 @@ const AddSales = (props) => {
   const [customerdata, setCustomerdata] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const [filteredEmails, setFilteredEmails] = useState([]);
-  const [filteredRegsiterNo, setFilteredRegsiterNo] = useState([]);
+  const [filteredRegisterNo, setFilteredRegisterNo] = useState([]);
   const [salesData, setSalesData] = useState({
     registerno: "",
     email: "",
@@ -27,6 +27,7 @@ const AddSales = (props) => {
     documents: "",
     description: "",
   });
+
   const handleChange = (field, value) => {
     setSalesData((prevData) => ({
       ...prevData,
@@ -36,7 +37,7 @@ const AddSales = (props) => {
       handleEmailChange(value);
     }
     if (field === "registerno") {
-      handleRegsiterNoChange(value);
+      handleRegisterNoChange(value);
     }
   };
 
@@ -89,13 +90,13 @@ const AddSales = (props) => {
     setFilteredEmails(filtered);
   };
 
- const handleRegsiterNoChange = (value) => {
+ const handleRegisterNoChange = (value) => {
     const filteredno = vehicleData.filter(
       (vehicle) =>
         vehicle.registerno.toLowerCase().includes(value.toLowerCase()) &&
         vehicle.status !== "Sold"
     );
-    setFilteredRegsiterNo(filteredno);
+    setFilteredRegisterNo(filteredno);
   };
 
   const handleSelectEmail = (email) => {
@@ -106,12 +107,12 @@ const AddSales = (props) => {
     setFilteredEmails([]);
   };
 
-  const handleSelectRegsiterNo = (registerno) => {
+  const handleSelectRegisterNo = (registerno) => {
     setSalesData((prevData) => ({
       ...prevData,
       registerno,
     }));
-    setFilteredRegsiterNo([]);
+    setFilteredRegisterNo([]);
   };
 
   return (
@@ -131,16 +132,16 @@ const AddSales = (props) => {
                 onChange={(value) => handleChange("registerno", value)}
               />
             </div>
-            {filteredRegsiterNo.length > 0 && (
+            {filteredRegisterNo.length > 0 && (
               <div
                 className="dropdown-menu show suggestion-menu"
                 style={{ width: "100%" }}
               >
-                {filteredRegsiterNo.map((vehicle, index) => (
+                {filteredRegisterNo.map((vehicle, index) => (
                   <div
                     key={index}
                     className="dropdown-item suggestion-items"
-                    onClick={() => handleSelectRegsiterNo(vehicle.registerno)}
+                    onClick={() => handleSelectRegisterNo(vehicle.registerno)}
                   >
                     {vehicle.registerno}
                   </div>

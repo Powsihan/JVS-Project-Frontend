@@ -121,6 +121,8 @@ const SalesStatus = ["Sale", "Buy"];
 
 const EmployeeRole = ["Expert", "Mechanic", "Accountant", "Other"];
 
+const AuctionStatus = ["Available", "Sold", "Pending"];
+
 export {
   Districts,
   Brand,
@@ -136,4 +138,5 @@ export {
   Features,
   SalesStatus,
   EmployeeRole,
+  AuctionStatus,
 };

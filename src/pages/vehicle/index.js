@@ -143,7 +143,7 @@ const index = () => {
                 style={{
                   position: "relative",
                   width: "100%",
-                  height: "100%",
+                  height: "520px",
                 }}
               >
                 <img
