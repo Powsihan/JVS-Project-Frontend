@@ -5,19 +5,15 @@ import Image from "next/image";
 import React, { useState, useEffect } from "react";
 import "../../styles/home.css";
 import Footer from "@/src/layouts/Footer";
-
 import { IconButton } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
-
 import explore from "../../assets/icons/explore.svg";
-
 import facebook from "../../assets/icons/facebook.png";
 import call from "../../assets/icons/call.png";
 import mail from "../../assets/icons/mail.png";
 import Chatbot from "../../assets/icons/Chatbot.png";
 import Expert from "../../assets/icons/expert.png";
 import aboutUs from "../../assets/images/aboutUs.png";
-
 import vector from "../../assets/icons/Vector.svg";
 import Ratingitem from "../../assets/icons/RatingItem.svg";
 import Ratinghalf from "../../assets/icons/Ratinghalf.svg";
@@ -25,12 +21,11 @@ import useraccount from "../../assets/images/User Account.png";
 import experience from "../../assets/images/experience.png";
 import vehicle from "../../assets/images/vehicle1.png";
 import branch from "../../assets/images/Company.png";
-
 import chatmaessage from "../../assets/images/Chat Message.png";
-
 import "../../styles/aboutUs.css";
 import { aboutuscontent, aboutuscontent2 } from "@/src/data/content";
 import { useRouter } from "next/navigation";
+
 const index = () => {
   const router=useRouter();
   return (

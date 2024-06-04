@@ -1,20 +1,18 @@
 import Adminlayout from "@/src/layouts/Adminlayout";
 import React, { useEffect, useState } from "react";
-
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-
 import "../../../styles/admin.css";
 import { deleteVehicle, getVehicleDetails } from "@/src/redux/action/vehicle";
 import { Status } from "@/src/data/datas";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
 import AddVehicle from "@/src/components/sections/AddVehicle";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import VehicleView from "@/src/components/modals/VehicleView";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { useDispatch } from "react-redux";

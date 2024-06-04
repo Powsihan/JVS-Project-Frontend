@@ -22,13 +22,13 @@ import {
   Vehicletype,
 } from "@/src/data/datas";
 import { FileUploader } from "react-drag-drop-files";
-import { Cloudinary } from "cloudinary-core";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { addVehicle } from "@/src/redux/action/vehicle";
 import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import SignInModal from "@/src/components/modals/SignInModal";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -119,37 +119,7 @@ const index = () => {
     }
   };
 
-  const handleUpload = async (file) => {
-    if (!file) return false;
-
-    try {
-      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "JV-Project");
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful. Public ID:", data.public_id);
-        console.log(data);
-        return data.secure_url;
-      } else {
-        console.error("Upload failed.");
-        return false;
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      return false;
-    }
-  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -157,14 +127,14 @@ const index = () => {
     const imageUrls = [];
 
     if (mainImageFile) {
-      const uploadedImageUrl = await handleUpload(mainImageFile);
+      const uploadedImageUrl = await dispatch(uploadImage(mainImageFile));
       if (uploadedImageUrl) {
         imageUrls.push(uploadedImageUrl);
       }
     }
     if (outsideViewFiles.length > 0) {
       for (const file of outsideViewFiles) {
-        const uploadedImageUrl = await handleUpload(file);
+        const uploadedImageUrl = await dispatch(uploadImage(file));
         if (uploadedImageUrl) {
           imageUrls.push(uploadedImageUrl);
         }
@@ -172,7 +142,7 @@ const index = () => {
     }
     if (insideViewFiles.length > 0) {
       for (const file of insideViewFiles) {
-        const uploadedImageUrl = await handleUpload(file);
+        const uploadedImageUrl = await dispatch(uploadImage(file));
         if (uploadedImageUrl) {
           imageUrls.push(uploadedImageUrl);
         }

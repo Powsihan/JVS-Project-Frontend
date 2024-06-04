@@ -14,7 +14,7 @@ import {
 import CustomerView from "@/src/components/modals/CustomerView";
 import { Districts } from "../../../data/datas.js";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 

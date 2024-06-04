@@ -16,9 +16,9 @@ import { Districts } from "@/src/data/datas";
 import Cookies from "js-cookie";
 import { customerProfileEdit } from "@/src/redux/action/customer";
 import { toast } from "react-toastify";
-import { Cloudinary } from "cloudinary-core";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -60,7 +60,7 @@ const index = () => {
     const customerId = customerData._id;
     let data = { ...customerUpdatedData };
     if (file) {
-      const uploadedImageUrl = await handleUpload(file);
+      const uploadedImageUrl = await dispatch(uploadImage(file));
       if (uploadedImageUrl) {
         console.log(uploadedImageUrl);
         data.profilePic = uploadedImageUrl;
@@ -85,37 +85,6 @@ const index = () => {
     });
   };
 
-  const handleUpload = async (file) => {
-    if (!file) return false;
-
-    try {
-      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "JV-Project");
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful. Public ID:", data.public_id);
-        console.log(data);
-        return data.secure_url;
-      } else {
-        console.error("Upload failed.");
-        return false;
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      return false;
-    }
-  };
 
   const handleProfileChangeClick = () => {
     fileInputRef.current.click();

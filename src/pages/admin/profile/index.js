@@ -7,7 +7,6 @@ import editprof from "../../../assets/images/Editprof.png";
 import changepass from "../../../assets/images/changepassword.png";
 import ProfileEdit from "../../../assets/images/Profileedit.svg";
 import "../../../styles/admin.css";
-import { Cloudinary } from "cloudinary-core";
 import "./profile.css";
 
 import InputField from "@/src/components/InputField";
@@ -17,6 +16,7 @@ import { userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ const index = () => {
     const userId = userData._id;
     let data = { ...userUpdatedData };
     if (file) {
-      const uploadedImageUrl = await handleUpload(file);
+      const uploadedImageUrl = await dispatch(uploadImage(file));
       if (uploadedImageUrl) {
         console.log(uploadedImageUrl);
         data.profilePic = uploadedImageUrl;
@@ -121,38 +121,6 @@ const index = () => {
         toast.error(res.data.message);
       }
     });
-  };
-
-  const handleUpload = async (file) => {
-    if (!file) return false;
-
-    try {
-      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "JV-Project");
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful. Public ID:", data.public_id);
-        console.log(data);
-        return data.secure_url;
-      } else {
-        console.error("Upload failed.");
-        return false;
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      return false;
-    }
   };
 
   return (

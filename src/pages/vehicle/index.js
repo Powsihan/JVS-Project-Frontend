@@ -8,7 +8,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import { toast } from "react-toastify";
 import "../../styles/vehicle.css";
 import "../../styles/admin.css";
-
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import {

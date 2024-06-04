@@ -11,10 +11,10 @@ import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { registerCustomer } from "@/src/redux/action/customer";
 import { toast, ToastContainer } from "react-toastify";
-import { Cloudinary } from "cloudinary-core";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { useRouter } from "next/navigation";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 function SignUpModal(props) {
   const router=useRouter();
@@ -58,7 +58,7 @@ function SignUpModal(props) {
     dispatch(setLoading(true));
     let data = { ...customerData };
     if (file) {
-      const uploadedImageUrl = await handleUpload(file);
+      const uploadedImageUrl = await dispatch(uploadImage(file));
       if (uploadedImageUrl) {
         console.log(uploadedImageUrl);
         data.profilePic = uploadedImageUrl;
@@ -86,38 +86,7 @@ function SignUpModal(props) {
       [field]: value,
     }));
   };
-
-  const handleUpload = async (file) => {
-    if (!file) return false;
-
-    try {
-      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "JV-Project");
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful. Public ID:", data.public_id);
-        console.log(data);
-        return data.secure_url;
-      } else {
-        console.error("Upload failed.");
-        return false;
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      return false;
-    }
-  };
+  
   const steps = [
     {
       title: "Welcome",

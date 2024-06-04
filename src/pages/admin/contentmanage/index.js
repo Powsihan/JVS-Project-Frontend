@@ -2,7 +2,6 @@ import Adminlayout from "@/src/layouts/Adminlayout";
 import React, { useEffect, useRef, useState } from "react";
 import "../../../styles/admin.css";
 import InputField from "@/src/components/InputField";
-import { Cloudinary } from "cloudinary-core";
 import CommonButton from "@/src/components/CommonButton";
 import { Button } from "react-bootstrap";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -20,6 +19,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import ContentView from "@/src/components/modals/ContentView";
 import ContentUpdate from "@/src/components/modals/ContentUpdate";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const index = () => {
   const [contentData, setContentData] = useState({
@@ -83,7 +83,7 @@ const index = () => {
     let data = { ...contentData };
 
     if (file) {
-      const uploadedImageUrl = await handleUpload(file);
+      const uploadedImageUrl = await dispatch(uploadImage(file));
       if (uploadedImageUrl) {
         data.image = uploadedImageUrl;
       }
@@ -114,37 +114,7 @@ const index = () => {
     }
   };
 
-  const handleUpload = async (file) => {
-    if (!file) return false;
-
-    try {
-      const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", "JV-Project");
-
-      const response = await fetch(
-        `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-        {
-          method: "POST",
-          body: formData,
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Upload successful. Public ID:", data.public_id);
-        console.log(data);
-        return data.secure_url;
-      } else {
-        console.error("Upload failed.");
-        return false;
-      }
-    } catch (error) {
-      console.error("Upload error:", error);
-      return false;
-    }
-  };
+ 
 
   const fetchContentDetails = () => {
     dispatch(setLoading(true));
