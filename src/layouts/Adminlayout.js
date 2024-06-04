@@ -43,8 +43,8 @@ const Adminlayout = ({ children }) => {
       case "sales":
         pageTitle = "Sales and Buy";
         break;
-      case "expert":
-        pageTitle = "Expert";
+      case "employee":
+        pageTitle = "Employee";
         break;
       case "communication":
         pageTitle = "Communication";

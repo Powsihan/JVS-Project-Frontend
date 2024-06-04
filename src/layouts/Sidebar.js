@@ -7,7 +7,7 @@ import dashboard from "../assets/icons/dashboard.svg";
 import Vehicle from "../assets/icons/vehicle.svg";
 import User from "../assets/icons/user.svg";
 import Sales from "../assets/icons/sale.svg";
-import Expert from "../assets/icons/expert.svg";
+import Employee from "../assets/icons/employee.png";
 import Communication from "../assets/icons/communication.svg";
 import Content from "../assets/icons/content.svg";
 import Auction from "../assets/icons/auction.svg";
@@ -28,7 +28,7 @@ const Sidebar = () => {
     { name: "Vehicle", image: Vehicle, path: "admin/vehicle" },
     { name: "User", image: User, path: "admin/user" },
     { name: "Sales & Buy", image: Sales, path: "admin/sales" },
-    { name: "Expert", image: Expert, path: "admin/expert" },
+    { name: "Employee", image: Employee, path: "admin/employee" },
     {
       name: "Communication",
       image: Communication,
