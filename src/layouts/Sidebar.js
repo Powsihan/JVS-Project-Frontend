@@ -7,7 +7,7 @@ import dashboard from "../assets/icons/dashboard.svg";
 import Vehicle from "../assets/icons/vehicle.svg";
 import User from "../assets/icons/user.svg";
 import Sales from "../assets/icons/sale.svg";
-import Employee from "../assets/icons/employee.png";
+import Employee from "../assets/icons/employee.svg";
 import Communication from "../assets/icons/communication.svg";
 import Content from "../assets/icons/content.svg";
 import Auction from "../assets/icons/auction.svg";
