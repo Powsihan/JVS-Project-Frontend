@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { getVehicleInfo } from "@/src/redux/action/vehicle"; // Assuming you have this function
+import { getVehicleInfo, vehicleEdit } from "@/src/redux/action/vehicle"; // Assuming you have this function
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import Navbar from "@/src/layouts/Navbar";
@@ -22,6 +22,8 @@ import CommonButton from "@/src/components/CommonButton";
 import SignInModal from "@/src/components/modals/SignInModal";
 import Cookies from "js-cookie";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { addPurchase } from "@/src/redux/action/purchase";
+import { toast } from "react-toastify";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();
@@ -104,11 +106,34 @@ const VehicleDetail = () => {
     setShowLoginView(true);
   };
 
+  const addPurchaseAction = () => {
+    dispatch(setLoading(true));
+    const data = { vehicleId: id, customerId: customerData._id };
+    addPurchase(data, (res) => {
+      if (res.status == 200) {
+        dispatch(setLoading(false));
+        toast.success(res.data.message);
+        const updatedVehicleData = { status: "Pending" };
+        vehicleEdit(id, updatedVehicleData, (editRes) => {
+          dispatch(setLoading(false));
+          if (editRes.status === 200) {
+            closeStatusConfirmationModal();
+          } else {
+            toast.error("Failed to update vehicle status");
+          }
+        });
+        closeStatusConfirmationModal();
+      } else {
+        toast.error(res.data.message);
+      }
+    });
+  };
+
   const openSendConfirmationModal = () => {
     setSendConfirmationModal(true);
   };
 
-  const closeDeleteConfirmationModal = () => {
+  const closeStatusConfirmationModal = () => {
     setSendConfirmationModal(false);
   };
 
@@ -172,12 +197,16 @@ const VehicleDetail = () => {
                 <CommonButton
                   text={"Purchase"}
                   width={250}
-                  onClick={customerData ? openSendConfirmationModal : LoginViewModal}
+                  onClick={
+                    customerData ? openSendConfirmationModal : LoginViewModal
+                  }
                 />
                 <CommonButton
                   text={"Make an Inquiry"}
                   width={300}
-                  onClick={customerData ? openSendConfirmationModal : LoginViewModal}
+                  onClick={
+                    customerData ? openSendConfirmationModal : LoginViewModal
+                  }
                 />
               </div>
               <hr />
@@ -245,11 +274,13 @@ const VehicleDetail = () => {
         onHide={() => setShowLoginView(false)}
       />
       <ConfirmationModal
-      show={sendConfirmationModal}
-      message="Are you sure you want to Purchase this Vehicle?"
-      heading="Confirmation To Purchase!"
-      variant="success"
-      onCancel={closeDeleteConfirmationModal}/>
+        show={sendConfirmationModal}
+        message="Are you sure you want to Purchase this Vehicle?"
+        heading="Confirmation To Purchase!"
+        variant="success"
+        onConfirm={addPurchaseAction}
+        onCancel={closeStatusConfirmationModal}
+      />
     </div>
   );
 };

@@ -16,11 +16,13 @@ import { getCustomerDetails } from "@/src/redux/action/customer";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import PieChart from "@/src/components/charts/PieChart";
+import { getEmployeeDetails } from "@/src/redux/action/employee";
 
 const index = () => {
   const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
+  const [employeeData, setEmployeeData] = useState([]);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -46,6 +48,20 @@ const index = () => {
         dispatch(setLoading(false));
         console.error("Error fetching Customer details", res);
         toast.error("Error fetching Customer details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getEmployeeDetails((res) => {
+      if (res && res.data) {
+        setEmployeeData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching Employee details", res);
+        toast.error("Error fetching Employee details");
       }
     });
   }, []);
@@ -96,9 +112,9 @@ const index = () => {
   ];
 
   const [cardsData, setCardsData] = useState([
-    { title: "Customers", count: 400, image: customer, color: "#F00" },
+    { title: "Customers", count: 0, image: customer, color: "#F00" },
     { title: "Vehicles", count: 0, image: vehicles, color: "#3DBE00" },
-    { title: "Experts", count: 200, image: experts, color: "#0075FF" },
+    { title: "Employees", count: 0, image: experts, color: "#0075FF" },
     { title: "Requests", count: 100, image: requests, color: "#FF007A" },
     { title: "Reviews", count: 50, image: reviews, color: "#FFC700" },
   ]);
@@ -123,6 +139,17 @@ const index = () => {
       setCardsData((prevCardsData) =>
         prevCardsData.map((card) =>
           card.title === "Customers" ? { ...card, count: totalCustomers } : card
+        )
+      );
+    }
+  }, [customerData]);
+
+  useEffect(() => {
+    if (employeeData.length > 0) {
+      const totalEmployees = employeeData.length;
+      setCardsData((prevCardsData) =>
+        prevCardsData.map((card) =>
+          card.title === "Employees" ? { ...card, count: totalEmployees } : card
         )
       );
     }
