@@ -17,3 +17,19 @@ export const addAuction = (data, callback) => {
     callback(error.response);
   }
 };
+
+export const getAuctionDetails = (callback) => {
+  const endpoint = `${process.env.api_base_url}/auction/`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

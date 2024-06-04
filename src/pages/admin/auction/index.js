@@ -1,4 +1,4 @@
-import Adminlayout from '@/src/layouts/Adminlayout'
+import Adminlayout from "@/src/layouts/Adminlayout";
 import React, { useEffect, useState } from "react";
 import { IconButton } from "@mui/material";
 import VisibilityIcon from "@mui/icons-material/Visibility";
@@ -7,22 +7,135 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import CommonButton from "@/src/components/CommonButton";
 import add from "../../../assets/icons/add.png";
-import { useDispatch } from 'react-redux';
-import AddAuction from '@/src/components/sections/AddAuction';
-
+import { useDispatch } from "react-redux";
+import AddAuction from "@/src/components/sections/AddAuction";
+import { getAuctionDetails } from "@/src/redux/action/auction";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { getVehicleInfo } from "@/src/redux/action/vehicle";
+import { AuctionStatus } from "@/src/data/datas";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
+  const [auctionData, setAuctionData] = useState([]);
+  const [vehicleData, setVehicleData] = useState({});
 
+  const [searchRegNo, setSearchRegNo] = useState("");
+  const [searchRef, setsearchRef] = useState("");
+  const [selectedStatus, setSelectedStatus] = useState("");
+  const [searchStartDate, setSearchStartDate] = useState(null);
+  const [searchEndDate, setSearchEndDate] = useState(null);
+  const [filteredAuctionList, setFilteredAuctionList] = useState([]);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [auctionPerPage, setauctionPerPage] = useState(10);
+  const indexOfLastAuction = currentPage * auctionPerPage;
+  const indexOfFirstAuction = indexOfLastAuction - auctionPerPage;
+  const currentAuction = filteredAuctionList.slice(
+    indexOfFirstAuction,
+    indexOfLastAuction
+  );
+
+  const HandleSearchRegNo = (event) => {
+    setSearchRegNo(event.target.value);
+  };
+
+  const HandlesearchRef = (event) => {
+    setsearchRef(event.target.value);
+  };
+
+  const HandleSelectStatus = (event) => {
+    setSelectedStatus(event.target.value);
+  };
 
   const handleOpenAddSection = () => {
     setShowAddSection(!showAddSection);
   };
 
+  useEffect(() => {
+    fetchAuctionDetails();
+  }, []);
+
+  const fetchAuctionDetails = () => {
+    dispatch(setLoading(true));
+    getAuctionDetails(async (res) => {
+      if (res && res.data) {
+        const auction = res.data;
+        setAuctionData(auction);
+        dispatch(setLoading(false));
+
+        const vehicleInfoPromises = auction.map(
+          (auction) =>
+            new Promise((resolve) => {
+              getVehicleInfo(auction.vehicleId, (response) =>
+                resolve({ vehicleId: auction.vehicleId, data: response.data })
+              );
+            })
+        );
+
+        try {
+          const vehicleInfoResponses = await Promise.all(vehicleInfoPromises);
+
+          const vehicleDataMap = {};
+
+          vehicleInfoResponses.forEach((response) => {
+            if (response.data) {
+              vehicleDataMap[response.vehicleId] = response.data;
+            }
+          });
+
+          setVehicleData(vehicleDataMap);
+        } catch (error) {
+          console.error("Error fetching vehicle details", error);
+          toast.error("Error fetching additional details");
+        }
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching Auction details", res);
+        toast.error("Error fetching Auction details");
+      }
+    });
+  };
+
+  useEffect(() => {
+    const filteredData = auctionData.filter((auction) => {
+      const regNoMatch = vehicleData[auction.vehicleId]?.registerno
+        ? vehicleData[auction.vehicleId].registerno
+            .toLowerCase()
+            .includes(searchRegNo.toLowerCase())
+        : false;
+      const refMatch = auction.auctionRefID
+        .toLowerCase()
+        .includes(searchRef.toLowerCase());
+      const statusMatch =
+        selectedStatus === "" || auction.status === selectedStatus;
+      const startdateMatch =
+        searchStartDate === null ||
+        new Date(auction.startDate).toLocaleDateString() ===
+          new Date(searchStartDate).toLocaleDateString();
+      const enddateMatch =
+        searchEndDate === null ||
+        new Date(auction.endDate).toLocaleDateString() ===
+          new Date(searchEndDate).toLocaleDateString();
+      return (
+        regNoMatch && refMatch && statusMatch && startdateMatch && enddateMatch
+      );
+    });
+    setFilteredAuctionList(filteredData);
+  }, [
+    auctionData,
+    searchRegNo,
+    searchRef,
+    selectedStatus,
+    searchStartDate,
+    searchEndDate,
+    vehicleData,
+  ]);
 
   return (
-  <Adminlayout>
-    {showAddSection ? (
+    <Adminlayout>
+      {showAddSection ? (
         <AddAuction handleClose={handleOpenAddSection} />
       ) : (
         <div>
@@ -33,12 +146,12 @@ const index = () => {
               onClick={handleOpenAddSection}
             />
           </div>
-          {/* <div className="Filter-Search-Container container-fluid mb-4">
+          <div className="Filter-Search-Container container-fluid mb-4">
             <h1 className="row ps-2 mb-3">Filter and Search</h1>
             <div className="row pb-2">
-              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
+              <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
-                  <form onSubmit={handleSearchByRefID}>
+                  <form>
                     <input
                       className="SearchBox"
                       type="text"
@@ -67,7 +180,7 @@ const index = () => {
               </div>
               <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
-                  <form onSubmit={handleSearchByRegNo}>
+                  <form>
                     <input
                       className="SearchBox"
                       type="text"
@@ -94,33 +207,50 @@ const index = () => {
                   </form>
                 </div>
               </div>
-              <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container">
-                  <form onSubmit={handleSearchByEmail}>
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Filter By Email"
-                      value={searchEmail}
-                      onChange={HandlesearchEmail}
-                    />
-                    <div className="search-icon">
-                      <SearchIcon />
+              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
+                <div className="search-input-container z-2">
+                  <DatePicker
+                    selected={searchStartDate}
+                    onChange={(date) => setSearchStartDate(date)}
+                    className="SearchBox"
+                    placeholderText="Filter By Start Date"
+                  />
+                  {searchStartDate && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "2%",
+                      }}
+                      onClick={() => setSearchStartDate(null)}
+                    >
+                      <ClearIcon />
                     </div>
-                    {searchEmail && (
-                      <div
-                        className="search-icon"
-                        style={{
-                          zIndex: "100",
-                          backgroundColor: "white",
-                          right: "2%",
-                        }}
-                        onClick={() => setsearchEmail("")}
-                      >
-                        <ClearIcon />
-                      </div>
-                    )}
-                  </form>
+                  )}
+                </div>
+              </div>
+              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
+                <div className="search-input-container z-2">
+                  <DatePicker
+                    selected={searchEndDate}
+                    onChange={(date) => setSearchEndDate(date)}
+                    className="SearchBox"
+                    placeholderText="Filter By End Date"
+                  />
+                  {searchEndDate && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "2%",
+                      }}
+                      onClick={() => setSearchEndDate(null)}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
@@ -131,13 +261,12 @@ const index = () => {
                     onChange={HandleSelectStatus}
                   >
                     <option value="">Select Status</option>
-                    {SalesStatus.map((data, index) => (
+                    {AuctionStatus.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
                     ))}
                   </select>
-
                   {selectedStatus && (
                     <div
                       className="search-icon"
@@ -153,31 +282,8 @@ const index = () => {
                   )}
                 </div>
               </div>
-              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container">
-                  <DatePicker
-                    selected={searchDate}
-                    onChange={(date) => setSearchDate(date)}
-                    className="SearchBox"
-                    placeholderText="Filter By Date"
-                  />
-                  {searchDate && (
-                    <div
-                      className="search-icon"
-                      style={{
-                        zIndex: "100",
-                        backgroundColor: "white",
-                        right: "2%",
-                      }}
-                      onClick={() => setSearchDate(null)}
-                    >
-                      <ClearIcon />
-                    </div>
-                  )}
-                </div>
-              </div>
             </div>
-          </div> */}
+          </div>
           <div className="TableSection mb-3">
             <table className="table table-striped table-hover">
               <thead className="top-0 position-sticky z-1">
@@ -185,20 +291,20 @@ const index = () => {
                   <th scope="col" className="col-1">
                     No
                   </th>
-                  <th scope="col" className="col-1">
-                    Sales RefID
-                  </th>
-                  <th scope="col" className="col-1">
-                    Date
+                  <th scope="col" className="col-2">
+                    Auction RefID
                   </th>
                   <th scope="col" className="col-2">
-                    Vehicle RegNo
-                  </th>
-                  <th scope="col" className="col-2">
-                    Customer Email
+                    Vehicle RegisterNo
                   </th>
                   <th scope="col" className="col-1">
-                    Price
+                    Start Date
+                  </th>
+                  <th scope="col" className="col-1">
+                    End Date
+                  </th>
+                  <th scope="col" className="col-2">
+                    Star Bidding Price
                   </th>
                   <th scope="col" className="col-1">
                     Status
@@ -209,50 +315,50 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {/* {currentSales.length > 0 ? (
-                  currentSales.map((sales, index) => (
+                {currentAuction.length > 0 ? (
+                  currentAuction.map((auction, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{sales.salesRefID}</td>
-                      <td>{formatDate(sales.creationDate)}</td>
+                      <td>{auction.auctionRefID}</td>
                       <td>
-                        {vehicleData[sales.vehicleId]?.registerno || "N/A"}
+                        {vehicleData[auction.vehicleId]?.registerno || "N/A"}
                       </td>
-                      <td>{customerData[sales.customerId]?.email || "N/A"}</td>
-                      <td>{sales.price}</td>
+                      <td>{auction.startDate}</td>
+                      <td> {auction.endDate}</td>
+                      <td>{`Rs ${auction.bidstartprice}`}</td>
                       <td>
                         <div
                           className={`Table-status-field ${
-                            sales.status === "Sale"
-                              ? "Sale-Field"
-                              : sales.status === "Buy"
-                              ? "Buy-Field"
-                              : ""
+                            auction.status === "Available"
+                              ? "Available-Field"
+                              : auction.status === "Pending"
+                              ? "Pending-Field"
+                              : "Sold-Field"
                           }`}
                         >
-                          {sales.status}
+                          {auction.status}
                         </div>
                       </td>
                       <td className="col-2">
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => OpenSalesViewModal(sales)}
+                          onClick={() => OpenSalesViewModal(auction)}
                         >
                           <VisibilityIcon className="" />
                         </IconButton>
-                        <IconButton
+                        {/* <IconButton
                           aria-label="delete"
                           className="viewbutt"
                           // onClick={() => OpenVehicleEditModal(vehicle)}
                         >
                           <EditIcon className="text-success" />
-                        </IconButton>
+                        </IconButton> */}
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
                           onClick={() =>
-                            openDeleteConfirmationModal(sales._id)
+                            openDeleteConfirmationModal(auction._id)
                           }
                         >
                           <DeleteIcon className="text-danger" />
@@ -264,19 +370,19 @@ const index = () => {
                   <tr>
                     <td colSpan="8">No results found</td>
                   </tr>
-                )} */}
+                )}
               </tbody>
             </table>
           </div>
           <div className="Filter-Search-Container d-flex justify-content-between pe-3 p-4">
             <div className="Pagination-Text">
-              {/* <p>
+              <p>
                 Page {currentPage} of{" "}
-                {Math.ceil(filteredSalesList.length / salesPerPage)}
-              </p> */}
+                {Math.ceil(filteredAuctionList.length / auctionPerPage)}
+              </p>
             </div>
             <div className="d-flex gap-2">
-              {/* <button
+              <button
                 className="btn btn-primary"
                 onClick={() => setCurrentPage(currentPage - 1)}
                 disabled={currentPage === 1}
@@ -287,18 +393,17 @@ const index = () => {
               <button
                 className="btn btn-primary"
                 onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={indexOfLastSales >= filteredSalesList.length}
+                disabled={indexOfLastAuction >= filteredAuctionList.length}
                 style={{ width: 120 }}
               >
                 Next
-              </button> */}
+              </button>
             </div>
           </div>
         </div>
       )}
-  </Adminlayout>
-  )
-}
+    </Adminlayout>
+  );
+};
 
-export default index
-
+export default index;

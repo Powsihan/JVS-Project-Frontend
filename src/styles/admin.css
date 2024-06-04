@@ -44,22 +44,23 @@
     background: #F73B3B !important;
 }
 
-.Requested-Field{
+.Requested-Field {
     background: #0010a5 !important;
 }
 
-.Sale-Field{
+.Sale-Field {
     background: #17B530 !important;
 }
 
-.Buy-Field{
+.Buy-Field {
     background: #0010a5 !important;
 }
 
-.Active-Field{
+.Active-Field {
     background: #17B530 !important;
 }
-.InActive-Field{
+
+.InActive-Field {
     background: #F73B3B !important;
 }
 
@@ -185,34 +186,34 @@
     border-color: #007bff;
 }
 
-.Modal-Title{
+.Modal-Title {
     font-size: 24px;
     color: var(--primary-color);
     text-transform: uppercase;
     font-weight: 700;
 }
 
-.Customer-View-Name{
+.Customer-View-Name {
     font-size: 24px;
     color: var(--primary-color);
     font-weight: 500;
 }
 
-.Employee-View-Role{
+.Employee-View-Role {
     font-size: 20px;
     color: #afafaf;
     font-weight: 500;
 }
 
 
-.Add-Vehicle-Section{
+.Add-Vehicle-Section {
     background-color: #fff;
     box-shadow: var(--box-shadow);
     border-bottom: 4px solid var(--primary-color);
     border-radius: 4px;
 }
 
-.Add-Vehicle-Section h1{
+.Add-Vehicle-Section h1 {
     border-left: 4px solid var(--primary, #07326C);
     color: var(--primary-color);
     font-size: 18px;
@@ -221,9 +222,8 @@
 }
 
 
-.Pagination-Text p{
+.Pagination-Text p {
     color: var(--primary-color);
     font-size: 20px;
     font-weight: 700;
 }
-

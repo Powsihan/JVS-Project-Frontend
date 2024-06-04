@@ -341,6 +341,30 @@ const index = () => {
                   </form>
                 </div>
               </div>
+
+              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
+                <div className="search-input-container z-2">
+                  <DatePicker
+                    selected={searchDate}
+                    onChange={(date) => setSearchDate(date)}
+                    className="SearchBox"
+                    placeholderText="Filter By Date"
+                  />
+                  {searchDate && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "2%",
+                      }}
+                      onClick={() => setSearchDate(null)}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </div>
+              </div>
               <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
                   <select
@@ -365,29 +389,6 @@ const index = () => {
                         right: "2%",
                       }}
                       onClick={() => setSelectedStatus("")}
-                    >
-                      <ClearIcon />
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container">
-                  <DatePicker
-                    selected={searchDate}
-                    onChange={(date) => setSearchDate(date)}
-                    className="SearchBox"
-                    placeholderText="Filter By Date"
-                  />
-                  {searchDate && (
-                    <div
-                      className="search-icon"
-                      style={{
-                        zIndex: "100",
-                        backgroundColor: "white",
-                        right: "2%",
-                      }}
-                      onClick={() => setSearchDate(null)}
                     >
                       <ClearIcon />
                     </div>
@@ -469,9 +470,7 @@ const index = () => {
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() =>
-                            openDeleteConfirmationModal(sales._id)
-                          }
+                          onClick={() => openDeleteConfirmationModal(sales._id)}
                         >
                           <DeleteIcon className="text-danger" />
                         </IconButton>
