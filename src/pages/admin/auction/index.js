@@ -17,6 +17,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
+import AuctionView from "@/src/components/modals/AuctionView";
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
@@ -30,7 +31,7 @@ const index = () => {
   const [searchEndDate, setSearchEndDate] = useState(null);
   const [filteredAuctionList, setFilteredAuctionList] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
-
+  const [showViewModal, setShowViewModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
   const [auctionPerPage, setauctionPerPage] = useState(10);
   const indexOfLastAuction = currentPage * auctionPerPage;
@@ -136,7 +137,6 @@ const index = () => {
     vehicleData,
   ]);
 
-
   const openDeleteConfirmationModal = (auctionID) => {
     setSelectedAuctiondata(auctionID);
     setDeleteConfirmationModal(true);
@@ -156,6 +156,11 @@ const index = () => {
         toast.error(res.data.message);
       }
     });
+  };
+
+  const OpenAuctionViewModal = (auction) => {
+    setSelectedAuctiondata(auction);
+    setShowViewModal(true);
   };
 
   return (
@@ -329,7 +334,7 @@ const index = () => {
                     End Date
                   </th>
                   <th scope="col" className="col-2">
-                    Star Bidding Price
+                    Start Bidding Price
                   </th>
                   <th scope="col" className="col-1">
                     Status
@@ -368,7 +373,7 @@ const index = () => {
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => OpenSalesViewModal(auction)}
+                          onClick={() => OpenAuctionViewModal(auction)}
                         >
                           <VisibilityIcon className="" />
                         </IconButton>
@@ -427,7 +432,11 @@ const index = () => {
           </div>
         </div>
       )}
-
+      <AuctionView
+        show={showViewModal}
+        onHide={() => setShowViewModal(false)}
+        auctionDetails={selectedAuctiondata}
+      />
       <ConfirmationModal
         show={deleteConfirmationModal}
         message="Are you sure you want to delete this Details?"
