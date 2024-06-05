@@ -42,3 +42,16 @@
   font-size: 18px;
   font-weight: 600;
 }
+
+.Auction-ViewModal-Bid-List h2{
+  color: #96969D;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.Auction-ViewModal-Bid-List h4 {
+  color: var(--primary-color);
+  font-size: 16px;
+  font-weight: 600;
+}

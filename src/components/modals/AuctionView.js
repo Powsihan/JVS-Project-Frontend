@@ -4,14 +4,21 @@ import InputField from "../InputField";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
+import "../../styles/auction.css";
 import { IconButton } from "@mui/material";
+import VisibilityIcon from "@mui/icons-material/Visibility";
 import CommonButton from "../CommonButton";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import VehicleView from "./VehicleView";
+import { getCustomerInfo } from "@/src/redux/action/customer";
+import CustomerView from "./CustomerView";
 const AuctionView = (props) => {
   const { show, onHide, auctionDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
+  const [showViewModal2, setShowViewModal2] = useState(false);
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
+  const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
+  const [customerDetails, setCustomerDetails] = useState({});
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -23,7 +30,6 @@ const AuctionView = (props) => {
         return "#F73B3B";
     }
   };
-
 
   useEffect(() => {
     const vehicleId = auctionDetails && auctionDetails.vehicleId;
@@ -38,15 +44,48 @@ const AuctionView = (props) => {
     }
   }, [auctionDetails]);
 
- 
+  useEffect(() => {
+    const fetchCustomerDetails = async () => {
+      if (auctionDetails && auctionDetails.biddinghistory) {
+        const customerIds = auctionDetails.biddinghistory.map(
+          (bid) => bid.customerId
+        );
+        const uniqueCustomerIds = [...new Set(customerIds)];
+
+        uniqueCustomerIds.forEach((customerId) => {
+          getCustomerInfo(customerId, (res) => {
+            if (res && res.data) {
+              setCustomerDetails((prevState) => ({
+                ...prevState,
+                [customerId]: res.data,
+              }));
+            } else {
+              toast.error("Error fetching customer details");
+            }
+          });
+        });
+      }
+    };
+    fetchCustomerDetails();
+  }, [auctionDetails]);
 
   const OpenVehicleViewModal = () => {
     setShowViewModal(true);
   };
+  const OpenCustomerViewModal = (customerId) => {
+    const customerData = customerDetails[customerId];
+    console.log(customerData, "cusssssssssssssssssssss");
+    if (customerData) {
+      setSelectedCustomerdata(customerData);
+      setShowViewModal2(true);
+    }
+  };
+
+  const biddingHis = auctionDetails && auctionDetails.biddinghistory;
 
   return (
     <div>
-      {!showViewModal && (
+      {!showViewModal && !showViewModal2 && (
         <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
           <Modal.Header className="header-outer d-flex justify-content-between">
             <Modal.Title className="Modal-Title">
@@ -62,7 +101,9 @@ const AuctionView = (props) => {
               <IconButton>
                 <CircleIcon
                   sx={{
-                    color: getStatusColor(auctionDetails && auctionDetails.status),
+                    color: getStatusColor(
+                      auctionDetails && auctionDetails.status
+                    ),
                   }}
                 />
               </IconButton>
@@ -89,7 +130,9 @@ const AuctionView = (props) => {
                   <InputField
                     label={"Start Bidding Price"}
                     disable={true}
-                    defaultValue={`Rs ${auctionDetails && auctionDetails.bidstartprice}`}
+                    defaultValue={`Rs ${
+                      auctionDetails && auctionDetails.bidstartprice
+                    }`}
                   />
                 </div>
               </div>
@@ -124,10 +167,50 @@ const AuctionView = (props) => {
               </div>
               <hr />
               <div className="row pb-3">
-                <div className="col-lg-6 col-md-6 col-sm-12">
-                fdgdf
+                <div className="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3">
+                  <label
+                    htmlFor="features-dropdown"
+                    className="Text-input-label mb-3"
+                  >
+                    Auction Details
+                  </label>
+                  {biddingHis && biddingHis.length > 0 ? (
+                    biddingHis.map((data, index) => (
+                      <div key={index}>
+                        <div
+                          className="d-flex justify-content-between align-items-center ps-2 pe-2 Auction-ViewModal-Bid-List"
+                          style={{ marginBottom: "-10px" }}
+                        >
+                          <h2>
+                            {customerDetails[data.customerId]
+                              ? customerDetails[data.customerId].fname
+                              : data.customerId}
+                          </h2>
+                          <IconButton
+                            aria-label="delete"
+                            className="viewbutt"
+                            onClick={() =>
+                              OpenCustomerViewModal(data.customerId)
+                            }
+                          >
+                            <VisibilityIcon className="" />
+                          </IconButton>
+                          <h4>{`LKR ${data.biddingprice}`}</h4>
+                        </div>
+                        <hr style={{ color: "#bdbbbb" }} />
+                      </div>
+                    ))
+                  ) : (
+                    <p>No bidding history available</p>
+                  )}
                 </div>
-                <div className="col-lg-6 col-md-6 col-sm-12">
+                <div className="col-lg-6 col-md-6 col-sm-12 ps-5 pe-2">
+                <label
+                    htmlFor="features-dropdown"
+                    className="Text-input-label mb-3"
+                  >
+                    Vehicle Details
+                  </label>
                   <CommonButton
                     text={"Vehicle Detail"}
                     width={"100%"}
@@ -148,6 +231,11 @@ const AuctionView = (props) => {
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
         vehicleDetails={selectedVehicledata}
+      />
+      <CustomerView
+        show={showViewModal2}
+        onHide={() => setShowViewModal2(false)}
+        customerDetails={selectedCustomerdata}
       />
     </div>
   );
