@@ -1,4 +1,4 @@
-import { getAuctionInfo } from "@/src/redux/action/auction";
+import { auctionUpdate, getAuctionInfo } from "@/src/redux/action/auction";
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/router";
@@ -9,13 +9,23 @@ import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../../../styles/vehicle.css";
 import "../../../styles/auction.css";
+import InputField from "@/src/components/InputField";
+import CommonButton from "@/src/components/CommonButton";
+import { Button } from "react-bootstrap";
+import Cookies from "js-cookie";
+import { toast } from "react-toastify";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { getCustomerInfo } from "@/src/redux/action/customer";
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
   const [auctionData, setAuctionData] = useState(null);
   const [vehicleData, setVehicleData] = useState(null);
+  const [customerData, setCustomerData] = useState(null);
+  const [bidcustomerDetail, setBidCustomerDetail] = useState({});
   const [timeLeft, setTimeLeft] = useState(null);
+  const [sendConfirmationModal, setSendConfirmationModal] = useState(false);
 
   useEffect(() => {
     if (id) {
@@ -28,13 +38,44 @@ const index = () => {
           getVehicleInfo(vehicleId, (res) => {
             setVehicleData(res.data);
           });
-            } else {
+  
+          const auction = res.data.biddinghistory;
+  
+          const customerInfoPromises = auction.map((data) =>
+            new Promise((resolve) => {
+              getCustomerInfo(data.customerId, (response) =>
+                resolve({
+                  customerId: data.customerId,
+                  data: response.data,
+                })
+              );
+            })
+          );
+  
+          Promise.all(customerInfoPromises)
+            .then((customerInfoResponses) => {
+              const customerDataMap = {};
+  
+              customerInfoResponses.forEach((response) => {
+                if (response.data) {
+                  customerDataMap[response.customerId] = response.data;
+                }
+              });
+  
+              setBidCustomerDetail(customerDataMap);
+            })
+            .catch((error) => {
+              toast.error("Error fetching additional details");
+            });
+        } else {
           dispatch(setLoading(false));
           console.error("Error fetching vehicle details", res);
         }
       });
     }
   }, [id]);
+
+  
 
   useEffect(() => {
     const endDateString = auctionData && auctionData.endDate;
@@ -83,6 +124,56 @@ const index = () => {
     ];
   }
 
+  const handleChange = (field, value) => {
+    setAuctionData((prevData) => ({
+      ...prevData,
+      [field]: value,
+    }));
+  };
+
+  useEffect(() => {
+    const storedCustomerData = Cookies.get("customer");
+    if (storedCustomerData) {
+      const parsedCustomerData = JSON.parse(storedCustomerData);
+      setCustomerData(parsedCustomerData);
+    }
+  }, []);
+
+  const addBiddingAction = (event) => {
+    event.preventDefault();
+    dispatch(setLoading(true));
+    const data = {
+      customerId: customerData._id,
+      biddingprice: auctionData.biddingPrice,
+    };
+
+    auctionUpdate(id, data, (editRes) => {
+      dispatch(setLoading(false));
+      if (editRes.status === 200) {
+        toast.success(editRes.data.message);
+        closeStatusConfirmationModal();
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
+      } else {
+        toast.error(editRes.data.message);
+        toast.error(
+          "Failed to update auction or bid price is lower than current price"
+        );
+      }
+    });
+  };
+
+  const openSendConfirmationModal = (event) => {
+    event.preventDefault();
+    setSendConfirmationModal(true);
+  };
+
+  const closeStatusConfirmationModal = () => {
+    setSendConfirmationModal(false);
+  };
+
+
   return (
     <div>
       <Navbar />
@@ -118,12 +209,12 @@ const index = () => {
               <div className="row">
                 <div className="col-lg-5 col-md-12 col-sm-12 mb-3">
                   <div className="Auction-Vehicle-Details-Section container-fluid">
-                    <h1 className="row ps-2 mb-3 pe-2">Vehicle Details</h1>
+                    <h1 className="row ps-2 mb-3">Vehicle Details</h1>
                     {vehicleDetails &&
                       vehicleDetails.map((data, index) => (
                         <div>
                           <div
-                            className="d-flex justify-content-between align-items-center"
+                            className="d-flex justify-content-between align-items-center ps-2 pe-2"
                             style={{ marginBottom: "-10px" }}
                           >
                             <h2>{data.label}</h2>
@@ -135,7 +226,7 @@ const index = () => {
                   </div>
                 </div>
                 <div className="col-lg-7 col-md-12 col-sm-12">
-                  <div className="Auction-Vehicle-Details-Section container-fluid">
+                  <div className="Auction-Vehicle-Details-Section container-fluid mb-3">
                     <h1 className="row ps-2 mb-3">Vehicle Auction</h1>
                     <div className="d-flex justify-content-between Auction-time-Count-section p-2 ps-3 pe-3 mb-3">
                       <div>
@@ -148,12 +239,76 @@ const index = () => {
                       </div>
                     </div>
                   </div>
+                  <form>
+                    <div className="Auction-Vehicle-Details-Section container-fluid mb-3">
+                      <h1 className="row ps-2 mb-3">Bidding</h1>
+                      <div className="row mb-3">
+                        <div className="col-6">
+                          <InputField
+                            label={"Start Bid Amount"}
+                            disable={true}
+                            defaultValue={`LKR ${auctionData.bidstartprice}`}
+                          />
+                        </div>
+                        <div className="col-6">
+                          <InputField
+                            label={"Current Bid Amount"}
+                            disable={true}
+                            defaultValue={`LKR ${auctionData.bidstartprice}`}
+                          />
+                        </div>
+                      </div>
+                      <div className="row mb-3">
+                        <InputField
+                          label={"Your Bidding Price"}
+                          placeholder={"Enter the Bidding Price"}
+                          type={"Number"}
+                          onChange={(value) =>
+                            handleChange("biddingPrice", value)
+                          }
+                        />
+                      </div>
+                      <hr />
+                      <div className="d-flex gap-2 justify-content-end pe-2 pb-3">
+                        <CommonButton
+                          text={"Confirm Bidding"}
+                          width={177}
+                          onClick={openSendConfirmationModal}
+                        />
+                        <Button variant="secondary" style={{ width: 111 }}>
+                          Cancel
+                        </Button>
+                      </div>
+                    </div>
+                  </form>
+                  <div className="Auction-Vehicle-Details-Section container-fluid">
+                    <h1 className="row ps-2 mb-4">Bidding Information</h1>
+                    {auctionData.biddinghistory.map((data) => {
+                      return (
+                        <div>
+                          <div className="d-flex justify-content-between" style={{ marginBottom: "-10px" }}>
+                            <h2> {bidcustomerDetail[data.customerId]?.fname || "N/A"}</h2>
+                            <h4>{`LKR ${data.biddingprice}`}</h4>
+                          </div>
+                          <hr style={{ color: "#bdbbbb" }} />
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
       )}
+      <ConfirmationModal
+        show={sendConfirmationModal}
+        message="Are you sure you want to Bid this Vehicle?"
+        heading="Confirmation To Bidding!"
+        variant="success"
+        onConfirm={addBiddingAction}
+        onCancel={closeStatusConfirmationModal}
+      />
     </div>
   );
 };

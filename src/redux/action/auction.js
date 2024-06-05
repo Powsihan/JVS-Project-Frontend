@@ -65,3 +65,19 @@ export const getAuctionInfo = (auctionId, callback) => {
     callback(error.response);
   }
 };
+
+export const auctionUpdate = (auctionId, data, callback) => {
+  const endpoint = `${process.env.api_base_url}/auction/${auctionId}`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
