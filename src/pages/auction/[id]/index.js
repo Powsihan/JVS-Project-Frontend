@@ -26,6 +26,7 @@ const index = () => {
   const [bidcustomerDetail, setBidCustomerDetail] = useState({});
   const [timeLeft, setTimeLeft] = useState(null);
   const [sendConfirmationModal, setSendConfirmationModal] = useState(false);
+  const [maxBidPrice, setMaxBidPrice] = useState(null);
 
   useEffect(() => {
     if (id) {
@@ -38,35 +39,39 @@ const index = () => {
           getVehicleInfo(vehicleId, (res) => {
             setVehicleData(res.data);
           });
-  
+
           const auction = res.data.biddinghistory;
-  
-          const customerInfoPromises = auction.map((data) =>
-            new Promise((resolve) => {
-              getCustomerInfo(data.customerId, (response) =>
-                resolve({
-                  customerId: data.customerId,
-                  data: response.data,
-                })
-              );
-            })
+
+          const customerInfoPromises = auction.map(
+            (data) =>
+              new Promise((resolve) => {
+                getCustomerInfo(data.customerId, (response) =>
+                  resolve({
+                    customerId: data.customerId,
+                    data: response.data,
+                  })
+                );
+              })
           );
-  
+
           Promise.all(customerInfoPromises)
             .then((customerInfoResponses) => {
               const customerDataMap = {};
-  
+
               customerInfoResponses.forEach((response) => {
                 if (response.data) {
                   customerDataMap[response.customerId] = response.data;
                 }
               });
-  
+
               setBidCustomerDetail(customerDataMap);
             })
             .catch((error) => {
               toast.error("Error fetching additional details");
             });
+
+          const maxBid = Math.max(...auction.map((bid) => bid.biddingprice));
+          setMaxBidPrice(maxBid);
         } else {
           dispatch(setLoading(false));
           console.error("Error fetching vehicle details", res);
@@ -74,8 +79,6 @@ const index = () => {
       });
     }
   }, [id]);
-
-  
 
   useEffect(() => {
     const endDateString = auctionData && auctionData.endDate;
@@ -173,7 +176,6 @@ const index = () => {
     setSendConfirmationModal(false);
   };
 
-
   return (
     <div>
       <Navbar />
@@ -254,7 +256,7 @@ const index = () => {
                           <InputField
                             label={"Current Bid Amount"}
                             disable={true}
-                            defaultValue={`LKR ${auctionData.bidstartprice}`}
+                            defaultValue={`LKR ${maxBidPrice}`}
                           />
                         </div>
                       </div>
@@ -283,17 +285,27 @@ const index = () => {
                   </form>
                   <div className="Auction-Vehicle-Details-Section container-fluid">
                     <h1 className="row ps-2 mb-4">Bidding Information</h1>
-                    {auctionData.biddinghistory.map((data) => {
-                      return (
+                    {auctionData.biddinghistory &&
+                    auctionData.biddinghistory.length > 0 ? (
+                      auctionData.biddinghistory.map((data) => (
                         <div>
-                          <div className="d-flex justify-content-between" style={{ marginBottom: "-10px" }}>
-                            <h2> {bidcustomerDetail[data.customerId]?.fname || "N/A"}</h2>
+                          <div
+                            className="d-flex justify-content-between"
+                            style={{ marginBottom: "-10px" }}
+                          >
+                            <h2>
+                              {" "}
+                              {bidcustomerDetail[data.customerId]?.fname ||
+                                "N/A"}
+                            </h2>
                             <h4>{`LKR ${data.biddingprice}`}</h4>
                           </div>
                           <hr style={{ color: "#bdbbbb" }} />
                         </div>
-                      );
-                    })}
+                      ))
+                    ) : (
+                      <p>No Bids Placed</p>
+                    )}
                   </div>
                 </div>
               </div>

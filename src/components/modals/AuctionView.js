@@ -167,7 +167,7 @@ const AuctionView = (props) => {
               </div>
               <hr />
               <div className="row pb-3">
-                <div className="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3">
+                <div className="col-lg-6 col-md-6 col-sm-12 ps-3 pe-3 Auction-ViewModal-Bid-List">
                   <label
                     htmlFor="features-dropdown"
                     className="Text-input-label mb-3"
@@ -178,7 +178,7 @@ const AuctionView = (props) => {
                     biddingHis.map((data, index) => (
                       <div key={index}>
                         <div
-                          className="d-flex justify-content-between align-items-center ps-2 pe-2 Auction-ViewModal-Bid-List"
+                          className="d-flex justify-content-between align-items-center ps-2 pe-2"
                           style={{ marginBottom: "-10px" }}
                         >
                           <h2>
