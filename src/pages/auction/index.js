@@ -156,8 +156,8 @@ const index = () => {
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      <h1>{auction.name}</h1>
-                      <h4>{`Rs ${auction.price}`}</h4>
+                      <h1>{vehicleData[auction.vehicleId]?.name}</h1>
+                      <h4>{`Rs ${auction.bidstartprice}`}</h4>
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
                       {vehicleshortDetails.map((content, index) => (
