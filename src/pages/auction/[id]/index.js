@@ -15,49 +15,54 @@ const index = () => {
   const { id } = router.query;
   const [auctionData, setAuctionData] = useState(null);
   const [vehicleData, setVehicleData] = useState(null);
-  const [timeLeft, setTimeLeft] = useState(null); 
+  const [timeLeft, setTimeLeft] = useState(null);
 
   useEffect(() => {
     if (id) {
-    //   dispatch(setLoading(true));
+      dispatch(setLoading(true));
       getAuctionInfo(id, (res) => {
         if (res && res.data) {
           setAuctionData(res.data);
-        //   dispatch(setLoading(false));
+          dispatch(setLoading(false));
           const vehicleId = res.data.vehicleId;
           getVehicleInfo(vehicleId, (res) => {
             setVehicleData(res.data);
           });
-
-          const endDateString = auctionData.endDate;
-          const endDate = new Date(endDateString); 
-          const today = new Date();
-          const timeDifference = endDate.getTime() - today.getTime(); 
-
-         
-          if (timeDifference > 0) {
-            const intervalId = setInterval(() => {
-              const now = new Date();
-              const remaining = timeDifference - (now.getTime() - today.getTime());
-              const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
-              const hours = Math.floor((remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-              const minutes = Math.floor((remaining % (1000 * 60 * 60)) / (1000 * 60));
-              const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
-
-              setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`); 
-            }, 1000); 
-            
-            return () => clearInterval(intervalId);
-          } else {
-            setTimeLeft('Auction Ended');
-          }
-        } else {
+            } else {
           dispatch(setLoading(false));
           console.error("Error fetching vehicle details", res);
         }
       });
     }
-  }, [id,auctionData]);
+  }, [id]);
+
+  useEffect(() => {
+    const endDateString = auctionData && auctionData.endDate;
+    const endDate = new Date(endDateString);
+    const today = new Date();
+    const timeDifference = endDate.getTime() - today.getTime();
+
+    if (timeDifference > 0) {
+      const intervalId = setInterval(() => {
+        const now = new Date();
+        const remaining = timeDifference - (now.getTime() - today.getTime());
+        const days = Math.floor(remaining / (1000 * 60 * 60 * 24));
+        const hours = Math.floor(
+          (remaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+        );
+        const minutes = Math.floor(
+          (remaining % (1000 * 60 * 60)) / (1000 * 60)
+        );
+        const seconds = Math.floor((remaining % (1000 * 60)) / 1000);
+
+        setTimeLeft(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+      }, 1000);
+
+      return () => clearInterval(intervalId);
+    } else {
+      setTimeLeft("Auction Ended");
+    }
+  }, [auctionData]);
 
   if (vehicleData) {
     var vehicleDetails = [
