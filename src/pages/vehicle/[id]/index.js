@@ -152,7 +152,7 @@ const VehicleDetail = () => {
                       style={{
                         position: "relative",
                         width: "100%",
-                        height: "350px",
+                        height: "450px",
                       }}
                     >
                       <img
@@ -168,14 +168,8 @@ const VehicleDetail = () => {
                 </Carousel>
               )}
             </div>
-            <div
-              className="col-lg-6 col-md-6 col-sm-12 Vehicle-Detail-Container p-3"
-              // style={{ backgroundColor: "red" }}
-            >
-              <div
-                className="d-flex flex-row justify-content-between align-items-center mb-2"
-                // style={{ backgroundColor: "yellow" }}
-              >
+            <div className="col-lg-6 col-md-6 col-sm-12 Vehicle-Detail-Container p-3">
+              <div className="d-flex flex-row justify-content-between align-items-center mb-2">
                 <h1>{vehicleData.name}</h1>
                 <h4>{`LKR ${vehicleData.price}/-`}</h4>
               </div>

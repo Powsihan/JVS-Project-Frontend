@@ -49,3 +49,19 @@ export const deleteAuction = (auctionId, callback) => {
     callback(error.response);
   }
 };
+
+export const getAuctionInfo = (auctionId, callback) => {
+  const endpoint = `${process.env.api_base_url}/auction/${auctionId}`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

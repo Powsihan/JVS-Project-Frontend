@@ -1,62 +1,44 @@
-.set-image button {
-  color: white;
-  border-radius: 5px;
-  background-color: var(--primary-color);
-  display: flex;
-  width: auto;
-  border: 0;
+.Auction-Vehicle-Details-Section {
+  box-shadow: var(--box-shadow);
+  background-color: #fff;
+  border-bottom: 4px solid var(--primary-color);
+  border-radius: 4px;
 }
-h3 {
+
+.Auction-Vehicle-Details-Section h1 {
+  border-left: 4px solid var(--primary, #07326C);
   color: var(--primary-color);
-}
-.set-image {
-  border-radius: 20px;
-  box-shadow: 0px 10px 15px 0px rgba(0, 0, 0, 0.1),
-    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
-}
-.heading {
-  padding-top: 120px;
-}
-.details h6{
-  color: gray;
- 
-}
-.carmenu{
-    box-shadow:  0px 10px 15px 0px rgba(0, 0, 0, 0.1),
-    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
-    border-radius: 10px;
-    border-bottom: 6px solid var(--primary-color);
+  font-size: 18px;
+  font-weight: 700;
+  border-radius: 4px 0px 0px 0px;
 }
 
-h5{
+.Auction-Vehicle-Details-Section h2 {
+  color: #96969D;
+  font-size: 18px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.Auction-Vehicle-Details-Section h4 {
   color: var(--primary-color);
+  font-size: 16px;
+  font-weight: 600;
 }
-.carpic{
-    width: 47%;
-}
-
-.cardetails{
-    color: var(--primary-color);
-    font-weight: bold;
-}
-/* .bidButton{
-  color: white;
-  border-radius: 5px;
+.Auction-time-Count-section{
   background-color: var(--primary-color);
-  border: 0;
-} */
-.placeBid h6{
-  color: grey;
-}
-.placeBid p{
-  color:white;
-  font-weight: bold;
-  font-size: 14px;
-}
-.bid{
-  background-color:var(--primary-color);
-  border-radius: 15px;
-  box-shadow:  0px 10px 15px 0px rgba(0, 0, 0, 0.1),
-    0px 4px 6px 0px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
 }
 
+.Auction-time-Count-section h5{
+  color: #fff;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+
+.Auction-time-Count-section h6{
+  color: #c7c7c7;
+  font-size: 18px;
+  font-weight: 600;
+}
