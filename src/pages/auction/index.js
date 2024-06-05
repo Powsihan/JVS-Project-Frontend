@@ -18,15 +18,24 @@ import { getAuctionDetails } from "@/src/redux/action/auction";
 import "../../styles/vehicle.css";
 import "../../styles/admin.css";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
+import Cookies from "js-cookie";
+import SignInModal from "@/src/components/modals/SignInModal";
 
 const index = () => {
   const [auctionData, setAuctionData] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const router = useRouter();
   const dispatch = useDispatch();
+  const [customerData, setCustomerData] = useState(null);
+  const [showLoginView, setShowLoginView] = useState(false);
 
-
-
+  useEffect(() => {
+    const storedCustomerData = Cookies.get("customer");
+    if (storedCustomerData) {
+      const parsedCustomerData = JSON.parse(storedCustomerData);
+      setCustomerData(parsedCustomerData);
+    }
+  }, []);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -72,6 +81,12 @@ const index = () => {
     });
   }, []);
 
+
+  const LoginViewModal = () => {
+    setShowLoginView(true);
+  };
+
+  
 
 
   return (
@@ -164,7 +179,7 @@ const index = () => {
                           text={"Go To Auction"}
                           width={"100%"}
                           onClick={() => {
-                            router.push(`/auction/${auction._id}`);
+                            customerData ?  router.push(`/auction/${auction._id}`) : LoginViewModal()
                           }}
                         />
                       </div>
@@ -183,6 +198,10 @@ const index = () => {
           )}
         </div>
       </div>
+      <SignInModal
+        show={showLoginView}
+        onHide={() => setShowLoginView(false)}
+      />
     </>
   );
 };
