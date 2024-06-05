@@ -1,18 +1,79 @@
 import Navbar from "@/src/layouts/Navbar";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import JVS from "../../assets/images/JVS1.png";
-import cardemo from "../../assets/images/cardemo.png";
 import "../../styles/auction.css";
-import carmodel from "../../assets/icons/f7_car-fill.svg";
-import automanu from "../../assets/icons/auto-manu.svg";
-import currency from "../../assets/icons/cash-coin 1.svg";
 import { useRouter } from "next/navigation";
+import { Brand, FuelType, VehicleColors, Vehicletype } from "@/src/data/datas";
+import vehicleCardicon1 from "../../assets/icons/Vehicle-Card-icon-1.svg";
+import vehicleCardicon2 from "../../assets/icons/Vehicle-Card-icon-2.svg";
+import vehicleCardicon3 from "../../assets/icons/Vehicle-Card-icon-3.svg";
+import vehicleCardicon4 from "../../assets/icons/Vehicle-Card-icon-4.svg";
+import vehicleCardicon5 from "../../assets/icons/Vehicle-Card-icon-5.svg";
+import CommonButton from "@/src/components/CommonButton";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { toast } from "react-toastify";
+import { getAuctionDetails } from "@/src/redux/action/auction";
+import "../../styles/vehicle.css";
+import "../../styles/admin.css";
+import { getVehicleInfo } from "@/src/redux/action/vehicle";
 
 const index = () => {
+  const [auctionData, setAuctionData] = useState([]);
+  const [vehicleData, setVehicleData] = useState([]);
+  const router = useRouter();
+  const dispatch = useDispatch();
 
-const router=useRouter();
- 
+
+
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getAuctionDetails(async (res) => {
+      if (res && res.data) {
+        const filteredVehicleData = res.data.filter(
+          (auction) => auction.status !== "Requested"
+        );
+        setAuctionData(filteredVehicleData);
+        dispatch(setLoading(false));
+        const auction = res.data;
+        const vehicleInfoPromises = auction.map(
+          (auction) =>
+            new Promise((resolve) => {
+              getVehicleInfo(auction.vehicleId, (response) =>
+                resolve({ vehicleId: auction.vehicleId, data: response.data })
+              );
+            })
+        );
+        try {
+          const vehicleInfoResponses = await Promise.all(vehicleInfoPromises);
+         
+          const vehicleDataMap = {};
+          
+
+          vehicleInfoResponses.forEach((response) => {
+            if (response.data) {
+              vehicleDataMap[response.vehicleId] = response.data;
+            }
+          });
+          setVehicleData(vehicleDataMap);
+        } catch (error) {
+          console.error("Error fetching customer or vehicle details", error);
+          toast.error("Error fetching additional details");
+        }
+
+
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
+    });
+  }, []);
+
+
+
   return (
     <>
       <Navbar />
@@ -21,138 +82,105 @@ const router=useRouter();
           <Image src={JVS} alt="" style={{ width: "auto", height: "auto" }} />
         </div>
       </div>
-      <div className="row container-fluid d-flex align-content-center aboutUs justify-content-center p">
-        <h3>Popular vehicles</h3>
-      </div>
+      <div className="container-fluid min-vh-100">
+        <div className="row mb-4 ps-5" style={{ paddingTop: "120px" }}>
+          <h3>Auction Vehicles</h3>
+        </div>
+        <div className="row ps-5 pe-5 mb-5">
+          {auctionData.length > 0 ? (
+            auctionData.map((auction, index) => {
+             
 
-      <div className="row container-fluid d-flex align-content-center aboutUs justify-content-center pt-3 m-2">
-        <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-content-center pt-4 p-4">
-          <div
-            className="card d-flex align-items-center justify-content-center set-image"
-            style={{ width: "20rem", height: "24rem" }}
-          >
-            <Image src={cardemo} alt="" className="w-100" />
-            <div className=" row card-body d-flex align-items-center justify-content-center ">
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                <Image src={carmodel} alt="" />
-                2023 BMW 530 XI
-              </h5>
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-3">
-                <Image src={automanu} alt="" />
-                Automatic
-              </h5>
-              <div className="justify-content-between d-flex">
-                <h5 className="card-title  d-flex align-items-left justify-content-start gap-2 ">
-                  <Image src={currency} alt="" />
-                  Current price:
-                </h5>
-                <h6 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                  Rs.400000
-                </h6>
-              </div>
-              <div className="pt-2 pb-2 d-flex align-items-center justify-content-center">
-                <button className="justify-content-center align-items-center w-100">
-                  View details
-                </button>
-              </div>
+              const vehicleshortDetails = [
+                {
+                  icon: vehicleCardicon1,
+                  name:
+                  vehicleData[auction.vehicleId]?.ownership && vehicleData[auction.vehicleId]?.ownership === 1
+                      ? "Brand-New"
+                      : "Pre-Owned",
+                },
+                { icon: vehicleCardicon2, name:  vehicleData[auction.vehicleId]?.yom || "N/A" },
+                { icon: vehicleCardicon3, name: vehicleData[auction.vehicleId]?.fuel || "N/A" },
+                { icon: vehicleCardicon4, name: vehicleData[auction.vehicleId]?.color || "N/A" },
+                { icon: vehicleCardicon5, name: `${vehicleData[auction.vehicleId]?.power || "N/A"} CC` },
+              ];
+
+              const statusStyle = {
+                backgroundColor:
+                  auction.status === "Available"
+                    ? "#17B530"
+                    : auction.status === "Pending"
+                    ? "#FFBE18"
+                    : "#F73B3B",
+              };
+
+              return (
+                <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
+                  <div className="Vehicle-display-card p-1">
+                    <div className="d-flex justify-content-end">
+                      <div
+                        className="d-flex justify-content-center align-items-center vehicle-status-indicator"
+                        style={statusStyle}
+                      >
+                        {auction.status}
+                      </div>
+                    </div>
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "250px",
+                      }}
+                    >
+                      <Image
+                        src={vehicleData[auction.vehicleId]?.image[0]}
+                        alt={`Vehicle ${index}`}
+                        layout="fill"
+                        objectFit="cover"
+                        priority
+                      />
+                    </div>
+                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                      <h1>{auction.name}</h1>
+                      <h4>{`Rs ${auction.price}`}</h4>
+                    </div>
+                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                      {vehicleshortDetails.map((content, index) => (
+                        <div
+                          className="d-flex flex-column align-items-center justify-content-center"
+                          key={index}
+                        >
+                          <div className="Vehicle-card-display-icon p-3">
+                            <Image src={content.icon} />
+                          </div>
+                          <h6 className="pt-1">{content.name}</h6>
+                        </div>
+                      ))}
+                    </div>
+                    <hr />
+                    <div className="row mb-2 ps-3 pe-3">
+                      <div className="col-9">
+                        <CommonButton
+                          text={"Go To Auction"}
+                          width={"100%"}
+                          onClick={() => {
+                            router.push(`/auction/${auction._id}`);
+                          }}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <button className="btn btn-secondary">Contact</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div>
+              <h1>No results found</h1>
             </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-content-center pt-4 p-4">
-          <div
-            className="card d-flex align-items-center justify-content-center set-image"
-            style={{ width: "20rem", height: "24rem" }}
-          >
-            <Image src={cardemo} alt="" className="w-100" />
-            <div className=" row card-body d-flex align-items-center justify-content-center ">
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                <Image src={carmodel} alt="" />
-                2023 BMW 530 XI
-              </h5>
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-3">
-                <Image src={automanu} alt="" />
-                Automatic
-              </h5>
-              <div className="justify-content-between d-flex">
-                <h5 className="card-title  d-flex align-items-left justify-content-start gap-2 ">
-                  <Image src={currency} alt="" />
-                  Current price:
-                </h5>
-                <h6 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                  Rs.400000
-                </h6>
-              </div>
-              <div className="pt-2 pb-2 d-flex align-items-center justify-content-center">
-                <button className="justify-content-center align-items-center w-100">
-                  View details
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-content-center pt-4 p-4">
-          <div
-            className="card d-flex align-items-center justify-content-center set-image"
-            style={{ width: "20rem", height: "24rem" }}
-          >
-            <Image src={cardemo} alt="" className="w-100" />
-            <div className=" row card-body d-flex align-items-center justify-content-center ">
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                <Image src={carmodel} alt="" />
-                2023 BMW 530 XI
-              </h5>
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-3">
-                <Image src={automanu} alt="" />
-                Automatic
-              </h5>
-              <div className="justify-content-between d-flex">
-                <h5 className="card-title  d-flex align-items-left justify-content-start gap-2 ">
-                  <Image src={currency} alt="" />
-                  Current price:
-                </h5>
-                <h6 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                  Rs.400000
-                </h6>
-              </div>
-              <div className="pt-2 pb-2 d-flex align-items-center justify-content-center">
-                <button className="justify-content-center align-items-center w-100" >
-                  View details
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-content-center pt-4 p-4">
-          <div
-            className="card d-flex align-items-center justify-content-center set-image"
-            style={{ width: "20rem", height: "24rem" }}
-          >
-            <Image src={cardemo} alt="" className="w-100" />
-            <div className=" row card-body d-flex align-items-center justify-content-center ">
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                <Image src={carmodel} alt="" />
-                2023 BMW 530 XI
-              </h5>
-              <h5 className="card-title ps-3 d-flex align-items-left justify-content-start gap-3">
-                <Image src={automanu} alt="" />
-                Automatic
-              </h5>
-              <div className="justify-content-between d-flex">
-                <h5 className="card-title  d-flex align-items-left justify-content-start gap-2 ">
-                  <Image src={currency} alt="" />
-                  Current price:
-                </h5>
-                <h6 className="card-title ps-3 d-flex align-items-left justify-content-start gap-2 ">
-                  Rs.400000
-                </h6>
-              </div>
-              <div className="pt-2 pb-2 d-flex align-items-center justify-content-center">
-                <button className="justify-content-center align-items-center w-100" onClick={() => router.push('/auction/detail')}>
-                  View details
-                </button>
-              </div>
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </>

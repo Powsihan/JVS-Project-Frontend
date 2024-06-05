@@ -12,7 +12,6 @@ import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import {
   Brand,
-  Districts,
   FuelType,
   VehicleColors,
   Vehicletype,
