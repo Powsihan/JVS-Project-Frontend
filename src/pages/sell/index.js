@@ -31,13 +31,15 @@ import SignInModal from "@/src/components/modals/SignInModal";
 import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const index = () => {
-  
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
   const [mainImage, setMainImage] = useState(null);
+  const [mainImagePreview, setMainImagePreview] = useState(null);
   const [outsideViewFiles, setOutsideViewFiles] = useState([]);
+  const [outsideViewPreviews, setOutsideViewPreviews] = useState([]);
   const [insideViewFiles, setInsideViewFiles] = useState([]);
+  const [insideViewPreviews, setInsideViewPreviews] = useState([]);
   const [showLoginView, setShowLoginView] = useState(false);
   const [vehicleData, setVehicleData] = useState({
     name: "",
@@ -65,16 +67,25 @@ const index = () => {
     customerId: "",
   });
 
-
   const handleChangemainImage = (file) => {
     setMainImage(file);
+    setMainImagePreview(URL.createObjectURL(file));
   };
 
   const handleFileChange = (files, type) => {
+    const fileArray = Array.from(files);
     if (type === "outside") {
-      setOutsideViewFiles(Array.from(files));
+      setOutsideViewFiles((prevFiles) => [...prevFiles, ...fileArray]);
+      setOutsideViewPreviews((prevPreviews) => [
+        ...prevPreviews,
+        ...fileArray.map((file) => URL.createObjectURL(file)),
+      ]);
     } else if (type === "inside") {
-      setInsideViewFiles(Array.from(files));
+      setInsideViewFiles((prevFiles) => [...prevFiles, ...fileArray]);
+      setInsideViewPreviews((prevPreviews) => [
+        ...prevPreviews,
+        ...fileArray.map((file) => URL.createObjectURL(file)),
+      ]);
     }
   };
 
@@ -486,79 +497,89 @@ const index = () => {
               </div>
               <hr />
               <div className="row pt-3 pb-2">
-                <h3 className="Text-input-label ps-2 fw-bold">Upload Vehicle Images</h3>
+                <h3 className="Text-input-label ps-2 fw-bold">
+                  Upload Vehicle Images
+                </h3>
                 <hr />
-                <div className="col-lg-4 col-md-6 col-sm-12">
-                  <div className="row">
-                    <h6 className="ps-3">Main Image</h6>
-                    <div className="col-md-12">
-                      <div className="image-container">
-                        <FileUploader
-                          handleChange={handleChangemainImage}
-                          name="mainImage"
-                          types={fileTypes}
+                <div className="col-lg-4 col-md-4 col-sm-12">
+                <div className="form-group">
+                    <label htmlFor="main-image" className="Text-input-label">
+                      Main Image
+                    </label>
+                    <FileUploader
+                      handleChange={handleChangemainImage}
+                      name="mainImage"
+                      types={fileTypes}
+                      classes="upload-file"
+                    />
+                    {mainImagePreview && (
+                      <div className="main-img-preview-container">
+                        <Image
+                          src={mainImagePreview}
+                          alt="Main Image Preview"
+                          layout="responsive"
+                          width={700}
+                          height={400}
+                          className="main-img-preview"
                         />
-                        {mainImage && (
-                          <img
-                            src={URL.createObjectURL(mainImage)}
-                            alt="Main"
-                            className="image-preview"
+                      </div>
+                    )}
+                  </div>
+                </div>
+                <div className="col-lg-4 col-md-6 col-sm-12">
+                  <div className="form-group">
+                    <label htmlFor="outside-images" className="Text-input-label">
+                      Outside View Images
+                    </label>
+                    <FileUploader
+                      handleChange={(file) => handleFileChange(file, "outside")}
+                      name="outsideViewFiles"
+                      types={fileTypes}
+                      multiple
+                      classes="upload-file"
+                    />
+                    {outsideViewPreviews.length > 0 && (
+                      <div className="img-preview-container">
+                        {outsideViewPreviews.map((preview, index) => (
+                          <Image
+                            key={index}
+                            src={preview}
+                            alt={`Outside View ${index + 1}`}
+                            width={100}
+                            height={100}
+                            className="img-preview"
                           />
-                        )}
+                        ))}
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-12">
-                  <div className="row">
-                    <h6 className="ps-3">Outside View Images</h6>
-                    <div className="col-md-12">
-                      <div className="image-container">
-                        <FileUploader
-                          handleChange={(files) =>
-                            handleFileChange(files, "outside")
-                          }
-                          name="outsideViewImages"
-                          types={fileTypes}
-                          multiple
-                        />
-                        <div className="preview-images">
-                          {outsideViewFiles.map((file, index) => (
-                            <img
-                              key={index}
-                              src={URL.createObjectURL(file)}
-                              alt={`Outside ${index + 1}`}
-                            />
-                          ))}
-                        </div>
+                  <div className="form-group">
+                    <label htmlFor="inside-images" className="Text-input-label">
+                      Inside View Images
+                    </label>
+                    <FileUploader
+                      handleChange={(file) => handleFileChange(file, "inside")}
+                      name="insideViewFiles"
+                      types={fileTypes}
+                      multiple
+                      classes="upload-file"
+                    />
+                    {insideViewPreviews.length > 0 && (
+                      <div className="img-preview-container">
+                        {insideViewPreviews.map((preview, index) => (
+                          <Image
+                            key={index}
+                            src={preview}
+                            alt={`Inside View ${index + 1}`}
+                            width={100}
+                            height={100}
+                            className="img-preview"
+                          />
+                        ))}
                       </div>
-                    </div>
-                  </div>
-                </div>
-                <div className="col-lg-4 col-md-6 col-sm-12">
-                  <div className="row">
-                    <h6 className="ps-3">Inside View Images</h6>
-                    <div className="col-md-12">
-                      <div className="image-container">
-                        <FileUploader
-                          handleChange={(files) =>
-                            handleFileChange(files, "inside")
-                          }
-                          name="insideViewImages"
-                          types={fileTypes}
-                          multiple
-                       />
-                        <div className="preview-images">
-                          {insideViewFiles.map((file, index) => (
-                            <img
-                              key={index}
-                              src={URL.createObjectURL(file)}
-                              alt={`Inside ${index + 1}`}
-                            />
-                          ))}
-                        </div>
-                      </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
