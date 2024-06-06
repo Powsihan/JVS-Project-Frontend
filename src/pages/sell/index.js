@@ -1,7 +1,7 @@
 import Navbar from "@/src/layouts/Navbar";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import sellvh from "../../assets/images/Sellvh.png";
+import camera from "../../assets/icons/settings.svg";
 import CommonButton from "@/src/components/CommonButton";
 import "./sellvehicle.css";
 import InputField from "@/src/components/InputField";
@@ -31,10 +31,11 @@ import SignInModal from "@/src/components/modals/SignInModal";
 import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const index = () => {
+  
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
-  const [mainImageFile, setMainImageFile] = useState(null);
+  const [mainImage, setMainImage] = useState(null);
   const [outsideViewFiles, setOutsideViewFiles] = useState([]);
   const [insideViewFiles, setInsideViewFiles] = useState([]);
   const [showLoginView, setShowLoginView] = useState(false);
@@ -63,6 +64,19 @@ const index = () => {
     image: "",
     customerId: "",
   });
+
+
+  const handleChangemainImage = (file) => {
+    setMainImage(file);
+  };
+
+  const handleFileChange = (files, type) => {
+    if (type === "outside") {
+      setOutsideViewFiles(Array.from(files));
+    } else if (type === "inside") {
+      setInsideViewFiles(Array.from(files));
+    }
+  };
 
   useEffect(() => {
     const storedCustomerData = Cookies.get("customer");
@@ -109,25 +123,13 @@ const index = () => {
 
   const years = generateYears();
 
-  const handleFileChange = (files, category) => {
-    if (category === "main") {
-      setMainImageFile(files);
-    } else if (category === "outside") {
-      setOutsideViewFiles((prevFiles) => [...prevFiles, ...files]);
-    } else if (category === "inside") {
-      setInsideViewFiles((prevFiles) => [...prevFiles, ...files]);
-    }
-  };
-
-  
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
     const imageUrls = [];
 
-    if (mainImageFile) {
-      const uploadedImageUrl = await dispatch(uploadImage(mainImageFile));
+    if (mainImage) {
+      const uploadedImageUrl = await dispatch(uploadImage(mainImage));
       if (uploadedImageUrl) {
         imageUrls.push(uploadedImageUrl);
       }
@@ -188,7 +190,7 @@ const index = () => {
               text="Sell Your Vehicle"
               width={250}
               image={sellvehiclebutton}
-              onClick={customerData ? scrollToSellVehicle:LoginViewModal}
+              onClick={customerData ? scrollToSellVehicle : LoginViewModal}
             />
           </div>
         </div>
@@ -483,35 +485,81 @@ const index = () => {
                 </div>
               </div>
               <hr />
-              <div className="row ps-2">
-                <label htmlFor="input-field" className="Text-input-label pb-2">
-                  Upload Images
-                </label>
-                <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-                  <FileUploader
-                    handleChange={(file) => handleFileChange(file, "main")}
-                    name="file"
-                    types={fileTypes}
-                    label={"Upload Main Image"}
-                  />
+              <div className="row pt-3 pb-2">
+                <h3 className="Text-input-label ps-2 fw-bold">Upload Vehicle Images</h3>
+                <hr />
+                <div className="col-lg-4 col-md-6 col-sm-12">
+                  <div className="row">
+                    <h6 className="ps-3">Main Image</h6>
+                    <div className="col-md-12">
+                      <div className="image-container">
+                        <FileUploader
+                          handleChange={handleChangemainImage}
+                          name="mainImage"
+                          types={fileTypes}
+                        />
+                        {mainImage && (
+                          <img
+                            src={URL.createObjectURL(mainImage)}
+                            alt="Main"
+                            className="image-preview"
+                          />
+                        )}
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-                  <FileUploader
-                    handleChange={(files) => handleFileChange(files, "outside")}
-                    name="file"
-                    types={fileTypes}
-                    label={"Upload OutSide View Images"}
-                    multiple
-                  />
+                <div className="col-lg-4 col-md-6 col-sm-12">
+                  <div className="row">
+                    <h6 className="ps-3">Outside View Images</h6>
+                    <div className="col-md-12">
+                      <div className="image-container">
+                        <FileUploader
+                          handleChange={(files) =>
+                            handleFileChange(files, "outside")
+                          }
+                          name="outsideViewImages"
+                          types={fileTypes}
+                          multiple
+                        />
+                        <div className="preview-images">
+                          {outsideViewFiles.map((file, index) => (
+                            <img
+                              key={index}
+                              src={URL.createObjectURL(file)}
+                              alt={`Outside ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
-                  <FileUploader
-                    handleChange={(files) => handleFileChange(files, "inside")}
-                    name="file"
-                    types={fileTypes}
-                    label={"Upload InSide View Images"}
-                    multiple
-                  />
+                <div className="col-lg-4 col-md-6 col-sm-12">
+                  <div className="row">
+                    <h6 className="ps-3">Inside View Images</h6>
+                    <div className="col-md-12">
+                      <div className="image-container">
+                        <FileUploader
+                          handleChange={(files) =>
+                            handleFileChange(files, "inside")
+                          }
+                          name="insideViewImages"
+                          types={fileTypes}
+                          multiple
+                       />
+                        <div className="preview-images">
+                          {insideViewFiles.map((file, index) => (
+                            <img
+                              key={index}
+                              src={URL.createObjectURL(file)}
+                              alt={`Inside ${index + 1}`}
+                            />
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <hr />
