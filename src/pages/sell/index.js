@@ -1,16 +1,15 @@
 import Navbar from "@/src/layouts/Navbar";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import camera from "../../assets/icons/settings.svg";
 import CommonButton from "@/src/components/CommonButton";
-import "./sellvehicle.css";
+import "../../styles/sellvehicle.css";
 import InputField from "@/src/components/InputField";
 import sellvehicon from "../../assets/images/points_arrow.svg";
-import sellvehicle from "../../assets/images/sellvehicle.png";
+import sellvehicle from "../../assets/images/sellVehicleImg.svg";
 import sellvehiclebutton from "../../assets/icons/sell-vehicle.svg";
 import { Button } from "react-bootstrap";
 import { sellvehiclecontent } from "@/src/data/content";
-import {
+import {  
   Brand,
   Districts,
   Features,
@@ -217,8 +216,8 @@ const index = () => {
                   <Image
                     src={sellvehicle}
                     alt="vehicleee"
-                    width={250}
-                    height={250}
+                    width={500}
+                    height={300}
                   />
                 </div>
                 <div className="col-lg-7 col-md-6 col-sm-12 pe-3 ps-2">

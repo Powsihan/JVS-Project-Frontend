@@ -1,6 +1,5 @@
 .sell-vehicle-home {
-
-    background-image: url('../../assets/images/Sellvh.png');
+    background-image: url('../assets/images/Sellvh.png');
     background-size: cover;
     background-position: center;
 }

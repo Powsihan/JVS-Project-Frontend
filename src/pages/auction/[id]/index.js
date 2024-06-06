@@ -16,6 +16,9 @@ import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { getCustomerInfo } from "@/src/redux/action/customer";
+import Image from "next/image";
+import Auctionback from "../../../assets/images/AuctionVehicleImg.svg"
+
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
@@ -70,7 +73,7 @@ const index = () => {
               toast.error("Error fetching additional details");
             });
 
-          const maxBid = Math.max(...auction.map((bid) => bid.biddingprice));
+            const maxBid = auction.length > 0 ? Math.max(...auction.map((bid) => bid.biddingprice)) : "0";
           setMaxBidPrice(maxBid);
         } else {
           dispatch(setLoading(false));
@@ -206,18 +209,22 @@ const index = () => {
                   ))}
                 </Carousel>
               )}
+
+              <div className="d-flex justify-content-center align-items-center" style={{marginTop:'-20px'}}>
+                <Image src={Auctionback}/>
+              </div>
             </div>
             <div className="col-lg-8 col-md-6 col-sm-12">
               <div className="row">
                 <div className="col-lg-5 col-md-12 col-sm-12 mb-3">
                   <div className="Auction-Vehicle-Details-Section container-fluid">
-                    <h1 className="row ps-2 mb-3">Vehicle Details</h1>
+                    <h1 className="row ps-2 mb-4">Vehicle Details</h1>
                     {vehicleDetails &&
                       vehicleDetails.map((data, index) => (
                         <div>
                           <div
                             className="d-flex justify-content-between align-items-center ps-2 pe-2"
-                            style={{ marginBottom: "-10px" }}
+                            style={{ marginBottom: "-7px" }}
                           >
                             <h2>{data.label}</h2>
                             <h4>{data.content}</h4>

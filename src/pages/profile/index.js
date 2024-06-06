@@ -85,7 +85,6 @@ const index = () => {
     });
   };
 
-
   const handleProfileChangeClick = () => {
     fileInputRef.current.click();
   };
@@ -149,7 +148,12 @@ const index = () => {
               </div>
               <div className="col-6 d-flex justify-content-end pe-5 gap-3 profile-button-group">
                 <div>
-                  <Button variant="secondary">Cancel</Button>
+                  <Button
+                    variant="secondary"
+                    style={{ width: 100, height: "100%" }}
+                  >
+                    Cancel
+                  </Button>
                 </div>
                 <CommonButton text="Save Changes" width={150} />
               </div>
@@ -289,7 +293,12 @@ const index = () => {
               </div>
               <div className="col-6 d-flex justify-content-end pe-5 gap-3 profile-button-group">
                 <div>
-                  <Button variant="secondary">Cancel</Button>
+                  <Button
+                    variant="secondary"
+                    style={{ width: 100, height: "100%" }}
+                  >
+                    Cancel
+                  </Button>
                 </div>
                 <CommonButton text="Save Changes" width={150} />
               </div>
