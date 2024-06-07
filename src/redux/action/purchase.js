@@ -17,3 +17,19 @@ export const addPurchase = (data, callback) => {
     callback(error.response);
   }
 };
+
+export const getAllPurchases = (callback) => {
+  const endpoint = `${process.env.api_base_url}/purchase/`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

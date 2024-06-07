@@ -15,7 +15,6 @@ import "../../../styles/admin.css";
 import SalesView from "@/src/components/modals/SalesView";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
-import "../../../styles/admin.css";
 import { SalesStatus } from "@/src/data/datas";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";

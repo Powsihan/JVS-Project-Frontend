@@ -3,16 +3,24 @@ import "../styles/sidebar.css";
 import Sidebar from "./Sidebar";
 
 import profile from "../assets/images/avatar.svg";
-import notification from "../assets/icons/notification.svg";
+import notificationimg from "../assets/icons/notification.svg";
 import chat from "../assets/icons/chat.png";
 
 import Image from "next/image";
 
 import { usePathname } from "next/navigation";
 import Cookies from "js-cookie";
+import NotificationModal from "../components/modals/NodificationModal";
+import CircleIcon from "@mui/icons-material/Circle";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../redux/reducer/loaderSlice";
+import { getAllPurchases } from "../redux/action/purchase";
 const Adminlayout = ({ children }) => {
+  const dispatch = useDispatch();
   const [typingText, setTypingText] = useState("");
   const pathname = usePathname();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [notification, setNotification] = useState("");
 
   let pageTitle = "Dashboard";
   const getPageName = (path) => {
@@ -83,6 +91,23 @@ const Adminlayout = ({ children }) => {
     };
   }, []);
 
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getAllPurchases((res) => {
+      if (res && res.data) {
+        const notifications = res.data;
+        const hasRequested = notifications.some(
+          (notification) => notification.status === "Requested"
+        );
+        setNotification(hasRequested);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        toast.error("Error fetching Notification details");
+      }
+    });
+  }, []);
+
   return (
     <div class="container-fluid">
       <div class="row">
@@ -126,14 +151,46 @@ const Adminlayout = ({ children }) => {
             <div className="col-6 d-flex align-items-center justify-content-end pe-5">
               <div className="d-flex align-items-center justify-content-center gap-3">
                 <Image src={chat} alt="" />
-                <Image src={notification} alt="" />
-                <Image src={userData && userData.profilePic ? userData.profilePic : profile} alt="" width={50} height={50} className="rounded-circle "/>
+                <div
+                  onClick={() => setIsModalOpen(true)}
+                  style={{ cursor: "pointer" }}
+                  className="d-flex"
+                >
+                  <Image src={notificationimg} alt="" />
+                  {notification && (
+                    <div>
+                      <CircleIcon
+                        sx={{
+                          fontSize: "17px",
+                          marginLeft: "-13px",
+                          marginTop: "-15px",
+                          color: "#17B530",
+                        }}
+                      />
+                    </div>
+                  )}
+                </div>
+                <Image
+                  src={
+                    userData && userData.profilePic
+                      ? userData.profilePic
+                      : profile
+                  }
+                  alt=""
+                  width={50}
+                  height={50}
+                  className="rounded-circle "
+                />
               </div>
             </div>
           </div>
           <div class="mt-4 p-3">{children}</div>
         </div>
       </div>
+      <NotificationModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
     </div>
   );
 };
