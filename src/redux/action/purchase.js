@@ -33,3 +33,19 @@ export const getAllPurchases = (callback) => {
     callback(error.response);
   }
 };
+
+export const updatePurchase = (purchaseId, data, callback) => {
+  const endpoint = `${process.env.api_base_url}/purchase/${purchaseId}`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

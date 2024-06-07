@@ -45,8 +45,8 @@ const Adminlayout = ({ children }) => {
       case "vehicle":
         pageTitle = "Vehicle";
         break;
-      case "user":
-        pageTitle = "User";
+      case "customer":
+        pageTitle = "Customers";
         break;
       case "sales":
         pageTitle = "Sales and Buy";
@@ -97,7 +97,9 @@ const Adminlayout = ({ children }) => {
       if (res && res.data) {
         const notifications = res.data;
         const hasRequested = notifications.some(
-          (notification) => notification.status === "Requested"
+          (notification) =>
+            notification.status === "Requested" ||
+            notification.status === "Pending"
         );
         setNotification(hasRequested);
         dispatch(setLoading(false));

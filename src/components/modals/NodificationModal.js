@@ -10,6 +10,7 @@ import DirectionsCarIcon from "@mui/icons-material/DirectionsCar";
 import { IconButton } from "@mui/material";
 import CustomerView from "./CustomerView";
 import VehicleView from "./VehicleView";
+import NotificationStatusModal from "./NotificationStatusModal";
 
 const NotificationModal = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -21,13 +22,18 @@ const NotificationModal = ({ isOpen, onClose }) => {
   const [showViewModal2, setShowViewModal2] = useState(false);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
+  const [showStatusModal, setShowStatusModal] = useState(false);
+  const [currentStatus, setCurrentStatus] = useState(null);
 
   useEffect(() => {
     dispatch(setLoading(true));
     getAllPurchases(async (res) => {
       if (res && res.data) {
         const notification = res.data;
-        setNotifications(notification);
+        const filteredNotifications = res.data.filter(
+          (notification) => notification.status === "Requested" || notification.status === "Pending"
+        );
+        setNotifications(filteredNotifications);
         dispatch(setLoading(false));
 
         const customerInfoPromises = notification.map(
@@ -95,9 +101,23 @@ const NotificationModal = ({ isOpen, onClose }) => {
     setShowViewModal2(true);
   };
 
+
+  const OpenStatusModal = (status) => {
+    setCurrentStatus(status);
+    setShowStatusModal(true);
+  };
+
+
+  const handleStatusUpdate = (id, status) => {
+    const updatedNotifications = notifications.map((notification) =>
+      notification._id === id ? { ...notification, status } : notification
+    );
+    setNotifications(updatedNotifications);
+  };
+
   return (
     <div>
-      {!showViewModal && !showViewModal2 && (
+      {!showViewModal && !showViewModal2 && !showStatusModal && (
         <div>
           {isOpen && <div className="modal-background-dim"></div>}
           <div
@@ -128,6 +148,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
                             ? "Pending-Field"
                             : "Available-Field"
                         }`}
+                        onClick={() => OpenStatusModal(data)}
                       >
                         {data.status}
                       </div>
@@ -182,6 +203,12 @@ const NotificationModal = ({ isOpen, onClose }) => {
         show={showViewModal2}
         onHide={() => setShowViewModal2(false)}
         vehicleDetails={selectedVehicledata}
+      />
+      <NotificationStatusModal
+        show={showStatusModal}
+        onHide={() => setShowStatusModal(false)}
+        currentStatus={currentStatus}
+        onUpdate={handleStatusUpdate} 
       />
     </div>
   );
