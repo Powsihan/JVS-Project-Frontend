@@ -1,0 +1,38 @@
+.Footer-Section {
+  background-color: #040c3a;
+  border-top-left-radius: 25px;
+  border-top-right-radius: 25px;
+}
+
+.links-footer a {
+  color: rgb(151, 151, 151);
+  font-size: 18px;
+  font-weight: 600;
+  text-decoration: none
+}
+
+.links-footer a:hover {
+  color: #fff;
+}
+
+.Footer-Section h6 {
+  color: #fff;
+  font-size: 20px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1.1px;
+}
+
+.Footer-Section h4 {
+  color: #9e9e9e;
+  font-size: 16px;
+  text-transform: uppercase;
+  font-weight: 600;
+  letter-spacing: 1.01px;
+}
+
+.footer-contact img:hover {
+  transform: scale(1.2);
+  transition: 50ms ease-in-out;
+  cursor: pointer;
+}

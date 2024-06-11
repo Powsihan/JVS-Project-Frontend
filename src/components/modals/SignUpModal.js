@@ -5,7 +5,6 @@ import "../../styles/component.css";
 import CommonButton from "../CommonButton";
 import welcome from "../../assets/images/welcome.png";
 import Image from "next/image";
-import finish from "../../assets/images/finish.png";
 import { Districts, Gender } from "@/src/data/datas";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -15,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { useRouter } from "next/navigation";
 import { uploadImage } from "@/src/redux/action/imageUpload";
+import { signUpfinish } from "@/src/utils/ImagesPath";
 
 function SignUpModal(props) {
   const router=useRouter();
@@ -286,7 +286,7 @@ function SignUpModal(props) {
       content: (
         <div className="container-fluid p-5">
           <div className="d-flex align-items-center justify-content-center ">
-            <Image src={finish} alt="" />
+            <Image src={signUpfinish} alt="" />
           </div>
           <div className="d-flex flex-column justify-content-center align-items-center Account-created pt-3">
             <h1>Your Account has been Successfully created!...</h1>

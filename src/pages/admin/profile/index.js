@@ -2,13 +2,8 @@ import Adminlayout from "@/src/layouts/Adminlayout";
 import React, { useEffect, useState } from "react";
 import CommonButton from "@/src/components/CommonButton";
 import Image from "next/image";
-import avatar from "../../../assets/images/avatar.svg";
-import editprof from "../../../assets/images/Editprof.png";
-import changepass from "../../../assets/images/changepassword.png";
-import ProfileEdit from "../../../assets/images/Profileedit.svg";
 import "../../../styles/admin.css";
 import "./profile.css";
-
 import InputField from "@/src/components/InputField";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
@@ -17,6 +12,7 @@ import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { uploadImage } from "@/src/redux/action/imageUpload";
+import { avatar, changepass, editprof, ProfileEdit } from "@/src/utils/ImagesPath";
 
 const index = () => {
   const dispatch = useDispatch();

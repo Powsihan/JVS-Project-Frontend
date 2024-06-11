@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/admin.css";
 import "../../styles/component.css";
-import addSalesimg from "../../assets/images/addsales.svg";
 import Image from "next/image";
 import InputField from "../InputField";
 import { SalesStatus } from "@/src/data/datas";
@@ -13,6 +12,8 @@ import { addSales } from "@/src/redux/action/sales";
 import { toast } from "react-toastify";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
+import { addSalesimg } from "@/src/utils/ImagesPath";
+
 const AddSales = (props) => {
   const dispatch = useDispatch();
   const [customerdata, setCustomerdata] = useState([]);
@@ -90,7 +91,7 @@ const AddSales = (props) => {
     setFilteredEmails(filtered);
   };
 
- const handleRegisterNoChange = (value) => {
+  const handleRegisterNoChange = (value) => {
     const filteredno = vehicleData.filter(
       (vehicle) =>
         vehicle.registerno.toLowerCase().includes(value.toLowerCase()) &&

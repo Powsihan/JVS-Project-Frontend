@@ -6,7 +6,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import CommonButton from "@/src/components/CommonButton";
-import add from "../../../assets/icons/add.png";
 import { useDispatch } from "react-redux";
 import AddAuction from "@/src/components/sections/AddAuction";
 import { deleteAuction, getAuctionDetails } from "@/src/redux/action/auction";
@@ -18,6 +17,8 @@ import "react-datepicker/dist/react-datepicker.css";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
 import AuctionView from "@/src/components/modals/AuctionView";
+import { add } from "@/src/utils/ImagesPath";
+
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);

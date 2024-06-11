@@ -1,17 +1,16 @@
 import React, { useEffect, useState } from "react";
 import "../../styles/admin.css";
 import "../../styles/component.css";
-import addauctionimg from "../../assets/images/auctionback.svg";
 import InputField from "../InputField";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
 import { toast } from "react-toastify";
 import CommonButton from "../CommonButton";
 import { Button } from "react-bootstrap";
 import Image from "next/image";
-import { AuctionStatus } from "@/src/data/datas";
 import { addAuction } from "@/src/redux/action/auction";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { useDispatch } from "react-redux";
+import { addauctionimg } from "@/src/utils/ImagesPath";
 
 const AddAuction = (props) => {
   const dispatch = useDispatch();

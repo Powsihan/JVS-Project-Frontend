@@ -17,7 +17,8 @@ import { toast } from "react-toastify";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import Image from "next/image";
-import Auctionback from "../../../assets/images/AuctionVehicleImg.svg"
+import { auctiondetail } from "@/src/utils/ImagesPath";
+
 
 const index = () => {
   const dispatch = useDispatch();
@@ -211,7 +212,7 @@ const index = () => {
               )}
 
               <div className="d-flex justify-content-center align-items-center" style={{marginTop:'-20px'}}>
-                <Image src={Auctionback}/>
+                <Image src={auctiondetail}/>
               </div>
             </div>
             <div className="col-lg-8 col-md-6 col-sm-12">

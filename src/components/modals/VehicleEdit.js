@@ -6,7 +6,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
 import { IconButton } from "@mui/material";
-import PendingIcon from "@mui/icons-material/Pending";
 import {
   Brand,
   Districts,
@@ -19,7 +18,6 @@ import {
   VehicleTransmission,
   Vehicletype,
 } from "@/src/data/datas";
-import { FileUploader } from "react-drag-drop-files";
 import { vehicleEdit } from "@/src/redux/action/vehicle";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";

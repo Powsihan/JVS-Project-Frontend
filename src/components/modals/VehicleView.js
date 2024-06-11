@@ -6,7 +6,6 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
 import { IconButton } from "@mui/material";
-import PendingIcon from "@mui/icons-material/Pending";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import CommonButton from "../CommonButton";
 import CustomerView from "./CustomerView";

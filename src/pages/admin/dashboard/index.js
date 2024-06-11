@@ -1,12 +1,7 @@
 import Adminlayout from "@/src/layouts/Adminlayout";
 import React, { useEffect, useState } from "react";
 import "../../admin/dashboard/adminDashboard.css";
-import customer from "../../../assets/images/customer.svg";
 import Image from "next/image";
-import requests from "../../../assets/images/requests.svg";
-import reviews from "../../../assets/images/reviews.svg";
-import experts from "../../../assets/images/Broker.png";
-import vehicles from "../../../assets/images/vehicles.svg";
 import CategoryChart from "@/src/components/charts/CategoryChart";
 import AreaChart from "@/src/components/charts/AreaChart";
 import RadiusChart from "@/src/components/charts/RadiusChart";
@@ -17,6 +12,13 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import PieChart from "@/src/components/charts/PieChart";
 import { getEmployeeDetails } from "@/src/redux/action/employee";
+import {
+  customer,
+  experts,
+  requests,
+  reviews,
+  vehicles,
+} from "@/src/utils/ImagesPath";
 
 const index = () => {
   const dispatch = useDispatch();

@@ -23,7 +23,7 @@ const Navbar = () => {
     { name: "Home", path: "home" },
     { name: "Vehicles", path: "vehicle" },
     { name: "SellVehicles", path: "sell" },
-    { name: "Customization", path: "customization" },
+    // { name: "Customization", path: "customization" },
     { name: "Auction", path: "auction" },
   ];
 

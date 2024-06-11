@@ -2,7 +2,9 @@ import React from "react";
 import { Modal, Button } from "react-bootstrap";
 import InputField from "../InputField";
 import Image from "next/image";
-import DefaultDp from "../../assets/images/avatar.svg";
+import { avatar } from "@/src/utils/ImagesPath";
+
+
 const EmployeeView = (props) => {
   const { show, onHide, employeeDetails } = props;
   return (
@@ -23,7 +25,7 @@ const EmployeeView = (props) => {
                       src={
                         employeeDetails && employeeDetails.profilePic
                           ? employeeDetails.profilePic
-                          : DefaultDp
+                          : avatar
                       }
                       alt=""
                       width={150}

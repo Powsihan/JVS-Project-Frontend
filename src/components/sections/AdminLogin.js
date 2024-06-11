@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import InputField from "../InputField";
 import CommonButton from "../CommonButton";
-import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { userLogin } from "../../redux/action/user";
 import Cookies from "js-cookie";
@@ -41,11 +40,10 @@ const AdminLogin = () => {
             path: "/",
           };
           Cookies.set("token", JSON.stringify(res.data.data), cookieOptions);
-          router.push('/admin/dashboard');
+          router.push("/admin/dashboard");
         } else {
           toast.error(res.data.message);
         }
-        
       }
     );
   };

@@ -4,19 +4,11 @@ import { getVehicleInfo, vehicleEdit } from "@/src/redux/action/vehicle"; // Ass
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import Navbar from "@/src/layouts/Navbar";
-
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 import "../../../styles/vehicle.css";
-
-import vehicleCardicon1 from "../../../assets/icons/Vehicle-Card-icon-1.svg";
-import vehicleCardicon2 from "../../../assets/icons/Vehicle-Card-icon-2.svg";
-import vehicleCardicon3 from "../../../assets/icons/Vehicle-Card-icon-3.svg";
-import vehicleCardicon4 from "../../../assets/icons/Vehicle-Card-icon-4.svg";
-import vehicleCardicon5 from "../../../assets/icons/Vehicle-Card-icon-5.svg";
 import downicon from "../../../assets/icons/downicon.svg";
 import upicon from "../../../assets/icons/upicon.svg";
-
 import Image from "next/image";
 import CommonButton from "@/src/components/CommonButton";
 import SignInModal from "@/src/components/modals/SignInModal";
@@ -24,6 +16,7 @@ import Cookies from "js-cookie";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { addPurchase } from "@/src/redux/action/purchase";
 import { toast } from "react-toastify";
+import { vehicleCardicon1, vehicleCardicon2, vehicleCardicon3, vehicleCardicon4, vehicleCardicon5 } from "@/src/utils/ImagesPath";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();

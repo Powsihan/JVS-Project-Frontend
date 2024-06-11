@@ -9,12 +9,12 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { deleteEmployee, getEmployeeDetails } from "@/src/redux/action/employee";
 import CommonButton from "@/src/components/CommonButton";
-import add from "../../../assets/icons/add.png";
 import AddEmployee from "@/src/components/sections/AddEmployee";
 import { toast } from "react-toastify";
 import { EmployeeRole } from "@/src/data/datas";
 import EmployeeView from "@/src/components/modals/EmployeeView";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { add } from "@/src/utils/ImagesPath";
 const index = () => {
   const dispatch = useDispatch();
   const [employeeData, setEmployeedata] = useState([]);

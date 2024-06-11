@@ -4,7 +4,6 @@ import InputField from "../InputField";
 import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
 import { IconButton } from "@mui/material";
-import Image from "next/image";
 
 const ContentView = (props) => {
   const { show, onHide, contentDetails } = props;

@@ -1,15 +1,8 @@
 import Navbar from "@/src/layouts/Navbar";
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
-import JVS from "../../assets/images/JVS1.png";
 import "../../styles/auction.css";
 import { useRouter } from "next/navigation";
-import { Brand, FuelType, VehicleColors, Vehicletype } from "@/src/data/datas";
-import vehicleCardicon1 from "../../assets/icons/Vehicle-Card-icon-1.svg";
-import vehicleCardicon2 from "../../assets/icons/Vehicle-Card-icon-2.svg";
-import vehicleCardicon3 from "../../assets/icons/Vehicle-Card-icon-3.svg";
-import vehicleCardicon4 from "../../assets/icons/Vehicle-Card-icon-4.svg";
-import vehicleCardicon5 from "../../assets/icons/Vehicle-Card-icon-5.svg";
 import CommonButton from "@/src/components/CommonButton";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -20,6 +13,14 @@ import "../../styles/admin.css";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import Cookies from "js-cookie";
 import SignInModal from "@/src/components/modals/SignInModal";
+import {
+  auctionBack,
+  vehicleCardicon1,
+  vehicleCardicon2,
+  vehicleCardicon3,
+  vehicleCardicon4,
+  vehicleCardicon5,
+} from "@/src/utils/ImagesPath";
 
 const index = () => {
   const [auctionData, setAuctionData] = useState([]);
@@ -57,9 +58,8 @@ const index = () => {
         );
         try {
           const vehicleInfoResponses = await Promise.all(vehicleInfoPromises);
-         
+
           const vehicleDataMap = {};
-          
 
           vehicleInfoResponses.forEach((response) => {
             if (response.data) {
@@ -71,8 +71,6 @@ const index = () => {
           console.error("Error fetching customer or vehicle details", error);
           toast.error("Error fetching additional details");
         }
-
-
       } else {
         dispatch(setLoading(false));
         console.error("Error fetching vehicle details", res);
@@ -81,20 +79,20 @@ const index = () => {
     });
   }, []);
 
-
   const LoginViewModal = () => {
     setShowLoginView(true);
   };
-
-  
-
 
   return (
     <>
       <Navbar />
       <div className="row d-flex align-content-center aboutUs justify-content-center min-vh-100 ">
         <div className="image d-flex align-content-center justify-content-center ">
-          <Image src={JVS} alt="" style={{ width: "auto", height: "auto" }} />
+          <Image
+            src={auctionBack}
+            alt=""
+            style={{ width: "auto", height: "auto" }}
+          />
         </div>
       </div>
       <div className="container-fluid min-vh-100">
@@ -104,20 +102,31 @@ const index = () => {
         <div className="row ps-5 pe-5 mb-5">
           {auctionData.length > 0 ? (
             auctionData.map((auction, index) => {
-             
-
               const vehicleshortDetails = [
                 {
                   icon: vehicleCardicon1,
                   name:
-                  vehicleData[auction.vehicleId]?.ownership && vehicleData[auction.vehicleId]?.ownership === 1
+                    vehicleData[auction.vehicleId]?.ownership &&
+                    vehicleData[auction.vehicleId]?.ownership === 1
                       ? "Brand-New"
                       : "Pre-Owned",
                 },
-                { icon: vehicleCardicon2, name:  vehicleData[auction.vehicleId]?.yom || "N/A" },
-                { icon: vehicleCardicon3, name: vehicleData[auction.vehicleId]?.fuel || "N/A" },
-                { icon: vehicleCardicon4, name: vehicleData[auction.vehicleId]?.color || "N/A" },
-                { icon: vehicleCardicon5, name: `${vehicleData[auction.vehicleId]?.power || "N/A"} CC` },
+                {
+                  icon: vehicleCardicon2,
+                  name: vehicleData[auction.vehicleId]?.yom || "N/A",
+                },
+                {
+                  icon: vehicleCardicon3,
+                  name: vehicleData[auction.vehicleId]?.fuel || "N/A",
+                },
+                {
+                  icon: vehicleCardicon4,
+                  name: vehicleData[auction.vehicleId]?.color || "N/A",
+                },
+                {
+                  icon: vehicleCardicon5,
+                  name: `${vehicleData[auction.vehicleId]?.power || "N/A"} CC`,
+                },
               ];
 
               const statusStyle = {
@@ -179,7 +188,9 @@ const index = () => {
                           text={"Go To Auction"}
                           width={"100%"}
                           onClick={() => {
-                            customerData ?  router.push(`/auction/${auction._id}`) : LoginViewModal()
+                            customerData
+                              ? router.push(`/auction/${auction._id}`)
+                              : LoginViewModal();
                           }}
                         />
                       </div>

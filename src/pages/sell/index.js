@@ -4,9 +4,6 @@ import Image from "next/image";
 import CommonButton from "@/src/components/CommonButton";
 import "../../styles/sellvehicle.css";
 import InputField from "@/src/components/InputField";
-import sellvehicon from "../../assets/images/points_arrow.svg";
-import sellvehicle from "../../assets/images/sellVehicleImg.svg";
-import sellvehiclebutton from "../../assets/icons/sell-vehicle.svg";
 import { Button } from "react-bootstrap";
 import { sellvehiclecontent } from "@/src/data/content";
 import {  
@@ -28,6 +25,7 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import SignInModal from "@/src/components/modals/SignInModal";
 import { uploadImage } from "@/src/redux/action/imageUpload";
+import { sellvehicle, sellvehiclebutton, sellvehicon } from "@/src/utils/ImagesPath";
 
 const index = () => {
   const dispatch = useDispatch();

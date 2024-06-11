@@ -4,10 +4,9 @@ import "../../../styles/admin.css";
 import AdminLogin from "@/src/components/sections/AdminLogin";
 import { ToastContainer, toast } from "react-toastify";
 import Image from "next/image";
-
-import loginback from "../../../assets/images/admin-login-image.png";
 import { IconButton } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
+import { loginback } from "@/src/utils/ImagesPath";
 const index = () => {
   const [done, setDone] = useState(undefined);
 

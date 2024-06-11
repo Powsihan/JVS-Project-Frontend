@@ -10,21 +10,18 @@ import "../../styles/vehicle.css";
 import "../../styles/admin.css";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import {
-  Brand,
-  FuelType,
-  VehicleColors,
-  Vehicletype,
-} from "@/src/data/datas";
+import { Brand, FuelType, VehicleColors, Vehicletype } from "@/src/data/datas";
 import Image from "next/image";
-import vehicleCardicon1 from "../../assets/icons/Vehicle-Card-icon-1.svg";
-import vehicleCardicon2 from "../../assets/icons/Vehicle-Card-icon-2.svg";
-import vehicleCardicon3 from "../../assets/icons/Vehicle-Card-icon-3.svg";
-import vehicleCardicon4 from "../../assets/icons/Vehicle-Card-icon-4.svg";
-import vehicleCardicon5 from "../../assets/icons/Vehicle-Card-icon-5.svg";
 import CommonButton from "@/src/components/CommonButton";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
 import { useRouter } from "next/navigation";
+import {
+  vehicleCardicon1,
+  vehicleCardicon2,
+  vehicleCardicon3,
+  vehicleCardicon4,
+  vehicleCardicon5,
+} from "@/src/utils/ImagesPath";
 
 const index = () => {
   const router = useRouter();
@@ -58,7 +55,9 @@ const index = () => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
-        const filteredVehicleData = res.data.filter(vehicle => vehicle.status !== "Requested");
+        const filteredVehicleData = res.data.filter(
+          (vehicle) => vehicle.status !== "Requested"
+        );
         setVehicleData(filteredVehicleData);
         dispatch(setLoading(false));
       } else {
@@ -367,20 +366,24 @@ const index = () => {
               ];
 
               const statusStyle = {
-                backgroundColor: vehicle.status === "Available" 
-                  ? "#17B530" 
-                  : vehicle.status === "Pending" 
-                  ? "#FFBE18" 
-                  : "#F73B3B"
+                backgroundColor:
+                  vehicle.status === "Available"
+                    ? "#17B530"
+                    : vehicle.status === "Pending"
+                    ? "#FFBE18"
+                    : "#F73B3B",
               };
-              
+
               return (
                 <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
                   <div className="Vehicle-display-card p-1">
-                  <div className="d-flex justify-content-end">
-                    <div className="d-flex justify-content-center align-items-center vehicle-status-indicator" style={statusStyle}>
-                    {vehicle.status}
-                    </div>
+                    <div className="d-flex justify-content-end">
+                      <div
+                        className="d-flex justify-content-center align-items-center vehicle-status-indicator"
+                        style={statusStyle}
+                      >
+                        {vehicle.status}
+                      </div>
                     </div>
                     <div
                       style={{

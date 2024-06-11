@@ -1,20 +1,18 @@
 import React, { useState } from "react";
 import "../../styles/admin.css";
 import "../../styles/component.css";
-
-import employeeback from "../../assets/images/employeeback.svg";
 import Image from "next/image";
 import InputField from "../InputField";
 import { EmployeeRole } from "@/src/data/datas";
 import { FileUploader } from "react-drag-drop-files";
 import CommonButton from "../CommonButton";
 import { Button } from "react-bootstrap";
-import { Cloudinary } from "cloudinary-core";
 import { registerEmployee } from "@/src/redux/action/employee";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { uploadImage } from "@/src/redux/action/imageUpload";
+import { employeeback } from "@/src/utils/ImagesPath";
 
 const AddEmployee = (props) => {
   const dispatch = useDispatch();

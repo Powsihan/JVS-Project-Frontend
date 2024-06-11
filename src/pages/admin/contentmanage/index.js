@@ -114,8 +114,6 @@ const index = () => {
     }
   };
 
- 
-
   const fetchContentDetails = () => {
     dispatch(setLoading(true));
     getContentDetails((res) => {
@@ -133,7 +131,6 @@ const index = () => {
     fetchContentDetails();
   }, []);
 
-
   const OpenContentViewModal = (content) => {
     setSelectedContentdata(content);
     setShowViewModal(true);
@@ -143,7 +140,6 @@ const index = () => {
     setSelectedContentdata(content);
     setShowEditModal(true);
   };
-
 
   const handleEditModalClose = (content) => {
     setShowEditModal(false);
@@ -310,7 +306,7 @@ const index = () => {
         onConfirm={() => deleteContentData(selectedContentdata)}
         onCancel={closeDeleteConfirmationModal}
       />
-       <ContentView
+      <ContentView
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
         contentDetails={selectedContentdata}

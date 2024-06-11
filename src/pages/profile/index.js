@@ -6,11 +6,6 @@ import React, { useState, useEffect, useRef } from "react";
 import "../../styles/home.css";
 import { Button } from "react-bootstrap";
 import InputField from "@/src/components/InputField";
-import avatar from "../../assets/images/avatar.svg";
-import chnagepassword from "../../assets/images/changepassword.png";
-import chnagepassword2 from "../../assets/images/changepassword2.png";
-import danger from "../../assets/images/Danger.svg";
-
 import "./customerprofile.css";
 import { Districts } from "@/src/data/datas";
 import Cookies from "js-cookie";
@@ -19,6 +14,12 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { uploadImage } from "@/src/redux/action/imageUpload";
+import {
+  avatar,
+  chnagepassword,
+  chnagepassword2,
+  danger,
+} from "@/src/utils/ImagesPath";
 
 const index = () => {
   const dispatch = useDispatch();

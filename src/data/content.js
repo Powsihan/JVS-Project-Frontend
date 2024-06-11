@@ -1,12 +1,12 @@
-import contactExpert from "../assets/images/contactExperts.png";
-import contactChat from "../assets/images/contactChat.png";
-import contactCompany from "../assets/images/contactCompany.png";
-import vehicleBuy from "../assets/images/vehicleBuy.png";
-import vehicleRequest from "../assets/images/vehicleRequest.png";
-import vehicleCustomize from "../assets/images/vehicleCustomize.png";
-import vehicleAuction from "../assets/images/vehicleAuction.png";
-
-
+import {
+  contactChat,
+  contactCompany,
+  contactExpert,
+  vehicleAuction,
+  vehicleBuy,
+  vehicleCustomize,
+  vehicleRequest,
+} from "../utils/ImagesPath";
 
 const aboutuscontent = [
   {
@@ -63,14 +63,13 @@ const aboutuscontent2 = [
   },
 ];
 
-
-const sellvehiclecontent=[
+const sellvehiclecontent = [
   "Quick and Easy Sales",
   "Trusted Buyer Network",
   "Nationwide Pickup Service",
   "Maximum Value Guaranteed",
   "Expert Vehicle Appraisals",
   "Sell with Confidence",
-]
+];
 
-export { aboutuscontent,aboutuscontent2,sellvehiclecontent };
+export { aboutuscontent, aboutuscontent2, sellvehiclecontent };
