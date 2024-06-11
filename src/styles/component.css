@@ -207,7 +207,11 @@
     background: #F73B3B !important;
 }
 
-.Update-Status-heading{
+.Requested-Field {
+    background: #0010a5 !important;
+}
+
+.Update-Status-heading {
     color: var(--primary-color);
     font-size: 25px;
     text-transform: uppercase;

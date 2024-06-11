@@ -21,6 +21,7 @@ import {
   vehicleCardicon4,
   vehicleCardicon5,
 } from "@/src/utils/ImagesPath";
+import Footer from "@/src/layouts/Footer";
 
 const index = () => {
   const [auctionData, setAuctionData] = useState([]);
@@ -166,7 +167,7 @@ const index = () => {
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
                       <h1>{vehicleData[auction.vehicleId]?.name}</h1>
-                      <h4>{`Rs ${auction.bidstartprice}`}</h4>
+                      <h4>{`LKR ${auction.bidstartprice}`}</h4>
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
                       {vehicleshortDetails.map((content, index) => (
@@ -213,6 +214,7 @@ const index = () => {
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
       />
+      <Footer />
     </>
   );
 };

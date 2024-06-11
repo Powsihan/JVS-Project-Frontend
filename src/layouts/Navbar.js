@@ -4,7 +4,6 @@ import React, { useState, useEffect } from "react";
 import "../styles/navbar.css";
 import logo from "../assets/images/Logo.png";
 import MenuIcon from "@mui/icons-material/Menu";
-import CloseIcon from "@mui/icons-material/Close";
 import notification from "../assets/icons/bell.svg";
 import avatar from "../assets/images/avatar.svg";
 import CommonButton from "../components/CommonButton";
@@ -63,6 +62,14 @@ const Navbar = () => {
     }
   };
 
+  const handleContactClick = () => {
+    if (pathname === "/home") {
+      scrollToContactUs();
+    } else {
+      router.push("/contact");
+    }
+  };
+
   return (
     <>
       <nav className="navbar navbar-expand-lg w-100 Navbar-Container fixed-top">
@@ -114,7 +121,7 @@ const Navbar = () => {
                   text={"Contact"}
                   image={Contact}
                   width={110}
-                  onClick={scrollToContactUs}
+                  onClick={handleContactClick}
                 />
               </div>
             </div>

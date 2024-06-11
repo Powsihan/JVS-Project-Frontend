@@ -20,6 +20,7 @@ import {
   chnagepassword2,
   danger,
 } from "@/src/utils/ImagesPath";
+import Footer from "@/src/layouts/Footer";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -367,6 +368,7 @@ const index = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   );
 };

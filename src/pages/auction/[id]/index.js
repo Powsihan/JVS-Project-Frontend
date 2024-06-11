@@ -18,7 +18,7 @@ import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import Image from "next/image";
 import { auctiondetail } from "@/src/utils/ImagesPath";
-
+import Footer from "@/src/layouts/Footer";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,10 @@ const index = () => {
               toast.error("Error fetching additional details");
             });
 
-            const maxBid = auction.length > 0 ? Math.max(...auction.map((bid) => bid.biddingprice)) : "0";
+          const maxBid =
+            auction.length > 0
+              ? Math.max(...auction.map((bid) => bid.biddingprice))
+              : "0";
           setMaxBidPrice(maxBid);
         } else {
           dispatch(setLoading(false));
@@ -211,8 +214,11 @@ const index = () => {
                 </Carousel>
               )}
 
-              <div className="d-flex justify-content-center align-items-center" style={{marginTop:'-20px'}}>
-                <Image src={auctiondetail}/>
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ marginTop: "-20px" }}
+              >
+                <Image src={auctiondetail} />
               </div>
             </div>
             <div className="col-lg-8 col-md-6 col-sm-12">
@@ -329,6 +335,7 @@ const index = () => {
         onConfirm={addBiddingAction}
         onCancel={closeStatusConfirmationModal}
       />
+      <Footer />
     </div>
   );
 };

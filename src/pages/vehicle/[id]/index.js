@@ -16,7 +16,14 @@ import Cookies from "js-cookie";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { addPurchase } from "@/src/redux/action/purchase";
 import { toast } from "react-toastify";
-import { vehicleCardicon1, vehicleCardicon2, vehicleCardicon3, vehicleCardicon4, vehicleCardicon5 } from "@/src/utils/ImagesPath";
+import {
+  vehicleCardicon1,
+  vehicleCardicon2,
+  vehicleCardicon3,
+  vehicleCardicon4,
+  vehicleCardicon5,
+} from "@/src/utils/ImagesPath";
+import Footer from "@/src/layouts/Footer";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();
@@ -134,7 +141,7 @@ const VehicleDetail = () => {
     <div>
       <Navbar />
       {vehicleData && (
-        <div className="container-fluid min-vh-100 p-5">
+        <div className="container-fluid min-vh-100 p-5 mb-5">
           <div className="row" style={{ paddingTop: "120px" }}>
             <div className="col-lg-6 col-md-6 col-sm-12">
               {vehicleData && vehicleData.image && (
@@ -268,6 +275,7 @@ const VehicleDetail = () => {
         onConfirm={addPurchaseAction}
         onCancel={closeStatusConfirmationModal}
       />
+      <Footer />
     </div>
   );
 };

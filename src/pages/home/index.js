@@ -159,7 +159,7 @@ const index = () => {
               <Image src={Ratinghalf} alt="" />
             </div>
           </div>
-          <div className="row mt-5  d-flex">
+          <div className="row mt-5 d-flex pb-5">
             <div className=" col-lg-3 col-sm-6 col-md-4 d-flex align-items-center justify-content-center">
               <div className="row">
                 <div className="d-flex pt-2 justify-content-center align-items-center">
@@ -182,7 +182,7 @@ const index = () => {
                   <h4>Vehicles</h4>
                 </div>
                 <div className="d-flex  justify-content-center align-items-center count">
-                  <h2>546</h2>
+                  <h2>19</h2>
                 </div>
               </div>
             </div>
@@ -195,7 +195,7 @@ const index = () => {
                   <h4>branches</h4>
                 </div>
                 <div className="d-flex  justify-content-center align-items-center count">
-                  <h2>546</h2>
+                  <h2>04</h2>
                 </div>
               </div>
             </div>
@@ -208,7 +208,7 @@ const index = () => {
                   <h4>Experiences</h4>
                 </div>
                 <div className="d-flex  justify-content-center align-items-center count">
-                  <h2>546</h2>
+                  <h2>10 Years</h2>
                 </div>
               </div>
             </div>
@@ -216,7 +216,7 @@ const index = () => {
         </div>
       </div>
 
-      <div className="container-fluid min-vh-100 d-flex flex-column justify-content-center  ">
+      {/* <div className="container-fluid min-vh-100 d-flex flex-column justify-content-center  ">
         <div className="row mt-3  d-flex ">
           <div className="justify-content-center align-content-center d-flex pt-5">
             <h1>OUR EMPLOYEES</h1>
@@ -225,7 +225,7 @@ const index = () => {
             <h5>Meet with our valuable Employees</h5>
           </div>
         </div>
-      </div>
+      </div> */}
 
       <div className="container-fluid min-vh-100" id="contactus">
         <div className="row contactUsImage d-lg-block d-none"></div>

@@ -341,12 +341,12 @@ const index = () => {
                     onChange={HandleSelectPrice}
                   >
                     <option value="">Price Range</option>
-                    <option value="50000-100000">Rs. 50,000 - 1L</option>
-                    <option value="100000-500000">Rs. 1L - 5L</option>
-                    <option value="500000-1000000">Rs. 5L - 10L</option>
-                    <option value="1000000-5000000">Rs. 10L - 50L</option>
-                    <option value="5000000-10000000">Rs. 50L - 1C</option>
-                    <option value="over10000000">Over Rs. 1C</option>
+                    <option value="50000-100000">LKR 50,000 - 1L</option>
+                    <option value="100000-500000">LKR 1L - 5L</option>
+                    <option value="500000-1000000">LKR 5L - 10L</option>
+                    <option value="1000000-5000000">LKR 10L - 50L</option>
+                    <option value="5000000-10000000">LKR 50L - 1C</option>
+                    <option value="over10000000">Over LKR 1C</option>
                   </select>
 
                   {selectedPrice && (
@@ -405,7 +405,7 @@ const index = () => {
                       <td>{vehicle.name}</td>
                       <td>{vehicle.type}</td>
                       <td>{vehicle.model}</td>
-                      <td>{`Rs.${vehicle.price}`}</td>
+                      <td>{`LKR ${vehicle.price}`}</td>
                       <td>
                         {" "}
                         <div

@@ -6,7 +6,7 @@ import "../../styles/sellvehicle.css";
 import InputField from "@/src/components/InputField";
 import { Button } from "react-bootstrap";
 import { sellvehiclecontent } from "@/src/data/content";
-import {  
+import {
   Brand,
   Districts,
   Features,
@@ -25,7 +25,12 @@ import { toast } from "react-toastify";
 import Cookies from "js-cookie";
 import SignInModal from "@/src/components/modals/SignInModal";
 import { uploadImage } from "@/src/redux/action/imageUpload";
-import { sellvehicle, sellvehiclebutton, sellvehicon } from "@/src/utils/ImagesPath";
+import {
+  sellvehicle,
+  sellvehiclebutton,
+  sellvehicon,
+} from "@/src/utils/ImagesPath";
+import Footer from "@/src/layouts/Footer";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -204,7 +209,7 @@ const index = () => {
         </div>
       </div>
       {customerData && (
-        <div className="container-fluid min-vh-100 p-5" id="sales">
+        <div className="container-fluid min-vh-100 p-5 mb-5" id="sales">
           <div className="Sell-Vehicle-Section container-fluid">
             <form onSubmit={handleSubmit}>
               <h1 className="row header-outer ps-2">Sell Your Vehicle</h1>
@@ -290,7 +295,7 @@ const index = () => {
                     </div>
                     <div className="col-lg-6 col-md-6 col-sm-12">
                       <InputField
-                        label="Price"
+                        label="Price (LKR)"
                         placeholder="Enter the price"
                         type={"number"}
                         onChange={(value) => handleChange("price", value)}
@@ -499,7 +504,7 @@ const index = () => {
                 </h3>
                 <hr />
                 <div className="col-lg-4 col-md-4 col-sm-12">
-                <div className="form-group">
+                  <div className="form-group">
                     <label htmlFor="main-image" className="Text-input-label">
                       Main Image
                     </label>
@@ -525,7 +530,10 @@ const index = () => {
                 </div>
                 <div className="col-lg-4 col-md-6 col-sm-12">
                   <div className="form-group">
-                    <label htmlFor="outside-images" className="Text-input-label">
+                    <label
+                      htmlFor="outside-images"
+                      className="Text-input-label"
+                    >
                       Outside View Images
                     </label>
                     <FileUploader
@@ -595,6 +603,7 @@ const index = () => {
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
       />
+      <Footer />
     </>
   );
 };

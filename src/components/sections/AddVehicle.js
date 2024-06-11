@@ -232,7 +232,7 @@ const AddVehicle = (props) => {
         </div>
         <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
           <InputField
-            label={"Price"}
+            label={"Price (LKR)"}
             placeholder={"Enter the Price"}
             onChange={(value) => handleChange("price", value)}
             type={"number"}

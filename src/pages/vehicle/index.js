@@ -22,6 +22,7 @@ import {
   vehicleCardicon4,
   vehicleCardicon5,
 } from "@/src/utils/ImagesPath";
+import Footer from "@/src/layouts/Footer";
 
 const index = () => {
   const router = useRouter();
@@ -321,12 +322,12 @@ const index = () => {
                     onChange={HandleSelectPrice}
                   >
                     <option value="">Price Range</option>
-                    <option value="50000-100000">Rs. 50,000 - 1L</option>
-                    <option value="100000-500000">Rs. 1L - 5L</option>
-                    <option value="500000-1000000">Rs. 5L - 10L</option>
-                    <option value="1000000-5000000">Rs. 10L - 50L</option>
-                    <option value="5000000-10000000">Rs. 50L - 1C</option>
-                    <option value="over10000000">Over Rs. 1C</option>
+                    <option value="50000-100000">LKR 50,000 - 1L</option>
+                    <option value="100000-500000">LKR 1L - 5L</option>
+                    <option value="500000-1000000">LKR 5L - 10L</option>
+                    <option value="1000000-5000000">LKR 10L - 50L</option>
+                    <option value="5000000-10000000">LKR 50L - 1C</option>
+                    <option value="over10000000">Over LKR 1C</option>
                   </select>
 
                   {selectedPrice && (
@@ -402,7 +403,7 @@ const index = () => {
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
                       <h1>{vehicle.name}</h1>
-                      <h4>{`Rs ${vehicle.price}`}</h4>
+                      <h4>{`LKR ${vehicle.price}`}</h4>
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
                       {vehicleshortDetails.map((content, index) => (
@@ -443,6 +444,7 @@ const index = () => {
           )}
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

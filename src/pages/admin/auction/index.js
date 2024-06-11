@@ -164,6 +164,34 @@ const index = () => {
     setShowViewModal(true);
   };
 
+  const handleSearchByRefID = (event) => {
+    event.preventDefault();
+    const searchedRef = auctionData.find(
+      (auction) => auction.auctionRefID === searchRef
+    );
+    if (searchedRef) {
+      setSelectedAuctiondata(searchedRef);
+      setShowViewModal(true);
+      setsearchRef("");
+    } else {
+      toast.error("Invalid RefID");
+    }
+  };
+
+  const handleSearchByRegNo = (event) => {
+    event.preventDefault();
+    const searchedAuction = auctionData.find(
+      (auction) => vehicleData[auction.vehicleId]?.registerno === searchRegNo
+    );
+    if (searchedAuction) {
+      setSelectedAuctiondata(searchedAuction);
+      setShowViewModal(true);
+      setSearchRegNo("");
+    } else {
+      toast.error("Invalid RegNo");
+    }
+  };
+
   return (
     <Adminlayout>
       {showAddSection ? (
@@ -182,7 +210,7 @@ const index = () => {
             <div className="row pb-2">
               <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
-                  <form>
+                  <form onSubmit={handleSearchByRefID}>
                     <input
                       className="SearchBox"
                       type="text"
@@ -211,7 +239,7 @@ const index = () => {
               </div>
               <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
                 <div className="search-input-container">
-                  <form>
+                  <form onSubmit={handleSearchByRegNo}>
                     <input
                       className="SearchBox"
                       type="text"

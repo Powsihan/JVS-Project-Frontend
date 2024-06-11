@@ -6,7 +6,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import CommonButton from "@/src/components/CommonButton";
-import add from "../../../assets/icons/add.png";
 import AddSales from "@/src/components/sections/AddSales";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -20,6 +19,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
+import { add } from "@/src/utils/ImagesPath";
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
