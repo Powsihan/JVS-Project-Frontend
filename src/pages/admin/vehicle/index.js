@@ -391,7 +391,7 @@ const index = () => {
                   <th scope="col" className="col-1">
                     Model
                   </th>
-                  <th scope="col" className="col-1">
+                  <th scope="col" className="col-2">
                     Price
                   </th>
                   <th scope="col" className="col-1">

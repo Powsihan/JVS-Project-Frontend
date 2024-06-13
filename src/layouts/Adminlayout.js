@@ -95,7 +95,7 @@ const Adminlayout = ({ children }) => {
     dispatch(setLoading(true));
     getAllPurchases((res) => {
       if (res && res.data) {
-        const notifications = res.data;
+        const notifications = Array.isArray(res.data) ? res.data : [];
         const hasRequested = notifications.some(
           (notification) =>
             notification.status === "Requested" ||

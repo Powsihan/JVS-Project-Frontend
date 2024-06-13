@@ -29,8 +29,8 @@ const NotificationModal = ({ isOpen, onClose }) => {
     dispatch(setLoading(true));
     getAllPurchases(async (res) => {
       if (res && res.data) {
-        const notification = res.data;
-        const filteredNotifications = res.data.filter(
+        const notification = Array.isArray(res.data) ? res.data : [];
+        const filteredNotifications = notification.filter(
           (notification) => notification.status === "Requested" || notification.status === "Pending"
         );
         setNotifications(filteredNotifications);

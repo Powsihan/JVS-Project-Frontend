@@ -65,10 +65,10 @@ const Brand = [
 const Vehicletype = [
   "Cars",
   "Lorries",
-  "Motorcycles",
+  "MotorBikes",
   "Quadricycles",
   "SUV",
-  "Three-wheelers",
+  "3-Wheelers",
   "Vans",
 ];
 

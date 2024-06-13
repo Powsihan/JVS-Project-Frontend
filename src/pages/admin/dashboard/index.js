@@ -19,12 +19,14 @@ import {
   reviews,
   vehicles,
 } from "@/src/utils/ImagesPath";
+import { getAllPurchases } from "@/src/redux/action/purchase";
 
 const index = () => {
   const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [employeeData, setEmployeeData] = useState([]);
+  const [purchaseData, setPurchaseData] = useState([]);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -50,6 +52,20 @@ const index = () => {
         dispatch(setLoading(false));
         console.error("Error fetching Customer details", res);
         toast.error("Error fetching Customer details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getAllPurchases((res) => {
+      if (res && res.data) {
+        setPurchaseData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching Purchase details", res);
+        toast.error("Error fetching Purchase details");
       }
     });
   }, []);
@@ -117,7 +133,7 @@ const index = () => {
     { title: "Customers", count: 0, image: customer, color: "#F00" },
     { title: "Vehicles", count: 0, image: vehicles, color: "#3DBE00" },
     { title: "Employees", count: 0, image: experts, color: "#0075FF" },
-    { title: "Requests", count: 100, image: requests, color: "#FF007A" },
+    { title: "Requests", count: 0, image: requests, color: "#FF007A" },
     { title: "Reviews", count: 50, image: reviews, color: "#FFC700" },
   ]);
 
@@ -155,7 +171,20 @@ const index = () => {
         )
       );
     }
-  }, [customerData]);
+  }, [employeeData]);
+
+  useEffect(() => {
+    if (purchaseData.length > 0) {
+      const totalRequests = purchaseData.filter(
+        (purchase) => purchase.status === "Requested"
+      ).length;
+      setCardsData((prevCardsData) =>
+        prevCardsData.map((card) =>
+          card.title === "Requests" ? { ...card, count: totalRequests } : card
+        )
+      );
+    }
+  }, [purchaseData]);
 
   return (
     <Adminlayout>
