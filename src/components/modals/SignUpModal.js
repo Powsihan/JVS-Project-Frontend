@@ -17,7 +17,7 @@ import { uploadImage } from "@/src/redux/action/imageUpload";
 import { signUpfinish } from "@/src/utils/ImagesPath";
 
 function SignUpModal(props) {
-  const router=useRouter();
+  const router = useRouter();
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({
     fname: "",
@@ -70,6 +70,7 @@ function SignUpModal(props) {
         dispatch(setLoading(false));
         toast.success(res.data.message);
         handleNext();
+        return;
       } else if (res.status === 500) {
         dispatch(setLoading(false));
         toast.error("Invalid User Data");
@@ -86,7 +87,7 @@ function SignUpModal(props) {
       [field]: value,
     }));
   };
-  
+
   const steps = [
     {
       title: "Welcome",
@@ -293,8 +294,21 @@ function SignUpModal(props) {
             <h3>Now you can start exploring !</h3>
           </div>
           <div className="d-flex flex-column justify-content-center gap-2 ps-5 pe-5">
-            <CommonButton text={"Start exploring"} width={"100%"} onClick={()=>{router.push('/home')}}/>
-            <Button variant="secondary" width={"100%"} onClick={()=>{router.push('/profile')}}>
+            <CommonButton
+              text={"Start exploring"}
+              width={"100%"}
+              onClick={() => {
+                router.push("/home");
+                onHide();
+              }}
+            />
+            <Button
+              variant="secondary"
+              width={"100%"}
+              onClick={() => {
+                router.push("/profile");
+              }}
+            >
               Go to Profile
             </Button>
           </div>

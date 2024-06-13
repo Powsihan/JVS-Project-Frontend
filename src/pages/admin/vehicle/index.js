@@ -67,7 +67,13 @@ const index = () => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
-        setVehicleData(res.data);
+        const vehicles = Array.isArray(res.data) ? res.data : [];
+        if (vehicles.length === 0) {
+          dispatch(setLoading(false));
+          toast.info("No Vehicles data available");
+          return;
+        }
+        setVehicleData(vehicles);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));

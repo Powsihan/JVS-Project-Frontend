@@ -37,7 +37,7 @@ const index = () => {
   const [searchDate, setSearchDate] = useState(null);
   const [filteredSalesList, setFilteredSalesList] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [salesPerPage, setcustomerPerPage] = useState(10);
   const indexOfLastSales = currentPage * salesPerPage;
@@ -65,8 +65,6 @@ const index = () => {
   const handleOpenAddSection = () => {
     setShowAddSection(!showAddSection);
   };
-
-  
 
   const openDeleteConfirmationModal = (salesID) => {
     setSelectedSalesdata(salesID);
@@ -139,7 +137,12 @@ const index = () => {
     dispatch(setLoading(true));
     getSalesDetails(async (res) => {
       if (res && res.data) {
-        const sales = res.data;
+        const sales = Array.isArray(res.data) ? res.data : [];
+        if (sales.length === 0) {
+          dispatch(setLoading(false));
+          toast.info("No sales data available");
+          return;
+        }
         setSalesData(sales);
         dispatch(setLoading(false));
         const customerInfoPromises = sales.map(

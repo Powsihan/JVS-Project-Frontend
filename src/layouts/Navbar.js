@@ -52,7 +52,13 @@ const Navbar = () => {
 
   const logout = () => {
     Customerlogout();
-    router.push("/home");
+    if (pathname === "/home") {
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } else {
+      router.push("/home");
+    }
   };
 
   const scrollToContactUs = () => {

@@ -43,6 +43,12 @@ const index = () => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
       if (res && res.data) {
+        const customers = Array.isArray(res.data) ? res.data : [];
+        if (customers.length === 0) {
+          dispatch(setLoading(false));
+          toast.info("No Customers data available");
+          return;
+        }
         setCustomerdata(res.data);
         dispatch(setLoading(false));
       } else {

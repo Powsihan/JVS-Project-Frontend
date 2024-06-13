@@ -56,7 +56,8 @@ const index = () => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
       if (res && res.data) {
-        const filteredVehicleData = res.data.filter(
+        const vehicles = Array.isArray(res.data) ? res.data : [];
+        const filteredVehicleData = vehicles.filter(
           (vehicle) => vehicle.status !== "Requested"
         );
         setVehicleData(filteredVehicleData);
@@ -438,7 +439,7 @@ const index = () => {
               );
             })
           ) : (
-            <div>
+            <div className="No-result-found">
               <h1>No results found</h1>
             </div>
           )}

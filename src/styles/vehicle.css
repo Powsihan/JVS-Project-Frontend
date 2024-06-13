@@ -33,39 +33,39 @@
   font-weight: 700;
 }
 
-.Vehicle-Detail-Container{
+.Vehicle-Detail-Container {
   background-color: #fff;
   box-shadow: var(--box-shadow);
   border-bottom: 4px solid var(--primary-color);
   border-radius: 4px;
 }
 
-.Vehicle-Detail-Container h1{
+.Vehicle-Detail-Container h1 {
   color: var(--primary-color);
   font-weight: 700;
   text-transform: uppercase;
 }
 
-.Vehicle-Detail-Container h4{
+.Vehicle-Detail-Container h4 {
   font-size: 25px;
   color: #FF5C00;
   font-weight: 700;
 }
 
-.vehicle-detail-div{
+.vehicle-detail-div {
   background: rgba(217, 225, 255, 0.52);
   border-radius: 10px;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.10), 0px 4px 6px 0px rgba(0, 0, 0, 0.05);
 }
 
-.vehicle-detail-div h3{
+.vehicle-detail-div h3 {
   color: var(--primary-color);
   font-weight: 700;
   text-transform: capitalize;
   font-size: 18px;
 }
 
-.Vehicle-card-display-icon h2{
+.Vehicle-card-display-icon h2 {
   color: var(--primary-color);
   font-size: 17px;
   font-weight: 700;
@@ -79,17 +79,17 @@
   border-radius: 4px;
 }
 
-.details-feature-section > div {
+.details-feature-section>div {
   cursor: pointer;
 }
 
-.details-feature-section-heading{
+.details-feature-section-heading {
   color: var(--primary-color);
   font-size: 18px;
   font-weight: 700;
 }
 
-.vehicle-status-indicator{
+.vehicle-status-indicator {
   width: 100px;
   padding: 10px;
   margin-bottom: -50px;
@@ -98,4 +98,12 @@
   font-size: 18px;
   font-weight: 700;
   color: #ffff;
+}
+
+.No-result-found h1 {
+  text-align: center;
+  color: #383838d2;
+  text-transform: capitalize;
+  font-size: 40px;
+  font-weight: 600;
 }
