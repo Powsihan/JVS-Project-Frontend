@@ -22,7 +22,7 @@ const AddEmployee = (props) => {
     name: "",
     email: "",
     phoneNumber: "",
-    profilepic: "",
+    profilePic: "",
   });
 
   const handleChange = (field, value) => {
@@ -40,16 +40,19 @@ const AddEmployee = (props) => {
     e.preventDefault();
     dispatch(setLoading(true));
 
-    const uploadedImageUrl = await dispatch(uploadImage(file));
+    let data = { ...employeeData };
+    if (file) {
+      const uploadedImageUrl = await dispatch(uploadImage(file));
+      if (uploadedImageUrl) {
+        console.log(uploadedImageUrl);
+        data.profilePic = uploadedImageUrl;
+      }
+    }
 
-    const updatedEmployeeData = {
-      ...employeeData,
-      profilePic: uploadedImageUrl,
-    };
-
-    registerEmployee(updatedEmployeeData, (res) => {
+    registerEmployee(data, (res) => {
       dispatch(setLoading(false));
       if (res.status === 200) {
+        setFile(null);
         toast.success(res.data.message);
         setTimeout(() => {
           window.location.reload();
