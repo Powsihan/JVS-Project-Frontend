@@ -43,12 +43,13 @@ const index = () => {
     dispatch(setLoading(true));
     getAuctionDetails(async (res) => {
       if (res && res.data) {
-        const filteredVehicleData = res.data.filter(
+        const auction = Array.isArray(res.data) ? res.data : [];
+        const filteredVehicleData = auction.filter(
           (auction) => auction.status !== "Requested"
         );
         setAuctionData(filteredVehicleData);
         dispatch(setLoading(false));
-        const auction = res.data;
+
         const vehicleInfoPromises = auction.map(
           (auction) =>
             new Promise((resolve) => {
@@ -97,7 +98,7 @@ const index = () => {
         </div>
       </div>
       <div className="container-fluid min-vh-100">
-        <div className="row mb-4 ps-5" style={{ paddingTop: "120px" }}>
+        <div className="Auction-vehicles row mb-4 ps-5" style={{ paddingTop: "120px" }}>
           <h3>Auction Vehicles</h3>
         </div>
         <div className="row ps-5 pe-5 mb-5">
@@ -204,7 +205,7 @@ const index = () => {
               );
             })
           ) : (
-            <div>
+            <div className="No-result-found">
               <h1>No results found</h1>
             </div>
           )}

@@ -107,3 +107,9 @@
   font-size: 40px;
   font-weight: 600;
 }
+
+.Auction-vehicles h3 {
+  color: var(--primary-color);
+  font-weight: 700;
+
+}
