@@ -207,7 +207,7 @@ const index = () => {
                 <div className="pt-2 ">
                   <h2>{card.count}</h2>
                 </div>
-                <div className="image ">
+                <div className="dash-board-card-image">
                   <Image src={card.image} alt="" />
                 </div>
               </div>

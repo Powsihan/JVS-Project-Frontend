@@ -55,3 +55,9 @@
   font-weight: 700;
 
 }
+
+.dash-board-card-image :hover {
+  transform: scale(1.1);
+  cursor: pointer;
+  transition: 200ms ease-in-out;
+}
