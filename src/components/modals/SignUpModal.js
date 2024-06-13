@@ -9,14 +9,15 @@ import { Districts, Gender } from "@/src/data/datas";
 import RadioButtonCheckedIcon from "@mui/icons-material/RadioButtonChecked";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import { registerCustomer } from "@/src/redux/action/customer";
-import { toast, ToastContainer } from "react-toastify";
+import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { uploadImage } from "@/src/redux/action/imageUpload";
 import { signUpfinish } from "@/src/utils/ImagesPath";
 
 function SignUpModal(props) {
+  const pathname = usePathname();
   const router = useRouter();
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({
@@ -298,7 +299,13 @@ function SignUpModal(props) {
               text={"Start exploring"}
               width={"100%"}
               onClick={() => {
-                router.push("/home");
+                if (pathname === "/home") {
+                  setTimeout(() => {
+                    window.location.reload();
+                  }, 1000);
+                } else {
+                  router.push("/home");
+                }
                 onHide();
               }}
             />
