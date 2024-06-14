@@ -12,7 +12,7 @@ const EmployeeView = (props) => {
       <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
         <Modal.Header className="header-outer">
           <Modal.Title className="Modal-Title">
-            Customer Details View
+            Employee Details View
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>

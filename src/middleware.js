@@ -2,8 +2,8 @@ import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
  
 // 1. Specify protected and public routes
-const protectedRoutes = []
-// const protectedRoutes = ['/admin/dashboard','/admin/vehicle','/admin/customer', '/admin/sales', '/admin/expert', '/admin/communication', '/admin/contentmanage', '/admin/auction', '/admin/records', '/admin/profile']
+// const protectedRoutes = []
+const protectedRoutes = ['/admin/dashboard','/admin/vehicle','/admin/customer', '/admin/sales', '/admin/expert', '/admin/communication', '/admin/contentmanage', '/admin/auction', '/admin/records', '/admin/profile']
 const publicRoutes = ['/admin/login']
  
 export default async function middleware(req) {
