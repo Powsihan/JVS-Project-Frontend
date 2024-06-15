@@ -116,7 +116,7 @@ const index = () => {
       [field]: value,
     }));
   };
-
+  
   const handleFeatureChange = (feature) => {
     setVehicleData((prevData) => {
       const features = prevData.features.includes(feature)
@@ -136,9 +136,21 @@ const index = () => {
 
   const years = generateYears();
 
+  const validateVehicleRegisterNo = (registerno) => {
+    const regex = /^(WP|SP|CP|NP|EP|UP|NW|SG|NC) [A-Z]{1,3}-\d{4}$/;
+    return regex.test(registerno);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (!validateVehicleRegisterNo(vehicleData.registerno)) {
+      toast.error("Invalid Vehicle Register No format. Please follow the correct format.");
+      return;
+    }
+
     dispatch(setLoading(true));
+    
     const imageUrls = [];
 
     if (mainImage) {
@@ -186,6 +198,7 @@ const index = () => {
     setShowLoginView(true);
   };
 
+ 
   return (
     <>
       <Navbar />
