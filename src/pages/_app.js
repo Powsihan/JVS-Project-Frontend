@@ -2,15 +2,27 @@ import "bootstrap/dist/css/bootstrap.css";
 import BootstrapClient from "../components/BootstrapClient";
 import "../app/globals.css";
 import "react-toastify/dist/ReactToastify.css";
-import StoreProvider from "../redux/Provider";
 import { ToastContainer } from "react-toastify";
 import Loader from "../components/Loader";
+import StoreProvider from "../redux/provider";
+import { Noto_Sans } from "@next/font/google";
 
+const notoSans = Noto_Sans({
+  weight: ["400", "500", "700"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
       <StoreProvider>
+      <style jsx global>{`
+        body {
+          font-family: ${notoSans.style.fontFamily};
+        }
+      `}</style>
       <Loader />
         <Component {...pageProps} />
         <BootstrapClient />

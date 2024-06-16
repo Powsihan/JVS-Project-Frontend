@@ -1,11 +1,23 @@
-import { Inter } from "next/font/google";
+// import { Inter } from "next/font/google";
+// import { Roboto} from "next/font/google";
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import BootstrapClient from "../components/BootstrapClient";
-import StoreProvider from "../redux/Provider";
-// import { useSelector } from "react-redux";
+// import StoreProvider from "../redux/Provider";
 
-const inter = Inter({ subsets: ["latin"] });
+
+// const inter = Inter({ subsets: ["latin"] });
+import { Noto_Sans } from "@next/font/google";
+
+
+const notoSans = Noto_Sans({
+  weight: ["400", "500", "700"],
+  style: ["normal"],
+  subsets: ["latin"],
+  display: "swap",
+});
+
+
 
 export const metadata = {
   title: "Jaffna Vehicle Spot (PVT) LTD",
@@ -13,15 +25,13 @@ export const metadata = {
 };
 
 export default function RootLayout({ children }) {
-  // const loading = useSelector((state) => state.loader.loading);
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <StoreProvider>
-        {/* {loading && <Loader />} */}
+      <body className={notoSans.className}>
+        {/* <StoreProvider> */}
           {children}
           <BootstrapClient />
-        </StoreProvider>
+        {/* </StoreProvider> */}
       </body>
     </html>
   );
