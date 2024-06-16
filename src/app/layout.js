@@ -1,17 +1,15 @@
 // import { Inter } from "next/font/google";
-// import { Roboto} from "next/font/google";
+
 import "./globals.css";
 import "bootstrap/dist/css/bootstrap.css";
 import BootstrapClient from "../components/BootstrapClient";
 // import StoreProvider from "../redux/Provider";
 
-
-// const inter = Inter({ subsets: ["latin"] });
 import { Noto_Sans } from "@next/font/google";
 
 
 const notoSans = Noto_Sans({
-  weight: ["400", "500", "700"],
+  weight: ["100","200","300","400", "500","600" ,"700","800","900"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",
