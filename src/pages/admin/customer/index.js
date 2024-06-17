@@ -16,6 +16,7 @@ import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { Customerlogout } from "@/src/redux/action/logout";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -89,8 +90,8 @@ const index = () => {
     setShowViewModal(true);
   };
 
-  const openDeleteConfirmationModal = (userID) => {
-    setSelectedCustomerdata(userID);
+  const openDeleteConfirmationModal = (customerID) => {
+    setSelectedCustomerdata(customerID);
     setDeleteConfirmationModal(true);
   };
 
@@ -108,6 +109,7 @@ const index = () => {
           customerdata.filter((customer) => customer._id !== userID)
         );
         closeDeleteConfirmationModal();
+        Customerlogout();
       } else {
         toast.error(res.data.message);
       }

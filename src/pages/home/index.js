@@ -55,10 +55,16 @@ const index = () => {
               </div>
               <div className="mt-5">
                 <h5>Connect With</h5>
-                <div className="d-flex gap-3 ">
-                  <Image src={facebook} alt="" />
-                  <Image src={mail} alt="" />
-                  <Image src={call} alt="" />
+                <div className="d-flex gap-3">
+                  <div className="home-page-social-icons">
+                    <Image src={facebook} alt="" />
+                  </div>
+                  <div className="home-page-social-icons">
+                    <Image src={mail} alt="" />
+                  </div>
+                  <div className="home-page-social-icons">
+                    <Image src={call} alt="" />
+                  </div>
                 </div>
               </div>
             </div>
@@ -128,7 +134,12 @@ const index = () => {
                   <p>{data.content}</p>
                 </div>
                 <div className="justify-content-center align-items-center d-flex">
-                  <CommonButton text={"Go Visit"} image={vector} width={200} />
+                  <CommonButton
+                    text={"Go Visit"}
+                    image={vector}
+                    width={200}
+                    onClick={() => router.push(data.path)}
+                  />
                 </div>
               </div>
             </div>

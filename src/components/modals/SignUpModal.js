@@ -332,7 +332,7 @@ function SignUpModal(props) {
               completed ? (
                 <CheckCircleIcon
                   key={`step-${index}`}
-                  sx={{ color: "green" }}
+                  sx={{ color: "var(--primary-color)" }}
                 />
               ) : (
                 <RadioButtonCheckedIcon

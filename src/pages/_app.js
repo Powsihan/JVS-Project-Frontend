@@ -8,7 +8,7 @@ import StoreProvider from "../redux/provider";
 import { Noto_Sans } from "@next/font/google";
 
 const notoSans = Noto_Sans({
-  weight: ["400", "500", "700"],
+  weight: ["100","200","300","400", "500","600" ,"700","800","900"],
   style: ["normal"],
   subsets: ["latin"],
   display: "swap",

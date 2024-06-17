@@ -9,7 +9,10 @@ import InputField from "@/src/components/InputField";
 import "./customerprofile.css";
 import { Districts } from "@/src/data/datas";
 import Cookies from "js-cookie";
-import { customerProfileEdit } from "@/src/redux/action/customer";
+import {
+  customerProfileEdit,
+  deleteCustomer,
+} from "@/src/redux/action/customer";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -21,10 +24,15 @@ import {
   danger,
 } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
+import { useRouter } from "next/navigation";
+import { Customerlogout } from "@/src/redux/action/logout";
+import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 
 const index = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({});
+  const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
   useEffect(() => {
@@ -33,6 +41,8 @@ const index = () => {
       setCustomerData(JSON.parse(storecustomerData));
     }
   }, []);
+
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
 
   const [customerUpdatedData, setCustomerUpdatedData] = useState({
     fname: "",
@@ -131,6 +141,32 @@ const index = () => {
         }, 2000);
       } else {
         toast.error("Current password is Wrong");
+      }
+    });
+  };
+
+  const openDeleteConfirmationModal = (customerID) => {
+    setSelectedCustomerdata(customerID);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const deleteCustomerData = (userID) => {
+    dispatch(setLoading(true));
+    deleteCustomer(userID, (res) => {
+      if (res.status == 200) {
+        dispatch(setLoading(false));
+        toast.success(res.data.message);
+        closeDeleteConfirmationModal();
+        setTimeout(() => {
+          router.push("/home");
+          Customerlogout();
+        }, 1000);
+      } else {
+        toast.error(res.data.message);
       }
     });
   };
@@ -361,7 +397,11 @@ const index = () => {
               </h6>
             </div>
             <div>
-              <button type="button" className="btn btn-danger">
+              <button
+                type="button"
+                className="btn btn-danger"
+                onClick={() => openDeleteConfirmationModal(customerData && customerData._id)}
+              >
                 Delete Your Account
               </button>
             </div>
@@ -369,6 +409,14 @@ const index = () => {
         </div>
       </div>
       <Footer />
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete Your Account"
+        heading="Confirmation Delete !"
+        variant="danger"
+        onConfirm={() => deleteCustomerData(selectedCustomerdata)}
+        onCancel={closeDeleteConfirmationModal}
+      />
     </>
   );
 };
