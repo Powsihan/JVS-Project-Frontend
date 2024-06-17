@@ -36,8 +36,26 @@ const AddEmployee = (props) => {
     setFile(files);
   };
 
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(String(email).toLowerCase());
+  };
+
+  const validatePhoneNumber = (phoneNumber) => {
+    const re = /^\d{10}$/;
+    return re.test(phoneNumber);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!validateEmail(employeeData.email)) {
+      toast.info("Please enter a valid email address.");
+      return;
+    }
+    if (!validatePhoneNumber(employeeData.phoneNumber)) {
+      toast.info("Please enter a valid 10-digit phone number.");
+      return;
+    }
     dispatch(setLoading(true));
 
     let data = { ...employeeData };
@@ -62,38 +80,6 @@ const AddEmployee = (props) => {
       }
     });
   };
-
-  // const handleUpload = async (file) => {
-  //   if (!file) return false;
-
-  //   try {
-  //     const cloudinary = new Cloudinary({ cloud_name: "dkvtkwars" });
-  //     const formData = new FormData();
-  //     formData.append("file", file);
-  //     formData.append("upload_preset", "JV-Project");
-
-  //     const response = await fetch(
-  //       `https://api.cloudinary.com/v1_1/dkvtkwars/image/upload`,
-  //       {
-  //         method: "POST",
-  //         body: formData,
-  //       }
-  //     );
-
-  //     if (response.ok) {
-  //       const data = await response.json();
-  //       console.log("Upload successful. Public ID:", data.public_id);
-  //       console.log(data);
-  //       return data.secure_url;
-  //     } else {
-  //       console.error("Upload failed.");
-  //       return false;
-  //     }
-  //   } catch (error) {
-  //     console.error("Upload error:", error);
-  //     return false;
-  //   }
-  // };
 
   return (
     <div className="container-fluid Add-Vehicle-Section">
