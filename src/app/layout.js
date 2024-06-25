@@ -5,7 +5,7 @@ import "bootstrap/dist/css/bootstrap.css";
 import BootstrapClient from "../components/BootstrapClient";
 // import StoreProvider from "../redux/Provider";
 
-import { Noto_Sans } from "@next/font/google";
+import { Noto_Sans } from "next/font/google";
 
 
 const notoSans = Noto_Sans({

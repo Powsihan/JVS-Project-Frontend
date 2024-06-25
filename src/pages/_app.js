@@ -5,7 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Loader from "../components/Loader";
 import StoreProvider from "../redux/provider";
-import { Noto_Sans } from "@next/font/google";
+import { Noto_Sans } from "next/font/google";
 
 const notoSans = Noto_Sans({
   weight: ["100","200","300","400", "500","600" ,"700","800","900"],
