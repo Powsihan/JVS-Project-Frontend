@@ -31,6 +31,7 @@ import {
   sellvehicon,
 } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
+import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -92,16 +93,26 @@ const index = () => {
   };
 
   useEffect(() => {
-    const storedCustomerData = Cookies.get("customer");
-    if (storedCustomerData) {
-      const parsedCustomerData = JSON.parse(storedCustomerData);
-      setCustomerData(parsedCustomerData);
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+   
+    if (customerData) {
       setVehicleData((prevData) => ({
         ...prevData,
-        customerId: parsedCustomerData._id,
+        customerId: customerData._id,
       }));
     }
-  }, []);
+  }, [customerData]);
 
   const scrollToSellVehicle = () => {
     const salesSection = document.getElementById("sales");

@@ -24,6 +24,7 @@ import {
   vehicleCardicon5,
 } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
+import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();
@@ -37,11 +38,15 @@ const VehicleDetail = () => {
   const [sendConfirmationModal, setSendConfirmationModal] = useState(false);
 
   useEffect(() => {
-    const storedCustomerData = Cookies.get("customer");
-    if (storedCustomerData) {
-      const parsedCustomerData = JSON.parse(storedCustomerData);
-      setCustomerData(parsedCustomerData);
-    }
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
   }, []);
 
   useEffect(() => {

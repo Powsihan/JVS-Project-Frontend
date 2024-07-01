@@ -14,10 +14,14 @@ import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import Cookies from "js-cookie";
 import { Customerlogout } from "../redux/action/logout";
+import { getLoginCustomerDetail } from "../redux/action/customer";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../redux/reducer/loaderSlice";
 
 const Navbar = () => {
   const pathname = usePathname();
   const router = useRouter();
+  const dispatch = useDispatch();
   const routes = [
     { name: "Home", path: "home" },
     { name: "Vehicles", path: "vehicle" },
@@ -44,10 +48,15 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    const storedCustomerData = Cookies.get("customer");
-    if (storedCustomerData) {
-      setCustomerData(JSON.parse(storedCustomerData));
-    }
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
   }, []);
 
   const logout = () => {

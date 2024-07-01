@@ -12,6 +12,7 @@ import Cookies from "js-cookie";
 import {
   customerProfileEdit,
   deleteCustomer,
+  getLoginCustomerDetail,
 } from "@/src/redux/action/customer";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
@@ -35,11 +36,17 @@ const index = () => {
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [file, setFile] = useState(null);
   const fileInputRef = useRef(null);
+  
   useEffect(() => {
-    const storecustomerData = Cookies.get("customer");
-    if (storecustomerData) {
-      setCustomerData(JSON.parse(storecustomerData));
-    }
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
   }, []);
 
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);

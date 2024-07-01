@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import Cookies from "js-cookie";
 
 function SignInModal(props) {
   const router = useRouter();
@@ -44,6 +45,7 @@ function SignInModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
+    Cookies.remove("token", { path: "/" });
     customerLogin(
       {
         username: email,

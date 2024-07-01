@@ -111,22 +111,43 @@ export const customerProfileEdit = (userId, data, callback) => {
       .put(endpoint, data)
       .then((response) => {
         callback(response);
-
-        if (response.status == 200) {
-          const cookieOptions = {
-            path: "/",
-          };
-          Cookies.set(
-            "customer",
-            JSON.stringify(response.data.data),
-            cookieOptions
-          );
-        }
       })
       .catch((error) => {
         callback(error.response);
       });
   } catch (error) {
     callback(error.response);
+  }
+};
+
+export const getLoginCustomerDetail = (callback) => {
+  const endpoint = `${process.env.api_base_url}/customers/currentcustomer`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
+
+export const Customerlogout = async (callback) => {
+  const endpoint = `${process.env.api_base_url}/customers/logout`;
+  try {
+    const response = await http.post(endpoint);
+    if (response.status === 200) {
+      Cookies.remove("customer", { path: "/" });
+      if (callback) callback(response);
+    } else {
+      if (callback) callback(response);
+    }
+  } catch (error) {
+    console.error("Logout failed:", error);
+    if (callback) callback(error.response);
   }
 };

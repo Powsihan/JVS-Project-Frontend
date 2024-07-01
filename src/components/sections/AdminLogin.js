@@ -26,6 +26,7 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    Cookies.remove("customer", { path: "/" });
     userLogin(
       {
         username: email,

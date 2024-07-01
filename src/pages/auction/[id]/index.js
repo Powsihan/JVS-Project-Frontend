@@ -15,7 +15,7 @@ import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
 import { toast } from "react-toastify";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
-import { getCustomerInfo } from "@/src/redux/action/customer";
+import { getCustomerInfo, getLoginCustomerDetail } from "@/src/redux/action/customer";
 import Image from "next/image";
 import { auctiondetail } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
@@ -142,11 +142,15 @@ const index = () => {
   };
 
   useEffect(() => {
-    const storedCustomerData = Cookies.get("customer");
-    if (storedCustomerData) {
-      const parsedCustomerData = JSON.parse(storedCustomerData);
-      setCustomerData(parsedCustomerData);
-    }
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
   }, []);
 
   const addBiddingAction = (event) => {
