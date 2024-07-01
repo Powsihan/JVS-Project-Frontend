@@ -1,8 +1,8 @@
-
 import React from "react";
 import { MutatingDots, Rings, ThreeDots } from "react-loader-spinner";
 import { useSelector } from "react-redux";
-import "../styles/component.css"; 
+import "../styles/component.css";
+import { BarLoader } from "react-spinners";
 
 const Loader = () => {
   const loading = useSelector((state) => state.loader.loading);
@@ -14,28 +14,7 @@ const Loader = () => {
   return (
     <div className="loader-overlay">
       <div className="loader-container">
-        {/* <MutatingDots
-          height="100"
-          width="100"
-          color="var(--primary-color)"
-          secondaryColor="var(--primary-color)"
-          radius="12.5"
-          ariaLabel="mutating-dots-loading"
-          wrapperStyle={{}}
-          wrapperClass=""
-          visible={true}
-        /> */}
-        
-        {/* <Rings
-  visible={true}
-  height="100"
-  width="100"
-  color="var(--primary-color)"
-  ariaLabel="rings-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  /> */}
-  <ThreeDots
+        {/* <ThreeDots
   visible={true}
   height="100"
   width="100"
@@ -44,7 +23,13 @@ const Loader = () => {
   ariaLabel="three-dots-loading"
   wrapperStyle={{}}
   wrapperClass=""
-  />
+  /> */}
+
+        <BarLoader
+          color="var(--primary-color)"
+          height={5}
+          cssOverride={{ width: "100%" }}
+        />
       </div>
     </div>
   );
