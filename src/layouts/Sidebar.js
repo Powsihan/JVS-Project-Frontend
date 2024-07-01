@@ -16,12 +16,12 @@ import Profile from "../assets/icons/profile.svg";
 import Logout from "../assets/icons/logout.svg";
 
 import Link from "next/link";
-import { usePathname,useRouter } from "next/navigation";
-import { logout } from "../redux/action/bookinb";
-
+import { usePathname, useRouter } from "next/navigation";
+import { Userlogout } from "../redux/action/user";
+import { toast } from "react-toastify";
 
 const Sidebar = () => {
-  const router =useRouter();
+  const router = useRouter();
   const pathname = usePathname();
   const routes = [
     { name: "Dashboard", image: dashboard, path: "admin/dashboard" },
@@ -37,21 +37,25 @@ const Sidebar = () => {
     { name: "Content", image: Content, path: "admin/contentmanage" },
     { name: "Auction", image: Auction, path: "admin/auction" },
     { name: "Records", image: Records, path: "admin/records" },
-    
   ];
 
-  const routes2=[
+  const routes2 = [
     { name: "Profile", image: Profile, path: "admin/profile" },
     { name: "Log Out", image: Logout, path: "/admin/login" },
-  ]
-
-  const handleLogout = async (e) =>  {
-    e.preventDefault();
-    logout();
-    router.push('/admin/login');
-  };
+  ];
 
   
+
+  const logout = () => {
+    Userlogout((response) => {
+      if (response.status === 200) {
+        router.push("/admin/login");
+      } else {
+        toast.error("Logout failed!");
+      }
+    });
+  };
+
   return (
     <div class="d-flex flex-column flex-shrink-0 p-3 side-bar-body sticky-top mt-2 w-100">
       <div className="Sidebar-Logo">
@@ -92,7 +96,7 @@ const Sidebar = () => {
             </div>
           );
         })}
-        <hr/>
+        <hr />
         {routes2.map((item, index) => {
           return (
             <div class="">
@@ -102,7 +106,7 @@ const Sidebar = () => {
                     pathname === `/${item.path}` ? "active-field" : ""
                   }`}
                   href={`/${item.path}`}
-                  onClick={item.name === "Log Out" ? handleLogout : null}
+                  onClick={item.name === "Log Out" ? logout : null}
                 >
                   <div class="d-flex gap-2 align-items-center">
                     <div>

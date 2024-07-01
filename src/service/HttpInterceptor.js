@@ -1,5 +1,6 @@
 import axios from "axios";
 import { logout } from "../redux/action/bookinb";
+import Cookies from "js-cookie";
 
 
 
@@ -17,17 +18,21 @@ class HttpInterceptor {
        
         instance.interceptors.request.use(
             async (request) => {
-
-                // try {
-                //     const authToken = Cookies.get('token', { path: '/' });
-                   
-
-                //     if (authToken) {
-                //         request.headers.Authorization = "Bearer " + authToken;
-                //     }
-                // } catch (error) {
-                //     console.log(error)
-                // }
+                try {
+                    const authToken = Cookies.get("token", { path: "/" });
+                    const authToken2 = Cookies.get("customer", { path: "/" });
+                    if (authToken) {
+                        const parsedToken = JSON.parse(authToken).token;
+                        request.headers.Authorization = "Bearer " + parsedToken;
+                    }
+                    if (authToken2) {
+                        const parsedToken2 = JSON.parse(authToken2).token;
+                        // Append the second token to a custom header, if needed.
+                        request.headers['X-Customer-Token'] = "Bearer " + parsedToken2;
+                    }
+                  } catch (error) {
+                    console.log(error);
+                  }
                 return request;
             },
 

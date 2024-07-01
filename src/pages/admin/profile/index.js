@@ -7,12 +7,17 @@ import "./profile.css";
 import InputField from "@/src/components/InputField";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
-import { userProfileEdit } from "@/src/redux/action/user";
+import { getUserInfo, userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { uploadImage } from "@/src/redux/action/imageUpload";
-import { avatar, changepass, editprof, ProfileEdit } from "@/src/utils/ImagesPath";
+import {
+  avatar,
+  changepass,
+  editprof,
+  ProfileEdit,
+} from "@/src/utils/ImagesPath";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -46,7 +51,7 @@ const index = () => {
       toast.error("Password not match");
       return;
     }
-   
+
     userProfileEdit(userId, datapass, (res) => {
       console.log(res);
       if (res.status === 200) {
@@ -68,13 +73,14 @@ const index = () => {
   });
 
   useEffect(() => {
-    const storedUserData = Cookies.get("token");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
+    dispatch(setLoading(true));
+    getUserInfo((res) => {
+      if (res.status == 200) {
+        setUserData(res.data);
+        dispatch(setLoading(false));
+      }
+    });
   }, []);
-
-  // console.log(userData);
 
   const handleOpen = () => {
     setShowProfile(!showProfile);
@@ -257,9 +263,9 @@ const index = () => {
           ) : (
             <div className="col-lg-8 col-md-6 col-sm-12 mb-2">
               <div className="Profile-Edit-Section d-flex flex-column align-items-center justify-content-center h-100">
-              <h1>Hi {userData && userData.name}</h1>
-              <p>Welcome to Profile Section</p>
-              <Image src={ProfileEdit} alt="" width={400} />
+                <h1>Hi {userData && userData.name}</h1>
+                <p>Welcome to Profile Section</p>
+                <Image src={ProfileEdit} alt="" width={400} />
               </div>
             </div>
           )}

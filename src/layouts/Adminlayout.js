@@ -5,16 +5,15 @@ import Sidebar from "./Sidebar";
 import profile from "../assets/images/avatar.svg";
 import notificationimg from "../assets/icons/notification.svg";
 import chat from "../assets/icons/chat.png";
-
 import Image from "next/image";
-
 import { usePathname } from "next/navigation";
-import Cookies from "js-cookie";
+
 import NotificationModal from "../components/modals/NodificationModal";
 import CircleIcon from "@mui/icons-material/Circle";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/reducer/loaderSlice";
 import { getAllPurchases } from "../redux/action/purchase";
+import { getUserInfo } from "../redux/action/user";
 const Adminlayout = ({ children }) => {
   const dispatch = useDispatch();
   const [typingText, setTypingText] = useState("");
@@ -31,11 +30,15 @@ const Adminlayout = ({ children }) => {
   const [userData, setUserData] = useState(null);
 
   useEffect(() => {
-    const storedUserData = Cookies.get("token");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
-    }
+    dispatch(setLoading(true));
+    getUserInfo((res) => {
+      if (res.status == 200) {
+        setUserData(res.data);
+        dispatch(setLoading(false));
+      }
+    });
   }, []);
+
 
   useEffect(() => {
     switch (getPageName(pathname)) {
