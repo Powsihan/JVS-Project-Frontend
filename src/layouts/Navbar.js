@@ -13,8 +13,7 @@ import { usePathname, useRouter } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import Cookies from "js-cookie";
-import { Customerlogout } from "../redux/action/logout";
-import { getLoginCustomerDetail } from "../redux/action/customer";
+import { Customerlogout, getLoginCustomerDetail } from "../redux/action/customer";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/reducer/loaderSlice";
 
@@ -60,14 +59,19 @@ const Navbar = () => {
   }, []);
 
   const logout = () => {
-    Customerlogout();
-    if (pathname === "/home") {
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    } else {
-      router.push("/home");
-    }
+    Customerlogout((response) => {
+      if (response.status === 200) {
+        if (pathname === "/home") {
+          setTimeout(() => {
+            window.location.reload();
+          }, 1000);
+        } else {
+          router.push("/home");
+        }
+      } else {
+        toast.error("Logout failed!");
+      }
+    });
   };
 
   const scrollToContactUs = () => {

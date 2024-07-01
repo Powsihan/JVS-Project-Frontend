@@ -83,3 +83,19 @@ export const Userlogout = async (callback) => {
     if (callback) callback(error.response);
   }
 };
+
+export const changeUserPassword = (data, callback) => {
+  const endpoint = `${process.env.api_base_url}/users/changepassword`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

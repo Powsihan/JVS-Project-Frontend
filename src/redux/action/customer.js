@@ -19,8 +19,7 @@ export const getCustomerDetails = (callback) => {
   }
 };
 
-
-export const getCustomerInfo = (userId,callback) => {
+export const getCustomerInfo = (userId, callback) => {
   const endpoint = `${process.env.api_base_url}/customers/${userId}`;
   try {
     http
@@ -149,5 +148,21 @@ export const Customerlogout = async (callback) => {
   } catch (error) {
     console.error("Logout failed:", error);
     if (callback) callback(error.response);
+  }
+};
+
+export const changeCustomerPassword = (data, callback) => {
+  const endpoint = `${process.env.api_base_url}/customers/changepassword`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
   }
 };

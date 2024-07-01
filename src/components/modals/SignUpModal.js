@@ -15,6 +15,7 @@ import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { usePathname, useRouter } from "next/navigation";
 import { uploadImage } from "@/src/redux/action/imageUpload";
 import { signUpfinish } from "@/src/utils/ImagesPath";
+import Cookies from "js-cookie";
 
 function SignUpModal(props) {
   const pathname = usePathname();
@@ -57,6 +58,7 @@ function SignUpModal(props) {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
+    Cookies.remove("token", { path: "/" });
     let data = { ...customerData };
     if (file) {
       const uploadedImageUrl = await dispatch(uploadImage(file));

@@ -7,7 +7,7 @@ import "./profile.css";
 import InputField from "@/src/components/InputField";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
-import { getUserInfo, userProfileEdit } from "@/src/redux/action/user";
+import { changeUserPassword, getUserInfo, userProfileEdit } from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -41,26 +41,25 @@ const index = () => {
     setConfirmPassword(value);
   };
 
-  const handlePasswordChangeSubmit = (e) => {
+  const handlechangePassword = (e) => {
     e.preventDefault();
-    const userId = userData._id;
-    const datapass = {
-      password: newPassword,
-    };
-    if (newPassword !== confirmPassword) {
-      toast.error("Password not match");
-      return;
-    }
 
-    userProfileEdit(userId, datapass, (res) => {
+    const datapass = {
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    };
+
+
+    changeUserPassword(datapass, (res) => {
       console.log(res);
       if (res.status === 200) {
-        toast.success("Password changed successfully.");
+        toast.success(res.data.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error("Current password is Wrong");
+        toast.error(res.data.message);
       }
     });
   };
@@ -221,9 +220,7 @@ const index = () => {
               </form>
 
               <div className="col-lg-12 Profile-Edit-Section mt-2">
-                <form onSubmit={handlePasswordChangeSubmit}>
                   <h5 className="custom-border ps-2">Password Change</h5>
-
                   <div className="row p-2">
                     <div className="col-lg-7 d-flex flex-column gap-2">
                       <InputField
@@ -254,10 +251,9 @@ const index = () => {
                   </div>
                   <hr />
                   <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
-                    <CommonButton text="Save Changes" />
+                    <CommonButton text="Save Changes" onClick={handlechangePassword}/>
                     <Button variant="secondary">Cancel</Button>
                   </div>
-                </form>
               </div>
             </div>
           ) : (

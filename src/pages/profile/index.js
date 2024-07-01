@@ -10,6 +10,7 @@ import "./customerprofile.css";
 import { Districts } from "@/src/data/datas";
 import Cookies from "js-cookie";
 import {
+  changeCustomerPassword,
   customerProfileEdit,
   deleteCustomer,
   getLoginCustomerDetail,
@@ -99,7 +100,6 @@ const index = () => {
       }
     });
   };
-  
 
   const [currentPassword, setCurrentPassword] = useState("");
   const [newPassword, setNewPassword] = useState("");
@@ -117,26 +117,25 @@ const index = () => {
     setConfirmPassword(value);
   };
 
-  const handlePasswordChangeSubmit = (e) => {
+  const handlechangePassword = (e) => {
     e.preventDefault();
-    const customerId = customerData._id;
-    const datapass = {
-      password: newPassword,
-    };
-    if (newPassword !== confirmPassword) {
-      toast.error("Password not match");
-      return;
-    }
 
-    customerProfileEdit(customerId, datapass, (res) => {
+    const datapass = {
+      currentPassword: currentPassword,
+      newPassword: newPassword,
+      confirmPassword: confirmPassword,
+    };
+
+
+    changeCustomerPassword(datapass, (res) => {
       console.log(res);
       if (res.status === 200) {
-        toast.success("Password changed successfully.");
+        toast.success(res.data.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error("Current password is Wrong");
+        toast.error(res.data.message);
       }
     });
   };
@@ -238,7 +237,7 @@ const index = () => {
                   onClick={handleSubmit}
                 />
               </div>
-              )}
+            )}
           </div>
           <div className="row">
             <div className="col-lg-4 d-flex flex-column align-items-center">
@@ -405,13 +404,12 @@ const index = () => {
         </div>
 
         <div className="container-fluid customer-personal-information">
-          <form onSubmit={handlePasswordChangeSubmit}>
-            <div className="row d-flex justify-content-between align-items-center custom-profile-header">
-              <div className="col-6 d-flex justify-content-start flex-column">
-                <h2>Change password</h2>
-                <p>Here you can change your password.</p>
-              </div>
-              {showProfile && (
+          <div className="row d-flex justify-content-between align-items-center custom-profile-header">
+            <div className="col-6 d-flex justify-content-start flex-column">
+              <h2>Change password</h2>
+              <p>Here you can change your password.</p>
+            </div>
+            {showProfile && (
               <div className="col-6 d-flex justify-content-end pe-5 gap-3 profile-button-group">
                 <div>
                   <Button
@@ -424,54 +422,53 @@ const index = () => {
                 <CommonButton
                   text="Save Changes"
                   width={150}
-                  // onClick={handleSubmit}
+                  onClick={handlechangePassword}
                 />
               </div>
-              )}
+            )}
+          </div>
+          <div className="row">
+            <div className="col-lg-6 d-flex flex-column gap-3  justify-content-center ps-5">
+              <InputField
+                label="Current Password"
+                placeholder="Enter your current password"
+                width={"70%"}
+                type={"password"}
+                value={currentPassword}
+                onChange={(value) => handleCurrentPasswordChange(value)}
+              />
+              <InputField
+                label="New Password"
+                placeholder="Enter your new password"
+                width={"70%"}
+                type={"password"}
+                value={newPassword}
+                onChange={(value) => handleNewPasswordChange(value)}
+              />
+              <InputField
+                label="Confirm Password"
+                placeholder="Confirm your password"
+                width={"70%"}
+                type={"password"}
+                value={confirmPassword}
+                onChange={(value) => handleConfirmPasswordChange(value)}
+              />
             </div>
-            <div className="row">
-              <div className="col-lg-6 d-flex flex-column gap-3  justify-content-center ps-5">
-                <InputField
-                  label="Current Password"
-                  placeholder="Enter your current password"
-                  width={"70%"}
-                  type={"password"}
-                  value={currentPassword}
-                  onChange={(value) => handleCurrentPasswordChange(value)}
-                />
-                <InputField
-                  label="New Password"
-                  placeholder="Enter your new password"
-                  width={"70%"}
-                  type={"password"}
-                  value={newPassword}
-                  onChange={(value) => handleNewPasswordChange(value)}
-                />
-                <InputField
-                  label="Confirm Password"
-                  placeholder="Confirm your password"
-                  width={"70%"}
-                  type={"password"}
-                  value={confirmPassword}
-                  onChange={(value) => handleConfirmPasswordChange(value)}
-                />
-              </div>
-              <div className="col-lg-6 d-flex justify-content-center align-items-center d-lg-block d-md-none d-none">
-                <Image
-                  src={chnagepassword}
-                  alt="imageee"
-                  width={300}
-                  height={300}
-                />
-                <Image
-                  src={chnagepassword2}
-                  alt="imageee"
-                  width={300}
-                  height={300}
-                />
-              </div>
+            <div className="col-lg-6 d-flex justify-content-center align-items-center d-lg-block d-md-none d-none">
+              <Image
+                src={chnagepassword}
+                alt="imageee"
+                width={300}
+                height={300}
+              />
+              <Image
+                src={chnagepassword2}
+                alt="imageee"
+                width={300}
+                height={300}
+              />
             </div>
-          </form>
+          </div>
         </div>
 
         <div className="container-fluid customer-delete-account p-2">
