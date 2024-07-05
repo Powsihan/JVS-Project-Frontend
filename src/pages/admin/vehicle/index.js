@@ -140,6 +140,11 @@ const index = () => {
         isWithinPriceRange(vehicle.price)
       );
     });
+    const sortOrder = ["Requested", "Pending", "Available", "Sold"];
+    filteredData.sort(
+      (a, b) => sortOrder.indexOf(a.status) - sortOrder.indexOf(b.status)
+    );
+
     setFilteredVehiclesList(filteredData);
   }, [
     searchRegNo,

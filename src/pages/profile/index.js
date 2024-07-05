@@ -436,6 +436,7 @@ const index = () => {
                 type={"password"}
                 value={currentPassword}
                 onChange={(value) => handleCurrentPasswordChange(value)}
+                disable={!showProfile}
               />
               <InputField
                 label="New Password"
@@ -444,6 +445,7 @@ const index = () => {
                 type={"password"}
                 value={newPassword}
                 onChange={(value) => handleNewPasswordChange(value)}
+                disable={!showProfile}
               />
               <InputField
                 label="Confirm Password"
@@ -452,6 +454,7 @@ const index = () => {
                 type={"password"}
                 value={confirmPassword}
                 onChange={(value) => handleConfirmPasswordChange(value)}
+                disable={!showProfile}
               />
             </div>
             <div className="col-lg-6 d-flex justify-content-center align-items-center d-lg-block d-md-none d-none">

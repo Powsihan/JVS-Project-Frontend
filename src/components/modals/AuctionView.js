@@ -178,14 +178,15 @@ const AuctionView = (props) => {
                     biddingHis.map((data, index) => (
                       <div key={index}>
                         <div
-                          className="d-flex justify-content-between align-items-center ps-2 pe-2"
+                          className="row ps-2 pe-2 d-flex align-items-center"
                           style={{ marginBottom: "-10px" }}
                         >
-                          <h2>
+                          <h2 className="col-4 d-flex justify-content-start align-items-center">
                             {customerDetails[data.customerId]
                               ? customerDetails[data.customerId].fname
                               : data.customerId}
                           </h2>
+                          <div className="col-2 d-flex justify-content-center align-items-center">
                           <IconButton
                             aria-label="delete"
                             className="viewbutt"
@@ -193,9 +194,10 @@ const AuctionView = (props) => {
                               OpenCustomerViewModal(data.customerId)
                             }
                           >
-                            <VisibilityIcon className="" />
+                            <VisibilityIcon/>
                           </IconButton>
-                          <h4>{`LKR ${data.biddingprice}`}</h4>
+                          </div>
+                          <h4 className="col-6 d-flex justify-content-end align-items-center">{`LKR ${data.biddingprice}`}</h4>
                         </div>
                         <hr style={{ color: "#bdbbbb" }} />
                       </div>

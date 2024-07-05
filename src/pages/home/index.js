@@ -27,9 +27,62 @@ import {
   vector,
   vehicle,
 } from "@/src/utils/ImagesPath";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { getVehicleDetails } from "@/src/redux/action/vehicle";
+import { getCustomerDetails } from "@/src/redux/action/customer";
 
 const index = () => {
   const router = useRouter();
+  const dispatch = useDispatch();
+  const [vehicleData, setVehicleData] = useState([]);
+  const [customerData, setCustomerData] = useState([]);
+  const [totalVehicles, setTotalVehicles] = useState(0);
+  const [totalCustomers, setTotalCustomers] = useState(0);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getVehicleDetails((res) => {
+      if (res && res.data) {
+        setVehicleData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching vehicle details", res);
+        toast.error("Error fetching vehicle details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getCustomerDetails((res) => {
+      if (res && res.data) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching Customer details", res);
+        toast.error("Error fetching Customer details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (vehicleData.length > 0) {
+      const filteredData = vehicleData.filter(
+        (vehicle) => vehicle.status !== "Sold"
+      );
+      setTotalVehicles(filteredData.length);
+    }
+  }, [vehicleData]);
+
+  useEffect(() => {
+    if (customerData.length > 0) {
+      setTotalCustomers( customerData.length);
+    }
+  }, [customerData]);
+
   return (
     <>
       <Navbar />
@@ -180,7 +233,7 @@ const index = () => {
                   <h4>Customer</h4>
                 </div>
                 <div className="d-flex  justify-content-center align-items-center count">
-                  <h2>546</h2>
+                  <h2>{totalCustomers}</h2>
                 </div>
               </div>
             </div>
@@ -193,7 +246,7 @@ const index = () => {
                   <h4>Vehicles</h4>
                 </div>
                 <div className="d-flex  justify-content-center align-items-center count">
-                  <h2>19</h2>
+                  <h2>{totalVehicles}</h2>
                 </div>
               </div>
             </div>

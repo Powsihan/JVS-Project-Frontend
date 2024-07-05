@@ -10,7 +10,7 @@ import {
 
 const aboutuscontent = [
   {
-    heading: "Vehicle Buying and Selling",
+    heading: "Vehicle Buying",
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleBuy,
@@ -24,11 +24,11 @@ const aboutuscontent = [
     path:"",
   },
   {
-    heading: "Vehicle Customization",
+    heading: "Vehicle Selling",
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleCustomize,
-    path:"",
+    path:"/sell",
   },
   {
     heading: "Vehicle Auctions",
