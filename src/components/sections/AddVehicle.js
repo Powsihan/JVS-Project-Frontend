@@ -165,7 +165,7 @@ const AddVehicle = (props) => {
         <div className="col-lg-4 col-md-4 col-sm-12 pb-2">
           <InputField
             label={"Vehicle Register No"}
-            placeholder={"Enter the Regsiter No"}
+            placeholder={"Eg:- NP BGK-5939"}
             onChange={(value) => handleChange("registerno", value)}
           />
         </div>

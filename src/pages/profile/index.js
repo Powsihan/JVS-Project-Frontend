@@ -272,7 +272,7 @@ const index = () => {
                         transition: "transform 0.3s",
                         "&:hover": {
                           transform: "scale(1.1)",
-                          color: "darkred",
+                          color: "darkblue",
                         },
                       }}
                     >

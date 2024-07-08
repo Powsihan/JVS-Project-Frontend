@@ -254,7 +254,7 @@ const index = () => {
                       <div className="col-lg-6 col-md-6 col-sm-12">
                         <InputField
                           label="Vehicle Register No"
-                          placeholder="Enter the register no"
+                          placeholder="Eg:- NP BGK-5939"
                           onChange={(value) =>
                             handleChange("registerno", value)
                           }
