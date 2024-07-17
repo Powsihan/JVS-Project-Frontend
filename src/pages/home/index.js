@@ -31,6 +31,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
 import { getCustomerDetails } from "@/src/redux/action/customer";
+import ChatbotComponent from "@/src/components/Chatbot";
 
 const index = () => {
   const router = useRouter();
@@ -39,6 +40,7 @@ const index = () => {
   const [customerData, setCustomerData] = useState([]);
   const [totalVehicles, setTotalVehicles] = useState(0);
   const [totalCustomers, setTotalCustomers] = useState(0);
+  const [showChatbot, setShowChatbot] = useState(false);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -79,7 +81,7 @@ const index = () => {
 
   useEffect(() => {
     if (customerData.length > 0) {
-      setTotalCustomers( customerData.length);
+      setTotalCustomers(customerData.length);
     }
   }, [customerData]);
 
@@ -127,10 +129,13 @@ const index = () => {
               </IconButton>
             </div>
             <div className="col-lg-5 col-sm-12 d-flex align-items-end justify-content-end gap-3">
-              <div className="p-3 rounded-5 chat-bot-image">
+              {/* <div className="p-3 rounded-5 expert-image">
                 <Image src={Expert} alt="" />
-              </div>
-              <div className="p-3 rounded-5 chat-bot-image">
+              </div> */}
+              <div
+                className="p-3 rounded-5 chat-bot-image"
+                onClick={() => setShowChatbot(!showChatbot)}
+              >
                 <Image src={Chatbot} alt="" />
               </div>
             </div>
@@ -331,6 +336,9 @@ const index = () => {
             </div>
           ))}
         </div>
+      </div>
+      <div className="ChatbotComponent">
+        <ChatbotComponent showChatbot={showChatbot} setShowChatbot={setShowChatbot}/>
       </div>
       <Footer />
     </>
