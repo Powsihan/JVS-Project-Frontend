@@ -61,7 +61,6 @@ const index = () => {
     email: "",
     password: "",
     profilePic: "",
-    dob: "",
     address: "",
     nic: "",
     gender: "",
@@ -125,7 +124,6 @@ const index = () => {
       newPassword: newPassword,
       confirmPassword: confirmPassword,
     };
-
 
     changeCustomerPassword(datapass, (res) => {
       console.log(res);
@@ -287,9 +285,8 @@ const index = () => {
                   </div>
                 )}
               </div>
-              <h3 className="pb-3">{`${customerData && customerData.fname} ${
-                customerData && customerData.lname
-              }`}</h3>
+              <h3 className="pb-3">{`${customerData &&
+                customerData.fname} ${customerData && customerData.lname}`}</h3>
               <CommonButton
                 text={`${!showProfile ? "Edit Profile" : "Close Profile"}`}
                 width={248}
@@ -321,27 +318,6 @@ const index = () => {
               <div className="row pb-2">
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <InputField
-                    label="Date of Birth"
-                    placeholder="DD-MM-YY"
-                    type={"date"}
-                    defaultValue={customerData && customerData.date}
-                    onChange={(value) => handleChange("date", value)}
-                    disable={!showProfile}
-                  />
-                </div>
-                <div className="col-lg-6 col-md-6 col-sm-12">
-                  <InputField
-                    label="Phone Number"
-                    placeholder="Enter your phone number"
-                    defaultValue={customerData && customerData.phoneNo}
-                    onChange={(value) => handleChange("phoneNo", value)}
-                    disable={!showProfile}
-                  />
-                </div>
-              </div>
-              <div className="row pb-2">
-                <div className="col-lg-6 col-md-6 col-sm-12">
-                  <InputField
                     label="Email Address"
                     placeholder="Enter your Email Address"
                     defaultValue={customerData && customerData.email}
@@ -351,10 +327,10 @@ const index = () => {
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <InputField
-                    label="Address"
-                    placeholder="Enter your Address"
-                    defaultValue={customerData && customerData.address}
-                    onChange={(value) => handleChange("address", value)}
+                    label="Phone Number"
+                    placeholder="Enter your phone number"
+                    defaultValue={customerData && customerData.phoneNo}
+                    onChange={(value) => handleChange("phoneNo", value)}
                     disable={!showProfile}
                   />
                 </div>
@@ -383,20 +359,37 @@ const index = () => {
               </div>
 
               <div className="row pb-2">
-                <div className="form-group">
-                  <label htmlFor="input-field" className="Text-input-label">
-                    About me
-                  </label>
-                  <textarea
-                    className="form-control"
-                    placeholder={"Small description about your self"}
-                    rows={5}
-                    defaultValue={customerData && customerData.description}
-                    onChange={(e) =>
-                      handleChange("description", e.target.value)
-                    }
-                    disabled={!showProfile}
-                  />
+                <div className="col-lg-6 col-md-6 col-sm-12">
+                  <div className="form-group">
+                    <label htmlFor="input-field" className="Text-input-label">
+                      Address
+                    </label>
+                    <textarea
+                      className="form-control"
+                      placeholder={"Small description about your self"}
+                      rows={3}
+                      defaultValue={customerData && customerData.address}
+                      onChange={(e) => handleChange("address", e.target.value)}
+                      disabled={!showProfile}
+                    />
+                  </div>
+                </div>
+                <div className="col-lg-6 col-md-6 col-sm-12">
+                  <div className="form-group">
+                    <label htmlFor="input-field" className="Text-input-label">
+                      About me
+                    </label>
+                    <textarea
+                      className="form-control"
+                      placeholder={"Small description about your self"}
+                      rows={3}
+                      defaultValue={customerData && customerData.description}
+                      onChange={(e) =>
+                        handleChange("description", e.target.value)
+                      }
+                      disabled={!showProfile}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
