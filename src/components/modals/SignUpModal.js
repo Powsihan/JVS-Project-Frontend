@@ -24,7 +24,7 @@ function SignUpModal(props) {
   const [customerData, setCustomerData] = useState({
     fname: "",
     lname: "",
-    dob: "",
+    // dob: "",
     gender: "",
     email: "",
     password: "",
@@ -137,13 +137,31 @@ function SignUpModal(props) {
           </div>
 
           <div class="row pb-2">
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            {/* <div className="col-lg-6 col-md-6 col-sm-12">
               <InputField
                 label={"Date Of Birth"}
                 placeholder={"DD-MM-YYYY"}
                 type={"date"}
                 onChange={(value) => handleChange("dob", value)}
               />
+            </div> */}
+            <div className="col-lg-6 col-md-6 col-sm-12">
+              <div className="form-group">
+                <label htmlFor="input-field" className="Text-input-label">
+                  City
+                </label>
+                <select
+                  className="form-control"
+                  onChange={(e) => handleChange("city", e.target.value)}
+                >
+                  <option value="">Select the City</option>
+                  {Districts.map((data, index) => (
+                    <option key={index} value={data}>
+                      {data}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
@@ -204,15 +222,15 @@ function SignUpModal(props) {
           </div>
 
           <div class="row pb-4">
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            {/* <div className="col-lg-6 col-md-6 col-sm-12"> */}
               <InputField
                 label={"Address"}
                 placeholder={"Enter Your Address"}
                 type={"text"}
                 onChange={(value) => handleChange("address", value)}
               />
-            </div>
-            <div className="col-lg-6 col-md-6 col-sm-12">
+            {/* </div> */}
+            {/* <div className="col-lg-6 col-md-6 col-sm-12">
               <div className="form-group">
                 <label htmlFor="input-field" className="Text-input-label">
                   City
@@ -229,7 +247,7 @@ function SignUpModal(props) {
                   ))}
                 </select>
               </div>
-            </div>
+            </div> */}
           </div>
 
           <div class="row">

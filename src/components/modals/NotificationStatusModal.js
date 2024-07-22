@@ -56,7 +56,7 @@ const NotificationStatusModal = (props) => {
         </Button>
         <Button
           variant="outline-danger"
-          onClick={() => handleUpdateStatus("Approved")}
+          onClick={() => handleUpdateStatus("Rejected")}
           className="m-2"
         >
           Rejected
