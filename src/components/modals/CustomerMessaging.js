@@ -11,6 +11,7 @@ import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import "../../styles/component.css";
 import "../../styles/admin.css";
 
+
 const CustomerMessaging = ({ show, handleClose }) => {
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
@@ -64,7 +65,7 @@ const CustomerMessaging = ({ show, handleClose }) => {
       message,
     };
     try {
-      await axios.post(`${process.env.api_base_url}/api/chats`, newMessage);
+      await axios.post(`${process.env.api_base_url}/chats`, newMessage);
       setSelectedChat((prevChat) => [
         ...prevChat,
         {
@@ -82,8 +83,14 @@ const CustomerMessaging = ({ show, handleClose }) => {
   };
 
   return (
-    <Modal show={show} onHide={handleClose} size="lg" centered backdrop="static">
-      <Modal.Header >
+    <Modal
+      show={show}
+      onHide={handleClose}
+      size="lg"
+      centered
+      backdrop="static"
+    >
+      <Modal.Header>
         <Modal.Title className="Modal-Title">Chat with Admin</Modal.Title>
       </Modal.Header>
       <Modal.Body>
@@ -94,23 +101,25 @@ const CustomerMessaging = ({ show, handleClose }) => {
                 {selectedChat.map((message, index) => (
                   <div
                     className={`d-flex flex-column mb-3 ${
-                      message.sender === "Me"
-                        ? "align-self-end text-right"
-                        : "align-self-start text-left"
+                      message.senderModel === "Customer"
+                        ? "align-items-end"
+                        : "align-items-start"
                     }`}
                     key={index}
                   >
                     <div
-                      className={`p-2 ${
-                        message.sender === "Me"
-                          ? "bg-primary text-white"
-                          : "bg-light text-dark"
-                      } rounded`}
+                       className={`message ${
+                        message.senderModel === "Customer"
+                          ? "message-sent"
+                          : "message-received"
+                      }`}
                     >
-                      <div>{message.message}</div>
-                      <div className="text-muted small">
-                        {message.timestamp}
+                      <div className="sender-info">
+                        {message.senderModel === "Customer" ? "You" : "Admin"}
                       </div>
+                      <div>{message.message}</div>
+
+                      <div className="timestamp">{message.timestamp}</div>
                     </div>
                   </div>
                 ))}

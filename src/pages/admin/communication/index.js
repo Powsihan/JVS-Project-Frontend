@@ -10,6 +10,8 @@ import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { toast } from "react-toastify";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import { getUserInfo } from "@/src/redux/action/user";
+import Image from "next/image";
+import { avatar } from "@/src/utils/ImagesPath";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -30,6 +32,7 @@ const Index = () => {
           return;
         }
         setReceivers(customers);
+        console.log(customers, "cusssssssssssssss");
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -108,46 +111,72 @@ const Index = () => {
         <div className="row">
           <div className="col-lg-8">
             <div className="box-1 p-4">
-              <h2>
-                Chat with{" "}
-                {selectedReceiver
-                  ? `${selectedReceiver.fname} ${selectedReceiver.lname}`
-                  : "Select a receiver"}
-              </h2>
-              <div className="message-container">
-                {selectedChat.map((message, index) => (
-                  <div
-                    className={`message ${
-                      message.sender === "Me"
-                        ? "message-sent"
-                        : "message-received"
-                    }`}
-                    key={index}
-                  >
-                    <div>{message.message}</div>
-                    <div className="timestamp">{message.timestamp}</div>
+              {selectedReceiver && selectedReceiver ? (
+                <div>
+                  <div className="d-flex align-items-center gap-2 rounded p-1" style={{backgroundColor:"var(--primary-color)"}}>
+                    <Image
+                      src={
+                        selectedReceiver && selectedReceiver.profilePic
+                          ? selectedReceiver.profilePic
+                          : avatar
+                      }
+                      width={50}
+                      height={50}
+                      alt="Profile Picture"
+                      className="rounded-circle"
+                    />
+                    <h4 className="m-0">
+                      {selectedReceiver
+                        ? `${selectedReceiver.fname} ${selectedReceiver.lname}`
+                        : ""}
+                    </h4>
                   </div>
-                ))}
-              </div>
-              <MessageInput onSend={handleSendMessage} />
+                  <div className="message-container message-overflow-container">
+                    {selectedChat.map((message, index) => (
+                      <div
+                        className={`message ${
+                          message.senderModel === "User"
+                            ? "message-sent"
+                            : "message-received"
+                        }`}
+                        key={index}
+                      >
+                        <div className="sender-info">
+                          {message.senderModel === "User"
+                            ? "You"
+                            : `${selectedReceiver.fname}`}
+                        </div>
+                        <div>{message.message}</div>
+                        <div className="timestamp">{message.timestamp}</div>
+                      </div>
+                    ))}
+                  </div>
+                  <MessageInput onSend={handleSendMessage} />
+                </div>
+              ) : (
+                <div>
+                  <h4 className="text-center">Welcome to Message Section</h4>
+                </div>
+              )}
             </div>
           </div>
           <div className="col-lg-4">
             <div className="box-2 p-4">
               <h3>Chats</h3>
+              <hr />
               <div className="mb-3 position-relative">
                 <form>
                   <input
                     className="form-control"
                     type="text"
-                    placeholder="Search or start message"
+                    placeholder="Search Customer"
                   />
                   <div className="search-icon">
                     <SearchIcon />
                   </div>
                 </form>
               </div>
-              <div className="receiver-list">
+              <div className="receiver-list message-overflow-container">
                 {receivers.map((receiver) => (
                   <div
                     className="receiver-item"
