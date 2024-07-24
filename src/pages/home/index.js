@@ -33,9 +33,13 @@ import {
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
-import { getCustomerDetails } from "@/src/redux/action/customer";
+import {
+  getCustomerDetails,
+  getLoginCustomerDetail,
+} from "@/src/redux/action/customer";
 import ChatbotComponent from "@/src/components/Chatbot";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
+import SignInModal from "@/src/components/modals/SignInModal";
 
 const index = () => {
   const router = useRouter();
@@ -45,6 +49,7 @@ const index = () => {
   const [totalVehicles, setTotalVehicles] = useState(0);
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [showChatbot, setShowChatbot] = useState(false);
+  const [logincustomerData, setLoginCustomerData] = useState(false);
 
   const [showAdminModal, setShowAdminModal] = useState(false);
 
@@ -75,6 +80,18 @@ const index = () => {
         dispatch(setLoading(false));
         console.error("Error fetching Customer details", res);
         toast.error("Error fetching Customer details");
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setLoginCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
       }
     });
   }, []);
@@ -123,6 +140,15 @@ const index = () => {
       contact: false,
     },
   ];
+
+  const [showLoginView, setShowLoginView] = useState(false);
+
+  const LoginViewModal = () => {
+    setShowLoginView(true);
+  };
+  const openChatBox = () => {
+    setShowChatbot(!showChatbot);
+  };
 
   return (
     <>
@@ -173,7 +199,7 @@ const index = () => {
               </div> */}
               <div
                 className="p-3 rounded-5 chat-bot-image"
-                onClick={() => setShowChatbot(!showChatbot)}
+                onClick={logincustomerData ? openChatBox : LoginViewModal}
               >
                 <Image src={Chatbot} alt="" />
               </div>
@@ -219,7 +245,7 @@ const index = () => {
         </div>
         <div className="row pt-5 d-flex">
           {aboutuscontent.map((data, index) => (
-            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5" >
+            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5">
               <div className="row">
                 <div className="d-flex pt-2 justify-content-center align-items-center">
                   <Image src={data.image} alt="" />
@@ -231,11 +257,7 @@ const index = () => {
                   <p>{data.content}</p>
                 </div>
                 <div className="justify-content-center align-items-center d-flex">
-                  <CommonButton
-                    text={"Go Visit"}
-                    image={vector}
-                    width={200}
-                  />
+                  <CommonButton text={"Go Visit"} image={vector} width={200} />
                 </div>
               </div>
             </div>
@@ -367,7 +389,9 @@ const index = () => {
                       text={data.buttonText}
                       image={chatmaessage}
                       width={200}
-                      onClick={data.onclick} 
+                      onClick={
+                        logincustomerData ? data.onclick : LoginViewModal
+                      }
                     />
                   </div>
                 </div>
@@ -377,9 +401,16 @@ const index = () => {
         </div>
       </div>
       <div className="ChatbotComponent">
-        <ChatbotComponent showChatbot={showChatbot} setShowChatbot={setShowChatbot}/>
+        <ChatbotComponent
+          showChatbot={showChatbot}
+          setShowChatbot={setShowChatbot}
+        />
       </div>
       <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
+      <SignInModal
+        show={showLoginView}
+        onHide={() => setShowLoginView(false)}
+      />
       <Footer />
     </>
   );

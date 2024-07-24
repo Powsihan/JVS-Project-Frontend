@@ -1,41 +1,104 @@
-.box-2 {
-    background-color: #07326C;
+
+.Communication-section {
+    padding: 20px;
+}
+
+.box-1, .box-2 {
     border-radius: 8px;
     max-height: 80vh;
     overflow-y: auto;
+}
+
+.box-1 {
+    background-color: #ecf6fd;
+}
+
+.box-2 {
+    background-color: #07326C;
     color: white;
 }
 
-.box-2 h1 {
-    color: white;
+/* Title styles */
+.Communication-section h2 {
+    color: var(--primary-color);
+    font-weight: 700;
 }
 
-.box-2 .text-secondary {
+.box-2 h3 {
+    color: #fff;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Input and search styles */
+.box-2 .form-control {
+    background-color: #07326C;
+    color: white;
+    border: 1px solid white;
+    border-radius: 50px;
+}
+
+.box-2 .form-control::placeholder {
     color: #d1d1d1;
 }
-    .box-2 .form-control {
-        background-color: #07326C;
-        color: white;
-        border: 1px solid white;
-    }
 
-    .box-2 .form-control::placeholder {
-        color: #d1d1d1;
-    }
+.search-icon {
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    position: absolute;
+    color: white;
+}
 
-    .box-2 .text-muted {
-        color: #dddddd !important;
-    }
+/* Chat message styles */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
 
-    .search-icon {
-        right: 10px;
-        top: 10px;
-        position: absolute;
-    }
+.message {
+    display: flex;
+    flex-direction: column;
+    max-width: 75%;
+    padding: 10px;
+    border-radius: 10px;
+}
 
-    .box-1 {
-        background-color: #DBECF9;
-        border-radius: 8px;
-        max-height: 80vh;
-        overflow-y: auto;
-    }
+.message-sent {
+    align-self: flex-end;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.message-received {
+    align-self: flex-start;
+    background-color: #ced5e4;
+    color: black;
+}
+
+.message .timestamp {
+    font-size: 0.75rem;
+    color: #848383;
+    margin-top: 5px;
+}
+
+/* Chat list styles */
+.receiver-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+}
+
+.receiver-item {
+    cursor: pointer;
+    padding: 10px;
+    border-bottom: 1px solid #fff;
+}
+
+.receiver-item:hover {
+    background-color: #1a497e;
+    border-radius: 5px;
+}

@@ -1,15 +1,15 @@
-import Adminlayout from '@/src/layouts/Adminlayout';
-import React, { useEffect, useState } from 'react';
+import Adminlayout from "@/src/layouts/Adminlayout";
+import React, { useEffect, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import "./communication.css";
-import MessageInput from '../../../components/MessageInput'; 
-import socket from '../../../utils/socketService'; // Import socket
-import axios from 'axios';
-import { useDispatch } from 'react-redux';
-import { setLoading } from '@/src/redux/reducer/loaderSlice';
-import { toast } from 'react-toastify';
-import { getCustomerDetails } from '@/src/redux/action/customer';
-import { getUserInfo } from '@/src/redux/action/user';
+import MessageInput from "../../../components/MessageInput";
+import socket from "../../../utils/socketService";
+import axios from "axios";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { toast } from "react-toastify";
+import { getCustomerDetails } from "@/src/redux/action/customer";
+import { getUserInfo } from "@/src/redux/action/user";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const Index = () => {
   const [chats, setChats] = useState([]);
   const [selectedChat, setSelectedChat] = useState([]);
   const [receivers, setReceivers] = useState([]);
-  const [selectedReceiver, setSelectedReceiver] = useState(null); 
+  const [selectedReceiver, setSelectedReceiver] = useState(null);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -50,10 +50,11 @@ const Index = () => {
 
   useEffect(() => {
     if (userData && selectedReceiver) {
-      // Fetch chat history between user and selected receiver
       const fetchChatHistory = async () => {
         try {
-          const response = await axios.get(`http://localhost:5000/api/chats/${userData._id}/User/${selectedReceiver._id}/Customer`);
+          const response = await axios.get(
+            `${process.env.api_base_url}/chats/${userData._id}/User/${selectedReceiver._id}/Customer`
+          );
           setSelectedChat(response.data);
         } catch (error) {
           console.error("Error fetching chat history:", error);
@@ -65,27 +66,37 @@ const Index = () => {
   }, [userData, selectedReceiver]);
 
   useEffect(() => {
-    socket.on('message', (message) => {
+    socket.on("message", (message) => {
       setSelectedChat((prevChat) => [...prevChat, message]);
     });
 
     return () => {
-      socket.off('message');
+      socket.off("message");
     };
   }, []);
 
   const handleSendMessage = async (message) => {
     if (!selectedReceiver) return;
     const newMessage = {
-      senderId: userData._id, 
-      senderModel: 'User', 
-      receiverId: selectedReceiver._id, 
-      receiverModel: 'Customer',
+      senderId: userData._id,
+      senderModel: "User",
+      receiverId: selectedReceiver._id,
+      receiverModel: "Customer",
       message,
     };
     try {
-      await axios.post('http://localhost:5000/api/chats', newMessage);
-      setSelectedChat((prevChat) => [...prevChat, { ...newMessage, sender: "Me", timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+      await axios.post(`${process.env.api_base_url}/chats`, newMessage);
+      setSelectedChat((prevChat) => [
+        ...prevChat,
+        {
+          ...newMessage,
+          sender: "Me",
+          timestamp: new Date().toLocaleTimeString([], {
+            hour: "2-digit",
+            minute: "2-digit",
+          }),
+        },
+      ]);
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -95,45 +106,60 @@ const Index = () => {
     <Adminlayout>
       <div className="container-fluid Communication-section">
         <div className="row">
-          <div className='box-1 col-lg-8 p-4'>
-            <h1>Chat with {selectedReceiver ? `${selectedReceiver.fname} ${selectedReceiver.lname}` : "Select a receiver"}</h1>
-            <div className="d-flex flex-column">
-              {selectedChat.map((message, index) => (
-                <div className={`d-flex flex-column mb-3 ${message.sender === "Me" ? "align-self-end text-right" : "align-self-start text-left"}`} key={index}>
-                  <div className={`p-2 ${message.sender === "Me" ? "bg-primary text-white" : "bg-light text-dark"} rounded`}>
+          <div className="col-lg-8">
+            <div className="box-1 p-4">
+              <h2>
+                Chat with{" "}
+                {selectedReceiver
+                  ? `${selectedReceiver.fname} ${selectedReceiver.lname}`
+                  : "Select a receiver"}
+              </h2>
+              <div className="message-container">
+                {selectedChat.map((message, index) => (
+                  <div
+                    className={`message ${
+                      message.sender === "Me"
+                        ? "message-sent"
+                        : "message-received"
+                    }`}
+                    key={index}
+                  >
                     <div>{message.message}</div>
-                    <div className="text-muted small">{message.timestamp}</div>
+                    <div className="timestamp">{message.timestamp}</div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
+              <MessageInput onSend={handleSendMessage} />
             </div>
-            <MessageInput onSend={handleSendMessage} />
           </div>
-          <div className='box-2 col-lg-4 p-4'>
-            <h1>Chats</h1>
-            <div className="mb-3 position-relative">
-              <form>
-                <input
-                  className="form-control rounded-pill"
-                  type="text"
-                  placeholder="Search or start message"
-                />
-                <div className="search-icon">
-                  <SearchIcon />
-                </div>
-              </form>
-            </div>
-            <div className="d-flex flex-column">
-              {receivers.map((receiver) => (
-                <div
-                  className="border-bottom py-2"
-                  key={receiver._id}
-                  onClick={() => setSelectedReceiver(receiver)}
-                  style={{ cursor: 'pointer' }}
-                >
-                  <div className="fw-bold">{receiver.fname} {receiver.lname}</div>
-                </div>
-              ))}
+          <div className="col-lg-4">
+            <div className="box-2 p-4">
+              <h3>Chats</h3>
+              <div className="mb-3 position-relative">
+                <form>
+                  <input
+                    className="form-control"
+                    type="text"
+                    placeholder="Search or start message"
+                  />
+                  <div className="search-icon">
+                    <SearchIcon />
+                  </div>
+                </form>
+              </div>
+              <div className="receiver-list">
+                {receivers.map((receiver) => (
+                  <div
+                    className="receiver-item"
+                    key={receiver._id}
+                    onClick={() => setSelectedReceiver(receiver)}
+                  >
+                    <div className="fw-bold">
+                      {receiver.fname} {receiver.lname}
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>

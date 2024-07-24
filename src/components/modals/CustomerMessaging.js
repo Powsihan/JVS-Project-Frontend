@@ -33,7 +33,7 @@ const CustomerMessaging = ({ show, handleClose }) => {
       const fetchChatHistory = async () => {
         try {
           const response = await axios.get(
-            `http://localhost:5000/api/chats/${customerData._id}/Customer/663fa1c346cc7616d9a14aae/User`
+            `${process.env.api_base_url}/chats/${customerData._id}/Customer/663fa1c346cc7616d9a14aae/User`
           );
           setSelectedChat(response.data);
         } catch (error) {
@@ -64,7 +64,7 @@ const CustomerMessaging = ({ show, handleClose }) => {
       message,
     };
     try {
-      await axios.post("http://localhost:5000/api/chats", newMessage);
+      await axios.post(`${process.env.api_base_url}/api/chats`, newMessage);
       setSelectedChat((prevChat) => [
         ...prevChat,
         {

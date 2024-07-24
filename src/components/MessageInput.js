@@ -12,10 +12,13 @@ const MessageInput = ({ onSend }) => {
   };
 
   return (
-    <div className="message-input-container p-3 d-flex align-items-center" style={{ backgroundColor: "#DBECF9"}}>
+    <div className="message-input-container p-3 d-flex align-items-center" 
+    
+    // style={{ backgroundColor: "#DBECF9"}}
+    >
       <input
         type="text"
-        className="form-control rounded-pill"
+        className="form-control"
         placeholder="Type a message"
         value={message}
         onChange={(e) => setMessage(e.target.value)}
