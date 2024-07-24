@@ -1,7 +1,4 @@
 import {
-  contactChat,
-  contactCompany,
-  contactExpert,
   vehicleAuction,
   vehicleBuy,
   vehicleCustomize,
@@ -38,34 +35,7 @@ const aboutuscontent = [
     path:"/auction",
   },
 ];
-const aboutuscontent2 = [
-  {
-    heading: "Contact With Company",
-    content: "Contact with admin clarify any doubts and inquiries ",
-    buttonText: "Contact",
-    image: contactCompany,
-    time: true,
-    contact: true,
-  },
-  {
-    heading: "Contact With Expert",
-    content:
-      "Contact vehicle experts to clarify any doubts and inquiries related to vehicles",
-    buttonText: "Contact",
-    image: contactExpert,
-    time: true,
-    contact: false,
-  },
-  {
-    heading: "Contact With Chat Bot ",
-    content:
-      "Contact the AI chatbot specialized in vehicles to ask only vehicle-related questions and address any doubts",
-    buttonText: "Chat",
-    image: contactChat,
-    time: false,
-    contact: false,
-  },
-];
+
 
 const sellvehiclecontent = [
   "Quick and Easy Sales",
@@ -76,4 +46,4 @@ const sellvehiclecontent = [
   "Sell with Confidence",
 ];
 
-export { aboutuscontent, aboutuscontent2, sellvehiclecontent };
+export { aboutuscontent, sellvehiclecontent };

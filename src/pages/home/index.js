@@ -8,7 +8,7 @@ import Footer from "@/src/layouts/Footer";
 import { IconButton } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import "../../styles/aboutUs.css";
-import { aboutuscontent, aboutuscontent2 } from "@/src/data/content";
+import { aboutuscontent } from "@/src/data/content";
 import { useRouter } from "next/navigation";
 import {
   aboutUs,
@@ -26,12 +26,16 @@ import {
   useraccount,
   vector,
   vehicle,
+  contactChat,
+  contactCompany,
+  contactExpert,
 } from "@/src/utils/ImagesPath";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import ChatbotComponent from "@/src/components/Chatbot";
+import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
 const index = () => {
   const router = useRouter();
@@ -41,6 +45,11 @@ const index = () => {
   const [totalVehicles, setTotalVehicles] = useState(0);
   const [totalCustomers, setTotalCustomers] = useState(0);
   const [showChatbot, setShowChatbot] = useState(false);
+
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const handleAdminShow = () => setShowAdminModal(true);
+  const handleAdminClose = () => setShowAdminModal(false);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -84,6 +93,36 @@ const index = () => {
       setTotalCustomers(customerData.length);
     }
   }, [customerData]);
+
+  const aboutuscontent2 = [
+    {
+      heading: "Contact With Company",
+      content: "Contact with admin clarify any doubts and inquiries ",
+      buttonText: "Contact",
+      image: contactCompany,
+      time: true,
+      contact: true,
+      onclick: handleAdminShow,
+    },
+    {
+      heading: "Contact With Expert",
+      content:
+        "Contact vehicle experts to clarify any doubts and inquiries related to vehicles",
+      buttonText: "Contact",
+      image: contactExpert,
+      time: true,
+      contact: false,
+    },
+    {
+      heading: "Contact With Chat Bot ",
+      content:
+        "Contact the AI chatbot specialized in vehicles to ask only vehicle-related questions and address any doubts",
+      buttonText: "Chat",
+      image: contactChat,
+      time: false,
+      contact: false,
+    },
+  ];
 
   return (
     <>
@@ -180,7 +219,7 @@ const index = () => {
         </div>
         <div className="row pt-5 d-flex">
           {aboutuscontent.map((data, index) => (
-            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5">
+            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5" >
               <div className="row">
                 <div className="d-flex pt-2 justify-content-center align-items-center">
                   <Image src={data.image} alt="" />
@@ -196,7 +235,6 @@ const index = () => {
                     text={"Go Visit"}
                     image={vector}
                     width={200}
-                    onClick={() => router.push(data.path)}
                   />
                 </div>
               </div>
@@ -329,6 +367,7 @@ const index = () => {
                       text={data.buttonText}
                       image={chatmaessage}
                       width={200}
+                      onClick={data.onclick} 
                     />
                   </div>
                 </div>
@@ -340,6 +379,7 @@ const index = () => {
       <div className="ChatbotComponent">
         <ChatbotComponent showChatbot={showChatbot} setShowChatbot={setShowChatbot}/>
       </div>
+      <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
       <Footer />
     </>
   );

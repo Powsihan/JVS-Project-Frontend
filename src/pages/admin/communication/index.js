@@ -2,7 +2,7 @@ import Adminlayout from '@/src/layouts/Adminlayout';
 import React, { useEffect, useState } from 'react';
 import SearchIcon from "@mui/icons-material/Search";
 import "./communication.css";
-import MessageInput from './MessageInput'; 
+import MessageInput from '../../../components/MessageInput'; 
 import socket from '../../../utils/socketService'; // Import socket
 import axios from 'axios';
 import { useDispatch } from 'react-redux';
