@@ -1,66 +1,94 @@
 import Adminlayout from '@/src/layouts/Adminlayout';
-import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import SearchIcon from "@mui/icons-material/Search";
 import "./communication.css";
 import MessageInput from './MessageInput'; 
-
-
-
-// Mock chat data
-const mockChats = [
-  {
-    name: "Thanu",
-    message: "Hey, how's it going?",
-    timestamp: "2:45 PM",
-  },
-  {
-    name: "Powsi",
-    message: "Can we meet tomorrow?",
-    timestamp: "1:30 PM",
-  },
-  {
-    name: "Saintha",
-    message: "I'll send the report soon.",
-    timestamp: "12:15 PM",
-  },
-  {
-    name: "Saalu",
-    message: "Can you send the slides quickly?",
-    timestamp: "10:15 PM",
-  },
-];
-
-// Mock message history for a selected person
-const mockMessageHistory = [
-  { sender: "Thanu", message: "Hey, how's it going?", timestamp: "2:45 PM" },
-  { sender: "Me", message: "I'm good, thanks! How about you?", timestamp: "2:46 PM" },
-  { sender: "Thanu", message: "Doing well, working on the project.", timestamp: "2:47 PM" },
-  { sender: "Me", message: "Great! Need any help?", timestamp: "2:48 PM" },
-  { sender: "Thanu", message: "Not right now, thanks.", timestamp: "2:49 PM" },
-];
+import socket from '../../../utils/socketService'; // Import socket
+import axios from 'axios';
+import { useDispatch } from 'react-redux';
+import { setLoading } from '@/src/redux/reducer/loaderSlice';
+import { toast } from 'react-toastify';
+import { getCustomerDetails } from '@/src/redux/action/customer';
+import { getUserInfo } from '@/src/redux/action/user';
 
 const Index = () => {
+  const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
-  const [chats, setChats] = useState(mockChats); // Use mock data as initial state
-  const [selectedChat, setSelectedChat] = useState(mockMessageHistory); // Selected chat history
-
+  const [chats, setChats] = useState([]);
+  const [selectedChat, setSelectedChat] = useState([]);
+  const [receivers, setReceivers] = useState([]);
+  const [selectedReceiver, setSelectedReceiver] = useState(null); 
 
   useEffect(() => {
-    // Retrieve user data from cookie
-    const storedUserData = Cookies.get("token");
-    if (storedUserData) {
-      setUserData(JSON.parse(storedUserData));
+    dispatch(setLoading(true));
+    getCustomerDetails((res) => {
+      if (res && res.data) {
+        const customers = Array.isArray(res.data) ? res.data : [];
+        if (customers.length === 0) {
+          dispatch(setLoading(false));
+          toast.info("No Customers data available");
+          return;
+        }
+        setReceivers(customers);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        toast.error("Error fetching Customer details");
+      }
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getUserInfo((res) => {
+      if (res.status === 200) {
+        setUserData(res.data);
+        dispatch(setLoading(false));
+      }
+    });
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userData && selectedReceiver) {
+      // Fetch chat history between user and selected receiver
+      const fetchChatHistory = async () => {
+        try {
+          const response = await axios.get(`http://localhost:5000/api/chats/${userData._id}/User/${selectedReceiver._id}/Customer`);
+          setSelectedChat(response.data);
+        } catch (error) {
+          console.error("Error fetching chat history:", error);
+        }
+      };
+
+      fetchChatHistory();
     }
+  }, [userData, selectedReceiver]);
+
+  useEffect(() => {
+    socket.on('message', (message) => {
+      setSelectedChat((prevChat) => [...prevChat, message]);
+    });
+
+    return () => {
+      socket.off('message');
+    };
   }, []);
 
-  const handleSendMessage = (message) => {
+  const handleSendMessage = async (message) => {
+    if (!selectedReceiver) return;
     const newMessage = {
-      sender: "Me",
+      senderId: userData._id, 
+      senderModel: 'User', 
+      receiverId: selectedReceiver._id, 
+      receiverModel: 'Customer',
       message,
-      timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
     };
-    setSelectedChat((prevChat) => [...prevChat, newMessage]);
+    try {
+      await axios.post('http://localhost:5000/api/chats', newMessage);
+      setSelectedChat((prevChat) => [...prevChat, { ...newMessage, sender: "Me", timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) }]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+    }
   };
 
   return (
@@ -68,7 +96,7 @@ const Index = () => {
       <div className="container-fluid Communication-section">
         <div className="row">
           <div className='box-1 col-lg-8 p-4'>
-            <h1>Chat with Thanu</h1>
+            <h1>Chat with {selectedReceiver ? `${selectedReceiver.fname} ${selectedReceiver.lname}` : "Select a receiver"}</h1>
             <div className="d-flex flex-column">
               {selectedChat.map((message, index) => (
                 <div className={`d-flex flex-column mb-3 ${message.sender === "Me" ? "align-self-end text-right" : "align-self-start text-left"}`} key={index}>
@@ -80,7 +108,6 @@ const Index = () => {
               ))}
             </div>
             <MessageInput onSend={handleSendMessage} />
-
           </div>
           <div className='box-2 col-lg-4 p-4'>
             <h1>Chats</h1>
@@ -97,18 +124,20 @@ const Index = () => {
               </form>
             </div>
             <div className="d-flex flex-column">
-              {chats.map((chat, index) => (
-                <div className="border-bottom py-2" key={index}>
-                  <div className="fw-bold">{chat.name}</div>
-                  <div className="mt-1 text-secondary">{chat.message}</div>
-                  <div className="text-muted small">{chat.timestamp}</div>
+              {receivers.map((receiver) => (
+                <div
+                  className="border-bottom py-2"
+                  key={receiver._id}
+                  onClick={() => setSelectedReceiver(receiver)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  <div className="fw-bold">{receiver.fname} {receiver.lname}</div>
                 </div>
               ))}
             </div>
           </div>
         </div>
       </div>
-
     </Adminlayout>
   );
 };
