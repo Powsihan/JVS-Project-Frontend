@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import socket from "../../utils/socketService"; // Import socket
 import MessageInput from "../MessageInput"; // Reuse the MessageInput component
@@ -11,11 +11,34 @@ import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import "../../styles/component.css";
 import "../../styles/admin.css";
 
+const formatTimestamp = (date) => {
+  const datePart = new Date(date).toLocaleDateString([], {
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const timePart = new Date(date)
+    .toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .toLowerCase();
+  return `${datePart} - ${timePart}`;
+};
 
 const CustomerMessaging = ({ show, handleClose }) => {
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
   const [selectedChat, setSelectedChat] = useState([]);
+
+  const messageContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
+    }
+  };
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -56,6 +79,10 @@ const CustomerMessaging = ({ show, handleClose }) => {
     };
   }, []);
 
+  useEffect(() => {
+    scrollToBottom();
+  }, [selectedChat]);
+
   const handleSendMessage = async (message) => {
     const newMessage = {
       senderId: customerData._id,
@@ -71,12 +98,9 @@ const CustomerMessaging = ({ show, handleClose }) => {
         {
           ...newMessage,
           sender: "Me",
-          timestamp: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
         },
       ]);
+      scrollToBottom();
     } catch (error) {
       console.error("Error sending message:", error);
     }
@@ -97,7 +121,7 @@ const CustomerMessaging = ({ show, handleClose }) => {
         <div className="container-fluid Communication-section">
           <div className="row">
             <div className="box-1 col-lg-12 p-4">
-              <div className="d-flex flex-column">
+              <div className="d-flex flex-column message-overflow-container" ref={messageContainerRef}>
                 {selectedChat.map((message, index) => (
                   <div
                     className={`d-flex flex-column mb-3 ${
@@ -108,7 +132,7 @@ const CustomerMessaging = ({ show, handleClose }) => {
                     key={index}
                   >
                     <div
-                       className={`message ${
+                      className={`message ${
                         message.senderModel === "Customer"
                           ? "message-sent"
                           : "message-received"
@@ -119,7 +143,15 @@ const CustomerMessaging = ({ show, handleClose }) => {
                       </div>
                       <div>{message.message}</div>
 
-                      <div className="timestamp">{message.timestamp}</div>
+                      <div
+                        className={`timestamp d-flex ${
+                          message.senderModel === "Customer"
+                            ? "timestamp-sent"
+                            : "timestamp-received"
+                        }`}
+                      >
+                        {formatTimestamp(message.timestamp)}
+                      </div>
                     </div>
                   </div>
                 ))}

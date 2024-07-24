@@ -1,5 +1,5 @@
 import Adminlayout from "@/src/layouts/Adminlayout";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import "./communication.css";
 import MessageInput from "../../../components/MessageInput";
@@ -13,6 +13,12 @@ import { getUserInfo } from "@/src/redux/action/user";
 import Image from "next/image";
 import { avatar } from "@/src/utils/ImagesPath";
 
+const formatTimestamp = (date) => {
+  const datePart = new Date(date).toLocaleDateString([], { month: '2-digit', day: '2-digit' });
+  const timePart = new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
+  return `${datePart} - ${timePart}`;
+};
+
 const Index = () => {
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
@@ -20,6 +26,15 @@ const Index = () => {
   const [selectedChat, setSelectedChat] = useState([]);
   const [receivers, setReceivers] = useState([]);
   const [selectedReceiver, setSelectedReceiver] = useState(null);
+  const [filteredReceivers, setFilteredReceivers] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
+  const messageContainerRef = useRef(null);
+
+  const scrollToBottom = () => {
+    if (messageContainerRef.current) {
+      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+    }
+  };
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -32,7 +47,7 @@ const Index = () => {
           return;
         }
         setReceivers(customers);
-        console.log(customers, "cusssssssssssssss");
+        setFilteredReceivers(customers);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -67,6 +82,7 @@ const Index = () => {
       fetchChatHistory();
     }
   }, [userData, selectedReceiver]);
+   
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -77,6 +93,10 @@ const Index = () => {
       socket.off("message");
     };
   }, []);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [selectedChat]);
 
   const handleSendMessage = async (message) => {
     if (!selectedReceiver) return;
@@ -94,16 +114,25 @@ const Index = () => {
         {
           ...newMessage,
           sender: "Me",
-          timestamp: new Date().toLocaleTimeString([], {
-            hour: "2-digit",
-            minute: "2-digit",
-          }),
         },
       ]);
+      scrollToBottom();
     } catch (error) {
       console.error("Error sending message:", error);
     }
   };
+
+  const handleSearch = (event) => {
+    const query = event.target.value.toLowerCase();
+    setSearchQuery(query);
+    setFilteredReceivers(
+      receivers.filter((receiver) =>
+        `${receiver.fname} ${receiver.lname}`.toLowerCase().includes(query)
+      )
+    );
+  };
+
+ 
 
   return (
     <Adminlayout>
@@ -113,7 +142,10 @@ const Index = () => {
             <div className="box-1 p-4">
               {selectedReceiver && selectedReceiver ? (
                 <div>
-                  <div className="d-flex align-items-center gap-2 rounded p-1" style={{backgroundColor:"var(--primary-color)"}}>
+                  <div
+                    className="d-flex align-items-center gap-2 rounded p-1"
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                  >
                     <Image
                       src={
                         selectedReceiver && selectedReceiver.profilePic
@@ -131,10 +163,10 @@ const Index = () => {
                         : ""}
                     </h4>
                   </div>
-                  <div className="message-container message-overflow-container">
+                  <div className="message-container message-overflow-container" ref={messageContainerRef} >
                     {selectedChat.map((message, index) => (
                       <div
-                        className={`message ${
+                        className={`message d-flex ${
                           message.senderModel === "User"
                             ? "message-sent"
                             : "message-received"
@@ -147,7 +179,15 @@ const Index = () => {
                             : `${selectedReceiver.fname}`}
                         </div>
                         <div>{message.message}</div>
-                        <div className="timestamp">{message.timestamp}</div>
+                        <div
+                          className={`timestamp d-flex ${
+                            message.senderModel === "User"
+                              ? "timestamp-sent"
+                              : "timestamp-received"
+                          }`}
+                        >
+                          {formatTimestamp(message.timestamp)}
+                        </div>
                       </div>
                     ))}
                   </div>
@@ -155,7 +195,12 @@ const Index = () => {
                 </div>
               ) : (
                 <div>
-                  <h4 className="text-center">Welcome to Message Section</h4>
+                  <h4
+                    className="text-center rounded p-2"
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                  >
+                    Welcome to Message Section
+                  </h4>
                 </div>
               )}
             </div>
@@ -170,6 +215,8 @@ const Index = () => {
                     className="form-control"
                     type="text"
                     placeholder="Search Customer"
+                    value={searchQuery}
+                    onChange={handleSearch}
                   />
                   <div className="search-icon">
                     <SearchIcon />
@@ -177,7 +224,7 @@ const Index = () => {
                 </form>
               </div>
               <div className="receiver-list message-overflow-container">
-                {receivers.map((receiver) => (
+                {filteredReceivers.map((receiver) => (
                   <div
                     className="receiver-item"
                     key={receiver._id}
