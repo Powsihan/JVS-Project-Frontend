@@ -1,0 +1,15 @@
+.cards{
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    border-bottom: 4px solid var(--primary-color);
+}
+.record{
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    border-bottom: 4px solid var(--primary-color);
+}
+.record h5{
+    color: #96969D;
+  font-size: 16px;
+  font-weight: 600;
+}
