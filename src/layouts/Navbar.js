@@ -13,7 +13,10 @@ import { usePathname, useRouter } from "next/navigation";
 import SignInModal from "../components/modals/SignInModal";
 import SignUpModal from "../components/modals/SignUpModal";
 import Cookies from "js-cookie";
-import { Customerlogout, getLoginCustomerDetail } from "../redux/action/customer";
+import {
+  Customerlogout,
+  getLoginCustomerDetail,
+} from "../redux/action/customer";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/reducer/loaderSlice";
 
@@ -223,7 +226,14 @@ const Navbar = () => {
                     <a className="dropdown-item">Notifications</a>
                   </li>
                   <li>
-                    <a className="dropdown-item">History</a>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
+                        router.push("/records");
+                      }}
+                    >
+                      Records
+                    </a>
                   </li>
                   <hr />
                   <li>

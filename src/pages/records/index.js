@@ -1,102 +1,144 @@
 import React from "react";
 import Navbar from "@/src/layouts/Navbar";
 import Image from "next/image";
-import vehicle from "../../assets/images/bmw.png";
 import Footer from "@/src/layouts/Footer";
 import "../../styles/records.css";
-import profile from "../../assets/images/Avatar.png";
+import {
+  vehicleCardicon1,
+  vehicleCardicon2,
+  vehicleCardicon3,
+  vehicleCardicon4,
+  vehicleCardicon5,
+} from "@/src/utils/ImagesPath";
+import CommonButton from "@/src/components/CommonButton";
+import { useRouter } from "next/navigation";
+import "../../styles/vehicle.css";
+import "../../styles/admin.css";
+import bmw from "../../assets/images/bmw.png";
 
 const index = () => {
+  const router = useRouter();
+  const filteredVehiclesList = [
+    {
+      ownership: "Brand-New",
+      yom: "2019",
+      fuel: "petrol",
+      color: "White",
+      power: "1000",
+      status: "pending",
+      image: [bmw],
+      name: "gdygsdy",
+      price: "10000",
+      _id: "2",
+    },
+    {
+      ownership: "Brand-New",
+      yom: "2019",
+      fuel: "petrol",
+      color: "White",
+      power: "1000",
+      status: "pending",
+      image: [bmw],
+      name: "gdygsdy",
+      price: "10000",
+      _id: "2",
+    },
+    {
+      ownership: "Brand-New",
+      yom: "2019",
+      fuel: "petrol",
+      color: "White",
+      power: "1000",
+      status: "pending",
+      image: [bmw],
+      name: "gdygsdy",
+      price: "10000",
+      _id: "2",
+    },
+    {
+      ownership: "Brand-New",
+      yom: "2019",
+      fuel: "petrol",
+      color: "White",
+      power: "1000",
+      status: "pending",
+      image: [bmw],
+      name: "gdygsdy",
+      price: "10000",
+      _id: "2",
+    },
+    {
+      ownership: "Brand-New",
+      yom: "2019",
+      fuel: "petrol",
+      color: "White",
+      power: "1000",
+      status: "pending",
+      image: [bmw],
+      name: "gdygsdy",
+      price: "10000",
+      _id: "2",
+    },
+  ];
   return (
     <>
       <Navbar />
-      <div className="record container-fluid align-items-center justify-content-center pb-4 px-4 gap-2">
-      <div
-        className="container-fluid  p-5 row  gap-5 align-items-center justify-content-center"
-        style={{ marginTop: "100px" }}
-      >
-        <div
-          className="col-4 d-flex gap-4 align-items-center justify-content-center flex-column pt-1" >
-          <h2>Record Information</h2>
-          <div className="d-flex gap-4 align-items-center justify-content-center pt-3">
-            <Image
-              src={profile}
-              alt=""
-              style={{ width: "auto", height: "auto" }}
-            />
-          </div>
-            <div className="text-center Profile-name-section pb-3">
-              <h2>Saalu</h2>
-              
-            </div>
-        </div>
 
-        <div className=" col justify-content-center align-items-center  pt-1 ">
-        <div className="row justify-content-center">
-        <div className="col-md-6 pb-4">
-        <div className=" cards d-flex justify-content-center align-items-center flex-column pt-1">
-          <div className=" justify-content-center align-items-center flex-column">
-          <h2>2023 BMW 530 XI</h2>
-          <div className="d-flex gap-2 align-items-center justify-content-center pt-3 pb-2">
-            <Image
-              src={vehicle}
-              alt=""
-              style={{ width: "150px", height: "80px" }}
-            />
-          </div>
-          </div>
-        </div>
-        </div>
-        <div className="col-md-6 pb-4">
-        <div className=" cards  d-flex justify-content-center align-items-center flex-column pt-1">
-          <div className=" justify-content-center align-items-center flex-column">
-          <h2>2023 BMW 530 XI</h2>
-          <div className="d-flex gap-2 align-items-center justify-content-center pt-3 pb-2">
-            <Image
-              src={vehicle}
-              alt=""
-              style={{ width: "150px", height: "80px" }}
-            />
-          </div>
-          </div>
-        </div>
-        </div>
-        </div>
-        <div className="row justify-content-center">
-        <div className="col-md-6 pb-4">
-        <div className=" cards d-flex justify-content-center align-items-center flex-column pt-1">
-          <div className=" justify-content-center align-items-center flex-column">
-          <h2>2023 BMW 530 XI</h2>
-          <div className="d-flex gap-2 align-items-center justify-content-center pt-3 pb-2">
-            <Image
-              src={vehicle}
-              alt=""
-              style={{ width: "150px", height: "80px" }}
-            />
-          </div>
-          </div>
-        </div>
-        </div>
-        <div className="col-md-6 pb-4">
-        <div className=" cards d-flex justify-content-center align-items-center flex-column pt-1">
-          <div className=" justify-content-center align-items-center flex-column">
-          <h2>2023 BMW 530 XI</h2>
-          <div className="d-flex gap-2 align-items-center justify-content-center pt-3 pb-2">
-            <Image
-              src={vehicle}
-              alt=""
-              style={{ width: "150px", height: "80px" }}
-            />
-          </div>
-          </div>
-        </div>
-        </div>
-        
-        </div>
+      <div
+        className="container-fluid min-vh-100 records-section"
+        style={{ paddingTop: "120px" }}
+      >
+        <h2 className="mb-4 ps-5">Vehicle Records</h2>
+        <div className="row ps-5 pe-5 mb-5">
+          {filteredVehiclesList.length > 0 ? (
+            filteredVehiclesList.map((vehicle, index) => {
+              return (
+                <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
+                  <div className="Vehicle-display-card p-1">
+                    <div
+                      style={{
+                        position: "relative",
+                        width: "100%",
+                        height: "250px",
+                      }}
+                    >
+                      <Image
+                        src={vehicle.image[0]}
+                        alt={`Vehicle ${index}`}
+                        layout="fill"
+                        objectFit="cover"
+                        priority
+                      />
+                    </div>
+                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
+                      <h1>{vehicle.name}</h1>
+                    </div>
+                    <hr />
+                    <div className="row mb-2 ps-3 pe-3">
+                      <div className="col-9">
+                        <CommonButton
+                          text={"Show the Records"}
+                          width={"100%"}
+                          onClick={() => {
+                            router.push(`/records/${vehicle._id}`);
+                          }}
+                        />
+                      </div>
+                      <div className="col-3">
+                        <button className="btn btn-secondary">Contact</button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              );
+            })
+          ) : (
+            <div className="No-result-found">
+              <h1>No results found</h1>
+            </div>
+          )}
         </div>
       </div>
-      </div>
-      <hr/>
       <Footer />
     </>
   );

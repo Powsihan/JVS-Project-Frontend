@@ -23,6 +23,7 @@ import {
   vehicleCardicon5,
 } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
+import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
 const index = () => {
   const router = useRouter();
@@ -130,6 +131,11 @@ const index = () => {
   const HandleSelectFuel = (event) => {
     setSelectedFuel(event.target.value);
   };
+
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const handleAdminShow = () => setShowAdminModal(true);
+  const handleAdminClose = () => setShowAdminModal(false);
 
   return (
     <div>
@@ -431,7 +437,7 @@ const index = () => {
                         />
                       </div>
                       <div className="col-3">
-                        <button className="btn btn-secondary">Contact</button>
+                        <button className="btn btn-secondary" onClick={handleAdminShow}>Contact</button>
                       </div>
                     </div>
                   </div>
@@ -446,6 +452,7 @@ const index = () => {
         </div>
       </div>
       <Footer />
+      <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
     </div>
   );
 };
