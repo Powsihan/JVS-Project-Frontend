@@ -111,6 +111,16 @@ const index = () => {
     }
   }, [customerData]);
 
+  const [showLoginView, setShowLoginView] = useState(false);
+
+  const LoginViewModal = () => {
+    setShowLoginView(true);
+  };
+  const openChatBox = () => {
+    setShowChatbot(!showChatbot);
+  };
+
+
   const aboutuscontent2 = [
     {
       heading: "Contact With Company",
@@ -138,18 +148,11 @@ const index = () => {
       image: contactChat,
       time: false,
       contact: false,
+      onclick: openChatBox,
     },
   ];
 
-  const [showLoginView, setShowLoginView] = useState(false);
-
-  const LoginViewModal = () => {
-    setShowLoginView(true);
-  };
-  const openChatBox = () => {
-    setShowChatbot(!showChatbot);
-  };
-
+  
   return (
     <>
       <Navbar />

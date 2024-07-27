@@ -25,6 +25,7 @@ import {
 } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
+import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();
@@ -141,6 +142,11 @@ const VehicleDetail = () => {
   const closeStatusConfirmationModal = () => {
     setSendConfirmationModal(false);
   };
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const handleAdminShow = () => setShowAdminModal(true);
+  const handleAdminClose = () => setShowAdminModal(false);
+
 
   return (
     <div>
@@ -204,7 +210,7 @@ const VehicleDetail = () => {
                   text={"Make an Inquiry"}
                   width={300}
                   onClick={
-                    customerData ? openSendConfirmationModal : LoginViewModal
+                    customerData ? handleAdminShow : LoginViewModal
                   }
                 />
               </div>
@@ -280,6 +286,7 @@ const VehicleDetail = () => {
         onConfirm={addPurchaseAction}
         onCancel={closeStatusConfirmationModal}
       />
+       <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
       <Footer />
     </div>
   );
