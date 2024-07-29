@@ -19,8 +19,8 @@ export const getEmployeeDetails = (callback) => {
   }
 };
 
-export const getEmployeeInfo = (employeeId, callback) => {
-  const endpoint = `${process.env.api_base_url}/employees/${employeeId}`;
+export const getEmployeeInfo = (callback) => {
+  const endpoint = `${process.env.api_base_url}/employees/currentemployee`;
   try {
     http
       .get(endpoint)
@@ -84,16 +84,6 @@ export const employeeLogin = (data, callback) => {
       .post(endpoint, data)
       .then((response) => {
         callback(response);
-        if (response.status === 200) {
-          const cookieOptions = {
-            path: "/",
-          };
-          Cookies.set(
-            "employee",
-            JSON.stringify(response.data.data),
-            cookieOptions
-          );
-        }
       })
       .catch((error) => {
         callback(error.response);

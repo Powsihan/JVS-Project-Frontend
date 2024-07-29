@@ -40,6 +40,7 @@ import {
 import ChatbotComponent from "@/src/components/Chatbot";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 import SignInModal from "@/src/components/modals/SignInModal";
+import ExpertMessaging from "@/src/components/modals/expertMessagingModal";
 
 const index = () => {
   const router = useRouter();
@@ -55,6 +56,11 @@ const index = () => {
 
   const handleAdminShow = () => setShowAdminModal(true);
   const handleAdminClose = () => setShowAdminModal(false);
+
+  const [showExpertModal, setShowExpertModal] = useState(false);
+
+  const handleExpertShow = () => setShowExpertModal(true);
+  const handleExpertClose = () => setShowExpertModal(false);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -120,7 +126,6 @@ const index = () => {
     setShowChatbot(!showChatbot);
   };
 
-
   const aboutuscontent2 = [
     {
       heading: "Contact With Company",
@@ -139,6 +144,7 @@ const index = () => {
       image: contactExpert,
       time: true,
       contact: false,
+      onclick: handleExpertShow,
     },
     {
       heading: "Contact With Chat Bot ",
@@ -152,7 +158,6 @@ const index = () => {
     },
   ];
 
-  
   return (
     <>
       <Navbar />
@@ -410,6 +415,7 @@ const index = () => {
         />
       </div>
       <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
+      <ExpertMessaging show={showExpertModal} handleClose={handleExpertClose} />
       <SignInModal
         show={showLoginView}
         onHide={() => setShowLoginView(false)}

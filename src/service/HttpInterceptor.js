@@ -16,17 +16,26 @@ class HttpInterceptor {
       try {
         const authToken = Cookies.get("token", { path: "/" });
         const authToken2 = Cookies.get("customer", { path: "/" });
+        const authToken3 = Cookies.get("expert", { path: "/" });
 
         if (authToken) {
           // If only the authToken exists, remove customer token
           Cookies.remove("customer", { path: "/" });
+          Cookies.remove("expert", { path: "/" });
           const parsedToken = JSON.parse(authToken).token;
           request.headers.Authorization = "Bearer " + parsedToken;
         } else if (authToken2) {
           // If only the customer token exists, remove authToken
           Cookies.remove("token", { path: "/" });
+          Cookies.remove("expert", { path: "/" });
           const parsedToken2 = JSON.parse(authToken2).token;
           request.headers.Authorization = "Bearer " + parsedToken2;
+        } else if (authToken3) {
+          // If only the customer token exists, remove authToken
+          Cookies.remove("token", { path: "/" });
+          Cookies.remove("customer", { path: "/" });
+          const parsedToken3 = JSON.parse(authToken3).token;
+          request.headers.Authorization = "Bearer " + parsedToken3;
         }
       } catch (error) {
         console.log(error);
