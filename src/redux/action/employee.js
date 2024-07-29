@@ -100,17 +100,38 @@ export const employeeProfileEdit = (employeeId, data, callback) => {
       .put(endpoint, data)
       .then((response) => {
         callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
 
-        if (response.status == 200) {
-          const cookieOptions = {
-            path: "/",
-          };
-          Cookies.set(
-            "employee",
-            JSON.stringify(response.data.data),
-            cookieOptions
-          );
-        }
+export const Employeelogout = async (callback) => {
+  const endpoint = `${process.env.api_base_url}/employees/logout`;
+  try {
+    const response = await http.post(endpoint);
+    if (response.status === 200) {
+      Cookies.remove("expert", { path: "/" });
+      if (callback) callback(response);
+    } else {
+      if (callback) callback(response);
+    }
+  } catch (error) {
+    console.error("Logout failed:", error);
+    if (callback) callback(error.response);
+  }
+};
+
+export const changeEmployeePassword = (data, callback) => {
+  const endpoint = `${process.env.api_base_url}/employees/changepassword`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
       })
       .catch((error) => {
         callback(error.response);

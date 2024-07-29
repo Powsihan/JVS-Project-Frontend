@@ -46,6 +46,7 @@ function SignInModal(props) {
     e.preventDefault();
     dispatch(setLoading(true));
     Cookies.remove("token", { path: "/" });
+    Cookies.remove("expert", { path: "/" });
     customerLogin(
       {
         username: email,

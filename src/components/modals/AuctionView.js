@@ -233,6 +233,7 @@ const AuctionView = (props) => {
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
         vehicleDetails={selectedVehicledata}
+        hidecustomerdetails
       />
       <CustomerView
         show={showViewModal2}

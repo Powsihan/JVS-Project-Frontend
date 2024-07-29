@@ -59,6 +59,7 @@ function SignUpModal(props) {
     e.preventDefault();
     dispatch(setLoading(true));
     Cookies.remove("token", { path: "/" });
+    Cookies.remove("expert", { path: "/" });
     let data = { ...customerData };
     if (file) {
       const uploadedImageUrl = await dispatch(uploadImage(file));

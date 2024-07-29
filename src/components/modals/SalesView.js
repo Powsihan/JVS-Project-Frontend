@@ -178,6 +178,7 @@ const SalesView = (props) => {
         show={showViewModal2}
         onHide={() => setShowViewModal2(false)}
         vehicleDetails={selectedVehicledata}
+        hidecustomerdetails
       />
     </div>
   );

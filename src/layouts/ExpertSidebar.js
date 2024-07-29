@@ -13,6 +13,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { Userlogout } from "../redux/action/user";
 import { toast } from "react-toastify";
+import { Employeelogout } from "../redux/action/employee";
 
 const ExpertSidebar = () => {
   const router = useRouter();
@@ -35,7 +36,7 @@ const ExpertSidebar = () => {
   
 
   const logout = () => {
-    Userlogout((response) => {
+    Employeelogout((response) => {
       if (response.status === 200) {
         router.push("/expert/login");
       } else {

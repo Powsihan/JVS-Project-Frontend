@@ -10,7 +10,7 @@ import { getCustomerInfo } from "@/src/redux/action/customer";
 import CommonButton from "../CommonButton";
 import CustomerView from "./CustomerView";
 const VehicleView = (props) => {
-  const { show, onHide, vehicleDetails } = props;
+  const { show, onHide, vehicleDetails,hidecustomerdetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const getStatusColor = (status) => {
@@ -278,6 +278,7 @@ const VehicleView = (props) => {
                 </div>
               </div>
             </div>
+            {!hidecustomerdetails &&(
             <div className="row">
               <div className="col-lg-6 col-md-6 col-sm-12">
                 <CommonButton text={"Customer Detail"} width={"100%"} onClick={OpenCustomerViewModal}/>
@@ -286,6 +287,7 @@ const VehicleView = (props) => {
                 {/* <CommonButton text={"Documents"} width={"100%"}/> */}
               </div>
             </div>
+            )}
           </div>
         </Modal.Body>
         <Modal.Footer>
