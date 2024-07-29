@@ -123,6 +123,13 @@ const EmployeeRole = ["Expert", "Mechanic", "Accountant", "Other"];
 
 const AuctionStatus = ["Available", "Sold", "Pending"];
 
+const recordcontent = [
+  "Full Service",
+  "Oil Change",
+  "Tyre change",
+  "Other Service",
+];
+
 export {
   Districts,
   Brand,
@@ -139,4 +146,5 @@ export {
   SalesStatus,
   EmployeeRole,
   AuctionStatus,
+  recordcontent,
 };

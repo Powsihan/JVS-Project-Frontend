@@ -14,10 +14,9 @@ import CommonButton from "@/src/components/CommonButton";
 import { useRouter } from "next/navigation";
 import "../../styles/vehicle.css";
 import "../../styles/admin.css";
-import bmw from "../../assets/images/bmw.png";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
-import { getRecordsById } from "@/src/redux/action/records";
+import { getRecordsByCustomerId } from "@/src/redux/action/records";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 
 const index = () => {
@@ -43,7 +42,7 @@ const index = () => {
   useEffect(() => {
     if (customerData) {
       dispatch(setLoading(true));
-      getRecordsById(customerData._id, (res) => {
+      getRecordsByCustomerId(customerData._id, (res) => {
         if (res.status === 200) {
           setRecordsData(res.data);
         }

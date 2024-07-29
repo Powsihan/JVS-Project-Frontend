@@ -118,7 +118,7 @@ const AddEmployee = (props) => {
               <div className="col-lg-6 col-md-12 col-sm-12">
                 <InputField
                   label={"Role"}
-                  placeholder={"Enter the Employee Role"}
+                  placeholder={"Select the Employee Role"}
                   onChange={(value) => handleChange("role", value)}
                   select
                   options={EmployeeRole}
