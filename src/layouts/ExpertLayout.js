@@ -36,9 +36,6 @@ const ExpertLayout = ({ children }) => {
 
   useEffect(() => {
     switch (getPageName(pathname)) {
-      case "dashboard":
-        pageTitle = "Dashboard";
-        break;
       case "vehicle":
         pageTitle = "Vehicle";
         break;
@@ -49,7 +46,7 @@ const ExpertLayout = ({ children }) => {
         pageTitle = "Profile";
         break;
       default:
-        pageTitle = "Dashboard";
+        pageTitle = "Expert";
     }
 
     let textToType = "";

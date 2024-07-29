@@ -1,38 +1,48 @@
 import { NextResponse } from 'next/server'
 import { cookies } from 'next/headers'
- 
-// 1. Specify protected and public routes
-// const protectedRoutes = []
-const protectedRoutes = ['/admin/dashboard','/admin/vehicle','/admin/customer', '/admin/sales', '/admin/expert', '/admin/communication', '/admin/contentmanage', '/admin/auction', '/admin/records', '/admin/profile']
+
+// Specify protected and public routes
+const protectedRoutes = ['/admin/dashboard', '/admin/vehicle', '/admin/customer', '/admin/sales', '/admin/expert', '/admin/communication', '/admin/contentmanage', '/admin/auction', '/admin/records', '/admin/profile']
+const protectedRoutes2 = ['/expert/contact', '/expert/vehicle', '/expert/profile']
 const publicRoutes = ['/admin/login']
- 
+const publicRoutes2 = ['/expert/login']
+
 export default async function middleware(req) {
-  // 2. Check if the current route is protected or public
   const path = req.nextUrl.pathname
+
+  // Check if the current route is protected or public
   const isProtectedRoute = protectedRoutes.includes(path)
+  const isProtectedRoute2 = protectedRoutes2.includes(path)
   const isPublicRoute = publicRoutes.includes(path)
- 
-  // 3. Decrypt the session from the cookie
-  const cookie = cookies().get('token')?.value
-//   const session = await decrypt(cookie)
- 
-  // 5. Redirect to /login if the user is not authenticated
-  if (isProtectedRoute && !cookie) {
-    return NextResponse.redirect(new URL('login', req.nextUrl))
+  const isPublicRoute2 = publicRoutes2.includes(path)
+
+  // Decrypt the session from the cookie
+  const token = cookies().get('token')?.value
+  const expertToken = cookies().get('expert')?.value
+
+  // Redirect to /admin/login if the user is not authenticated for admin routes
+  if (isProtectedRoute && !token) {
+    return NextResponse.redirect(new URL('/admin/login', req.nextUrl))
   }
- 
-  // 6. Redirect to /dashboard if the user is authenticated
-  if (
-    isPublicRoute &&
-    cookie &&
-    !req.nextUrl.pathname.startsWith('admin/dashboard')
-  ) {
-    // return NextResponse.redirect(new URL('login', req.nextUrl))
+
+  // Redirect to /expert/login if the user is not authenticated for expert routes
+  if (isProtectedRoute2 && !expertToken) {
+    return NextResponse.redirect(new URL('/expert/login', req.nextUrl))
   }
- 
+
+  // Redirect to /admin/dashboard if the admin is authenticated and trying to access /admin/login
+  if (isPublicRoute && token && !req.nextUrl.pathname.startsWith('/admin/dashboard')) {
+    return NextResponse.redirect(new URL('/admin/dashboard', req.nextUrl))
+  }
+
+  // Redirect to /expert/dashboard if the expert is authenticated and trying to access /expert/login
+  if (isPublicRoute2 && expertToken && !req.nextUrl.pathname.startsWith('/expert/contact')) {
+    return NextResponse.redirect(new URL('/expert/contact', req.nextUrl))
+  }
+
   return NextResponse.next()
 }
- 
+
 // Routes Middleware should not run on
 export const config = {
   matcher: ['/((?!api|_next/static|_next/image|.*\\.png$).*)'],

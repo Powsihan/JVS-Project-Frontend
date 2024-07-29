@@ -19,21 +19,18 @@ const ExpertSidebar = () => {
   const router = useRouter();
   const pathname = usePathname();
   const routes = [
-    { name: "Dashboard", image: dashboard, path: "expert/dashboard" },
-    { name: "Vehicle", image: Vehicle, path: "expert/vehicle" },
     {
       name: "Contact",
       image: Communication,
       path: "expert/contact",
     },
+    { name: "Vehicle", image: Vehicle, path: "expert/vehicle" },
   ];
 
   const routes2 = [
     { name: "Profile", image: Profile, path: "expert/profile" },
     { name: "Log Out", image: Logout, path: "/expert/login" },
   ];
-
-  
 
   const logout = () => {
     Employeelogout((response) => {
