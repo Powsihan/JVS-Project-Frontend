@@ -26,6 +26,8 @@ import {
 import Footer from "@/src/layouts/Footer";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
+import { IconButton } from "@mui/material";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 
 const VehicleDetail = () => {
   const dispatch = useDispatch();
@@ -147,13 +149,23 @@ const VehicleDetail = () => {
   const handleAdminShow = () => setShowAdminModal(true);
   const handleAdminClose = () => setShowAdminModal(false);
 
-
   return (
     <div>
       <Navbar />
       {vehicleData && (
         <div className="container-fluid min-vh-100 p-5 mb-5">
-          <div className="row" style={{ paddingTop: "120px" }}>
+          <div className="mb-4" style={{ paddingTop: "100px" }}>
+            <IconButton onClick={() => router.push("/vehicle")}>
+              <ExpandCircleDownIcon
+                sx={{
+                  fontSize: "50px",
+                  color: "var(--primary-color)",
+                  transform: "rotate(90deg)",
+                }}
+              />
+            </IconButton>
+          </div>
+          <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12">
               {vehicleData && vehicleData.image && (
                 <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>
@@ -209,9 +221,7 @@ const VehicleDetail = () => {
                 <CommonButton
                   text={"Make an Inquiry"}
                   width={300}
-                  onClick={
-                    customerData ? handleAdminShow : LoginViewModal
-                  }
+                  onClick={customerData ? handleAdminShow : LoginViewModal}
                 />
               </div>
               <hr />
@@ -286,7 +296,7 @@ const VehicleDetail = () => {
         onConfirm={addPurchaseAction}
         onCancel={closeStatusConfirmationModal}
       />
-       <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
+      <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
       <Footer />
     </div>
   );

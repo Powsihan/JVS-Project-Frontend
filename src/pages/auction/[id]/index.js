@@ -19,6 +19,8 @@ import { getCustomerInfo, getLoginCustomerDetail } from "@/src/redux/action/cust
 import Image from "next/image";
 import { auctiondetail } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
+import { IconButton } from "@mui/material";
+import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -192,7 +194,18 @@ const index = () => {
       <Navbar />
       {auctionData && (
         <div className="container-fluid min-vh-100 p-5">
-          <div className="row" style={{ paddingTop: "120px" }}>
+          <div className="mb-4" style={{ marginTop: "100px" }}>
+          <IconButton onClick={() => router.push("/auction")}>
+            <ExpandCircleDownIcon
+              sx={{
+                fontSize: "50px",
+                color: "var(--primary-color)",
+                transform: "rotate(90deg)",
+              }}
+            />
+          </IconButton>
+        </div>
+          <div className="row">
             <div className="col-lg-4 col-md-6 col-sm-12">
               {vehicleData && vehicleData.image && (
                 <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>

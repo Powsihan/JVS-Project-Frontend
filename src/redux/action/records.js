@@ -32,3 +32,34 @@ export const getRecordsById = (recordId, callback) => {
     callback(error.response);
   }
 };
+
+export const recordsAdd = (recordId, data, callback) => {
+  const endpoint = `${process.env.api_base_url}/records/addrecord/${recordId}`;
+  try {
+    http
+      .put(endpoint, data)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
+export const getAllRecordsDetails = (callback) => {
+  const endpoint = `${process.env.api_base_url}/records`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

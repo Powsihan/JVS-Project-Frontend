@@ -48,6 +48,7 @@ import signUpfinish from "../assets/images/finish.png";
 import addauctionimg from "../assets/images/auctionback.svg";
 import employeeback from "../assets/images/employeeback.svg";
 import addSalesimg from "../assets/images/addsales.svg";
+import vehiclerecord from "../assets/images/vehicleRecord.svg";
 
 export {
   changepass,
@@ -100,4 +101,5 @@ export {
   addauctionimg,
   employeeback,
   addSalesimg,
+  vehiclerecord,
 };

@@ -2,14 +2,6 @@ import React, { useEffect, useState } from "react";
 import Navbar from "@/src/layouts/Navbar";
 import Image from "next/image";
 import Footer from "@/src/layouts/Footer";
-import "../../styles/records.css";
-import {
-  vehicleCardicon1,
-  vehicleCardicon2,
-  vehicleCardicon3,
-  vehicleCardicon4,
-  vehicleCardicon5,
-} from "@/src/utils/ImagesPath";
 import CommonButton from "@/src/components/CommonButton";
 import { useRouter } from "next/navigation";
 import "../../styles/vehicle.css";
