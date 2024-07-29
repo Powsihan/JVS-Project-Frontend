@@ -98,7 +98,7 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
-    const userId = employeeData._id;
+    const employeeId = employeeData._id;
     let data = { ...userUpdatedData };
     if (file) {
       const uploadedImageUrl = await dispatch(uploadImage(file));
@@ -108,7 +108,7 @@ const index = () => {
       }
     }
 
-    employeeProfileEdit(userId, data, (res) => {
+    employeeProfileEdit(employeeId  , data, (res) => {
       console.log(res);
       if (res.status === 201) {
         setFile(null);

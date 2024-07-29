@@ -149,15 +149,15 @@ const Navbar = () => {
             </div>
           </div>
           <div className="d-flex align-items-center">
-            <a
-              className="link-secondary me-3"
-              href="#"
-              id="navbarDropdownMenuLink"
-              role="button"
-              aria-expanded="false"
-            >
-              <Image src={notification} alt="" width={25} />
-            </a>
+              {/* <a
+                className="link-secondary me-3"
+                href="#"
+                id="navbarDropdownMenuLink"
+                role="button"
+                aria-expanded="false"
+              >
+                <Image src={notification} alt="" width={25} />
+              </a> */}
 
             <div className="dropdown">
               <a
@@ -220,10 +220,9 @@ const Navbar = () => {
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
                   <li>
-                    <a className="dropdown-item">Messages</a>
-                  </li>
-                  <li>
-                    <a className="dropdown-item">Notifications</a>
+                    <a className="dropdown-item"  onClick={() => {
+                        router.push("/contact");
+                      }}>Messages</a>
                   </li>
                   <li>
                     <a
