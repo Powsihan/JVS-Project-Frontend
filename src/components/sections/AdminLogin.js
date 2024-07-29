@@ -35,7 +35,6 @@ const AdminLogin = () => {
       },
       (res) => {
         console.log(res);
-        console.log("jgwdjgcdjegc");
         if (res.status == 200) {
           toast.success(res.data.message);
           const cookieOptions = {

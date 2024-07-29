@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "@/src/layouts/Navbar";
 import Image from "next/image";
 import Footer from "@/src/layouts/Footer";
@@ -15,71 +15,43 @@ import { useRouter } from "next/navigation";
 import "../../styles/vehicle.css";
 import "../../styles/admin.css";
 import bmw from "../../assets/images/bmw.png";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
+import { getRecordsById } from "@/src/redux/action/records";
+import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 
 const index = () => {
   const router = useRouter();
-  const filteredVehiclesList = [
-    {
-      ownership: "Brand-New",
-      yom: "2019",
-      fuel: "petrol",
-      color: "White",
-      power: "1000",
-      status: "pending",
-      image: [bmw],
-      name: "gdygsdy",
-      price: "10000",
-      _id: "2",
-    },
-    {
-      ownership: "Brand-New",
-      yom: "2019",
-      fuel: "petrol",
-      color: "White",
-      power: "1000",
-      status: "pending",
-      image: [bmw],
-      name: "gdygsdy",
-      price: "10000",
-      _id: "2",
-    },
-    {
-      ownership: "Brand-New",
-      yom: "2019",
-      fuel: "petrol",
-      color: "White",
-      power: "1000",
-      status: "pending",
-      image: [bmw],
-      name: "gdygsdy",
-      price: "10000",
-      _id: "2",
-    },
-    {
-      ownership: "Brand-New",
-      yom: "2019",
-      fuel: "petrol",
-      color: "White",
-      power: "1000",
-      status: "pending",
-      image: [bmw],
-      name: "gdygsdy",
-      price: "10000",
-      _id: "2",
-    },
-    {
-      ownership: "Brand-New",
-      yom: "2019",
-      fuel: "petrol",
-      color: "White",
-      power: "1000",
-      status: "pending",
-      image: [bmw],
-      name: "gdygsdy",
-      price: "10000",
-      _id: "2",
-    },
-  ];
+  const dispatch = useDispatch();
+ 
+
+  const [customerData, setCustomerData] = useState(null);
+  const [recordsData, setRecordsData] = useState([]);
+
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getLoginCustomerDetail((res) => {
+      if (res.status == 200) {
+        setCustomerData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    if (customerData) {
+      dispatch(setLoading(true));
+      getRecordsById(customerData._id, (res) => {
+        if (res.status === 200) {
+          setRecordsData(res.data);
+        }
+        dispatch(setLoading(false));
+      });
+    }
+  }, [customerData]);
+  
   return (
     <>
       <Navbar />
@@ -90,8 +62,8 @@ const index = () => {
       >
         <h2 className="mb-4 ps-5">Vehicle Records</h2>
         <div className="row ps-5 pe-5 mb-5">
-          {filteredVehiclesList.length > 0 ? (
-            filteredVehiclesList.map((vehicle, index) => {
+          {recordsData.length > 0 ? (
+            recordsData.map((vehicle, index) => {
               return (
                 <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
                   <div className="Vehicle-display-card p-1">
@@ -103,7 +75,7 @@ const index = () => {
                       }}
                     >
                       <Image
-                        src={vehicle.image[0]}
+                        src={vehicle.vehicleId.image[0]}
                         alt={`Vehicle ${index}`}
                         layout="fill"
                         objectFit="cover"
@@ -111,7 +83,7 @@ const index = () => {
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      <h1>{vehicle.name}</h1>
+                      <h1>{vehicle.vehicleId.name}</h1>
                     </div>
                     <hr />
                     <div className="row mb-2 ps-3 pe-3">
