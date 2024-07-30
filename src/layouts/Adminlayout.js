@@ -14,6 +14,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/reducer/loaderSlice";
 import { getAllPurchases } from "../redux/action/purchase";
 import { getUserInfo } from "../redux/action/user";
+import Link from "next/link";
 const Adminlayout = ({ children }) => {
   const dispatch = useDispatch();
   const [typingText, setTypingText] = useState("");
@@ -38,7 +39,6 @@ const Adminlayout = ({ children }) => {
       }
     });
   }, []);
-
 
   useEffect(() => {
     switch (getPageName(pathname)) {
@@ -155,7 +155,9 @@ const Adminlayout = ({ children }) => {
             </div>
             <div className="col-6 d-flex align-items-center justify-content-end pe-5">
               <div className="d-flex align-items-center justify-content-center gap-3">
-                <Image src={chat} alt="" />
+                <Link href="/admin/communication">
+                  <Image src={chat} alt="" />
+                </Link>
                 <div
                   onClick={() => setIsModalOpen(true)}
                   style={{ cursor: "pointer" }}

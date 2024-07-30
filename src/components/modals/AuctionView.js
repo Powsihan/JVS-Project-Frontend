@@ -12,6 +12,7 @@ import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import VehicleView from "./VehicleView";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import CustomerView from "./CustomerView";
+import DeleteIcon from "@mui/icons-material/Delete";
 const AuctionView = (props) => {
   const { show, onHide, auctionDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
@@ -130,9 +131,8 @@ const AuctionView = (props) => {
                   <InputField
                     label={"Start Bidding Price"}
                     disable={true}
-                    defaultValue={`Rs ${
-                      auctionDetails && auctionDetails.bidstartprice
-                    }`}
+                    defaultValue={`Rs ${auctionDetails &&
+                      auctionDetails.bidstartprice}`}
                   />
                 </div>
               </div>
@@ -175,39 +175,53 @@ const AuctionView = (props) => {
                     Auction Details
                   </label>
                   {biddingHis && biddingHis.length > 0 ? (
-                    biddingHis.map((data, index) => (
-                      <div key={index}>
-                        <div
-                          className="row ps-2 pe-2 d-flex align-items-center"
-                          style={{ marginBottom: "-10px" }}
-                        >
-                          <h2 className="col-4 d-flex justify-content-start align-items-center">
-                            {customerDetails[data.customerId]
-                              ? customerDetails[data.customerId].fname
-                              : data.customerId}
-                          </h2>
-                          <div className="col-2 d-flex justify-content-center align-items-center">
-                          <IconButton
-                            aria-label="delete"
-                            className="viewbutt"
-                            onClick={() =>
-                              OpenCustomerViewModal(data.customerId)
-                            }
-                          >
-                            <VisibilityIcon/>
-                          </IconButton>
-                          </div>
-                          <h4 className="col-6 d-flex justify-content-end align-items-center">{`LKR ${data.biddingprice}`}</h4>
-                        </div>
-                        <hr style={{ color: "#bdbbbb" }} />
-                      </div>
-                    ))
+                    <table className="table table-striped table-hover">
+                      <thead>
+                        <tr>
+                          <th>Customer</th>
+                          <th>Bidding Price</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {biddingHis.map((data, index) => (
+                          <tr key={index}>
+                            <td>
+                              {customerDetails[data.customerId]
+                                ? customerDetails[data.customerId].fname
+                                : data.customerId}
+                            </td>
+                            <td>{`LKR ${data.biddingprice}`}</td>
+                            <td>
+                              <IconButton
+                                aria-label="view"
+                                className="viewbutt"
+                                onClick={() =>
+                                  OpenCustomerViewModal(data.customerId)
+                                }
+                              >
+                                <VisibilityIcon />
+                              </IconButton>
+                              <IconButton
+                                aria-label="view"
+                                className="viewbutt"
+                                onClick={() =>
+                                  OpenCustomerViewModal(data.customerId)
+                                }
+                              >
+                                <DeleteIcon className="text-danger"/>
+                              </IconButton>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
                   ) : (
                     <p>No bidding history available</p>
                   )}
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12 ps-5 pe-2">
-                <label
+                  <label
                     htmlFor="features-dropdown"
                     className="Text-input-label mb-3"
                   >
