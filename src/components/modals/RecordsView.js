@@ -1,35 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Modal, Button } from "react-bootstrap";
 import InputField from "../InputField";
-import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import CircleIcon from "@mui/icons-material/Circle";
 import "../../styles/component.css";
 import { IconButton } from "@mui/material";
-import PendingIcon from "@mui/icons-material/Pending";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import CommonButton from "../CommonButton";
 import CustomerView from "./CustomerView";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import VehicleView from "./VehicleView";
-const SalesView = (props) => {
-  const { show, onHide, salesDetails } = props;
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+const RecordsView = (props) => {
+  const { show, onHide, recordsDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
   const [showViewModal2, setShowViewModal2] = useState(false);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
 
-  const getStatusColor = (status) => {
-    switch (status) {
-      case "Sale":
-        return "#17B530 ";
-      default:
-        return "#0010a5";
-    }
-  };
-
   useEffect(() => {
-    const customerId = salesDetails && salesDetails.customerId;
+    const customerId = recordsDetails && recordsDetails.customerId;
     if (customerId) {
       getCustomerInfo(customerId, (res) => {
         if (res && res.data) {
@@ -39,20 +28,20 @@ const SalesView = (props) => {
         }
       });
     }
-  }, [salesDetails]);
+  }, [recordsDetails]);
 
   useEffect(() => {
-    const vehicleId = salesDetails && salesDetails.vehicleId;
+    const vehicleId = recordsDetails && recordsDetails.vehicleId;
     if (vehicleId) {
       getVehicleInfo(vehicleId, (res) => {
         if (res && res.data) {
-            setSelectedVehicledata(res.data);
+          setSelectedVehicledata(res.data);
         } else {
           toast.error("Error fetching Customer details");
         }
       });
     }
-  }, [salesDetails]);
+  }, [recordsDetails]);
 
   const OpenCustomerViewModal = () => {
     setShowViewModal(true);
@@ -63,55 +52,23 @@ const SalesView = (props) => {
   };
 
 
-
   return (
     <div>
       {!showViewModal && !showViewModal2 && (
         <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
           <Modal.Header className="header-outer d-flex justify-content-between">
             <Modal.Title className="Modal-Title">
-              Sales Details View
+              Records Details View
             </Modal.Title>
-            <div className="d-flex justify-content-center align-items-center gap-2">
-              <div
-                className="fw-bold"
-                style={{ color: "var(--primary-color)" }}
-              >
-                {salesDetails && salesDetails.status}
-              </div>
-              <IconButton>
-                <CircleIcon
-                  sx={{
-                    color: getStatusColor(salesDetails && salesDetails.status),
-                  }}
-                />
-              </IconButton>
-            </div>
           </Modal.Header>
           <Modal.Body>
             <div className="container-fluid">
               <div className="row pb-3">
-                <div className="col-lg-4 col-md-4 col-sm-12">
-                  <InputField
-                    label={"Sales RefID"}
-                    disable={true}
-                    defaultValue={salesDetails && salesDetails.salesRefID}
-                  />
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-12">
-                  <InputField
-                    label={"Date"}
-                    disable={true}
-                    defaultValue={salesDetails && salesDetails.creationDate}
-                  />
-                </div>
-                <div className="col-lg-4 col-md-4 col-sm-12">
-                  <InputField
-                    label={"Price"}
-                    disable={true}
-                    defaultValue={salesDetails && salesDetails.price}
-                  />
-                </div>
+                <InputField
+                  label={"Sales RefID"}
+                  disable={true}
+                  defaultValue={recordsDetails && recordsDetails.recordsRefID}
+                />
               </div>
               <div className="row pb-3">
                 <div className="col-lg-6 col-md-6 col-sm-12">
@@ -128,7 +85,6 @@ const SalesView = (props) => {
                     defaultValue={selectedCustomerdata?.email}
                   />
                 </div>
-               
               </div>
               <div className="row pb-3">
                 <div className="form-group">
@@ -138,10 +94,54 @@ const SalesView = (props) => {
                   <textarea
                     className="form-control"
                     disabled
-                    defaultValue={salesDetails && salesDetails.details}
+                    defaultValue={recordsDetails && recordsDetails.description}
                     rows={3}
                   />
                 </div>
+              </div>
+              <div className="row pb-3 p-3">
+                <table table className="table table-striped table-hover">
+                  <thead className="top-0 position-sticky z-1">
+                    <tr>
+                      <th>No</th>
+                      <th>Content</th>
+                      <th>Date</th>
+                      <th>Details</th>
+                      <th>Documents</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {recordsDetails?.recordhistory &&
+                    recordsDetails.recordhistory.length > 0 ? (
+                      recordsDetails.recordhistory.map((data, index) => {
+                        const creationDate = new Date(
+                          data.creationDate
+                        ).toLocaleDateString();
+                        return (
+                          <tr key={index}>
+                            <td>{index + 1}</td>
+                            <td>{data.content}</td>
+                            <td>{creationDate}</td>
+                            <td>{data.details}</td>
+                            <td>
+                              <IconButton
+                                onClick={() => {
+                                  window.open(data.documents[0], "_blank");
+                                }}
+                              >
+                                <FileDownloadIcon />
+                              </IconButton>
+                            </td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td colSpan="5">No Records Available</td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
               <hr />
               <div className="row pb-3">
@@ -184,4 +184,4 @@ const SalesView = (props) => {
   );
 };
 
-export default SalesView;
+export default RecordsView;

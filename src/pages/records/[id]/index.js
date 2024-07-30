@@ -204,11 +204,11 @@ const index = () => {
               <div className="mb-2">
                 <div className="form-group">
                   <label htmlFor="input-field" className="Text-input-label">
-                    Choose Profile Picture
+                    Choose Documents
                   </label>
                   <input
                     className="form-control"
-                    placeholder="Choose Profile Picture"
+                    placeholder="Choose Documents"
                     type="file"
                     id="profilePicture"
                     onChange={(e) => {

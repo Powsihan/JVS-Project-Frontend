@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import { getVehicleDetails } from "@/src/redux/action/vehicle";
 import { addSalesimg } from "@/src/utils/ImagesPath";
+import { uploadImage } from "@/src/redux/action/imageUpload";
 
 const AddSales = (props) => {
   const dispatch = useDispatch();
@@ -20,6 +21,7 @@ const AddSales = (props) => {
   const [vehicleData, setVehicleData] = useState([]);
   const [filteredEmails, setFilteredEmails] = useState([]);
   const [filteredRegisterNo, setFilteredRegisterNo] = useState([]);
+  const [file, setFile] = useState(null);
   const [salesData, setSalesData] = useState({
     registerno: "",
     email: "",
@@ -45,10 +47,20 @@ const AddSales = (props) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
+
+    let uploadedDocUrl = null;
+    if (file) {
+      const uploadedImageUrl = await dispatch(uploadImage(file));
+      if (uploadedImageUrl) {
+        uploadedDocUrl = uploadedImageUrl;
+      }
+    }
+
     const updatedSalesData = {
       ...salesData,
+      documents: uploadedDocUrl,
     };
-
+  
     addSales(updatedSalesData, (res) => {
       dispatch(setLoading(false));
       if (res.status === 200) {
@@ -191,12 +203,21 @@ const AddSales = (props) => {
               />
             </div>
             <div className="row mb-3">
-              <InputField
-                label={"Document"}
-                placeholder={"Upload the File"}
-                onChange={(value) => handleChange("documents", value)}
-                type={"file"}
-              />
+              <div className="form-group">
+                <label htmlFor="input-field" className="Text-input-label">
+                  Document
+                </label>
+                <input
+                  className="form-control"
+                  placeholder="Choose Document"
+                  type="file"
+                  id="profilePicture"
+                  onChange={(e) => {
+                    console.log(e);
+                    e?.target && setFile(e.target.files[0]);
+                  }}
+                />
+              </div>
             </div>
           </div>
         </div>

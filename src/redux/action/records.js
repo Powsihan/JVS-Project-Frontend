@@ -63,3 +63,19 @@ export const getAllRecordsDetails = (callback) => {
     callback(error.response);
   }
 };
+
+export const deleteRecords = (recordsId, callback) => {
+  const endpoint = `${process.env.api_base_url}/records/${recordsId}`;
+  try {
+    http
+      .delete(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

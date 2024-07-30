@@ -18,16 +18,17 @@ import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
 import AuctionView from "@/src/components/modals/AuctionView";
 import { add } from "@/src/utils/ImagesPath";
-import { getAllRecordsDetails } from "@/src/redux/action/records";
+import { deleteRecords, getAllRecordsDetails } from "@/src/redux/action/records";
 import { getCustomerInfo } from "@/src/redux/action/customer";
+import RecordsView from "@/src/components/modals/RecordsView";
 
 const index = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
-  const [auctionData, setAuctionData] = useState([]);
+  const [recordData, setrecordData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [vehicleData, setVehicleData] = useState({});
-  const [selectedAuctiondata, setSelectedAuctiondata] = useState(null);
+  const [selectedrecordData, setSelectedrecordData] = useState(null);
   const [searchRegNo, setSearchRegNo] = useState("");
   const [searchRef, setsearchRef] = useState("");
   const [selectedStatus, setSelectedStatus] = useState("");
@@ -59,35 +60,35 @@ const index = () => {
 
 
   useEffect(() => {
-    fetchAuctionDetails();
+    fetchRecordsDetails();
   }, []);
 
-  const fetchAuctionDetails = () => {
+  const fetchRecordsDetails = () => {
     dispatch(setLoading(true));
     getAllRecordsDetails(async (res) => {
       if (res && res.data) {
-        const auction = Array.isArray(res.data) ? res.data : [];
-        if (auction.length === 0) {
+        const record = Array.isArray(res.data) ? res.data : [];
+        if (record.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Auction data available");
           return;
         }
-        setAuctionData(auction);
+        setrecordData(record);
         dispatch(setLoading(false));
 
-        const vehicleInfoPromises = auction.map(
-          (auction) =>
+        const vehicleInfoPromises = record.map(
+          (record) =>
             new Promise((resolve) => {
-              getVehicleInfo(auction.vehicleId, (response) =>
-                resolve({ vehicleId: auction.vehicleId, data: response.data })
+              getVehicleInfo(record.vehicleId, (response) =>
+                resolve({ vehicleId: record.vehicleId, data: response.data })
               );
             })
         );
-        const customerInfoPromises = auction.map(
-          (auction) =>
+        const customerInfoPromises = record.map(
+          (record) =>
             new Promise((resolve) => {
-              getCustomerInfo(auction.customerId, (response) =>
-                resolve({ customerId: auction.customerId, data: response.data })
+              getCustomerInfo(record.customerId, (response) =>
+                resolve({ customerId: record.customerId, data: response.data })
               );
             })
         );
@@ -112,6 +113,7 @@ const index = () => {
 
           setVehicleData(vehicleDataMap);
           setCustomerData(customerDataMap);
+          dispatch(setLoading(false));
         } catch (error) {
           console.error("Error fetching vehicle details", error);
           toast.error("Error fetching additional details");
@@ -126,8 +128,8 @@ const index = () => {
 
   
 
-  const openDeleteConfirmationModal = (auctionID) => {
-    setSelectedAuctiondata(auctionID);
+  const openDeleteConfirmationModal = (recordID) => {
+    setSelectedrecordData(recordID);
     setDeleteConfirmationModal(true);
   };
 
@@ -135,11 +137,11 @@ const index = () => {
     setDeleteConfirmationModal(false);
   };
 
-  const deleteAuctionData = (auctionID) => {
-    deleteAuction(auctionID, (res) => {
+  const deleterecordData = (auctionID) => {
+    deleteRecords(auctionID, (res) => {
       if (res.status === 200) {
         toast.success(res.data.message);
-        fetchAuctionDetails();
+        fetchRecordsDetails();
         closeDeleteConfirmationModal();
       } else {
         toast.error(res.data.message);
@@ -148,17 +150,17 @@ const index = () => {
   };
 
   const OpenAuctionViewModal = (auction) => {
-    setSelectedAuctiondata(auction);
+    setSelectedrecordData(auction);
     setShowViewModal(true);
   };
 
   const handleSearchByRefID = (event) => {
     event.preventDefault();
-    const searchedRef = auctionData.find(
+    const searchedRef = recordData.find(
       (auction) => auction.auctionRefID === searchRef
     );
     if (searchedRef) {
-      setSelectedAuctiondata(searchedRef);
+      setSelectedrecordData(searchedRef);
       setShowViewModal(true);
       setsearchRef("");
     } else {
@@ -168,11 +170,11 @@ const index = () => {
 
   const handleSearchByRegNo = (event) => {
     event.preventDefault();
-    const searchedAuction = auctionData.find(
+    const searchedAuction = recordData.find(
       (auction) => vehicleData[auction.vehicleId]?.registerno === searchRegNo
     );
     if (searchedAuction) {
-      setSelectedAuctiondata(searchedAuction);
+      setSelectedrecordData(searchedAuction);
       setShowViewModal(true);
       setSearchRegNo("");
     } else {
@@ -344,22 +346,22 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {auctionData.length > 0 ? (
-                  auctionData.map((auction, index) => (
+                {recordData.length > 0 ? (
+                  recordData.map((record, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{auction.recordsRefID}</td>
+                      <td>{record.recordsRefID}</td>
                       <td>
-                        {vehicleData[auction.vehicleId]?.registerno || "N/A"}
+                        {vehicleData[record.vehicleId]?.registerno || "N/A"}
                       </td>
                       <td>
-                        {customerData[auction.customerId]?.email || "N/A"}
+                        {customerData[record.customerId]?.email || "N/A"}
                       </td>
                       <td className="col-2">
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => OpenAuctionViewModal(auction)}
+                          onClick={() => OpenAuctionViewModal(record)}
                         >
                           <VisibilityIcon className="" />
                         </IconButton>
@@ -374,7 +376,7 @@ const index = () => {
                           aria-label="delete"
                           className="viewbutt"
                           onClick={() =>
-                            openDeleteConfirmationModal(auction._id)
+                            openDeleteConfirmationModal(record._id)
                           }
                         >
                           <DeleteIcon className="text-danger" />
@@ -417,17 +419,17 @@ const index = () => {
             </div>
           </div>
         </div>
-      <AuctionView
+      <RecordsView
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
-        auctionDetails={selectedAuctiondata}
+        recordsDetails={selectedrecordData}
       />
       <ConfirmationModal
         show={deleteConfirmationModal}
         message="Are you sure you want to delete this Details?"
         heading="Confirmation Delete !"
         variant="danger"
-        onConfirm={() => deleteAuctionData(selectedAuctiondata)}
+        onConfirm={() => deleterecordData(selectedrecordData)}
         onCancel={closeDeleteConfirmationModal}
       />
     </Adminlayout>
