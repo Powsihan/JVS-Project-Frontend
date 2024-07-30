@@ -13,6 +13,9 @@ import VehicleView from "./VehicleView";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import CustomerView from "./CustomerView";
 import DeleteIcon from "@mui/icons-material/Delete";
+import { toast } from "react-toastify";
+import ConfirmationModal from "./ConfirmationModal";
+import { deleteBidFromAuction } from "@/src/redux/action/auction";
 const AuctionView = (props) => {
   const { show, onHide, auctionDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
@@ -20,6 +23,8 @@ const AuctionView = (props) => {
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [customerDetails, setCustomerDetails] = useState({});
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
+  const [selectedBidId, setSelectedBidId] = useState(null);
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -82,11 +87,38 @@ const AuctionView = (props) => {
     }
   };
 
+  const openDeleteConfirmationModal = (bidId) => {
+    setSelectedBidId(bidId);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const handleDeleteBid = (bidId) => {
+    if (auctionDetails && auctionDetails._id) {
+      deleteBidFromAuction(auctionDetails._id, bidId, (res) => {
+        if (res && res.status === 200) {
+          const updatedBiddingHistory = auctionDetails.biddinghistory.filter(
+            (bid) => bid._id !== bidId
+          );
+          auctionDetails.biddinghistory = updatedBiddingHistory;
+          toast.success("Bid removed successfully");
+          closeDeleteConfirmationModal();
+        } else {
+          toast.error("Failed to remove bid");
+          closeDeleteConfirmationModal();
+        }
+      });
+    }
+  };
+
   const biddingHis = auctionDetails && auctionDetails.biddinghistory;
 
   return (
     <div>
-      {!showViewModal && !showViewModal2 && (
+      {!showViewModal && !showViewModal2 && !deleteConfirmationModal && (
         <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
           <Modal.Header className="header-outer d-flex justify-content-between">
             <Modal.Title className="Modal-Title">
@@ -206,10 +238,10 @@ const AuctionView = (props) => {
                                 aria-label="view"
                                 className="viewbutt"
                                 onClick={() =>
-                                  OpenCustomerViewModal(data.customerId)
+                                  openDeleteConfirmationModal(data._id)
                                 }
                               >
-                                <DeleteIcon className="text-danger"/>
+                                <DeleteIcon className="text-danger" />
                               </IconButton>
                             </td>
                           </tr>
@@ -253,6 +285,14 @@ const AuctionView = (props) => {
         show={showViewModal2}
         onHide={() => setShowViewModal2(false)}
         customerDetails={selectedCustomerdata}
+      />
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete this bid?"
+        heading="Confirmation Delete!"
+        variant="danger"
+        onConfirm={() => handleDeleteBid(selectedBidId)}
+        onCancel={closeDeleteConfirmationModal}
       />
     </div>
   );

@@ -81,3 +81,19 @@ export const auctionUpdate = (auctionId, data, callback) => {
     callback(error.response);
   }
 };
+
+export const deleteBidFromAuction = (auctionId, bidId, callback) => {
+  const endpoint = `${process.env.api_base_url}/auction/${auctionId}/bid/${bidId}`;
+  try {
+    http
+      .delete(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
