@@ -10,12 +10,19 @@ import CustomerView from "./CustomerView";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import VehicleView from "./VehicleView";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { deleteRecordsfromCustomer } from "@/src/redux/action/records";
+import ConfirmationModal from "./ConfirmationModal";
+import { toast } from "react-toastify";
 const RecordsView = (props) => {
   const { show, onHide, recordsDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
   const [showViewModal2, setShowViewModal2] = useState(false);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
   const [selectedVehicledata, setSelectedVehicledata] = useState(null);
+  const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
+  const [selectedRecordId, setSelectedRecordId] = useState(null);
+
 
   useEffect(() => {
     const customerId = recordsDetails && recordsDetails.customerId;
@@ -51,10 +58,38 @@ const RecordsView = (props) => {
     setShowViewModal2(true);
   };
 
+  const openDeleteConfirmationModal = (recordId) => {
+    setSelectedRecordId(recordId);
+    setDeleteConfirmationModal(true);
+  };
+
+  const closeDeleteConfirmationModal = () => {
+    setDeleteConfirmationModal(false);
+  };
+
+  const handleDeleteRecord = (recordId) => {
+    if (recordsDetails && recordsDetails._id) {
+      deleteRecordsfromCustomer(recordsDetails._id, recordId, (res) => {
+        if (res && res.status === 200) {
+          const updatedRecordHistory = recordsDetails.recordhistory.filter(
+            (record) => record._id !== recordId
+          );
+          recordsDetails.recordhistory = updatedRecordHistory;
+          toast.success("Record removed successfully");
+          closeDeleteConfirmationModal();
+        } else {
+          toast.error("Failed to remove bid");
+          closeDeleteConfirmationModal();
+        }
+      });
+    }
+  };
+
+  
 
   return (
     <div>
-      {!showViewModal && !showViewModal2 && (
+      {!showViewModal && !showViewModal2 && !deleteConfirmationModal && (
         <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
           <Modal.Header className="header-outer d-flex justify-content-between">
             <Modal.Title className="Modal-Title">
@@ -108,6 +143,7 @@ const RecordsView = (props) => {
                       <th>Date</th>
                       <th>Details</th>
                       <th>Documents</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -132,12 +168,23 @@ const RecordsView = (props) => {
                                 <FileDownloadIcon />
                               </IconButton>
                             </td>
+                            <td>
+                              <IconButton
+                                aria-label="view"
+                                className="viewbutt"
+                                onClick={() =>
+                                  openDeleteConfirmationModal(data._id)
+                                }
+                              >
+                                <DeleteIcon className="text-danger" />
+                              </IconButton>
+                            </td>
                           </tr>
                         );
                       })
                     ) : (
                       <tr>
-                        <td colSpan="5">No Records Available</td>
+                        <td colSpan="6">No Records Available</td>
                       </tr>
                     )}
                   </tbody>
@@ -179,6 +226,14 @@ const RecordsView = (props) => {
         onHide={() => setShowViewModal2(false)}
         vehicleDetails={selectedVehicledata}
         hidecustomerdetails
+      />
+      <ConfirmationModal
+        show={deleteConfirmationModal}
+        message="Are you sure you want to delete this bid?"
+        heading="Confirmation Delete!"
+        variant="danger"
+        onConfirm={() => handleDeleteRecord(selectedRecordId)}
+        onCancel={closeDeleteConfirmationModal}
       />
     </div>
   );

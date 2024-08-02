@@ -65,6 +65,9 @@ const index = () => {
       dispatch(setLoading(false));
       if (res.status === 200) {
         toast.success(res.data.message);
+        setTimeout(() => {
+          window.location.reload();
+        }, 2000);
       } else {
         toast.error(res.data.message);
       }

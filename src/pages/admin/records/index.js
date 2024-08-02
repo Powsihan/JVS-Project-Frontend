@@ -5,59 +5,52 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
-import CommonButton from "@/src/components/CommonButton";
 import { useDispatch } from "react-redux";
 import AddAuction from "@/src/components/sections/AddAuction";
 import { deleteAuction, getAuctionDetails } from "@/src/redux/action/auction";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
-import { AuctionStatus } from "@/src/data/datas";
-import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
-import AuctionView from "@/src/components/modals/AuctionView";
-import { add } from "@/src/utils/ImagesPath";
-import { deleteRecords, getAllRecordsDetails } from "@/src/redux/action/records";
+import {
+  deleteRecords,
+  getAllRecordsDetails,
+} from "@/src/redux/action/records";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import RecordsView from "@/src/components/modals/RecordsView";
 
 const index = () => {
   const dispatch = useDispatch();
-  const [showAddSection, setShowAddSection] = useState(false);
   const [recordData, setrecordData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
   const [vehicleData, setVehicleData] = useState({});
   const [selectedrecordData, setSelectedrecordData] = useState(null);
   const [searchRegNo, setSearchRegNo] = useState("");
+  const [searchEmail, setSearchEmail] = useState("");
   const [searchRef, setsearchRef] = useState("");
-  const [selectedStatus, setSelectedStatus] = useState("");
-  const [searchStartDate, setSearchStartDate] = useState(null);
-  const [searchEndDate, setSearchEndDate] = useState(null);
-  const [filteredAuctionList, setFilteredAuctionList] = useState([]);
+  const [filteredRecordList, setFilteredRecordList] = useState([]);
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [showViewModal, setShowViewModal] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [auctionPerPage, setauctionPerPage] = useState(10);
-  const indexOfLastAuction = currentPage * auctionPerPage;
-  const indexOfFirstAuction = indexOfLastAuction - auctionPerPage;
-  const currentAuction = filteredAuctionList.slice(
-    indexOfFirstAuction,
-    indexOfLastAuction
+  const [recordPerPage, setrecordPerPage] = useState(10);
+  const indexOfLastRecord = currentPage * recordPerPage;
+  const indexOfFirstRecord = indexOfLastRecord - recordPerPage;
+  const currentRecord = filteredRecordList.slice(
+    indexOfFirstRecord,
+    indexOfLastRecord
   );
 
   const HandleSearchRegNo = (event) => {
     setSearchRegNo(event.target.value);
   };
+  const HandleSearchEmail = (event) => {
+    setSearchEmail(event.target.value);
+  };
 
   const HandlesearchRef = (event) => {
     setsearchRef(event.target.value);
   };
-
-  const HandleSelectStatus = (event) => {
-    setSelectedStatus(event.target.value);
-  };
-
 
   useEffect(() => {
     fetchRecordsDetails();
@@ -126,7 +119,25 @@ const index = () => {
     });
   };
 
-  
+  useEffect(() => {
+    const filteredData = recordData.filter((record) => {
+      const regNoMatch = vehicleData[record.vehicleId]?.registerno
+        ? vehicleData[record.vehicleId].registerno
+            .toLowerCase()
+            .includes(searchRegNo.toLowerCase())
+        : false;
+      const emailMatch = customerData[record.customerId]?.email
+        ? customerData[record.customerId].email
+            .toLowerCase()
+            .includes(searchEmail.toLowerCase())
+        : false;
+      const refMatch = record.recordsRefID
+        .toLowerCase()
+        .includes(searchRef.toLowerCase());
+      return regNoMatch && emailMatch && refMatch;
+    });
+    setFilteredRecordList(filteredData);
+  }, [recordData, searchRegNo, searchEmail, searchRef, vehicleData, customerData]);
 
   const openDeleteConfirmationModal = (recordID) => {
     setSelectedrecordData(recordID);
@@ -157,7 +168,7 @@ const index = () => {
   const handleSearchByRefID = (event) => {
     event.preventDefault();
     const searchedRef = recordData.find(
-      (auction) => auction.auctionRefID === searchRef
+      (record) => record.recordsRefID === searchRef
     );
     if (searchedRef) {
       setSelectedrecordData(searchedRef);
@@ -171,7 +182,7 @@ const index = () => {
   const handleSearchByRegNo = (event) => {
     event.preventDefault();
     const searchedAuction = recordData.find(
-      (auction) => vehicleData[auction.vehicleId]?.registerno === searchRegNo
+      (record) => vehicleData[record.vehicleId]?.registerno === searchRegNo
     );
     if (searchedAuction) {
       setSelectedrecordData(searchedAuction);
@@ -181,81 +192,40 @@ const index = () => {
       toast.error("Invalid RegNo");
     }
   };
+  const handleSearchByEmail = (event) => {
+    event.preventDefault();
+    const searchedRecord = recordData.find(
+      (record) => customerData[record.customerId]?.email === searchEmail
+    );
+    if (searchedRecord) {
+      setSelectedrecordData(searchedRecord);
+      setShowViewModal(true);
+      setSearchRegNo("");
+    } else {
+      toast.error("Invalid Email");
+    }
+  };
 
   return (
     <Adminlayout>
-        <div>
-          
-          {/* <div className="Filter-Search-Container container-fluid mb-4">
-            <h1 className="row ps-2 mb-3">Filter and Search</h1>
-            <div className="row pb-2">
-              <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container">
-                  <form onSubmit={handleSearchByRefID}>
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Ref ID"
-                      value={searchRef}
-                      onChange={HandlesearchRef}
-                    />
-                    <div className="search-icon">
-                      <SearchIcon />
-                    </div>
-                    {searchRef && (
-                      <div
-                        className="search-icon"
-                        style={{
-                          zIndex: "100",
-                          backgroundColor: "white",
-                          right: "2%",
-                        }}
-                        onClick={() => setsearchRef("")}
-                      >
-                        <ClearIcon />
-                      </div>
-                    )}
-                  </form>
-                </div>
-              </div>
-              <div className="col-lg-3 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container">
-                  <form onSubmit={handleSearchByRegNo}>
-                    <input
-                      className="SearchBox"
-                      type="text"
-                      placeholder="Filter By Register No"
-                      value={searchRegNo}
-                      onChange={HandleSearchRegNo}
-                    />
-                    <div className="search-icon">
-                      <SearchIcon />
-                    </div>
-                    {searchRegNo && (
-                      <div
-                        className="search-icon"
-                        style={{
-                          zIndex: "100",
-                          backgroundColor: "white",
-                          right: "2%",
-                        }}
-                        onClick={() => setSearchRegNo("")}
-                      >
-                        <ClearIcon />
-                      </div>
-                    )}
-                  </form>
-                </div>
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container z-2">
-                  <DatePicker
-                    selected={searchStartDate}
-                    onChange={(date) => setSearchStartDate(date)}
+      <div>
+        <div className="Filter-Search-Container container-fluid mb-4">
+          <h1 className="row ps-2 mb-3">Filter and Search</h1>
+          <div className="row pb-2">
+            <div className="col-md-4 col-sm-12 pb-2">
+              <div className="search-input-container">
+                <form onSubmit={handleSearchByRefID}>
+                  <input
                     className="SearchBox"
-                    placeholderText="Filter By Start Date"
+                    type="text"
+                    placeholder="Ref ID"
+                    value={searchRef}
+                    onChange={HandlesearchRef}
                   />
-                  {searchStartDate && (
+                  <div className="search-icon">
+                    <SearchIcon />
+                  </div>
+                  {searchRef && (
                     <div
                       className="search-icon"
                       style={{
@@ -263,162 +233,165 @@ const index = () => {
                         backgroundColor: "white",
                         right: "2%",
                       }}
-                      onClick={() => setSearchStartDate(null)}
+                      onClick={() => setsearchRef("")}
                     >
                       <ClearIcon />
                     </div>
                   )}
-                </div>
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container z-2">
-                  <DatePicker
-                    selected={searchEndDate}
-                    onChange={(date) => setSearchEndDate(date)}
-                    className="SearchBox"
-                    placeholderText="Filter By End Date"
-                  />
-                  {searchEndDate && (
-                    <div
-                      className="search-icon"
-                      style={{
-                        zIndex: "100",
-                        backgroundColor: "white",
-                        right: "2%",
-                      }}
-                      onClick={() => setSearchEndDate(null)}
-                    >
-                      <ClearIcon />
-                    </div>
-                  )}
-                </div>
-              </div>
-              <div className="col-lg-2 col-md-6 col-sm-12 pb-2">
-                <div className="search-input-container">
-                  <select
-                    className="SearchBox"
-                    value={selectedStatus}
-                    onChange={HandleSelectStatus}
-                  >
-                    <option value="">Select Status</option>
-                    {AuctionStatus.map((data, index) => (
-                      <option key={index} value={data}>
-                        {data}
-                      </option>
-                    ))}
-                  </select>
-                  {selectedStatus && (
-                    <div
-                      className="search-icon"
-                      style={{
-                        zIndex: "100",
-                        backgroundColor: "white",
-                        right: "2%",
-                      }}
-                      onClick={() => setSelectedStatus("")}
-                    >
-                      <ClearIcon />
-                    </div>
-                  )}
-                </div>
+                </form>
               </div>
             </div>
-          </div> */}
-          <div className="TableSection mb-3">
-            <table className="table table-striped table-hover">
-              <thead className="top-0 position-sticky z-1">
-                <tr>
-                  <th scope="col" className="col-1">
-                    No
-                  </th>
-                  <th scope="col" className="col-2">
-                    Record RefID
-                  </th>
-                  <th scope="col" className="col-2">
-                    Vehicle RegisterNo
-                  </th>
-                  <th scope="col" className="col-2">
-                    Customer Email
-                  </th>
-                  <th scope="col" className="col-2">
-                    Action
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {recordData.length > 0 ? (
-                  recordData.map((record, index) => (
-                    <tr key={index}>
-                      <th scope="row">{index + 1}</th>
-                      <td>{record.recordsRefID}</td>
-                      <td>
-                        {vehicleData[record.vehicleId]?.registerno || "N/A"}
-                      </td>
-                      <td>
-                        {customerData[record.customerId]?.email || "N/A"}
-                      </td>
-                      <td className="col-2">
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          onClick={() => OpenAuctionViewModal(record)}
-                        >
-                          <VisibilityIcon className="" />
-                        </IconButton>
-                        {/* <IconButton
+            <div className="col-md-4 col-sm-12 pb-2">
+              <div className="search-input-container">
+                <form onSubmit={handleSearchByRegNo}>
+                  <input
+                    className="SearchBox"
+                    type="text"
+                    placeholder="Filter By Register No"
+                    value={searchRegNo}
+                    onChange={HandleSearchRegNo}
+                  />
+                  <div className="search-icon">
+                    <SearchIcon />
+                  </div>
+                  {searchRegNo && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "2%",
+                      }}
+                      onClick={() => setSearchRegNo("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </form>
+              </div>
+            </div>
+            <div className="col-md-4 col-sm-12 pb-2">
+              <div className="search-input-container">
+                <form onSubmit={handleSearchByEmail}>
+                  <input
+                    className="SearchBox"
+                    type="text"
+                    placeholder="Filter By Email"
+                    value={searchEmail}
+                    onChange={HandleSearchEmail}
+                  />
+                  <div className="search-icon">
+                    <SearchIcon />
+                  </div>
+                  {searchEmail && (
+                    <div
+                      className="search-icon"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "white",
+                        right: "2%",
+                      }}
+                      onClick={() => setSearchEmail("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="TableSection mb-3">
+          <table className="table table-striped table-hover">
+            <thead className="top-0 position-sticky z-1">
+              <tr>
+                <th scope="col" className="col-1">
+                  No
+                </th>
+                <th scope="col" className="col-2">
+                  Record RefID
+                </th>
+                <th scope="col" className="col-2">
+                  Vehicle RegisterNo
+                </th>
+                <th scope="col" className="col-2">
+                  Customer Email
+                </th>
+                <th scope="col" className="col-2">
+                  Action
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentRecord.length > 0 ? (
+                currentRecord.map((record, index) => (
+                  <tr key={index}>
+                    <th scope="row">{index + 1}</th>
+                    <td>{record.recordsRefID}</td>
+                    <td>
+                      {vehicleData[record.vehicleId]?.registerno || "N/A"}
+                    </td>
+                    <td>{customerData[record.customerId]?.email || "N/A"}</td>
+                    <td className="col-2">
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        onClick={() => OpenAuctionViewModal(record)}
+                      >
+                        <VisibilityIcon className="" />
+                      </IconButton>
+                      {/* <IconButton
                           aria-label="delete"
                           className="viewbutt"
                           // onClick={() => OpenVehicleEditModal(vehicle)}
                         >
                           <EditIcon className="text-success" />
                         </IconButton> */}
-                        <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          onClick={() =>
-                            openDeleteConfirmationModal(record._id)
-                          }
-                        >
-                          <DeleteIcon className="text-danger" />
-                        </IconButton>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan="8">No results found</td>
+                      <IconButton
+                        aria-label="delete"
+                        className="viewbutt"
+                        onClick={() => openDeleteConfirmationModal(record._id)}
+                      >
+                        <DeleteIcon className="text-danger" />
+                      </IconButton>
+                    </td>
                   </tr>
-                )}
-              </tbody>
-            </table>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8">No results found</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+        <div className="Filter-Search-Container d-flex justify-content-between pe-3 p-4">
+          <div className="Pagination-Text">
+            <p>
+              Page {currentPage} of{" "}
+              {Math.ceil(filteredRecordList.length / recordPerPage)}
+            </p>
           </div>
-          <div className="Filter-Search-Container d-flex justify-content-between pe-3 p-4">
-            <div className="Pagination-Text">
-              <p>
-                Page {currentPage} of{" "}
-                {Math.ceil(filteredAuctionList.length / auctionPerPage)}
-              </p>
-            </div>
-            <div className="d-flex gap-2">
-              <button
-                className="btn btn-primary"
-                onClick={() => setCurrentPage(currentPage - 1)}
-                disabled={currentPage === 1}
-                style={{ width: 120 }}
-              >
-                Previous
-              </button>
-              <button
-                className="btn btn-primary"
-                onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={indexOfLastAuction >= filteredAuctionList.length}
-                style={{ width: 120 }}
-              >
-                Next
-              </button>
-            </div>
+          <div className="d-flex gap-2">
+            <button
+              className="btn btn-primary"
+              onClick={() => setCurrentPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              style={{ width: 120 }}
+            >
+              Previous
+            </button>
+            <button
+              className="btn btn-primary"
+              onClick={() => setCurrentPage(currentPage + 1)}
+              disabled={indexOfLastRecord >= filteredRecordList.length}
+              style={{ width: 120 }}
+            >
+              Next
+            </button>
           </div>
         </div>
+      </div>
       <RecordsView
         show={showViewModal}
         onHide={() => setShowViewModal(false)}
