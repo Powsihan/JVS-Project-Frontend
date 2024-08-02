@@ -41,6 +41,7 @@ import ChatbotComponent from "@/src/components/Chatbot";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 import SignInModal from "@/src/components/modals/SignInModal";
 import ExpertMessaging from "@/src/components/modals/expertMessagingModal";
+import { toast } from "react-toastify";
 
 const index = () => {
   const router = useRouter();
@@ -65,8 +66,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
-      if (res && res.data) {
-        setVehicleData(res.data);
+      if (res?.data) {
+        setVehicleData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -79,8 +80,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
-      if (res && res.data) {
-        setCustomerData(res.data);
+      if (res?.data) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -93,8 +94,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setLoginCustomerData(res.data);
+      if (res?.status == 200) {
+        setLoginCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -103,17 +104,17 @@ const index = () => {
   }, []);
 
   useEffect(() => {
-    if (vehicleData.length > 0) {
-      const filteredData = vehicleData.filter(
-        (vehicle) => vehicle.status !== "Sold"
+    if (vehicleData?.length > 0) {
+      const filteredData = vehicleData?.filter(
+        (vehicle) => vehicle?.status !== "Sold"
       );
-      setTotalVehicles(filteredData.length);
+      setTotalVehicles(filteredData?.length);
     }
   }, [vehicleData]);
 
   useEffect(() => {
-    if (customerData.length > 0) {
-      setTotalCustomers(customerData.length);
+    if (customerData?.length > 0) {
+      setTotalCustomers(customerData?.length);
     }
   }, [customerData]);
 
@@ -252,20 +253,20 @@ const index = () => {
           </h4>
         </div>
         <div className="row pt-5 d-flex">
-          {aboutuscontent.map((data, index) => (
+          {aboutuscontent?.map((data, index) => (
             <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5">
               <div className="row">
                 <div className="d-flex pt-2 justify-content-center align-items-center">
-                  <Image src={data.image} alt="" />
+                  <Image src={data?.image} alt="" />
                 </div>
                 <div className="justify-content-center align-items-center pt-3 d-flex">
-                  <h5>{data.heading}</h5>
+                  <h5>{data?.heading}</h5>
                 </div>
                 <div className="pt-4 d-flex justify-content-center align-items-center ps-5 pe-5">
-                  <p>{data.content}</p>
+                  <p>{data?.content}</p>
                 </div>
                 <div className="justify-content-center align-items-center d-flex">
-                  <CommonButton text={"Go Visit"} image={vector} width={200} />
+                  <CommonButton text={"Go Visit"} image={vector} width={200} onClick={()=>router.push(`/${data?.path}`)}/>
                 </div>
               </div>
             </div>
@@ -367,25 +368,25 @@ const index = () => {
       <div className="container-fluid min-vh-100" id="contactus">
         <div className="row contactUsImage d-lg-block d-none"></div>
         <div className="row d-flex">
-          {aboutuscontent2.map((data) => (
+          {aboutuscontent2?.map((data) => (
             <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
               <div className="card d-flex align-items-center justify-content-center card-contact">
-                <Image src={data.image} alt="" className="mt-1" />
+                <Image src={data?.image} alt="" className="mt-1" />
                 <div className="row card-body d-flex align-items-center justify-content-center ">
                   <h5 className="card-title ps-3 d-flex align-items-center justify-content-center ">
-                    {data.heading}
+                    {data?.heading}
                   </h5>
                   <p className="card-text d-flex align-items-center justify-content-center ">
-                    {data.content}
+                    {data?.content}
                   </p>
-                  {data.time && (
+                  {data?.time && (
                     <div className="d-flex justify-content-center align-items-center ps-3">
                       <h6 className="mt-2" style={{ color: "gray" }}>
                         Time : 8 am - 6 pm (Monday-Saturday)
                       </h6>
                     </div>
                   )}
-                  {data.contact && (
+                  {data?.contact && (
                     <div className="d-flex  justify-content-center align-items-center  gap-4">
                       <Image src={facebook} alt="" />
                       <Image src={call} alt="" />
@@ -394,7 +395,7 @@ const index = () => {
                   )}
                   <div className="pt-3 d-flex align-items-center justify-content-center">
                     <CommonButton
-                      text={data.buttonText}
+                      text={data?.buttonText}
                       image={chatmaessage}
                       width={200}
                       onClick={

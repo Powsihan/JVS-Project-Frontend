@@ -27,8 +27,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -39,9 +39,9 @@ const index = () => {
   useEffect(() => {
     if (customerData) {
       dispatch(setLoading(true));
-      getRecordsByCustomerId(customerData._id, (res) => {
-        if (res.status === 200) {
-          setRecordsData(res.data);
+      getRecordsByCustomerId(customerData?._id, (res) => {
+        if (res?.status === 200) {
+          setRecordsData(res?.data);
         }
         dispatch(setLoading(false));
       });
@@ -58,8 +58,8 @@ const index = () => {
       >
         <h2 className="mb-4 ps-5 primary-color fw-bold">Vehicle Records</h2>
         <div className="row ps-5 pe-5 mb-5">
-          {recordsData.length > 0 ? (
-            recordsData.map((vehicle, index) => {
+          {recordsData?.length > 0 ? (
+            recordsData?.map((vehicle, index) => {
               return (
                 <div className="col-lg-4 col-md-6 col-sm-12 mb-5" key={index}>
                   <div className="Vehicle-display-card p-1">
@@ -71,7 +71,7 @@ const index = () => {
                       }}
                     >
                       <Image
-                        src={vehicle.vehicleId.image[0]}
+                        src={vehicle?.vehicleId?.image[0]}
                         alt={`Vehicle ${index}`}
                         layout="fill"
                         objectFit="cover"
@@ -79,7 +79,7 @@ const index = () => {
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      <h1>{vehicle.vehicleId.name}</h1>
+                      <h1>{vehicle?.vehicleId?.name}</h1>
                     </div>
                     <hr />
                     <div className="row mb-2 ps-3 pe-3">
@@ -88,7 +88,7 @@ const index = () => {
                           text={"Show the Records"}
                           width={"100%"}
                           onClick={() => {
-                            router.push(`/records/${vehicle._id}`);
+                            router.push(`/records/${vehicle?._id}`);
                           }}
                         />
                       </div>

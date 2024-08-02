@@ -44,8 +44,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -79,23 +79,23 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
-    const customerId = customerData._id;
+    const customerId = customerData?._id;
     let data = { ...customerUpdatedData };
 
     customerProfileEdit(customerId, data, (res) => {
       console.log(res);
       dispatch(setLoading(false));
-      if (res.status === 201) {
+      if (res?.status === 201) {
         setFile(null);
-        toast.info(res.data.message);
-      } else if (res.status === 200) {
+        toast.info(res?.data?.message);
+      } else if (res?.status === 200) {
         setFile(null);
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -127,13 +127,13 @@ const index = () => {
 
     changeCustomerPassword(datapass, (res) => {
       console.log(res);
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -150,16 +150,16 @@ const index = () => {
   const deleteCustomerData = (userID) => {
     dispatch(setLoading(true));
     deleteCustomer(userID, (res) => {
-      if (res.status == 200) {
+      if (res?.status == 200) {
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         closeDeleteConfirmationModal();
         setTimeout(() => {
           router.push("/home");
           Customerlogout();
         }, 1000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -179,22 +179,22 @@ const index = () => {
   const handleProfilePicEdit = async (selectedFile) => {
     if (!selectedFile) return;
     dispatch(setLoading(true));
-    const customerId = customerData._id;
+    const customerId = customerData?._id;
     let data = {};
     const uploadedImageUrl = await dispatch(uploadImage(selectedFile));
     if (uploadedImageUrl) {
       data.profilePic = uploadedImageUrl;
       customerProfileEdit(customerId, data, (res) => {
-        if (res.status === 201 || res.status === 200) {
+        if (res?.status === 201 || res?.status === 200) {
           setFile(null);
           dispatch(setLoading(false));
-          toast.success(res.data.message);
+          toast.success(res?.data?.message);
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } else {
           dispatch(setLoading(false));
-          toast.error(res.data.message);
+          toast.error(res?.data?.message);
         }
       });
     } else {
@@ -239,23 +239,10 @@ const index = () => {
           </div>
           <div className="row">
             <div className="col-lg-4 d-flex flex-column align-items-center">
-              {/* <Image
-                  src={
-                    customerData && customerData.profilePic
-                      ? customerData.profilePic
-                      : avatar
-                  }
-                  className="avatar rounded-circle"
-                  alt="avatar"
-                  width={150}
-                  height={150}
-                /> */}
               <div className="Profile-setting-image rounded-circle">
                 <Image
                   src={
-                    customerData && customerData.profilePic
-                      ? customerData.profilePic
-                      : avatar
+                    customerData?.profilePic ? customerData?.profilePic : avatar
                   }
                   layout="fill"
                   objectFit="contain"
@@ -285,8 +272,7 @@ const index = () => {
                   </div>
                 )}
               </div>
-              <h3 className="pb-3">{`${customerData &&
-                customerData.fname} ${customerData && customerData.lname}`}</h3>
+              <h3 className="pb-3">{`${customerData?.fname} ${customerData?.lname}`}</h3>
               <CommonButton
                 text={`${!showProfile ? "Edit Profile" : "Close Profile"}`}
                 width={248}
@@ -300,7 +286,7 @@ const index = () => {
                   <InputField
                     label="First Name"
                     placeholder="Enter your first name"
-                    defaultValue={customerData && customerData.fname}
+                    defaultValue={customerData?.fname}
                     onChange={(value) => handleChange("fname", value)}
                     disable={!showProfile}
                   />
@@ -309,7 +295,7 @@ const index = () => {
                   <InputField
                     label="Last Name"
                     placeholder="Enter your last name"
-                    defaultValue={customerData && customerData.lname}
+                    defaultValue={customerData?.lname}
                     onChange={(value) => handleChange("lname", value)}
                     disable={!showProfile}
                   />
@@ -320,7 +306,7 @@ const index = () => {
                   <InputField
                     label="Email Address"
                     placeholder="Enter your Email Address"
-                    defaultValue={customerData && customerData.email}
+                    defaultValue={customerData?.email}
                     onChange={(value) => handleChange("email", value)}
                     disable={!showProfile}
                   />
@@ -329,7 +315,7 @@ const index = () => {
                   <InputField
                     label="Phone Number"
                     placeholder="Enter your phone number"
-                    defaultValue={customerData && customerData.phoneNo}
+                    defaultValue={customerData?.phoneNo}
                     onChange={(value) => handleChange("phoneNo", value)}
                     disable={!showProfile}
                   />
@@ -340,7 +326,7 @@ const index = () => {
                   <InputField
                     label="NIC"
                     placeholder="Enter your NIC"
-                    defaultValue={customerData && customerData.nic}
+                    defaultValue={customerData?.nic}
                     onChange={(value) => handleChange("nic", value)}
                     disable={!showProfile}
                   />
@@ -349,7 +335,7 @@ const index = () => {
                   <InputField
                     label="City"
                     placeholder="Select the City"
-                    defaultValue={customerData && customerData.city}
+                    defaultValue={customerData?.city}
                     onChange={(value) => handleChange("city", value)}
                     select
                     options={Districts}
@@ -368,7 +354,7 @@ const index = () => {
                       className="form-control"
                       placeholder={"Small description about your self"}
                       rows={3}
-                      defaultValue={customerData && customerData.address}
+                      defaultValue={customerData?.address}
                       onChange={(e) => handleChange("address", e.target.value)}
                       disabled={!showProfile}
                     />
@@ -383,7 +369,7 @@ const index = () => {
                       className="form-control"
                       placeholder={"Small description about your self"}
                       rows={3}
-                      defaultValue={customerData && customerData.description}
+                      defaultValue={customerData?.description}
                       onChange={(e) =>
                         handleChange("description", e.target.value)
                       }
@@ -482,7 +468,7 @@ const index = () => {
                 type="button"
                 className="btn btn-danger"
                 onClick={() =>
-                  openDeleteConfirmationModal(customerData && customerData._id)
+                  openDeleteConfirmationModal(customerData?._id)
                 }
               >
                 Delete Your Account

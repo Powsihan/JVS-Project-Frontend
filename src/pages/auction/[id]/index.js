@@ -25,7 +25,7 @@ import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 const index = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const { id } = router.query;
+  const { id } = router?.query;
   const [auctionData, setAuctionData] = useState(null);
   const [vehicleData, setVehicleData] = useState(null);
   const [customerData, setCustomerData] = useState(null);
@@ -38,23 +38,23 @@ const index = () => {
     if (id) {
       dispatch(setLoading(true));
       getAuctionInfo(id, (res) => {
-        if (res && res.data) {
-          setAuctionData(res.data);
+        if (res?.data) {
+          setAuctionData(res?.data);
           dispatch(setLoading(false));
-          const vehicleId = res.data.vehicleId;
+          const vehicleId = res?.data?.vehicleId;
           getVehicleInfo(vehicleId, (res) => {
-            setVehicleData(res.data);
+            setVehicleData(res?.data);
           });
 
-          const auction = res.data.biddinghistory;
+          const auction = res?.data?.biddinghistory;
 
-          const customerInfoPromises = auction.map(
+          const customerInfoPromises = auction?.map(
             (data) =>
               new Promise((resolve) => {
-                getCustomerInfo(data.customerId, (response) =>
+                getCustomerInfo(data?.customerId, (response) =>
                   resolve({
-                    customerId: data.customerId,
-                    data: response.data,
+                    customerId: data?.customerId,
+                    data: response?.data,
                   })
                 );
               })
@@ -64,9 +64,9 @@ const index = () => {
             .then((customerInfoResponses) => {
               const customerDataMap = {};
 
-              customerInfoResponses.forEach((response) => {
-                if (response.data) {
-                  customerDataMap[response.customerId] = response.data;
+              customerInfoResponses?.forEach((response) => {
+                if (response?.data) {
+                  customerDataMap[response?.customerId] = response?.data;
                 }
               });
 
@@ -77,8 +77,8 @@ const index = () => {
             });
 
           const maxBid =
-            auction.length > 0
-              ? Math.max(...auction.map((bid) => bid.biddingprice))
+            auction?.length > 0
+              ? Math.max(...auction.map((bid) => bid?.biddingprice))
               : "0";
           setMaxBidPrice(maxBid);
         } else {
@@ -90,7 +90,7 @@ const index = () => {
   }, [id]);
 
   useEffect(() => {
-    const endDateString = auctionData && auctionData.endDate;
+    const endDateString = auctionData && auctionData?.endDate;
     const endDate = new Date(endDateString);
     const today = new Date();
     const timeDifference = endDate.getTime() - today.getTime();
@@ -119,20 +119,20 @@ const index = () => {
 
   if (vehicleData) {
     var vehicleDetails = [
-      { label: "Registration No", content: vehicleData.registerno },
-      { label: "Vehicle Name", content: vehicleData.name },
-      { label: "Vehicle Type", content: vehicleData.type },
-      { label: "Vehicle Brand", content: vehicleData.brand },
-      { label: "Vehicle Model", content: vehicleData.model },
-      { label: "Vehicle Color", content: vehicleData.color },
-      { label: "Vehicle Model Year", content: vehicleData.yom },
-      { label: "Vehicle Ownership", content: vehicleData.ownership },
-      { label: "GearBox", content: vehicleData.gear },
-      { label: "Fuel Type", content: vehicleData.fuel },
-      { label: "Fuel Capacity", content: vehicleData.fuelcap },
-      { label: "Mileage", content: vehicleData.mileage },
-      { label: "No of Doors", content: vehicleData.noofdoors },
-      { label: "No Of Seats", content: vehicleData.noofseats },
+      { label: "Registration No", content: vehicleData?.registerno },
+      { label: "Vehicle Name", content: vehicleData?.name },
+      { label: "Vehicle Type", content: vehicleData?.type },
+      { label: "Vehicle Brand", content: vehicleData?.brand },
+      { label: "Vehicle Model", content: vehicleData?.model },
+      { label: "Vehicle Color", content: vehicleData?.color },
+      { label: "Vehicle Model Year", content: vehicleData?.yom },
+      { label: "Vehicle Ownership", content: vehicleData?.ownership },
+      { label: "GearBox", content: vehicleData?.gear },
+      { label: "Fuel Type", content: vehicleData?.fuel },
+      { label: "Fuel Capacity", content: vehicleData?.fuelcap },
+      { label: "Mileage", content: vehicleData?.mileage },
+      { label: "No of Doors", content: vehicleData?.noofdoors },
+      { label: "No Of Seats", content: vehicleData?.noofseats },
     ];
   }
 
@@ -146,8 +146,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -159,20 +159,20 @@ const index = () => {
     event.preventDefault();
     dispatch(setLoading(true));
     const data = {
-      customerId: customerData._id,
-      biddingprice: auctionData.biddingPrice,
+      customerId: customerData?._id,
+      biddingprice: auctionData?.biddingPrice,
     };
 
     auctionUpdate(id, data, (editRes) => {
       dispatch(setLoading(false));
-      if (editRes.status === 200) {
-        toast.success(editRes.data.message);
+      if (editRes?.status === 200) {
+        toast.success(editRes?.data.message);
         closeStatusConfirmationModal();
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(editRes.data.message);
+        toast.error(editRes?.data?.message);
         toast.error(
           "Failed to update auction or bid price is lower than current price"
         );
@@ -207,9 +207,9 @@ const index = () => {
         </div>
           <div className="row">
             <div className="col-lg-4 col-md-6 col-sm-12">
-              {vehicleData && vehicleData.image && (
+              {vehicleData?.image && (
                 <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>
-                  {vehicleData.image.map((image, index) => (
+                  {vehicleData?.image?.map((image, index) => (
                     <div
                       key={index}
                       style={{
@@ -243,15 +243,14 @@ const index = () => {
                 <div className="col-lg-5 col-md-12 col-sm-12 mb-3">
                   <div className="Auction-Vehicle-Details-Section container-fluid">
                     <h1 className="row ps-2 mb-4">Vehicle Details</h1>
-                    {vehicleDetails &&
-                      vehicleDetails.map((data, index) => (
+                    {vehicleDetails?.map((data, index) => (
                         <div>
                           <div
                             className="d-flex justify-content-between align-items-center ps-2 pe-2"
                             style={{ marginBottom: "-7px" }}
                           >
-                            <h2>{data.label}</h2>
-                            <h4>{data.content}</h4>
+                            <h2>{data?.label}</h2>
+                            <h4>{data?.content}</h4>
                           </div>
                           <hr style={{ color: "#bdbbbb" }} />
                         </div>
@@ -268,7 +267,7 @@ const index = () => {
                       </div>
                       <div>
                         <h5>Start Bid Amount</h5>
-                        <h6>{`LKR ${auctionData.bidstartprice}`}</h6>
+                        <h6>{`LKR ${auctionData?.bidstartprice}`}</h6>
                       </div>
                     </div>
                   </div>
@@ -280,7 +279,7 @@ const index = () => {
                           <InputField
                             label={"Start Bid Amount"}
                             disable={true}
-                            defaultValue={`LKR ${auctionData.bidstartprice}`}
+                            defaultValue={`LKR ${auctionData?.bidstartprice}`}
                           />
                         </div>
                         <div className="col-6">
@@ -316,9 +315,8 @@ const index = () => {
                   </form>
                   <div className="Auction-Vehicle-Details-Section container-fluid">
                     <h1 className="row ps-2 mb-4">Bidding Information</h1>
-                    {auctionData.biddinghistory &&
-                    auctionData.biddinghistory.length > 0 ? (
-                      auctionData.biddinghistory.map((data) => (
+                    {auctionData?.biddinghistory?.length > 0 ? (
+                      auctionData?.biddinghistory?.map((data) => (
                         <div>
                           <div
                             className="d-flex justify-content-between"
@@ -326,10 +324,10 @@ const index = () => {
                           >
                             <h2>
                               {" "}
-                              {bidcustomerDetail[data.customerId]?.fname ||
+                              {bidcustomerDetail[data?.customerId]?.fname ||
                                 "N/A"}
                             </h2>
-                            <h4>{`LKR ${data.biddingprice}`}</h4>
+                            <h4>{`LKR ${data?.biddingprice}`}</h4>
                           </div>
                           <hr style={{ color: "#bdbbbb" }} />
                         </div>

@@ -95,8 +95,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -109,7 +109,7 @@ const index = () => {
     if (customerData) {
       setVehicleData((prevData) => ({
         ...prevData,
-        customerId: customerData._id,
+        customerId: customerData?._id,
       }));
     }
   }, [customerData]);
@@ -155,7 +155,7 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!validateVehicleRegisterNo(vehicleData.registerno)) {
+    if (!validateVehicleRegisterNo(vehicleData?.registerno)) {
       toast.info(
         "Invalid Vehicle Register No format. Please follow the correct format."
       );
@@ -196,13 +196,13 @@ const index = () => {
 
     addVehicle(updatedVehicleData, (res) => {
       dispatch(setLoading(false));
-      if (res.status === 200) {
+      if (res?.status === 200) {
         toast.success("Vehicle Request Send Successfully..!");
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -217,7 +217,7 @@ const index = () => {
       <div className="container-fluid min-vh-100 d-flex justify-content-start align-items-center sell-vehicle-home ps-5">
         <div className="">
           <h2 className="pb-4">Are you looking to sell your vehicle? </h2>
-          {sellvehiclecontent.map((data) => (
+          {sellvehiclecontent?.map((data) => (
             <div className="d-flex flex-row gap-3 mb-3">
               <Image src={sellvehicon} alt="" />
               <h4>{data}</h4>
@@ -287,7 +287,7 @@ const index = () => {
                             OwnerShip
                           </label>
                           <div className="d-flex gap-3">
-                            {OwnershipOptions.map((option, index) => (
+                            {OwnershipOptions?.map((option, index) => (
                               <div className="form-check" key={index}>
                                 <input
                                   className="form-check-input"
@@ -462,7 +462,7 @@ const index = () => {
                   <h3 className="Text-input-label fw-bold">Features</h3>
                   <div className="container-fluid">
                     <div className="row">
-                      {Features.slice(0, 6).map((option, index) => (
+                      {Features?.slice(0, 6).map((option, index) => (
                         <div
                           className="form-check col-lg-2 col-md-4 col-sm-6"
                           key={index}
@@ -484,7 +484,7 @@ const index = () => {
                       ))}
                     </div>
                     <div className="row">
-                      {Features.slice(6, 12).map((option, index) => (
+                      {Features?.slice(6, 12).map((option, index) => (
                         <div
                           className="form-check col-lg-2 col-md-4 col-sm-6"
                           key={index}
@@ -506,7 +506,7 @@ const index = () => {
                       ))}
                     </div>
                     <div className="row">
-                      {Features.slice(12, 14).map((option, index) => (
+                      {Features?.slice(12, 14).map((option, index) => (
                         <div className="form-check col-lg-2 col-md-4 col-sm-6">
                           <input
                             className="form-check-input"
@@ -573,9 +573,9 @@ const index = () => {
                         multiple
                         classes="upload-file"
                       />
-                      {outsideViewPreviews.length > 0 && (
+                      {outsideViewPreviews?.length > 0 && (
                         <div className="img-preview-container">
-                          {outsideViewPreviews.map((preview, index) => (
+                          {outsideViewPreviews?.map((preview, index) => (
                             <Image
                               key={index}
                               src={preview}
@@ -606,9 +606,9 @@ const index = () => {
                         multiple
                         classes="upload-file"
                       />
-                      {insideViewPreviews.length > 0 && (
+                      {insideViewPreviews?.length > 0 && (
                         <div className="img-preview-container">
-                          {insideViewPreviews.map((preview, index) => (
+                          {insideViewPreviews?.map((preview, index) => (
                             <Image
                               key={index}
                               src={preview}

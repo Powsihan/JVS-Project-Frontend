@@ -43,8 +43,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -55,19 +55,19 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getAuctionDetails(async (res) => {
-      if (res && res.data) {
-        const auction = Array.isArray(res.data) ? res.data : [];
-        const filteredVehicleData = auction.filter(
-          (auction) => auction.status !== "Requested"
+      if (res?.data) {
+        const auction = Array?.isArray(res?.data) ? res?.data : [];
+        const filteredVehicleData = auction?.filter(
+          (auction) => auction?.status !== "Requested"
         );
         setAuctionData(filteredVehicleData);
         dispatch(setLoading(false));
 
-        const vehicleInfoPromises = auction.map(
+        const vehicleInfoPromises = auction?.map(
           (auction) =>
             new Promise((resolve) => {
-              getVehicleInfo(auction.vehicleId, (response) =>
-                resolve({ vehicleId: auction.vehicleId, data: response.data })
+              getVehicleInfo(auction?.vehicleId, (response) =>
+                resolve({ vehicleId: auction?.vehicleId, data: response?.data })
               );
             })
         );
@@ -76,9 +76,9 @@ const index = () => {
 
           const vehicleDataMap = {};
 
-          vehicleInfoResponses.forEach((response) => {
-            if (response.data) {
-              vehicleDataMap[response.vehicleId] = response.data;
+          vehicleInfoResponses?.forEach((response) => {
+            if (response?.data) {
+              vehicleDataMap[response?.vehicleId] = response?.data;
             }
           });
           setVehicleData(vehicleDataMap);
@@ -122,7 +122,7 @@ const index = () => {
               <h1>JVS AUCTION</h1>
               <h5>Believe & Achieve</h5>
               <div>
-                {auctionvehiclecontent.map((data, index) => (
+                {auctionvehiclecontent?.map((data, index) => (
                   <div className="d-flex gap-3 mb-3 mt-4" key={index}>
                     <div className="d-flex align-items-center justify-content-center">
                       <Image src={sellvehicon} alt="" />
@@ -152,40 +152,40 @@ const index = () => {
           <h3>Auction Vehicles</h3>
         </div>
         <div className="row ps-5 pe-5 mb-5">
-          {auctionData.length > 0 ? (
-            auctionData.map((auction, index) => {
+          {auctionData?.length > 0 ? (
+            auctionData?.map((auction, index) => {
               const vehicleshortDetails = [
                 {
                   icon: vehicleCardicon1,
                   name:
-                    vehicleData[auction.vehicleId]?.ownership &&
-                    vehicleData[auction.vehicleId]?.ownership === 1
+                    vehicleData[auction?.vehicleId]?.ownership &&
+                    vehicleData[auction?.vehicleId]?.ownership === 1
                       ? "Brand-New"
                       : "Pre-Owned",
                 },
                 {
                   icon: vehicleCardicon2,
-                  name: vehicleData[auction.vehicleId]?.yom || "N/A",
+                  name: vehicleData[auction?.vehicleId]?.yom || "N/A",
                 },
                 {
                   icon: vehicleCardicon3,
-                  name: vehicleData[auction.vehicleId]?.fuel || "N/A",
+                  name: vehicleData[auction?.vehicleId]?.fuel || "N/A",
                 },
                 {
                   icon: vehicleCardicon4,
-                  name: vehicleData[auction.vehicleId]?.color || "N/A",
+                  name: vehicleData[auction?.vehicleId]?.color || "N/A",
                 },
                 {
                   icon: vehicleCardicon5,
-                  name: `${vehicleData[auction.vehicleId]?.power || "N/A"} CC`,
+                  name: `${vehicleData[auction?.vehicleId]?.power || "N/A"} CC`,
                 },
               ];
 
               const statusStyle = {
                 backgroundColor:
-                  auction.status === "Available"
+                  auction?.status === "Available"
                     ? "#17B530"
-                    : auction.status === "Pending"
+                    : auction?.status === "Pending"
                     ? "#FFBE18"
                     : "#F73B3B",
               };
@@ -198,7 +198,7 @@ const index = () => {
                         className="d-flex justify-content-center align-items-center vehicle-status-indicator"
                         style={statusStyle}
                       >
-                        {auction.status}
+                        {auction?.status}
                       </div>
                     </div>
                     <div
@@ -209,7 +209,7 @@ const index = () => {
                       }}
                     >
                       <Image
-                        src={vehicleData[auction.vehicleId]?.image[0]}
+                        src={vehicleData[auction?.vehicleId]?.image[0]}
                         alt={`Vehicle ${index}`}
                         layout="fill"
                         objectFit="cover"
@@ -217,19 +217,19 @@ const index = () => {
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      <h1>{vehicleData[auction.vehicleId]?.name}</h1>
-                      <h4>{`LKR ${auction.bidstartprice}`}</h4>
+                      <h1>{vehicleData[auction?.vehicleId]?.name}</h1>
+                      <h4>{`LKR ${auction?.bidstartprice}`}</h4>
                     </div>
-                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      {vehicleshortDetails.map((content, index) => (
+                    <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1 flex-wrap">
+                      {vehicleshortDetails?.map((content, index) => (
                         <div
                           className="d-flex flex-column align-items-center justify-content-center"
                           key={index}
                         >
                           <div className="Vehicle-card-display-icon p-3">
-                            <Image src={content.icon} />
+                            <Image src={content?.icon} />
                           </div>
-                          <h6 className="pt-1">{content.name}</h6>
+                          <h6 className="pt-1">{content?.name}</h6>
                         </div>
                       ))}
                     </div>
@@ -241,7 +241,7 @@ const index = () => {
                           width={"100%"}
                           onClick={() => {
                             customerData
-                              ? router.push(`/auction/${auction._id}`)
+                              ? router.push(`/auction/${auction?._id}`)
                               : LoginViewModal();
                           }}
                         />

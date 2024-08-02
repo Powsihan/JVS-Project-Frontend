@@ -11,7 +11,7 @@ const aboutuscontent = [
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleBuy,
-    path: "/vehicle",
+    path: "vehicle",
   },
   {
     heading: "Preferred Vehicle Request",
@@ -25,14 +25,14 @@ const aboutuscontent = [
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleCustomize,
-    path: "/sell",
+    path: "sell",
   },
   {
     heading: "Vehicle Auctions",
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleAuction,
-    path: "/auction",
+    path: "auction",
   },
 ];
 

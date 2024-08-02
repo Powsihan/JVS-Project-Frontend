@@ -40,9 +40,9 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getContentDetails((res) => {
-      if (res && res.data) {
-        const activeContent = res.data.filter(
-          (content) => content.status === "Active"
+      if (res?.data) {
+        const activeContent = res?.data?.filter(
+          (content) => content?.status === "Active"
         );
         setContentImages(activeContent);
         dispatch(setLoading(false));
@@ -56,10 +56,10 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
-      if (res && res.data) {
-        const vehicles = Array.isArray(res.data) ? res.data : [];
+      if (res?.data) {
+        const vehicles = Array?.isArray(res?.data) ? res?.data : [];
         const filteredVehicleData = vehicles.filter(
-          (vehicle) => vehicle.status !== "Requested"
+          (vehicle) => vehicle?.status !== "Requested"
         );
         setVehicleData(filteredVehicleData);
         dispatch(setLoading(false));
@@ -72,7 +72,7 @@ const index = () => {
   }, []);
 
   useEffect(() => {
-    const filteredData = vehicleData.filter((vehicle) => {
+    const filteredData = vehicleData?.filter((vehicle) => {
       const isWithinPriceRange = (price) => {
         switch (selectedPrice) {
           case "50000-100000":
@@ -93,12 +93,12 @@ const index = () => {
       };
 
       return (
-        vehicle.model.toLowerCase().includes(searchModel.toLowerCase()) &&
-        (selectedType === "" || vehicle.type === selectedType) &&
-        (selectedBrand === "" || vehicle.brand === selectedBrand) &&
-        (selectedColor === "" || vehicle.color === selectedColor) &&
-        (selectedFuel === "" || vehicle.fuel === selectedFuel) &&
-        isWithinPriceRange(vehicle.price)
+        vehicle?.model?.toLowerCase().includes(searchModel?.toLowerCase()) &&
+        (selectedType === "" || vehicle?.type === selectedType) &&
+        (selectedBrand === "" || vehicle?.brand === selectedBrand) &&
+        (selectedColor === "" || vehicle?.color === selectedColor) &&
+        (selectedFuel === "" || vehicle?.fuel === selectedFuel) &&
+        isWithinPriceRange(vehicle?.price)
       );
     });
     setFilteredVehiclesList(filteredData);
