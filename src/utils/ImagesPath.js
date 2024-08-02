@@ -9,7 +9,8 @@ import reviews from "../assets/images/reviews.svg";
 import experts from "../assets/images/Broker.png";
 import vehicles from "../assets/images/vehicles.svg";
 import loginback from "../assets/images/admin-login-image.png";
-import auctionBack from "../assets/images/JVS1.png";
+import auctionBack from "../assets/images/Auction-Home-Back.png";
+import auctionBackCar from "../assets/images/auction-back-car.png";
 import vehicleCardicon1 from "../assets/icons/Vehicle-Card-icon-1.svg";
 import vehicleCardicon2 from "../assets/icons/Vehicle-Card-icon-2.svg";
 import vehicleCardicon3 from "../assets/icons/Vehicle-Card-icon-3.svg";
@@ -102,4 +103,5 @@ export {
   employeeback,
   addSalesimg,
   vehiclerecord,
+  auctionBackCar,
 };

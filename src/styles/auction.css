@@ -1,3 +1,25 @@
+.auction-vehicle-home {
+  background-image: url('../assets/images/Auction-Home-Back.png');
+  background-size: cover;
+  background-position: center;
+  width: 100%;
+}
+
+.auction-vehicle-home h1{
+  color: #fff;
+  font-weight: 700;
+  letter-spacing: 1px;
+  font-size: 60px;
+}
+.auction-vehicle-home h5{
+  color: #838383;
+  font-weight: 600;
+}
+.auction-vehicle-home p{
+  color: #d7d7d7;
+  font-weight: 600;
+}
+
 .Auction-Vehicle-Details-Section {
   box-shadow: var(--box-shadow);
   background-color: #fff;

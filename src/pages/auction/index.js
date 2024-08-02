@@ -14,7 +14,9 @@ import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import Cookies from "js-cookie";
 import SignInModal from "@/src/components/modals/SignInModal";
 import {
-  auctionBack,
+  auctionBackCar,
+  explore,
+  sellvehicon,
   vehicleCardicon1,
   vehicleCardicon2,
   vehicleCardicon3,
@@ -23,6 +25,8 @@ import {
 } from "@/src/utils/ImagesPath";
 import Footer from "@/src/layouts/Footer";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
+import { auctionvehiclecontent } from "@/src/data/content";
+import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
 const index = () => {
   const [auctionData, setAuctionData] = useState([]);
@@ -31,6 +35,10 @@ const index = () => {
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
   const [showLoginView, setShowLoginView] = useState(false);
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const handleAdminShow = () => setShowAdminModal(true);
+  const handleAdminClose = () => setShowAdminModal(false);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -90,20 +98,57 @@ const index = () => {
     setShowLoginView(true);
   };
 
+  const scrollToAuctionVehicle = () => {
+    const auctionSection = document.getElementById("auction");
+    if (auctionSection) {
+      auctionSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <>
       <Navbar />
-      <div className="row d-flex align-content-center aboutUs justify-content-center min-vh-100 ">
-        <div className="image d-flex align-content-center justify-content-center ">
-          <Image
-            src={auctionBack}
-            alt=""
-            style={{ width: "auto", height: "auto" }}
-          />
+      <div className="container-fluid auction-vehicle-home p-0">
+        <div className="row">
+          <div className="col-md-6 d-md-block d-none">
+            <div className="d-flex justify-content-start align-items-center">
+              <div className="pt-5">
+                <Image src={auctionBackCar} width={700} />
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div className="d-flex flex-column align-items-center justify-content-center min-vh-100">
+              <h1>JVS AUCTION</h1>
+              <h5>Believe & Achieve</h5>
+              <div>
+                {auctionvehiclecontent.map((data, index) => (
+                  <div className="d-flex gap-3 mb-3 mt-4" key={index}>
+                    <div className="d-flex align-items-center justify-content-center">
+                      <Image src={sellvehicon} alt="" />
+                    </div>
+                    <p className="m-0">{data}</p>
+                  </div>
+                ))}
+              </div>
+              <div className="pt-4">
+                <CommonButton
+                  text="Explore Auctions"
+                  width={250}
+                  image={explore}
+                  onClick={scrollToAuctionVehicle}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
-      <div className="container-fluid min-vh-100">
-        <div className="Auction-vehicles row mb-4 ps-5" style={{ paddingTop: "120px" }}>
+
+      <div className="container-fluid min-vh-100" id="auction">
+        <div
+          className="Auction-vehicles row mb-4 ps-5"
+          style={{ paddingTop: "120px" }}
+        >
           <h3>Auction Vehicles</h3>
         </div>
         <div className="row ps-5 pe-5 mb-5">
@@ -202,7 +247,14 @@ const index = () => {
                         />
                       </div>
                       <div className="col-3">
-                        <button className="btn btn-secondary">Contact</button>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={
+                            customerData ? handleAdminShow : LoginViewModal
+                          }
+                        >
+                          Contact
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -221,6 +273,7 @@ const index = () => {
         onHide={() => setShowLoginView(false)}
       />
       <Footer />
+      <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
     </>
   );
 };

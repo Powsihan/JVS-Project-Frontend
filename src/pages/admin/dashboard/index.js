@@ -20,6 +20,7 @@ import {
   vehicles,
 } from "@/src/utils/ImagesPath";
 import { getAllPurchases } from "@/src/redux/action/purchase";
+import { getAllRecordsDetails } from "@/src/redux/action/records";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -27,6 +28,7 @@ const index = () => {
   const [customerData, setCustomerData] = useState([]);
   const [employeeData, setEmployeeData] = useState([]);
   const [purchaseData, setPurchaseData] = useState([]);
+  const [recordsData, setRecordsData] = useState([]);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -83,6 +85,19 @@ const index = () => {
       }
     });
   }, []);
+  useEffect(() => {
+    dispatch(setLoading(true));
+    getAllRecordsDetails((res) => {
+      if (res && res.data) {
+        setRecordsData(res.data);
+        dispatch(setLoading(false));
+      } else {
+        dispatch(setLoading(false));
+        console.error("Error fetching Records details", res);
+        toast.error("Error fetching Records details");
+      }
+    });
+  }, []);
 
   const getStatusCounts = () => {
     const filteredData = vehicleData.filter(
@@ -134,7 +149,7 @@ const index = () => {
     { title: "Vehicles", count: 0, image: vehicles, color: "#3DBE00" },
     { title: "Employees", count: 0, image: experts, color: "#0075FF" },
     { title: "Requests", count: 0, image: requests, color: "#FF007A" },
-    { title: "Reviews", count: 50, image: reviews, color: "#FFC700" },
+    { title: "Records", count: 50, image: reviews, color: "#FFC700" },
   ]);
 
   useEffect(() => {
@@ -185,6 +200,17 @@ const index = () => {
       );
     }
   }, [purchaseData]);
+
+  useEffect(() => {
+    if (recordsData.length > 0) {
+      const totalRecords = recordsData.length;
+      setCardsData((prevCardsData) =>
+        prevCardsData.map((card) =>
+          card.title === "Records" ? { ...card, count: totalRecords } : card
+        )
+      );
+    }
+  }, [recordsData]);
 
   return (
     <Adminlayout>

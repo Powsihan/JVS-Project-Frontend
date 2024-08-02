@@ -11,31 +11,30 @@ const aboutuscontent = [
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleBuy,
-    path:"/vehicle",
+    path: "/vehicle",
   },
   {
     heading: "Preferred Vehicle Request",
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleRequest,
-    path:"",
+    path: "",
   },
   {
     heading: "Vehicle Selling",
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleCustomize,
-    path:"/sell",
+    path: "/sell",
   },
   {
     heading: "Vehicle Auctions",
     content:
       "We utilize cutting-edge diagnostics and techniques to ensure optimal condition.Elevate car's electrical system to peak performance with our specialized expertise.",
     image: vehicleAuction,
-    path:"/auction",
+    path: "/auction",
   },
 ];
-
 
 const sellvehiclecontent = [
   "Quick and Easy Sales",
@@ -45,5 +44,10 @@ const sellvehiclecontent = [
   "Expert Vehicle Appraisals",
   "Sell with Confidence",
 ];
+const auctionvehiclecontent = [
+  "Register with JVS",
+  "Explore Auctions for Your Next Vehicle",
+  "Bid and Win the Best Deals",
+];
 
-export { aboutuscontent, sellvehiclecontent };
+export { aboutuscontent, sellvehiclecontent, auctionvehiclecontent };
