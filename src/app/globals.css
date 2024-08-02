@@ -10,6 +10,7 @@
     display: none;
 }
 
+
 body {
     background-color: var(--background-color) !important;
     min-height: 100vh !important;
@@ -43,6 +44,10 @@ body {
 
 .btn-secondary:hover {
     background-color: #cfd3d4 !important;
+}
+
+.primary-color{
+    color: var(--primary-color);
 }
 
 

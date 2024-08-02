@@ -10,14 +10,19 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getRecordsByCustomerId } from "@/src/redux/action/records";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
+import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
 const index = () => {
   const router = useRouter();
   const dispatch = useDispatch();
- 
 
   const [customerData, setCustomerData] = useState(null);
   const [recordsData, setRecordsData] = useState([]);
+
+  const [showAdminModal, setShowAdminModal] = useState(false);
+
+  const handleAdminShow = () => setShowAdminModal(true);
+  const handleAdminClose = () => setShowAdminModal(false);
 
   useEffect(() => {
     dispatch(setLoading(true));
@@ -42,7 +47,7 @@ const index = () => {
       });
     }
   }, [customerData]);
-  
+
   return (
     <>
       <Navbar />
@@ -51,7 +56,7 @@ const index = () => {
         className="container-fluid min-vh-100 records-section"
         style={{ paddingTop: "120px" }}
       >
-        <h2 className="mb-4 ps-5">Vehicle Records</h2>
+        <h2 className="mb-4 ps-5 primary-color fw-bold">Vehicle Records</h2>
         <div className="row ps-5 pe-5 mb-5">
           {recordsData.length > 0 ? (
             recordsData.map((vehicle, index) => {
@@ -88,7 +93,12 @@ const index = () => {
                         />
                       </div>
                       <div className="col-3">
-                        <button className="btn btn-secondary">Contact</button>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={handleAdminShow}
+                        >
+                          Contact
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -103,6 +113,7 @@ const index = () => {
         </div>
       </div>
       <Footer />
+      <CustomerMessaging show={showAdminModal} handleClose={handleAdminClose} />
     </>
   );
 };
