@@ -33,8 +33,8 @@ const Adminlayout = ({ children }) => {
   useEffect(() => {
     dispatch(setLoading(true));
     getUserInfo((res) => {
-      if (res.status == 200) {
-        setUserData(res.data);
+      if (res?.status == 200) {
+        setUserData(res?.data);
         dispatch(setLoading(false));
       }
     });
@@ -97,12 +97,12 @@ const Adminlayout = ({ children }) => {
   useEffect(() => {
     dispatch(setLoading(true));
     getAllPurchases((res) => {
-      if (res && res.data) {
-        const notifications = Array.isArray(res.data) ? res.data : [];
-        const hasRequested = notifications.some(
+      if (res?.data) {
+        const notifications = Array?.isArray(res.data) ? res.data : [];
+        const hasRequested = notifications?.some(
           (notification) =>
-            notification.status === "Requested" ||
-            notification.status === "Pending"
+            notification?.status === "Requested" ||
+            notification?.status === "Pending"
         );
         setNotification(hasRequested);
         dispatch(setLoading(false));
@@ -178,11 +178,7 @@ const Adminlayout = ({ children }) => {
                   )}
                 </div>
                 <Image
-                  src={
-                    userData && userData.profilePic
-                      ? userData.profilePic
-                      : profile
-                  }
+                  src={userData?.profilePic ? userData?.profilePic : profile}
                   alt=""
                   width={50}
                   height={50}

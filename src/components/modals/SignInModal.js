@@ -53,15 +53,15 @@ function SignInModal(props) {
         password: password,
       },
       (res) => {
-        if (res.status == 200) {
+        if (res?.status == 200) {
           dispatch(setLoading(false));
-          toast.success(res.data.message);
+          toast.success(res?.data?.message);
           setTimeout(() => {
             window.location.reload();
           }, 2000);
         } else {
           dispatch(setLoading(false));
-          toast.error(res.data.message);
+          toast.error(res?.data?.message);
         }
         
       }

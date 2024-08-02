@@ -23,13 +23,12 @@ const RecordsView = (props) => {
   const [deleteConfirmationModal, setDeleteConfirmationModal] = useState(false);
   const [selectedRecordId, setSelectedRecordId] = useState(null);
 
-
   useEffect(() => {
-    const customerId = recordsDetails && recordsDetails.customerId;
+    const customerId = recordsDetails?.customerId;
     if (customerId) {
       getCustomerInfo(customerId, (res) => {
-        if (res && res.data) {
-          setSelectedCustomerdata(res.data);
+        if (res?.data) {
+          setSelectedCustomerdata(res?.data);
         } else {
           toast.error("Error fetching Customer details");
         }
@@ -38,11 +37,11 @@ const RecordsView = (props) => {
   }, [recordsDetails]);
 
   useEffect(() => {
-    const vehicleId = recordsDetails && recordsDetails.vehicleId;
+    const vehicleId = recordsDetails?.vehicleId;
     if (vehicleId) {
       getVehicleInfo(vehicleId, (res) => {
-        if (res && res.data) {
-          setSelectedVehicledata(res.data);
+        if (res?.data) {
+          setSelectedVehicledata(res?.data);
         } else {
           toast.error("Error fetching Customer details");
         }
@@ -68,11 +67,11 @@ const RecordsView = (props) => {
   };
 
   const handleDeleteRecord = (recordId) => {
-    if (recordsDetails && recordsDetails._id) {
-      deleteRecordsfromCustomer(recordsDetails._id, recordId, (res) => {
-        if (res && res.status === 200) {
+    if (recordsDetails?._id) {
+      deleteRecordsfromCustomer(recordsDetails?._id, recordId, (res) => {
+        if (res?.status === 200) {
           const updatedRecordHistory = recordsDetails.recordhistory.filter(
-            (record) => record._id !== recordId
+            (record) => record?._id !== recordId
           );
           recordsDetails.recordhistory = updatedRecordHistory;
           toast.success("Record removed successfully");
@@ -84,8 +83,6 @@ const RecordsView = (props) => {
       });
     }
   };
-
-  
 
   return (
     <div>
@@ -102,7 +99,7 @@ const RecordsView = (props) => {
                 <InputField
                   label={"Sales RefID"}
                   disable={true}
-                  defaultValue={recordsDetails && recordsDetails.recordsRefID}
+                  defaultValue={recordsDetails?.recordsRefID}
                 />
               </div>
               <div className="row pb-3">
@@ -129,7 +126,7 @@ const RecordsView = (props) => {
                   <textarea
                     className="form-control"
                     disabled
-                    defaultValue={recordsDetails && recordsDetails.description}
+                    defaultValue={recordsDetails?.description}
                     rows={3}
                   />
                 </div>
@@ -147,22 +144,21 @@ const RecordsView = (props) => {
                     </tr>
                   </thead>
                   <tbody>
-                    {recordsDetails?.recordhistory &&
-                    recordsDetails.recordhistory.length > 0 ? (
-                      recordsDetails.recordhistory.map((data, index) => {
+                    {recordsDetails?.recordhistory.length > 0 ? (
+                      recordsDetails?.recordhistory?.map((data, index) => {
                         const creationDate = new Date(
                           data.creationDate
                         ).toLocaleDateString();
                         return (
                           <tr key={index}>
                             <td>{index + 1}</td>
-                            <td>{data.content}</td>
+                            <td>{data?.content}</td>
                             <td>{creationDate}</td>
-                            <td>{data.details}</td>
+                            <td>{data?.details}</td>
                             <td>
                               <IconButton
                                 onClick={() => {
-                                  window.open(data.documents[0], "_blank");
+                                  window.open(data?.documents[0], "_blank");
                                 }}
                               >
                                 <FileDownloadIcon />
@@ -173,7 +169,7 @@ const RecordsView = (props) => {
                                 aria-label="view"
                                 className="viewbutt"
                                 onClick={() =>
-                                  openDeleteConfirmationModal(data._id)
+                                  openDeleteConfirmationModal(data?._id)
                                 }
                               >
                                 <DeleteIcon className="text-danger" />

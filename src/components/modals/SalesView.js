@@ -12,6 +12,7 @@ import CommonButton from "../CommonButton";
 import CustomerView from "./CustomerView";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import VehicleView from "./VehicleView";
+import { toast } from "react-toastify";
 const SalesView = (props) => {
   const { show, onHide, salesDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
@@ -32,8 +33,8 @@ const SalesView = (props) => {
     const customerId = salesDetails && salesDetails.customerId;
     if (customerId) {
       getCustomerInfo(customerId, (res) => {
-        if (res && res.data) {
-          setSelectedCustomerdata(res.data);
+        if (res?.data) {
+          setSelectedCustomerdata(res?.data);
         } else {
           toast.error("Error fetching Customer details");
         }
@@ -42,11 +43,11 @@ const SalesView = (props) => {
   }, [salesDetails]);
 
   useEffect(() => {
-    const vehicleId = salesDetails && salesDetails.vehicleId;
+    const vehicleId = salesDetails?.vehicleId;
     if (vehicleId) {
       getVehicleInfo(vehicleId, (res) => {
-        if (res && res.data) {
-            setSelectedVehicledata(res.data);
+        if (res?.data) {
+            setSelectedVehicledata(res?.data);
         } else {
           toast.error("Error fetching Customer details");
         }
@@ -77,12 +78,12 @@ const SalesView = (props) => {
                 className="fw-bold"
                 style={{ color: "var(--primary-color)" }}
               >
-                {salesDetails && salesDetails.status}
+                {salesDetails?.status}
               </div>
               <IconButton>
                 <CircleIcon
                   sx={{
-                    color: getStatusColor(salesDetails && salesDetails.status),
+                    color: getStatusColor(salesDetails?.status),
                   }}
                 />
               </IconButton>
@@ -95,21 +96,21 @@ const SalesView = (props) => {
                   <InputField
                     label={"Sales RefID"}
                     disable={true}
-                    defaultValue={salesDetails && salesDetails.salesRefID}
+                    defaultValue={salesDetails?.salesRefID}
                   />
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-12">
                   <InputField
                     label={"Date"}
                     disable={true}
-                    defaultValue={salesDetails && salesDetails.creationDate}
+                    defaultValue={salesDetails?.creationDate}
                   />
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-12">
                   <InputField
                     label={"Price"}
                     disable={true}
-                    defaultValue={salesDetails && salesDetails.price}
+                    defaultValue={salesDetails?.price}
                   />
                 </div>
               </div>
@@ -138,7 +139,7 @@ const SalesView = (props) => {
                   <textarea
                     className="form-control"
                     disabled
-                    defaultValue={salesDetails && salesDetails.details}
+                    defaultValue={salesDetails?.details}
                     rows={3}
                   />
                 </div>

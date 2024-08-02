@@ -26,14 +26,12 @@ const ContentView = (props) => {
           </Modal.Title>
           <div className="d-flex justify-content-center align-items-center gap-2">
             <div className="fw-bold" style={{ color: "var(--primary-color)" }}>
-              {contentDetails && contentDetails.status}
+              {contentDetails?.status}
             </div>
             <IconButton>
               <CircleIcon
                 sx={{
-                  color: getStatusColor(
-                    contentDetails && contentDetails.status
-                  ),
+                  color: getStatusColor(contentDetails?.status),
                 }}
               />
             </IconButton>
@@ -50,7 +48,7 @@ const ContentView = (props) => {
                 }}
               >
                 <img
-                  src={contentDetails && contentDetails.image}
+                  src={contentDetails?.image}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -59,10 +57,22 @@ const ContentView = (props) => {
                 />
               </div>
             </div>
-            <hr/>
+            <hr />
             <div className="row">
-                <div className="col-lg-6 col-md-6 col-sm-12"><InputField label={"Content"} defaultValue={contentDetails && contentDetails.content} disable/></div>
-                <div className="col-lg-6 col-md-6 col-sm-12"><InputField label={"Description"} defaultValue={contentDetails && contentDetails.description} disable/></div>
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <InputField
+                  label={"Content"}
+                  defaultValue={contentDetails?.content}
+                  disable
+                />
+              </div>
+              <div className="col-lg-6 col-md-6 col-sm-12">
+                <InputField
+                  label={"Description"}
+                  defaultValue={contentDetails?.description}
+                  disable
+                />
+              </div>
             </div>
           </div>
         </Modal.Body>

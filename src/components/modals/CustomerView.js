@@ -19,8 +19,8 @@ const CustomerView = (props) => {
               <div className="p-1 rounded-circle bg-dark">
                 <Image
                   src={
-                    customerDetails && customerDetails.profilePic
-                      ? customerDetails.profilePic
+                    customerDetails?.profilePic
+                      ? customerDetails?.profilePic
                       : avatar
                   }
                   alt=""
@@ -30,8 +30,8 @@ const CustomerView = (props) => {
                 />
               </div>
               <h1 className="Customer-View-Name">{`${
-                customerDetails && customerDetails.fname
-              } ${customerDetails && customerDetails.lname}`}</h1>
+                customerDetails?.fname
+              } ${customerDetails?.lname}`}</h1>
             </div>
             <div className="row mb-2">
               <div className="col-6">
@@ -40,14 +40,14 @@ const CustomerView = (props) => {
                     <InputField
                       label={"FirstName"}
                       disable={true}
-                      defaultValue={customerDetails && customerDetails.fname}
+                      defaultValue={customerDetails?.fname}
                     />
                   </div>
                   <div className="col-6">
                     <InputField
                       label={"LastName"}
                       disable={true}
-                      defaultValue={customerDetails && customerDetails.lname}
+                      defaultValue={customerDetails?.lname}
                     />
                   </div>
                 </div>
@@ -56,7 +56,7 @@ const CustomerView = (props) => {
                 <InputField
                   label={"Date of birth"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.dob}
+                  defaultValue={customerDetails?.dob}
                 />
               </div>
             </div>
@@ -65,14 +65,14 @@ const CustomerView = (props) => {
                 <InputField
                   label={"Email address"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.email}
+                  defaultValue={customerDetails?.email}
                 />
               </div>
               <div className="col-6">
                 <InputField
                   label={"Gender"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.gender}
+                  defaultValue={customerDetails?.gender}
                 />
               </div>
             </div>
@@ -81,14 +81,14 @@ const CustomerView = (props) => {
                 <InputField
                   label={"Address"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.address}
+                  defaultValue={customerDetails?.address}
                 />
               </div>
               <div className="col-6">
                 <InputField
                   label={"NIC"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.nic}
+                  defaultValue={customerDetails?.nic}
                 />
               </div>
             </div>
@@ -97,14 +97,14 @@ const CustomerView = (props) => {
                 <InputField
                   label={"City"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.city}
+                  defaultValue={customerDetails?.city}
                 />
               </div>
               <div className="col-6">
                 <InputField
                   label={"Phone Number"}
                   disable={true}
-                  defaultValue={customerDetails && customerDetails.phoneNo}
+                  defaultValue={customerDetails?.phoneNo}
                 />
               </div>
             </div>
@@ -116,7 +116,7 @@ const CustomerView = (props) => {
               <textarea
                 className="form-control"
                 disabled
-                defaultValue={customerDetails && customerDetails.description}
+                defaultValue={customerDetails?.description}
               />
             </div>
             </div>

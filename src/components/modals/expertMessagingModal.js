@@ -43,8 +43,8 @@ const ExpertMessaging = ({ show, handleClose }) => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -59,7 +59,7 @@ const ExpertMessaging = ({ show, handleClose }) => {
           const response = await axios.get(
             `${process.env.api_base_url}/expertchats/${customerData._id}/Customer/66a711dbf8b4653159d15015/Employee`
           );
-          setSelectedChat(response.data);
+          setSelectedChat(response?.data);
         } catch (error) {
           console.error("Error fetching chat history:", error);
         }
@@ -85,7 +85,7 @@ const ExpertMessaging = ({ show, handleClose }) => {
 
   const handleSendMessage = async (message) => {
     const newMessage = {
-      senderId: customerData._id,
+      senderId: customerData?._id,
       senderModel: "Customer",
       receiverId: "66a711dbf8b4653159d15015",
       receiverModel: "Employee",
@@ -125,10 +125,10 @@ const ExpertMessaging = ({ show, handleClose }) => {
                 className="d-flex flex-column message-overflow-container"
                 ref={messageContainerRef}
               >
-                {selectedChat.map((message, index) => (
+                {selectedChat?.map((message, index) => (
                   <div
                     className={`d-flex flex-column mb-3 ${
-                      message.senderModel === "Customer"
+                      message?.senderModel === "Customer"
                         ? "align-items-end"
                         : "align-items-start"
                     }`}
@@ -136,24 +136,24 @@ const ExpertMessaging = ({ show, handleClose }) => {
                   >
                     <div
                       className={`message ${
-                        message.senderModel === "Customer"
+                        message?.senderModel === "Customer"
                           ? "message-sent"
                           : "message-received"
                       }`}
                     >
                       <div className="sender-info">
-                        {message.senderModel === "Customer" ? "You" : "Expert"}
+                        {message?.senderModel === "Customer" ? "You" : "Expert"}
                       </div>
-                      <div>{message.message}</div>
+                      <div>{message?.message}</div>
 
                       <div
                         className={`timestamp d-flex ${
-                          message.senderModel === "Customer"
+                          message?.senderModel === "Customer"
                             ? "timestamp-sent"
                             : "timestamp-received"
                         }`}
                       >
-                        {formatTimestamp(message.timestamp)}
+                        {formatTimestamp(message?.timestamp)}
                       </div>
                     </div>
                   </div>

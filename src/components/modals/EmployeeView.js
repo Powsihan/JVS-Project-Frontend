@@ -4,7 +4,6 @@ import InputField from "../InputField";
 import Image from "next/image";
 import { avatar } from "@/src/utils/ImagesPath";
 
-
 const EmployeeView = (props) => {
   const { show, onHide, employeeDetails } = props;
   return (
@@ -23,8 +22,8 @@ const EmployeeView = (props) => {
                   <div className="p-1 rounded-circle bg-dark">
                     <Image
                       src={
-                        employeeDetails && employeeDetails.profilePic
-                          ? employeeDetails.profilePic
+                        employeeDetails?.profilePic
+                          ? employeeDetails?.profilePic
                           : avatar
                       }
                       alt=""
@@ -34,41 +33,41 @@ const EmployeeView = (props) => {
                     />
                   </div>
                   <h1 className="Customer-View-Name pt-2">
-                    {employeeDetails && employeeDetails.name}
+                    {employeeDetails?.name}
                   </h1>
                   <h1 className="Employee-View-Role">
-                    {employeeDetails && employeeDetails.role}
+                    {employeeDetails?.role}
                   </h1>
                 </div>
               </div>
               <div className="col-7 ps-1 pe-5">
                 <div className="row pb-2">
-                    <InputField
-                      label={"Name"}
-                      disable={true}
-                      defaultValue={employeeDetails && employeeDetails.name}
-                    />
+                  <InputField
+                    label={"Name"}
+                    disable={true}
+                    defaultValue={employeeDetails?.name}
+                  />
                 </div>
                 <div className="row pb-2">
-                    <InputField
-                      label={"Email"}
-                      disable={true}
-                      defaultValue={employeeDetails && employeeDetails.email}
-                    />
+                  <InputField
+                    label={"Email"}
+                    disable={true}
+                    defaultValue={employeeDetails?.email}
+                  />
                 </div>
                 <div className="row pb-2">
-                    <InputField
-                      label={"PhoneNumber"}
-                      disable={true}
-                      defaultValue={employeeDetails && employeeDetails.phoneNumber}
-                    />
+                  <InputField
+                    label={"PhoneNumber"}
+                    disable={true}
+                    defaultValue={employeeDetails?.phoneNumber}
+                  />
                 </div>
                 <div className="row pb-2">
-                    <InputField
-                      label={"Role"}
-                      disable={true}
-                      defaultValue={employeeDetails && employeeDetails.role}
-                    />
+                  <InputField
+                    label={"Role"}
+                    disable={true}
+                    defaultValue={employeeDetails?.role}
+                  />
                 </div>
               </div>
             </div>

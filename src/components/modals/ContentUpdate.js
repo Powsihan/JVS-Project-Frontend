@@ -27,7 +27,7 @@ const ContentUpdate = (props) => {
       ...contentData,
     };
 
-    const contentID = contentDetails && contentDetails._id;
+    const contentID = contentDetails?._id;
 
     const changesMade = Object.keys(updatedContentData).some(
       (key) => updatedContentData[key] !== contentDetails[key]
@@ -39,11 +39,11 @@ const ContentUpdate = (props) => {
     } else {
       contentEdit(contentID, updatedContentData, (res) => {
         dispatch(setLoading(false));
-        if (res.status === 200) {
-          toast.success(res.data.message);
+        if (res?.status === 200) {
+          toast.success(res?.data?.message);
           onHide();
         } else {
-          toast.error(res.data.message);
+          toast.error(res?.data?.message);
         }
       });
     }
@@ -63,14 +63,14 @@ const ContentUpdate = (props) => {
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <InputField
                     label={"Content"}
-                    defaultValue={contentDetails && contentDetails.content}
+                    defaultValue={contentDetails?.content}
                     onChange={(value) => handleChange("content", value)}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <InputField
                     label={"Description"}
-                    defaultValue={contentDetails && contentDetails.description}
+                    defaultValue={contentDetails?.description}
                     onChange={(value) => handleChange("description", value)}
                   />
                 </div>
@@ -89,7 +89,7 @@ const ContentUpdate = (props) => {
                         name="status"
                         id="statusActive"
                         value="Active"
-                        checked={contentData.status === "Active"}
+                        checked={contentData?.status === "Active"}
                         onChange={(e) => handleChange("status", e.target.value)}
                       />
                       <label
@@ -106,7 +106,7 @@ const ContentUpdate = (props) => {
                         name="status"
                         id="statusInactive"
                         value="InActive"
-                        checked={contentData.status === "InActive"}
+                        checked={contentData?.status === "InActive"}
                         onChange={(e) => handleChange("status", e.target.value)}
                       />
                       <label

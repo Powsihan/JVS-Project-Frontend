@@ -23,16 +23,14 @@ const ExpertLayout = ({ children }) => {
   useEffect(() => {
     dispatch(setLoading(true));
     getEmployeeInfo((res) => {
-      if (res.status == 200) {
-        setemployeeData(res.data);
-        console.log(res.data,"dataaaaaaaaaaaaaa");
+      if (res?.status == 200) {
+        setemployeeData(res?.data);
         dispatch(setLoading(false));
-      }else{
+      } else {
         dispatch(setLoading(false));
       }
     });
   }, []);
-
 
   useEffect(() => {
     switch (getPageName(pathname)) {
@@ -67,7 +65,6 @@ const ExpertLayout = ({ children }) => {
     };
   }, []);
 
- 
   return (
     <div class="container-fluid">
       <div class="row">
@@ -112,8 +109,8 @@ const ExpertLayout = ({ children }) => {
               <div className="d-flex align-items-center justify-content-center gap-3">
                 <Image
                   src={
-                    employeeData && employeeData.profilePic
-                      ? employeeData.profilePic
+                    employeeData?.profilePic
+                      ? employeeData?.profilePic
                       : profile
                   }
                   alt=""
@@ -127,7 +124,6 @@ const ExpertLayout = ({ children }) => {
           <div class="mt-4 p-3">{children}</div>
         </div>
       </div>
-      
     </div>
   );
 };

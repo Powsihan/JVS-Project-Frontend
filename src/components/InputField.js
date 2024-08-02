@@ -20,7 +20,7 @@ const InputField = ({ value, label, placeholder, type, onChange, width, disable,
       {select ? (
         <select className="form-control" value={inputValue} onChange={handleChange} disabled={disable}>
           <option value="">{placeholder}</option>
-          {options.map((option, index) => (
+          {options?.map((option, index) => (
             <option key={index} value={option}>
               {option}
             </option>

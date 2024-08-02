@@ -28,7 +28,7 @@ const ChatbotAPI = ({ steps }) => {
         const res = await axios.post("http://localhost:5000/api/chat", {
           userInput,
         });
-        setResponse(res.data.response);
+        setResponse(res?.data?.response);
       } catch (error) {
         setResponse("Sorry, there was an error. Please try again later.");
       }

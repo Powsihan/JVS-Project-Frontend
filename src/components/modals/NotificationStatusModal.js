@@ -12,15 +12,15 @@ const NotificationStatusModal = (props) => {
 
   const handleUpdateStatus = (status) => {
     dispatch(setLoading(true));
-    const id = currentStatus && currentStatus._id;
+    const id = currentStatus?._id;
 
     const updatedStatus = {
       status: status,
     };
     updatePurchase(id, updatedStatus, (res) => {
       dispatch(setLoading(false));
-      if (res.status == 200) {
-        toast.success(res.data.message);
+      if (res?.status == 200) {
+        toast.success(res?.data?.message);
         onUpdate(id, status);
         onHide();
       } else {

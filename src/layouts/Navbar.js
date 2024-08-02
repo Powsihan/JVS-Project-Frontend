@@ -19,6 +19,7 @@ import {
 } from "../redux/action/customer";
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/reducer/loaderSlice";
+import { toast } from "react-toastify";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -52,8 +53,8 @@ const Navbar = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -63,7 +64,7 @@ const Navbar = () => {
 
   const logout = () => {
     Customerlogout((response) => {
-      if (response.status === 200) {
+      if (response?.status === 200) {
         if (pathname === "/home") {
           setTimeout(() => {
             window.location.reload();
@@ -121,17 +122,19 @@ const Navbar = () => {
                 <Image src={logo} alt="" />
               </a>
               <ul className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-4 flex-grow-1 w-100">
-                {routes.map((item, index) => {
+                {routes?.map((item, index) => {
                   return (
                     <li className="nav-item" key={index}>
                       <Link
                         className={`nav-link navbarlink-hover ${
-                          pathname === `/${item.path}` ? "active-nav-field" : ""
+                          pathname === `/${item?.path}`
+                            ? "active-nav-field"
+                            : ""
                         }`}
-                        href={`/${item.path}`}
+                        href={`/${item?.path}`}
                       >
                         <div class="">
-                          <div class="d-lg-block item-lable">{item.name}</div>
+                          <div class="d-lg-block item-lable">{item?.name}</div>
                         </div>
                       </Link>
                     </li>
@@ -149,7 +152,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="d-flex align-items-center">
-              {/* <a
+            {/* <a
                 className="link-secondary me-3"
                 href="#"
                 id="navbarDropdownMenuLink"
@@ -172,9 +175,7 @@ const Navbar = () => {
               >
                 <Image
                   src={
-                    customerData && customerData.profilePic
-                      ? customerData.profilePic
-                      : avatar
+                    customerData?.profilePic ? customerData?.profilePic : avatar
                   }
                   alt=""
                   width={50}
@@ -220,9 +221,14 @@ const Navbar = () => {
                   aria-labelledby="navbarDropdownMenuAvatar"
                 >
                   <li>
-                    <a className="dropdown-item"  onClick={() => {
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {
                         router.push("/contact");
-                      }}>Messages</a>
+                      }}
+                    >
+                      Messages
+                    </a>
                   </li>
                   <li>
                     <a

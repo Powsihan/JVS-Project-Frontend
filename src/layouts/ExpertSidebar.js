@@ -37,7 +37,7 @@ const ExpertSidebar = () => {
 
   const logout = () => {
     Employeelogout((response) => {
-      if (response.status === 200) {
+      if (response?.status === 200) {
         router.push("/expert/login");
       } else {
         toast.error("Logout failed!");
@@ -60,25 +60,25 @@ const ExpertSidebar = () => {
       </div>
       <hr />
       <ul class="nav nav-pills flex-column mb-auto mt-4 gap-2">
-        {routes.map((item, index) => {
+        {routes?.map((item, index) => {
           return (
             <div class="">
               <li class="nav-item">
                 <Link
                   className={`nav-link ${
-                    pathname === `/${item.path}` ? "active-field" : ""
+                    pathname === `/${item?.path}` ? "active-field" : ""
                   }`}
-                  href={`/${item.path}`}
+                  href={`/${item?.path}`}
                 >
                   <div class="d-flex gap-2 align-items-center">
                     <div>
                       <Image
-                        src={item.image}
+                        src={item?.image}
                         className="side-bar-icon"
                         loading="lazy"
                       />
                     </div>
-                    <div class="d-none d-lg-block item-lable">{item.name}</div>
+                    <div class="d-none d-lg-block item-lable">{item?.name}</div>
                   </div>
                 </Link>
               </li>
@@ -86,26 +86,26 @@ const ExpertSidebar = () => {
           );
         })}
         <hr />
-        {routes2.map((item, index) => {
+        {routes2?.map((item, index) => {
           return (
             <div class="">
               <li class="nav-item">
                 <Link
                   className={`nav-link ${
-                    pathname === `/${item.path}` ? "active-field" : ""
+                    pathname === `/${item?.path}` ? "active-field" : ""
                   }`}
-                  href={`/${item.path}`}
-                  onClick={item.name === "Log Out" ? logout : null}
+                  href={`/${item?.path}`}
+                  onClick={item?.name === "Log Out" ? logout : null}
                 >
                   <div class="d-flex gap-2 align-items-center">
                     <div>
                       <Image
-                        src={item.image}
+                        src={item?.image}
                         className="side-bar-icon"
                         loading="lazy"
                       />
                     </div>
-                    <div class="d-none d-lg-block item-lable">{item.name}</div>
+                    <div class="d-none d-lg-block item-lable">{item?.name}</div>
                   </div>
                 </Link>
               </li>

@@ -72,7 +72,7 @@ export const Userlogout = async (callback) => {
   const endpoint = `${process.env.api_base_url}/users/logout`;
   try {
     const response = await http.post(endpoint);
-    if (response.status === 200) {
+    if (response?.status === 200) {
       Cookies.remove("token", { path: "/" });
       if (callback) callback(response);
     } else {

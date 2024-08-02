@@ -28,28 +28,28 @@ const NotificationModal = ({ isOpen, onClose }) => {
   useEffect(() => {
     dispatch(setLoading(true));
     getAllPurchases(async (res) => {
-      if (res && res.data) {
-        const notification = Array.isArray(res.data) ? res.data : [];
-        const filteredNotifications = notification.filter(
-          (notification) => notification.status === "Requested" || notification.status === "Pending"
+      if (res?.data) {
+        const notification = Array?.isArray(res.data) ? res.data : [];
+        const filteredNotifications = notification?.filter(
+          (notification) => notification?.status === "Requested" || notification?.status === "Pending"
         );
         setNotifications(filteredNotifications);
         dispatch(setLoading(false));
 
-        const customerInfoPromises = notification.map(
+        const customerInfoPromises = notification?.map(
           (notifi) =>
             new Promise((resolve) => {
-              getCustomerInfo(notifi.customerId, (response) =>
-                resolve({ customerId: notifi.customerId, data: response.data })
+              getCustomerInfo(notifi?.customerId, (response) =>
+                resolve({ customerId: notifi?.customerId, data: response?.data })
               );
             })
         );
 
-        const vehicleInfoPromises = notification.map(
+        const vehicleInfoPromises = notification?.map(
           (notifi) =>
             new Promise((resolve) => {
-              getVehicleInfo(notifi.vehicleId, (response) =>
-                resolve({ vehicleId: notifi.vehicleId, data: response.data })
+              getVehicleInfo(notifi?.vehicleId, (response) =>
+                resolve({ vehicleId: notifi?.vehicleId, data: response?.data })
               );
             })
         );
@@ -62,14 +62,14 @@ const NotificationModal = ({ isOpen, onClose }) => {
           const vehicleDataMap = {};
 
           customerInfoResponses.forEach((response) => {
-            if (response.data) {
-              customerDataMap[response.customerId] = response.data;
+            if (response?.data) {
+              customerDataMap[response?.customerId] = response?.data;
             }
           });
 
           vehicleInfoResponses.forEach((response) => {
-            if (response.data) {
-              vehicleDataMap[response.vehicleId] = response.data;
+            if (response?.data) {
+              vehicleDataMap[response?.vehicleId] = response?.data;
             }
           });
 
@@ -109,8 +109,8 @@ const NotificationModal = ({ isOpen, onClose }) => {
 
 
   const handleStatusUpdate = (id, status) => {
-    const updatedNotifications = notifications.map((notification) =>
-      notification._id === id ? { ...notification, status } : notification
+    const updatedNotifications = notifications?.map((notification) =>
+      notification?._id === id ? { ...notification, status } : notification
     );
     setNotifications(updatedNotifications);
   };
@@ -133,7 +133,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
               <div className="modal-body  Notification_Modal">
                 <h2>Notifications</h2>
                 <hr />
-                {notifications.map((data, index) => (
+                {notifications?.map((data, index) => (
                   <div className="Notification-Box p-1 ps-3 pe-3 mb-3">
                     <div
                       key={index}
@@ -142,36 +142,36 @@ const NotificationModal = ({ isOpen, onClose }) => {
                       <h4>No {index + 1}</h4>
                       <div
                         className={`Notification-status-field ps-2 pe-2 ${
-                          data.status === "Requested"
+                          data?.status === "Requested"
                             ? "Requested-Field"
-                            : data.status === "Pending"
+                            : data?.status === "Pending"
                             ? "Pending-Field"
                             : "Available-Field"
                         }`}
                         onClick={() => OpenStatusModal(data)}
                       >
-                        {data.status}
+                        {data?.status}
                       </div>
                     </div>
                     <div className="d-flex justify-content-between align-items-center pt-2">
                       <h5>Request Date</h5>
-                      <h6>{formatDate(data.creationDate)}</h6>
+                      <h6>{formatDate(data?.creationDate)}</h6>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
                       <h5>Customer Name</h5>
-                      <h6>{customerData[data.customerId]?.fname || "N/A"}</h6>
+                      <h6>{customerData[data?.customerId]?.fname || "N/A"}</h6>
                     </div>
                     <div className="d-flex justify-content-between align-items-center">
                       <h5>Vehicle RegNo</h5>
                       <h6>
-                        {vehicleData[data.vehicleId]?.registerno || "N/A"}
+                        {vehicleData[data?.vehicleId]?.registerno || "N/A"}
                       </h6>
                     </div>
                     <div className="row ">
                       <div className="col-6 d-flex justify-content-center align-items-center">
                         <IconButton
                           onClick={() =>
-                            OpenCustomerViewModal(customerData[data.customerId])
+                            OpenCustomerViewModal(customerData[data?.customerId])
                           }
                         >
                           <PersonIcon />
@@ -181,7 +181,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
                         <IconButton>
                           <DirectionsCarIcon
                             onClick={() =>
-                              OpenVehicleViewModal(vehicleData[data.vehicleId])
+                              OpenVehicleViewModal(vehicleData[data?.vehicleId])
                             }
                           />
                         </IconButton>

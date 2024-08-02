@@ -16,7 +16,10 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { toast } from "react-toastify";
 import ConfirmationModal from "./ConfirmationModal";
 import { deleteBidFromAuction } from "@/src/redux/action/auction";
+import { useDispatch } from "react-redux";
+import { setLoading } from "@/src/redux/reducer/loaderSlice";
 const AuctionView = (props) => {
+  const dispatch = useDispatch();
   const { show, onHide, auctionDetails } = props;
   const [showViewModal, setShowViewModal] = useState(false);
   const [showViewModal2, setShowViewModal2] = useState(false);
@@ -38,11 +41,11 @@ const AuctionView = (props) => {
   };
 
   useEffect(() => {
-    const vehicleId = auctionDetails && auctionDetails.vehicleId;
+    const vehicleId = auctionDetails?.vehicleId;
     if (vehicleId) {
       getVehicleInfo(vehicleId, (res) => {
-        if (res && res.data) {
-          setSelectedVehicledata(res.data);
+        if (res?.data) {
+          setSelectedVehicledata(res?.data);
         } else {
           toast.error("Error fetching Customer details");
         }
@@ -52,21 +55,23 @@ const AuctionView = (props) => {
 
   useEffect(() => {
     const fetchCustomerDetails = async () => {
-      if (auctionDetails && auctionDetails.biddinghistory) {
-        const customerIds = auctionDetails.biddinghistory.map(
-          (bid) => bid.customerId
+      if (auctionDetails?.biddinghistory) {
+        const customerIds = auctionDetails?.biddinghistory?.map(
+          (bid) => bid?.customerId
         );
         const uniqueCustomerIds = [...new Set(customerIds)];
 
-        uniqueCustomerIds.forEach((customerId) => {
+        uniqueCustomerIds?.forEach((customerId) => {
           getCustomerInfo(customerId, (res) => {
-            if (res && res.data) {
+            if (res?.data) {
               setCustomerDetails((prevState) => ({
                 ...prevState,
-                [customerId]: res.data,
+                [customerId]: res?.data,
               }));
+              
             } else {
               toast.error("Error fetching customer details");
+              
             }
           });
         });
@@ -80,7 +85,6 @@ const AuctionView = (props) => {
   };
   const OpenCustomerViewModal = (customerId) => {
     const customerData = customerDetails[customerId];
-    console.log(customerData, "cusssssssssssssssssssss");
     if (customerData) {
       setSelectedCustomerdata(customerData);
       setShowViewModal2(true);
@@ -97,24 +101,27 @@ const AuctionView = (props) => {
   };
 
   const handleDeleteBid = (bidId) => {
-    if (auctionDetails && auctionDetails._id) {
-      deleteBidFromAuction(auctionDetails._id, bidId, (res) => {
-        if (res && res.status === 200) {
-          const updatedBiddingHistory = auctionDetails.biddinghistory.filter(
-            (bid) => bid._id !== bidId
+    dispatch(setLoading(true));
+    if (auctionDetails?._id) {
+      deleteBidFromAuction(auctionDetails?._id, bidId, (res) => {
+        if (res?.status === 200) {
+          const updatedBiddingHistory = auctionDetails?.biddinghistory?.filter(
+            (bid) => bid?._id !== bidId
           );
           auctionDetails.biddinghistory = updatedBiddingHistory;
           toast.success("Bid removed successfully");
+          dispatch(setLoading(false));
           closeDeleteConfirmationModal();
         } else {
           toast.error("Failed to remove bid");
+          dispatch(setLoading(false));
           closeDeleteConfirmationModal();
         }
       });
     }
   };
 
-  const biddingHis = auctionDetails && auctionDetails.biddinghistory;
+  const biddingHis = auctionDetails?.biddinghistory;
 
   return (
     <div>
@@ -129,14 +136,12 @@ const AuctionView = (props) => {
                 className="fw-bold"
                 style={{ color: "var(--primary-color)" }}
               >
-                {auctionDetails && auctionDetails.status}
+                {auctionDetails?.status}
               </div>
               <IconButton>
                 <CircleIcon
                   sx={{
-                    color: getStatusColor(
-                      auctionDetails && auctionDetails.status
-                    ),
+                    color: getStatusColor(auctionDetails?.status),
                   }}
                 />
               </IconButton>
@@ -149,7 +154,7 @@ const AuctionView = (props) => {
                   <InputField
                     label={"Auction RefID"}
                     disable={true}
-                    defaultValue={auctionDetails && auctionDetails.auctionRefID}
+                    defaultValue={auctionDetails?.auctionRefID}
                   />
                 </div>
                 <div className="col-lg-4 col-md-4 col-sm-12">
@@ -163,8 +168,7 @@ const AuctionView = (props) => {
                   <InputField
                     label={"Start Bidding Price"}
                     disable={true}
-                    defaultValue={`Rs ${auctionDetails &&
-                      auctionDetails.bidstartprice}`}
+                    defaultValue={`Rs ${auctionDetails?.bidstartprice}`}
                   />
                 </div>
               </div>
@@ -173,14 +177,14 @@ const AuctionView = (props) => {
                   <InputField
                     label={"Auction Start Date"}
                     disable={true}
-                    defaultValue={auctionDetails && auctionDetails.startDate}
+                    defaultValue={auctionDetails?.startDate}
                   />
                 </div>
                 <div className="col-lg-6 col-md-6 col-sm-12">
                   <InputField
                     label={"Auction End Date"}
                     disable={true}
-                    defaultValue={auctionDetails && auctionDetails.endDate}
+                    defaultValue={auctionDetails?.endDate}
                   />
                 </div>
               </div>
@@ -192,7 +196,7 @@ const AuctionView = (props) => {
                   <textarea
                     className="form-control"
                     disabled
-                    defaultValue={auctionDetails && auctionDetails.description}
+                    defaultValue={auctionDetails?.description}
                     rows={3}
                   />
                 </div>
@@ -206,7 +210,7 @@ const AuctionView = (props) => {
                   >
                     Auction Details
                   </label>
-                  {biddingHis && biddingHis.length > 0 ? (
+                  {biddingHis?.length > 0 ? (
                     <table className="table table-striped table-hover">
                       <thead>
                         <tr>
@@ -216,20 +220,20 @@ const AuctionView = (props) => {
                         </tr>
                       </thead>
                       <tbody>
-                        {biddingHis.map((data, index) => (
+                        {biddingHis?.map((data, index) => (
                           <tr key={index}>
                             <td>
-                              {customerDetails[data.customerId]
-                                ? customerDetails[data.customerId].fname
-                                : data.customerId}
+                              {customerDetails[data?.customerId]
+                                ? customerDetails[data?.customerId]?.fname
+                                : data?.customerId}
                             </td>
-                            <td>{`LKR ${data.biddingprice}`}</td>
+                            <td>{`LKR ${data?.biddingprice}`}</td>
                             <td>
                               <IconButton
                                 aria-label="view"
                                 className="viewbutt"
                                 onClick={() =>
-                                  OpenCustomerViewModal(data.customerId)
+                                  OpenCustomerViewModal(data?.customerId)
                                 }
                               >
                                 <VisibilityIcon />
@@ -238,7 +242,7 @@ const AuctionView = (props) => {
                                 aria-label="view"
                                 className="viewbutt"
                                 onClick={() =>
-                                  openDeleteConfirmationModal(data._id)
+                                  openDeleteConfirmationModal(data?._id)
                                 }
                               >
                                 <DeleteIcon className="text-danger" />

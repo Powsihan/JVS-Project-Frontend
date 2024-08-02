@@ -69,18 +69,18 @@ function SignUpModal(props) {
       }
     }
     registerCustomer(data, (res) => {
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setFile(null);
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         handleNext();
         return;
-      } else if (res.status === 500) {
+      } else if (res?.status === 500) {
         dispatch(setLoading(false));
         toast.error("Invalid User Data");
       } else {
         dispatch(setLoading(false));
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -156,7 +156,7 @@ function SignUpModal(props) {
                   onChange={(e) => handleChange("city", e.target.value)}
                 >
                   <option value="">Select the City</option>
-                  {Districts.map((data, index) => (
+                  {Districts?.map((data, index) => (
                     <option key={index} value={data}>
                       {data}
                     </option>
@@ -174,7 +174,7 @@ function SignUpModal(props) {
                   onChange={(e) => handleChange("gender", e.target.value)}
                 >
                   <option value="">Select the Gender</option>
-                  {Gender.map((data, index) => (
+                  {Gender?.map((data, index) => (
                     <option key={index} value={data}>
                       {data}
                     </option>
@@ -349,7 +349,7 @@ function SignUpModal(props) {
       <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
         <Modal.Body>
           <div className="d-flex align-items-center justify-content-center gap-5 pb-4">
-            {completedSteps.map((completed, index) =>
+            {completedSteps?.map((completed, index) =>
               completed ? (
                 <CheckCircleIcon
                   key={`step-${index}`}
