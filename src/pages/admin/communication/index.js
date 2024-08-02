@@ -39,9 +39,9 @@ const Index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
-      if (res && res.data) {
-        const customers = Array.isArray(res.data) ? res.data : [];
-        if (customers.length === 0) {
+      if (res?.data) {
+        const customers = Array.isArray(res?.data) ? res?.data : [];
+        if (customers?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Customers data available");
           return;
@@ -59,8 +59,8 @@ const Index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getUserInfo((res) => {
-      if (res.status === 200) {
-        setUserData(res.data);
+      if (res?.status === 200) {
+        setUserData(res?.data);
         dispatch(setLoading(false));
       }
     });
@@ -73,7 +73,7 @@ const Index = () => {
           const response = await axios.get(
             `${process.env.api_base_url}/chats/${userData._id}/User/${selectedReceiver._id}/Customer`
           );
-          setSelectedChat(response.data);
+          setSelectedChat(response?.data);
         } catch (error) {
           console.error("Error fetching chat history:", error);
         }
@@ -101,9 +101,9 @@ const Index = () => {
   const handleSendMessage = async (message) => {
     if (!selectedReceiver) return;
     const newMessage = {
-      senderId: userData._id,
+      senderId: userData?._id,
       senderModel: "User",
-      receiverId: selectedReceiver._id,
+      receiverId: selectedReceiver?._id,
       receiverModel: "Customer",
       message,
     };
@@ -127,7 +127,7 @@ const Index = () => {
     setSearchQuery(query);
     setFilteredReceivers(
       receivers.filter((receiver) =>
-        `${receiver.fname} ${receiver.lname}`.toLowerCase().includes(query)
+        `${receiver?.fname} ${receiver?.lname}`.toLowerCase().includes(query)
       )
     );
   };
@@ -148,8 +148,8 @@ const Index = () => {
                   >
                     <Image
                       src={
-                        selectedReceiver && selectedReceiver.profilePic
-                          ? selectedReceiver.profilePic
+                        selectedReceiver && selectedReceiver?.profilePic
+                          ? selectedReceiver?.profilePic
                           : avatar
                       }
                       width={50}
@@ -159,24 +159,24 @@ const Index = () => {
                     />
                     <h4 className="m-0">
                       {selectedReceiver
-                        ? `${selectedReceiver.fname} ${selectedReceiver.lname}`
+                        ? `${selectedReceiver?.fname} ${selectedReceiver?.lname}`
                         : ""}
                     </h4>
                   </div>
                   <div className="message-container message-overflow-container" ref={messageContainerRef} >
-                    {selectedChat.map((message, index) => (
+                    {selectedChat?.map((message, index) => (
                       <div
                         className={`message d-flex ${
-                          message.senderModel === "User"
+                          message?.senderModel === "User"
                             ? "message-sent"
                             : "message-received"
                         }`}
                         key={index}
                       >
                         <div className="sender-info">
-                          {message.senderModel === "User"
+                          {message?.senderModel === "User"
                             ? "You"
-                            : `${selectedReceiver.fname}`}
+                            : `${selectedReceiver?.fname}`}
                         </div>
                         <div>{message.message}</div>
                         <div
@@ -186,7 +186,7 @@ const Index = () => {
                               : "timestamp-received"
                           }`}
                         >
-                          {formatTimestamp(message.timestamp)}
+                          {formatTimestamp(message?.timestamp)}
                         </div>
                       </div>
                     ))}
@@ -224,14 +224,14 @@ const Index = () => {
                 </form>
               </div>
               <div className="receiver-list message-overflow-container">
-                {filteredReceivers.map((receiver) => (
+                {filteredReceivers?.map((receiver) => (
                   <div
                     className="receiver-item"
-                    key={receiver._id}
+                    key={receiver?._id}
                     onClick={() => setSelectedReceiver(receiver)}
                   >
                     <div className="fw-bold">
-                      {receiver.fname} {receiver.lname}
+                      {receiver?.fname} {receiver?.lname}
                     </div>
                   </div>
                 ))}

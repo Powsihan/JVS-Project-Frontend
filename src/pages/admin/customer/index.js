@@ -35,7 +35,7 @@ const index = () => {
   const [customerPerPage, setcustomerPerPage] = useState(10);
   const indexOfLastCustomer = currentPage * customerPerPage;
   const indexOfFirstCustomer = indexOfLastCustomer - customerPerPage;
-  const currentCustomers = filteredCustomersList.slice(
+  const currentCustomers = filteredCustomersList?.slice(
     indexOfFirstCustomer,
     indexOfLastCustomer
   );
@@ -43,14 +43,14 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
-      if (res && res.data) {
+      if (res?.data) {
         const customers = Array.isArray(res.data) ? res.data : [];
-        if (customers.length === 0) {
+        if (customers?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Customers data available");
           return;
         }
-        setCustomerdata(res.data);
+        setCustomerdata(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -75,12 +75,12 @@ const index = () => {
   };
 
   useEffect(() => {
-    const filteredData = customerdata.filter(
+    const filteredData = customerdata?.filter(
       (customers) =>
-        customers.fname.toLowerCase().includes(searchName.toLowerCase()) &&
-        customers.nic.toLowerCase().includes(searchNic.toLowerCase()) &&
-        customers.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
-        (selectedCity === "" || customers.city === selectedCity)
+        customers?.fname.toLowerCase().includes(searchName?.toLowerCase()) &&
+        customers?.nic.toLowerCase().includes(searchNic?.toLowerCase()) &&
+        customers?.email.toLowerCase().includes(searchEmail?.toLowerCase()) &&
+        (selectedCity === "" || customers?.city === selectedCity)
     );
     setFilteredCustomersList(filteredData);
   }, [searchName, searchNic, searchEmail, selectedCity, customerdata]);
@@ -102,24 +102,24 @@ const index = () => {
   const deleteCustomerData = (userID) => {
     dispatch(setLoading(true));
     deleteCustomer(userID, (res) => {
-      if (res.status == 200) {
+      if (res?.status == 200) {
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setCustomerdata(
-          customerdata.filter((customer) => customer._id !== userID)
+          customerdata?.filter((customer) => customer?._id !== userID)
         );
         closeDeleteConfirmationModal();
         Customerlogout();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
 
   const handleSearchByNIC = (event) => {
     event.preventDefault();
-    const searchedRef = customerdata.find(
-      (customer) => customer.nic === searchNic
+    const searchedRef = customerdata?.find(
+      (customer) => customer?.nic === searchNic
     );
     if (searchedRef) {
       setSelectedCustomerdata(searchedRef);
@@ -132,8 +132,8 @@ const index = () => {
 
   const handleSearchByName = (event) => {
     event.preventDefault();
-    const searchedRef = customerdata.find(
-      (customer) => customer.fname === searchName
+    const searchedRef = customerdata?.find(
+      (customer) => customer?.fname === searchName
     );
     if (searchedRef) {
       setSelectedCustomerdata(searchedRef);
@@ -146,8 +146,8 @@ const index = () => {
 
   const handleSearchByEmail = (event) => {
     event.preventDefault();
-    const searchedRef = customerdata.find(
-      (customer) => customer.email === searchEmail
+    const searchedRef = customerdata?.find(
+      (customer) => customer?.email === searchEmail
     );
     if (searchedRef) {
       setSelectedCustomerdata(searchedRef);
@@ -259,7 +259,7 @@ const index = () => {
                   onChange={HandleSelectCity}
                 >
                   <option value="">Select the City</option>
-                  {Districts.map((data, index) => (
+                  {Districts?.map((data, index) => (
                     <option key={index} value={data}>
                       {data}
                     </option>
@@ -311,15 +311,15 @@ const index = () => {
               </tr>
             </thead>
             <tbody>
-              {currentCustomers.length > 0 ? (
-                currentCustomers.map((customer, index) => (
+              {currentCustomers?.length > 0 ? (
+                currentCustomers?.map((customer, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{`${customer.fname} ${customer.lname}`}</td>
-                    <td>{customer.nic}</td>
-                    <td>{customer.email}</td>
-                    <td>{customer.phoneNo}</td>
-                    <td>{customer.city}</td>
+                    <td>{`${customer?.fname} ${customer?.lname}`}</td>
+                    <td>{customer?.nic}</td>
+                    <td>{customer?.email}</td>
+                    <td>{customer?.phoneNo}</td>
+                    <td>{customer?.city}</td>
                     <td className="col-2">
                       <IconButton
                         aria-label="delete"
@@ -332,7 +332,7 @@ const index = () => {
                         aria-label="delete"
                         className="viewbutt"
                         onClick={() =>
-                          openDeleteConfirmationModal(customer._id)
+                          openDeleteConfirmationModal(customer?._id)
                         }
                       >
                         <DeleteIcon className="text-danger" />
@@ -352,7 +352,7 @@ const index = () => {
           <div className="Pagination-Text">
             <p>
               Page {currentPage} of{" "}
-              {Math.ceil(filteredCustomersList.length / customerPerPage)}
+              {Math.ceil(filteredCustomersList?.length / customerPerPage)}
             </p>
           </div>
           <div className="d-flex gap-2">

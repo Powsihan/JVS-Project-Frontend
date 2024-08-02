@@ -18,6 +18,7 @@ import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
 import AuctionView from "@/src/components/modals/AuctionView";
 import { add } from "@/src/utils/ImagesPath";
+import "../../../styles/admin.css";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -65,8 +66,8 @@ const index = () => {
   const fetchAuctionDetails = () => {
     dispatch(setLoading(true));
     getAuctionDetails(async (res) => {
-      if (res && res?.data) {
-        const auction = Array.isArray(res?.data) ? res?.data : [];
+      if (res?.data) {
+        const auction = Array?.isArray(res?.data) ? res?.data : [];
         if (auction?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Auction data available");

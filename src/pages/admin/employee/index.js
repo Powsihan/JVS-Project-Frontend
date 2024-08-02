@@ -32,7 +32,7 @@ const index = () => {
   const indexOfLastEmployee = currentPage * employeePerPage;
   const indexOfFirstEmployee = indexOfLastEmployee - employeePerPage;
 
-  const currentEmployees = filteredEmployeeList.slice(
+  const currentEmployees = filteredEmployeeList?.slice(
     indexOfFirstEmployee,
     indexOfLastEmployee
   );
@@ -53,12 +53,12 @@ const index = () => {
   };
 
   useEffect(() => {
-    const filteredData = employeeData.filter(
+    const filteredData = employeeData?.filter(
       (employees) =>
-        employees.name.toLowerCase().includes(searchName.toLowerCase()) &&
-        employees.email.toLowerCase().includes(searchEmail.toLowerCase()) &&
-        employees.phoneNumber.includes(searchPhoneNo) &&
-        (selectedRole === "" || employees.role === selectedRole)
+        employees?.name?.toLowerCase().includes(searchName?.toLowerCase()) &&
+        employees?.email?.toLowerCase().includes(searchEmail?.toLowerCase()) &&
+        employees?.phoneNumber?.includes(searchPhoneNo) &&
+        (selectedRole === "" || employees?.role === selectedRole)
     );
     setFilteredEmployeeList(filteredData);
   }, [searchName, searchEmail, searchPhoneNo, selectedRole, employeeData]);
@@ -66,8 +66,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getEmployeeDetails((res) => {
-      if (res && res.data) {
-        setEmployeedata(res.data);
+      if (res?.data) {
+        setEmployeedata(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -98,23 +98,23 @@ const index = () => {
   const deleteEmployeeData = (employeeID) => {
     dispatch(setLoading(true));
     deleteEmployee(employeeID, (res) => {
-      if (res.status == 200) {
+      if (res?.status == 200) {
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setEmployeedata(
-          employeeData.filter((employee) => employee._id !== employeeID)
+          employeeData?.filter((employee) => employee?._id !== employeeID)
         );
         closeDeleteConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
 
   const handleSearchByEmail = (event) => {
     event.preventDefault();
-    const searchedRef = employeeData.find(
-      (employee) => employee.email === searchEmail
+    const searchedRef = employeeData?.find(
+      (employee) => employee?.email === searchEmail
     );
     if (searchedRef) {
       setSelectedEmployeedata(searchedRef);
@@ -127,8 +127,8 @@ const index = () => {
 
   const handleSearchByName = (event) => {
     event.preventDefault();
-    const searchedRef = employeeData.find(
-      (employee) => employee.name === searchName
+    const searchedRef = employeeData?.find(
+      (employee) => employee?.name === searchName
     );
     if (searchedRef) {
       setSelectedEmployeedata(searchedRef);
@@ -141,8 +141,8 @@ const index = () => {
 
   const handleSearchByPhoneNo = (event) => {
     event.preventDefault();
-    const searchedRef = employeeData.find(
-      (employee) => employee.phoneNumber === searchPhoneNo
+    const searchedRef = employeeData?.find(
+      (employee) => employee?.phoneNumber === searchPhoneNo
     );
     if (searchedRef) {
       setSelectedEmployeedata(searchedRef);
@@ -265,7 +265,7 @@ const index = () => {
                       onChange={HandleSelectRole}
                     >
                       <option value="">Select the Role</option>
-                      {EmployeeRole.map((data, index) => (
+                      {EmployeeRole?.map((data, index) => (
                         <option key={index} value={data}>
                           {data}
                         </option>
@@ -314,14 +314,14 @@ const index = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {currentEmployees.length > 0 ? (
-                    currentEmployees.map((employee, index) => (
+                  {currentEmployees?.length > 0 ? (
+                    currentEmployees?.map((employee, index) => (
                       <tr key={index}>
                         <th scope="row">{index + 1}</th>
-                        <td>{employee.name}</td>
-                        <td>{employee.email}</td>
-                        <td>{employee.role}</td>
-                        <td>{employee.phoneNumber}</td>
+                        <td>{employee?.name}</td>
+                        <td>{employee?.email}</td>
+                        <td>{employee?.role}</td>
+                        <td>{employee?.phoneNumber}</td>
                         <td className="col-2">
                           <IconButton
                             aria-label="delete"
@@ -334,7 +334,7 @@ const index = () => {
                             aria-label="delete"
                             className="viewbutt"
                             onClick={() =>
-                              openDeleteConfirmationModal(employee._id)
+                              openDeleteConfirmationModal(employee?._id)
                             }
                           >
                             <DeleteIcon className="text-danger" />
@@ -354,7 +354,7 @@ const index = () => {
               <div className="Pagination-Text">
                 <p>
                   Page {currentPage} of{" "}
-                  {Math.ceil(filteredEmployeeList.length / employeePerPage)}
+                  {Math.ceil(filteredEmployeeList?.length / employeePerPage)}
                 </p>
               </div>
               <div className="d-flex gap-2">

@@ -7,7 +7,11 @@ import "./profile.css";
 import InputField from "@/src/components/InputField";
 import { Button } from "react-bootstrap";
 import Cookies from "js-cookie";
-import { changeUserPassword, getUserInfo, userProfileEdit } from "@/src/redux/action/user";
+import {
+  changeUserPassword,
+  getUserInfo,
+  userProfileEdit,
+} from "@/src/redux/action/user";
 import { toast, ToastContainer } from "react-toastify";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -50,16 +54,14 @@ const index = () => {
       confirmPassword: confirmPassword,
     };
 
-
     changeUserPassword(datapass, (res) => {
-      console.log(res);
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -74,8 +76,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getUserInfo((res) => {
-      if (res.status == 200) {
-        setUserData(res.data);
+      if (res?.status == 200) {
+        setUserData(res?.data);
         dispatch(setLoading(false));
       }
     });
@@ -95,7 +97,7 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
-    const userId = userData._id;
+    const userId = userData?._id;
     let data = { ...userUpdatedData };
     if (file) {
       const uploadedImageUrl = await dispatch(uploadImage(file));
@@ -106,20 +108,19 @@ const index = () => {
     }
 
     userProfileEdit(userId, data, (res) => {
-      console.log(res);
-      if (res.status === 201) {
+      if (res?.status === 201) {
         setFile(null);
         dispatch(setLoading(false));
-        toast.info(res.data.message);
-      } else if (res.status === 200) {
+        toast.info(res?.data?.message);
+      } else if (res?.status === 200) {
         setFile(null);
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -131,9 +132,7 @@ const index = () => {
           <div className="col-lg-4 col-md-6 col-sm-12  Profile-Edit-Section p-2 mb-2">
             <div className="d-flex alig-items-center justify-content-center pt-5">
               <Image
-                src={
-                  userData && userData.profilePic ? userData.profilePic : avatar
-                }
+                src={userData?.profilePic ? userData?.profilePic : avatar}
                 className="avatar rounded-circle"
                 alt="avatar"
                 width={150}
@@ -142,7 +141,7 @@ const index = () => {
             </div>
             <hr />
             <div className="text-center Profile-name-section pb-3">
-              {userData && <h1>{userData.name}</h1>}
+              <h1>{userData?.name}</h1>
               <h2>Admin</h2>
             </div>
             <div className="ps-3 pe-3">
@@ -166,7 +165,7 @@ const index = () => {
                       <InputField
                         label={"Name"}
                         placeholder={"Name"}
-                        defaultValue={userData.name}
+                        defaultValue={userData?.name}
                         onChange={(value) => handleChange("name", value)}
                       />
                     </div>
@@ -174,7 +173,7 @@ const index = () => {
                       <InputField
                         label={"Email"}
                         placeholder={"email"}
-                        defaultValue={userData.email}
+                        defaultValue={userData?.email}
                         onChange={(value) => handleChange("email", value)}
                       />
                     </div>
@@ -182,7 +181,7 @@ const index = () => {
                       <InputField
                         label={"Phone No"}
                         placeholder={"phone no"}
-                        defaultValue={userData.phoneNumber}
+                        defaultValue={userData?.phoneNumber}
                         onChange={(value) => handleChange("phoneNumber", value)}
                       />
                     </div>
@@ -220,46 +219,49 @@ const index = () => {
               </form>
 
               <div className="col-lg-12 Profile-Edit-Section mt-2">
-                  <h5 className="custom-border ps-2">Password Change</h5>
-                  <div className="row p-2">
-                    <div className="col-lg-7 d-flex flex-column gap-2">
-                      <InputField
-                        label={"Current Password"}
-                        placeholder={"current password"}
-                        type={"password"}
-                        value={currentPassword}
-                        onChange={(value) => handleCurrentPasswordChange(value)}
-                      />
-                      <InputField
-                        label={"New Password"}
-                        placeholder={"new password"}
-                        type={"password"}
-                        value={newPassword}
-                        onChange={(value) => handleNewPasswordChange(value)}
-                      />
-                      <InputField
-                        label={"Confirm Password"}
-                        placeholder={"confirm password"}
-                        type={"password"}
-                        value={confirmPassword}
-                        onChange={(value) => handleConfirmPasswordChange(value)}
-                      />
-                    </div>
-                    <div className="col-lg-5 d-flex justify-content-center align-items-center">
-                      <Image src={changepass} alt="Password" />
-                    </div>
+                <h5 className="custom-border ps-2">Password Change</h5>
+                <div className="row p-2">
+                  <div className="col-lg-7 d-flex flex-column gap-2">
+                    <InputField
+                      label={"Current Password"}
+                      placeholder={"current password"}
+                      type={"password"}
+                      value={currentPassword}
+                      onChange={(value) => handleCurrentPasswordChange(value)}
+                    />
+                    <InputField
+                      label={"New Password"}
+                      placeholder={"new password"}
+                      type={"password"}
+                      value={newPassword}
+                      onChange={(value) => handleNewPasswordChange(value)}
+                    />
+                    <InputField
+                      label={"Confirm Password"}
+                      placeholder={"confirm password"}
+                      type={"password"}
+                      value={confirmPassword}
+                      onChange={(value) => handleConfirmPasswordChange(value)}
+                    />
                   </div>
-                  <hr />
-                  <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
-                    <CommonButton text="Save Changes" onClick={handlechangePassword}/>
-                    <Button variant="secondary">Cancel</Button>
+                  <div className="col-lg-5 d-flex justify-content-center align-items-center">
+                    <Image src={changepass} alt="Password" />
                   </div>
+                </div>
+                <hr />
+                <div className="d-flex flex-row justify-content-end gap-3 mb-3 pe-2">
+                  <CommonButton
+                    text="Save Changes"
+                    onClick={handlechangePassword}
+                  />
+                  <Button variant="secondary">Cancel</Button>
+                </div>
               </div>
             </div>
           ) : (
             <div className="col-lg-8 col-md-6 col-sm-12 mb-2">
               <div className="Profile-Edit-Section d-flex flex-column align-items-center justify-content-center h-100">
-                <h1>Hi {userData && userData.name}</h1>
+                <h1>Hi {userData?.name}</h1>
                 <p>Welcome to Profile Section</p>
                 <Image src={ProfileEdit} alt="" width={400} />
               </div>

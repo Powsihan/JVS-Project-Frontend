@@ -33,8 +33,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
-      if (res && res.data) {
-        setVehicleData(res.data);
+      if (res?.data) {
+        setVehicleData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -47,8 +47,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
-      if (res && res.data) {
-        setCustomerData(res.data);
+      if (res?.data) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -61,8 +61,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getAllPurchases((res) => {
-      if (res && res.data) {
-        setPurchaseData(res.data);
+      if (res?.data) {
+        setPurchaseData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -75,8 +75,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getEmployeeDetails((res) => {
-      if (res && res.data) {
-        setEmployeeData(res.data);
+      if (res?.data) {
+        setEmployeeData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -88,8 +88,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getAllRecordsDetails((res) => {
-      if (res && res.data) {
-        setRecordsData(res.data);
+      if (res?.data) {
+        setRecordsData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -101,24 +101,24 @@ const index = () => {
 
   const getStatusCounts = () => {
     const filteredData = vehicleData.filter(
-      (vehicle) => vehicle.status !== "Sold"
+      (vehicle) => vehicle?.status !== "Sold"
     );
-    const totalVehicles = filteredData.length;
+    const totalVehicles = filteredData?.length;
     const statusCounts = {
-      Available: filteredData.filter(
-        (vehicle) => vehicle.status === "Available"
+      Available: filteredData?.filter(
+        (vehicle) => vehicle?.status === "Available"
       ).length,
-      Pending: filteredData.filter((vehicle) => vehicle.status === "Pending")
+      Pending: filteredData?.filter((vehicle) => vehicle.status === "Pending")
         .length,
-      Requested: filteredData.filter(
-        (vehicle) => vehicle.status === "Requested"
+      Requested: filteredData?.filter(
+        (vehicle) => vehicle?.status === "Requested"
       ).length,
     };
 
     const statusPercentages = {
-      Available: ((statusCounts.Available / totalVehicles) * 100).toFixed(2),
-      Pending: ((statusCounts.Pending / totalVehicles) * 100).toFixed(2),
-      Requested: ((statusCounts.Requested / totalVehicles) * 100).toFixed(2),
+      Available: ((statusCounts?.Available / totalVehicles) * 100).toFixed(2),
+      Pending: ((statusCounts?.Pending / totalVehicles) * 100).toFixed(2),
+      Requested: ((statusCounts?.Requested / totalVehicles) * 100).toFixed(2),
     };
 
     return { statusCounts, statusPercentages };
@@ -128,17 +128,17 @@ const index = () => {
 
   const radiusChartData = [
     {
-      series: statusPercentages.Available,
+      series: statusPercentages?.Available,
       label: "Available Vehicles",
       color: "#17B530",
     },
     {
-      series: statusPercentages.Pending,
+      series: statusPercentages?.Pending,
       label: "Pending Vehicles",
       color: "#FFBE18",
     },
     {
-      series: statusPercentages.Requested,
+      series: statusPercentages?.Requested,
       label: "Requested Vehicles",
       color: "#0010a5",
     },
@@ -153,60 +153,60 @@ const index = () => {
   ]);
 
   useEffect(() => {
-    if (vehicleData.length > 0) {
-      const filteredData = vehicleData.filter(
+    if (vehicleData?.length > 0) {
+      const filteredData = vehicleData?.filter(
         (vehicle) => vehicle.status !== "Sold"
       );
-      const totalVehicles = filteredData.length;
+      const totalVehicles = filteredData?.length;
       setCardsData((prevCardsData) =>
-        prevCardsData.map((card) =>
-          card.title === "Vehicles" ? { ...card, count: totalVehicles } : card
+        prevCardsData?.map((card) =>
+          card?.title === "Vehicles" ? { ...card, count: totalVehicles } : card
         )
       );
     }
   }, [vehicleData]);
 
   useEffect(() => {
-    if (customerData.length > 0) {
-      const totalCustomers = customerData.length;
+    if (customerData?.length > 0) {
+      const totalCustomers = customerData?.length;
       setCardsData((prevCardsData) =>
-        prevCardsData.map((card) =>
-          card.title === "Customers" ? { ...card, count: totalCustomers } : card
+        prevCardsData?.map((card) =>
+          card?.title === "Customers" ? { ...card, count: totalCustomers } : card
         )
       );
     }
   }, [customerData]);
 
   useEffect(() => {
-    if (employeeData.length > 0) {
-      const totalEmployees = employeeData.length;
+    if (employeeData?.length > 0) {
+      const totalEmployees = employeeData?.length;
       setCardsData((prevCardsData) =>
-        prevCardsData.map((card) =>
-          card.title === "Employees" ? { ...card, count: totalEmployees } : card
+        prevCardsData?.map((card) =>
+          card?.title === "Employees" ? { ...card, count: totalEmployees } : card
         )
       );
     }
   }, [employeeData]);
 
   useEffect(() => {
-    if (purchaseData.length > 0) {
-      const totalRequests = purchaseData.filter(
-        (purchase) => purchase.status === "Requested"
-      ).length;
+    if (purchaseData?.length > 0) {
+      const totalRequests = purchaseData?.filter(
+        (purchase) => purchase?.status === "Requested"
+      )?.length;
       setCardsData((prevCardsData) =>
-        prevCardsData.map((card) =>
-          card.title === "Requests" ? { ...card, count: totalRequests } : card
+        prevCardsData?.map((card) =>
+          card?.title === "Requests" ? { ...card, count: totalRequests } : card
         )
       );
     }
   }, [purchaseData]);
 
   useEffect(() => {
-    if (recordsData.length > 0) {
-      const totalRecords = recordsData.length;
+    if (recordsData?.length > 0) {
+      const totalRecords = recordsData?.length;
       setCardsData((prevCardsData) =>
-        prevCardsData.map((card) =>
-          card.title === "Records" ? { ...card, count: totalRecords } : card
+        prevCardsData?.map((card) =>
+          card?.title === "Records" ? { ...card, count: totalRecords } : card
         )
       );
     }
@@ -216,25 +216,25 @@ const index = () => {
     <Adminlayout>
       <div className="container-fluid">
         <div className="row justify-content-around align-items-center p-3 gap-5">
-          {cardsData.map((card, index) => (
+          {cardsData?.map((card, index) => (
             <div
               key={index}
               className="cards p-0 bg-white rounded col-lg-2 col-sm-6 col-md-4 cards-dashbaord"
               style={{
-                borderBottom: `6px solid ${card.color || "transparent"}`,
+                borderBottom: `6px solid ${card?.color || "transparent"}`,
               }}
             >
               <div className="card-row card-dashboard-display">
                 <div className="card-inner">
-                  <h4>{card.title}</h4>
+                  <h4>{card?.title}</h4>
                 </div>
               </div>
               <div className="card-row1 card-count d-flex align-items-center justify-content-around">
                 <div className="pt-2 ">
-                  <h2>{card.count}</h2>
+                  <h2>{card?.count}</h2>
                 </div>
                 <div className="dash-board-card-image">
-                  <Image src={card.image} alt="" />
+                  <Image src={card?.image} alt="" />
                 </div>
               </div>
             </div>
@@ -259,12 +259,12 @@ const index = () => {
                 <h4>Vehicle Status</h4>
               </div>
               <div className="row">
-                {radiusChartData.map((data, index) => (
+                {radiusChartData?.map((data, index) => (
                   <div key={index} className="col-lg-4 col-md-12 col-sm-12">
                     <RadiusChart
-                      series={[parseFloat(data.series)]}
-                      label={data.label}
-                      color={data.color}
+                      series={[parseFloat(data?.series)]}
+                      label={data?.label}
+                      color={data?.color}
                     />
                   </div>
                 ))}

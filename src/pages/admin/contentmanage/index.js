@@ -38,7 +38,7 @@ const index = () => {
   const [contentPerPage, setcontentPerPage] = useState(10);
   const indexOfLastContent = currentPage * contentPerPage;
   const indexOfFirstContent = indexOfLastContent - contentPerPage;
-  const currentContents = contentdetailsData.slice(
+  const currentContents = contentdetailsData?.slice(
     indexOfFirstContent,
     indexOfLastContent
   );
@@ -59,12 +59,12 @@ const index = () => {
 
   const deleteContentData = (contentID) => {
     deleteContent(contentID, (res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         fetchContentDetails();
         closeDeleteConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -91,13 +91,13 @@ const index = () => {
 
     addContent(data, (res) => {
       dispatch(setLoading(false));
-      if (res.status === 200) {
+      if (res?.status === 200) {
         setFile(null);
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         resetForm();
         fetchContentDetails();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -117,8 +117,8 @@ const index = () => {
   const fetchContentDetails = () => {
     dispatch(setLoading(true));
     getContentDetails((res) => {
-      if (res && res.data) {
-        setContentDetailsData(res.data);
+      if (res?.data) {
+        setContentDetailsData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -156,7 +156,7 @@ const index = () => {
               <InputField
                 label={"Content"}
                 placeholder={"Enter the Content"}
-                defaultValue={contentData.content}
+                defaultValue={contentData?.content}
                 onChange={(value) => handleChange("content", value)}
               />
             </div>
@@ -164,7 +164,7 @@ const index = () => {
               <InputField
                 label={"Description"}
                 placeholder={"Enter the Description"}
-                defaultValue={contentData.description}
+                defaultValue={contentData?.description}
                 onChange={(value) => handleChange("description", value)}
               />
             </div>
@@ -221,12 +221,12 @@ const index = () => {
               </tr>
             </thead>
             <tbody>
-              {currentContents.length > 0 ? (
-                currentContents.map((content, index) => (
+              {currentContents?.length > 0 ? (
+                currentContents?.map((content, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
-                    <td>{content.content}</td>
-                    <td>{content.description}</td>
+                    <td>{content?.content}</td>
+                    <td>{content?.description}</td>
                     <td>
                       <div
                         className={`Table-status-field ${
@@ -235,7 +235,7 @@ const index = () => {
                             : "InActive-Field"
                         }`}
                       >
-                        {content.status}
+                        {content?.status}
                       </div>
                     </td>
                     <td className="col-2">
@@ -256,7 +256,7 @@ const index = () => {
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        onClick={() => openDeleteConfirmationModal(content._id)}
+                        onClick={() => openDeleteConfirmationModal(content?._id)}
                       >
                         <DeleteIcon className="text-danger" />
                       </IconButton>
@@ -275,7 +275,7 @@ const index = () => {
           <div className="Pagination-Text">
             <p>
               Page {currentPage} of{" "}
-              {Math.ceil(contentdetailsData.length / contentPerPage)}
+              {Math.ceil(contentdetailsData?.length / contentPerPage)}
             </p>
           </div>
           <div className="d-flex gap-2">

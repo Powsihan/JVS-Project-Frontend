@@ -42,7 +42,7 @@ const index = () => {
   const [salesPerPage, setcustomerPerPage] = useState(10);
   const indexOfLastSales = currentPage * salesPerPage;
   const indexOfFirstSales = indexOfLastSales - salesPerPage;
-  const currentSales = filteredSalesList.slice(
+  const currentSales = filteredSalesList?.slice(
     indexOfFirstSales,
     indexOfLastSales
   );
@@ -77,20 +77,20 @@ const index = () => {
 
   const deleteSalesData = (salesID) => {
     deleteSales(salesID, (res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         fetchSalesDetails();
         closeDeleteConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
 
   const handleSearchByRefID = (event) => {
     event.preventDefault();
-    const searchedRef = salesData.find(
-      (sales) => sales.salesRefID === searchRef
+    const searchedRef = salesData?.find(
+      (sales) => sales?.salesRefID === searchRef
     );
     if (searchedRef) {
       setSelectedSalesdata(searchedRef);
@@ -103,8 +103,8 @@ const index = () => {
 
   const handleSearchByRegNo = (event) => {
     event.preventDefault();
-    const searchedSales = salesData.find(
-      (sales) => vehicleData[sales.vehicleId]?.registerno === searchRegNo
+    const searchedSales = salesData?.find(
+      (sales) => vehicleData[sales?.vehicleId]?.registerno === searchRegNo
     );
     if (searchedSales) {
       setSelectedSalesdata(searchedSales);
@@ -117,8 +117,8 @@ const index = () => {
 
   const handleSearchByEmail = (event) => {
     event.preventDefault();
-    const searchedSales = salesData.find(
-      (sales) => customerData[sales.customerId]?.email === searchEmail
+    const searchedSales = salesData?.find(
+      (sales) => customerData[sales?.customerId]?.email === searchEmail
     );
     if (searchedSales) {
       setSelectedSalesdata(searchedSales);
@@ -136,29 +136,29 @@ const index = () => {
   const fetchSalesDetails = () => {
     dispatch(setLoading(true));
     getSalesDetails(async (res) => {
-      if (res && res.data) {
-        const sales = Array.isArray(res.data) ? res.data : [];
-        if (sales.length === 0) {
+      if (res?.data) {
+        const sales = Array?.isArray(res?.data) ? res?.data : [];
+        if (sales?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No sales data available");
           return;
         }
         setSalesData(sales);
         dispatch(setLoading(false));
-        const customerInfoPromises = sales.map(
+        const customerInfoPromises = sales?.map(
           (sale) =>
             new Promise((resolve) => {
-              getCustomerInfo(sale.customerId, (response) =>
-                resolve({ customerId: sale.customerId, data: response.data })
+              getCustomerInfo(sale?.customerId, (response) =>
+                resolve({ customerId: sale?.customerId, data: response?.data })
               );
             })
         );
 
-        const vehicleInfoPromises = sales.map(
+        const vehicleInfoPromises = sales?.map(
           (sale) =>
             new Promise((resolve) => {
-              getVehicleInfo(sale.vehicleId, (response) =>
-                resolve({ vehicleId: sale.vehicleId, data: response.data })
+              getVehicleInfo(sale?.vehicleId, (response) =>
+                resolve({ vehicleId: sale?.vehicleId, data: response?.data })
               );
             })
         );
@@ -170,15 +170,15 @@ const index = () => {
           const customerDataMap = {};
           const vehicleDataMap = {};
 
-          customerInfoResponses.forEach((response) => {
-            if (response.data) {
-              customerDataMap[response.customerId] = response.data;
+          customerInfoResponses?.forEach((response) => {
+            if (response?.data) {
+              customerDataMap[response?.customerId] = response?.data;
             }
           });
 
-          vehicleInfoResponses.forEach((response) => {
-            if (response.data) {
-              vehicleDataMap[response.vehicleId] = response.data;
+          vehicleInfoResponses?.forEach((response) => {
+            if (response?.data) {
+              vehicleDataMap[response?.vehicleId] = response?.data;
             }
           });
 
@@ -207,25 +207,25 @@ const index = () => {
   };
 
   useEffect(() => {
-    const filteredData = salesData.filter((sales) => {
-      const regNoMatch = vehicleData[sales.vehicleId]?.registerno
-        ? vehicleData[sales.vehicleId].registerno
+    const filteredData = salesData?.filter((sales) => {
+      const regNoMatch = vehicleData[sales?.vehicleId]?.registerno
+        ? vehicleData[sales?.vehicleId].registerno
             .toLowerCase()
-            .includes(searchRegNo.toLowerCase())
+            .includes(searchRegNo?.toLowerCase())
         : false;
-      const emailMatch = customerData[sales.customerId]?.email
-        ? customerData[sales.customerId].email
+      const emailMatch = customerData[sales?.customerId]?.email
+        ? customerData[sales?.customerId]?.email
             .toLowerCase()
-            .includes(searchEmail.toLowerCase())
+            .includes(searchEmail?.toLowerCase())
         : false;
-      const refMatch = sales.salesRefID
+      const refMatch = sales?.salesRefID
         .toLowerCase()
-        .includes(searchRef.toLowerCase());
+        .includes(searchRef?.toLowerCase());
       const statusMatch =
-        selectedStatus === "" || sales.status === selectedStatus;
+        selectedStatus === "" || sales?.status === selectedStatus;
       const dateMatch =
         searchDate === null ||
-        new Date(sales.creationDate).toLocaleDateString() ===
+        new Date(sales?.creationDate).toLocaleDateString() ===
           new Date(searchDate).toLocaleDateString();
       return regNoMatch && emailMatch && refMatch && statusMatch && dateMatch;
     });
@@ -376,7 +376,7 @@ const index = () => {
                     onChange={HandleSelectStatus}
                   >
                     <option value="">Select Status</option>
-                    {SalesStatus.map((data, index) => (
+                    {SalesStatus?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -419,8 +419,8 @@ const index = () => {
                   <th scope="col" className="col-2">
                     Customer Email
                   </th>
-                  <th scope="col" className="col-1">
-                    Price
+                  <th scope="col" className="col-2">
+                    Price (LKR)
                   </th>
                   <th scope="col" className="col-1">
                     Status
@@ -431,28 +431,28 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentSales.length > 0 ? (
-                  currentSales.map((sales, index) => (
+                {currentSales?.length > 0 ? (
+                  currentSales?.map((sales, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{sales.salesRefID}</td>
-                      <td>{formatDate(sales.creationDate)}</td>
+                      <td>{sales?.salesRefID}</td>
+                      <td>{formatDate(sales?.creationDate)}</td>
                       <td>
-                        {vehicleData[sales.vehicleId]?.registerno || "N/A"}
+                        {vehicleData[sales?.vehicleId]?.registerno || "N/A"}
                       </td>
-                      <td>{customerData[sales.customerId]?.email || "N/A"}</td>
-                      <td>{sales.price}</td>
+                      <td>{customerData[sales?.customerId]?.email || "N/A"}</td>
+                      <td>{sales?.price}</td>
                       <td>
                         <div
                           className={`Table-status-field ${
-                            sales.status === "Sale"
+                            sales?.status === "Sale"
                               ? "Sale-Field"
                               : sales.status === "Buy"
                               ? "Buy-Field"
                               : ""
                           }`}
                         >
-                          {sales.status}
+                          {sales?.status}
                         </div>
                       </td>
                       <td className="col-2">
@@ -463,17 +463,10 @@ const index = () => {
                         >
                           <VisibilityIcon className="" />
                         </IconButton>
-                        {/* <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          // onClick={() => OpenVehicleEditModal(vehicle)}
-                        >
-                          <EditIcon className="text-success" />
-                        </IconButton> */}
                         <IconButton
                           aria-label="delete"
                           className="viewbutt"
-                          onClick={() => openDeleteConfirmationModal(sales._id)}
+                          onClick={() => openDeleteConfirmationModal(sales?._id)}
                         >
                           <DeleteIcon className="text-danger" />
                         </IconButton>
@@ -492,7 +485,7 @@ const index = () => {
             <div className="Pagination-Text">
               <p>
                 Page {currentPage} of{" "}
-                {Math.ceil(filteredSalesList.length / salesPerPage)}
+                {Math.ceil(filteredSalesList?.length / salesPerPage)}
               </p>
             </div>
             <div className="d-flex gap-2">
@@ -507,7 +500,7 @@ const index = () => {
               <button
                 className="btn btn-primary"
                 onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={indexOfLastSales >= filteredSalesList.length}
+                disabled={indexOfLastSales >= filteredSalesList?.length}
                 style={{ width: 120 }}
               >
                 Next

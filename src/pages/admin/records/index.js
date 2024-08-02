@@ -6,8 +6,6 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import SearchIcon from "@mui/icons-material/Search";
 import ClearIcon from "@mui/icons-material/Clear";
 import { useDispatch } from "react-redux";
-import AddAuction from "@/src/components/sections/AddAuction";
-import { deleteAuction, getAuctionDetails } from "@/src/redux/action/auction";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { getVehicleInfo } from "@/src/redux/action/vehicle";
 import "react-datepicker/dist/react-datepicker.css";
@@ -19,6 +17,7 @@ import {
 } from "@/src/redux/action/records";
 import { getCustomerInfo } from "@/src/redux/action/customer";
 import RecordsView from "@/src/components/modals/RecordsView";
+import "../../../styles/admin.css";
 
 const index = () => {
   const dispatch = useDispatch();
@@ -36,7 +35,7 @@ const index = () => {
   const [recordPerPage, setrecordPerPage] = useState(10);
   const indexOfLastRecord = currentPage * recordPerPage;
   const indexOfFirstRecord = indexOfLastRecord - recordPerPage;
-  const currentRecord = filteredRecordList.slice(
+  const currentRecord = filteredRecordList?.slice(
     indexOfFirstRecord,
     indexOfLastRecord
   );
@@ -59,9 +58,9 @@ const index = () => {
   const fetchRecordsDetails = () => {
     dispatch(setLoading(true));
     getAllRecordsDetails(async (res) => {
-      if (res && res.data) {
-        const record = Array.isArray(res.data) ? res.data : [];
-        if (record.length === 0) {
+      if (res?.data) {
+        const record = Array?.isArray(res?.data) ? res?.data : [];
+        if (record?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Auction data available");
           return;
@@ -69,19 +68,22 @@ const index = () => {
         setrecordData(record);
         dispatch(setLoading(false));
 
-        const vehicleInfoPromises = record.map(
+        const vehicleInfoPromises = record?.map(
           (record) =>
             new Promise((resolve) => {
-              getVehicleInfo(record.vehicleId, (response) =>
-                resolve({ vehicleId: record.vehicleId, data: response.data })
+              getVehicleInfo(record?.vehicleId, (response) =>
+                resolve({ vehicleId: record?.vehicleId, data: response?.data })
               );
             })
         );
-        const customerInfoPromises = record.map(
+        const customerInfoPromises = record?.map(
           (record) =>
             new Promise((resolve) => {
-              getCustomerInfo(record.customerId, (response) =>
-                resolve({ customerId: record.customerId, data: response.data })
+              getCustomerInfo(record?.customerId, (response) =>
+                resolve({
+                  customerId: record?.customerId,
+                  data: response?.data,
+                })
               );
             })
         );
@@ -93,14 +95,14 @@ const index = () => {
           const vehicleDataMap = {};
           const customerDataMap = {};
 
-          vehicleInfoResponses.forEach((response) => {
-            if (response.data) {
-              vehicleDataMap[response.vehicleId] = response.data;
+          vehicleInfoResponses?.forEach((response) => {
+            if (response?.data) {
+              vehicleDataMap[response?.vehicleId] = response?.data;
             }
           });
           customerInfoResponses.forEach((response) => {
-            if (response.data) {
-              customerDataMap[response.customerId] = response.data;
+            if (response?.data) {
+              customerDataMap[response?.customerId] = response?.data;
             }
           });
 
@@ -120,24 +122,31 @@ const index = () => {
   };
 
   useEffect(() => {
-    const filteredData = recordData.filter((record) => {
+    const filteredData = recordData?.filter((record) => {
       const regNoMatch = vehicleData[record.vehicleId]?.registerno
-        ? vehicleData[record.vehicleId].registerno
+        ? vehicleData[record?.vehicleId]?.registerno
             .toLowerCase()
-            .includes(searchRegNo.toLowerCase())
+            .includes(searchRegNo?.toLowerCase())
         : false;
-      const emailMatch = customerData[record.customerId]?.email
-        ? customerData[record.customerId].email
+      const emailMatch = customerData[record?.customerId]?.email
+        ? customerData[record?.customerId]?.email
             .toLowerCase()
-            .includes(searchEmail.toLowerCase())
+            .includes(searchEmail?.toLowerCase())
         : false;
-      const refMatch = record.recordsRefID
-        .toLowerCase()
+      const refMatch = record?.recordsRefID
+        ?.toLowerCase()
         .includes(searchRef.toLowerCase());
       return regNoMatch && emailMatch && refMatch;
     });
     setFilteredRecordList(filteredData);
-  }, [recordData, searchRegNo, searchEmail, searchRef, vehicleData, customerData]);
+  }, [
+    recordData,
+    searchRegNo,
+    searchEmail,
+    searchRef,
+    vehicleData,
+    customerData,
+  ]);
 
   const openDeleteConfirmationModal = (recordID) => {
     setSelectedrecordData(recordID);
@@ -150,12 +159,12 @@ const index = () => {
 
   const deleterecordData = (auctionID) => {
     deleteRecords(auctionID, (res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         fetchRecordsDetails();
         closeDeleteConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -167,8 +176,8 @@ const index = () => {
 
   const handleSearchByRefID = (event) => {
     event.preventDefault();
-    const searchedRef = recordData.find(
-      (record) => record.recordsRefID === searchRef
+    const searchedRef = recordData?.find(
+      (record) => record?.recordsRefID === searchRef
     );
     if (searchedRef) {
       setSelectedrecordData(searchedRef);
@@ -181,8 +190,8 @@ const index = () => {
 
   const handleSearchByRegNo = (event) => {
     event.preventDefault();
-    const searchedAuction = recordData.find(
-      (record) => vehicleData[record.vehicleId]?.registerno === searchRegNo
+    const searchedAuction = recordData?.find(
+      (record) => vehicleData[record?.vehicleId]?.registerno === searchRegNo
     );
     if (searchedAuction) {
       setSelectedrecordData(searchedAuction);
@@ -194,8 +203,8 @@ const index = () => {
   };
   const handleSearchByEmail = (event) => {
     event.preventDefault();
-    const searchedRecord = recordData.find(
-      (record) => customerData[record.customerId]?.email === searchEmail
+    const searchedRecord = recordData?.find(
+      (record) => customerData[record?.customerId]?.email === searchEmail
     );
     if (searchedRecord) {
       setSelectedrecordData(searchedRecord);
@@ -323,15 +332,15 @@ const index = () => {
               </tr>
             </thead>
             <tbody>
-              {currentRecord.length > 0 ? (
-                currentRecord.map((record, index) => (
+              {currentRecord?.length > 0 ? (
+                currentRecord?.map((record, index) => (
                   <tr key={index}>
                     <th scope="row">{index + 1}</th>
                     <td>{record.recordsRefID}</td>
                     <td>
-                      {vehicleData[record.vehicleId]?.registerno || "N/A"}
+                      {vehicleData[record?.vehicleId]?.registerno || "N/A"}
                     </td>
-                    <td>{customerData[record.customerId]?.email || "N/A"}</td>
+                    <td>{customerData[record?.customerId]?.email || "N/A"}</td>
                     <td className="col-2">
                       <IconButton
                         aria-label="delete"
@@ -340,17 +349,10 @@ const index = () => {
                       >
                         <VisibilityIcon className="" />
                       </IconButton>
-                      {/* <IconButton
-                          aria-label="delete"
-                          className="viewbutt"
-                          // onClick={() => OpenVehicleEditModal(vehicle)}
-                        >
-                          <EditIcon className="text-success" />
-                        </IconButton> */}
                       <IconButton
                         aria-label="delete"
                         className="viewbutt"
-                        onClick={() => openDeleteConfirmationModal(record._id)}
+                        onClick={() => openDeleteConfirmationModal(record?._id)}
                       >
                         <DeleteIcon className="text-danger" />
                       </IconButton>
@@ -369,7 +371,7 @@ const index = () => {
           <div className="Pagination-Text">
             <p>
               Page {currentPage} of{" "}
-              {Math.ceil(filteredRecordList.length / recordPerPage)}
+              {Math.ceil(filteredRecordList?.length / recordPerPage)}
             </p>
           </div>
           <div className="d-flex gap-2">
@@ -384,7 +386,7 @@ const index = () => {
             <button
               className="btn btn-primary"
               onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={indexOfLastRecord >= filteredRecordList.length}
+              disabled={indexOfLastRecord >= filteredRecordList?.length}
               style={{ width: 120 }}
             >
               Next

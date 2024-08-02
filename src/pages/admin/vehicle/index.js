@@ -39,7 +39,7 @@ const index = () => {
   const [vehiclePerPage, setvehiclePerPage] = useState(10);
   const indexOfLastVehicle = currentPage * vehiclePerPage;
   const indexOfFirstVehicle = indexOfLastVehicle - vehiclePerPage;
-  const currentVehicles = filteredVehiclesList.slice(
+  const currentVehicles = filteredVehiclesList?.slice(
     indexOfFirstVehicle,
     indexOfLastVehicle
   );
@@ -66,9 +66,9 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
-      if (res && res.data) {
-        const vehicles = Array.isArray(res.data) ? res.data : [];
-        if (vehicles.length === 0) {
+      if (res?.data) {
+        const vehicles = Array?.isArray(res?.data) ? res?.data : [];
+        if (vehicles?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Vehicles data available");
           return;
@@ -85,8 +85,8 @@ const index = () => {
 
   const handleSearchByRegNo = (event) => {
     event.preventDefault();
-    const searchedRef = vehicleData.find(
-      (vehicle) => vehicle.registerno === searchRegNo
+    const searchedRef = vehicleData?.find(
+      (vehicle) => vehicle?.registerno === searchRegNo
     );
     if (searchedRef) {
       setSelectedVehicledata(searchedRef);
@@ -99,8 +99,8 @@ const index = () => {
 
   const handleSearchByName = (event) => {
     event.preventDefault();
-    const searchedRef = vehicleData.find(
-      (vehicle) => vehicle.name === searchName
+    const searchedRef = vehicleData?.find(
+      (vehicle) => vehicle?.name === searchName
     );
     if (searchedRef) {
       setSelectedVehicledata(searchedRef);
@@ -112,7 +112,7 @@ const index = () => {
   };
 
   useEffect(() => {
-    const filteredData = vehicleData.filter((vehicle) => {
+    const filteredData = vehicleData?.filter((vehicle) => {
       const isWithinPriceRange = (price) => {
         switch (selectedPrice) {
           case "50000-100000":
@@ -133,11 +133,11 @@ const index = () => {
       };
 
       return (
-        vehicle.registerno.toLowerCase().includes(searchRegNo.toLowerCase()) &&
-        vehicle.name.toLowerCase().includes(searchName.toLowerCase()) &&
-        vehicle.model.toLowerCase().includes(searchModel.toLowerCase()) &&
-        (selectedStatus === "" || vehicle.status === selectedStatus) &&
-        isWithinPriceRange(vehicle.price)
+        vehicle?.registerno?.toLowerCase().includes(searchRegNo?.toLowerCase()) &&
+        vehicle?.name?.toLowerCase().includes(searchName?.toLowerCase()) &&
+        vehicle?.model?.toLowerCase().includes(searchModel?.toLowerCase()) &&
+        (selectedStatus === "" || vehicle?.status === selectedStatus) &&
+        isWithinPriceRange(vehicle?.price)
       );
     });
     const sortOrder = ["Requested", "Pending", "Available", "Sold"];
@@ -185,14 +185,14 @@ const index = () => {
 
   const deleteVehicleData = (vehicleID) => {
     deleteVehicle(vehicleID, (res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         setVehicleData(
-          vehicleData.filter((vehicle) => vehicle._id !== vehicleID)
+          vehicleData?.filter((vehicle) => vehicle?._id !== vehicleID)
         );
         closeDeleteConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -200,8 +200,8 @@ const index = () => {
   const fetchUpdatedData = () => {
     dispatch(setLoading(true));
     getVehicleDetails((res) => {
-      if (res && res.data) {
-        setVehicleData(res.data);
+      if (res?.data) {
+        setVehicleData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -322,7 +322,7 @@ const index = () => {
                     onChange={HandleSelectStatus}
                   >
                     <option value="">Select Status</option>
-                    {Status.map((data, index) => (
+                    {Status?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -408,29 +408,29 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentVehicles.length > 0 ? (
-                  currentVehicles.map((vehicle, index) => (
+                {currentVehicles?.length > 0 ? (
+                  currentVehicles?.map((vehicle, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{vehicle.registerno}</td>
-                      <td>{vehicle.name}</td>
-                      <td>{vehicle.type}</td>
-                      <td>{vehicle.model}</td>
-                      <td>{`LKR ${vehicle.price}`}</td>
+                      <td>{vehicle?.registerno}</td>
+                      <td>{vehicle?.name}</td>
+                      <td>{vehicle?.type}</td>
+                      <td>{vehicle?.model}</td>
+                      <td>{`LKR ${vehicle?.price}`}</td>
                       <td>
                         {" "}
                         <div
                           className={`Table-status-field ${
-                            vehicle.status === "Available"
+                            vehicle?.status === "Available"
                               ? "Available-Field"
-                              : vehicle.status === "Pending"
+                              : vehicle?.status === "Pending"
                               ? "Pending-Field"
-                              : vehicle.status === "Requested"
+                              : vehicle?.status === "Requested"
                               ? "Requested-Field"
                               : "Sold-Field"
                           }`}
                         >
-                          {vehicle.status}
+                          {vehicle?.status}
                         </div>
                       </td>
                       <td className="col-2">
@@ -452,7 +452,7 @@ const index = () => {
                           aria-label="delete"
                           className="viewbutt"
                           onClick={() =>
-                            openDeleteConfirmationModal(vehicle._id)
+                            openDeleteConfirmationModal(vehicle?._id)
                           }
                         >
                           <DeleteIcon className="text-danger" />
@@ -472,7 +472,7 @@ const index = () => {
             <div className="Pagination-Text">
               <p>
                 Page {currentPage} of{" "}
-                {Math.ceil(filteredVehiclesList.length / vehiclePerPage)}
+                {Math.ceil(filteredVehiclesList?.length / vehiclePerPage)}
               </p>
             </div>
             <div className="d-flex gap-2">
@@ -487,7 +487,7 @@ const index = () => {
               <button
                 className="btn btn-primary"
                 onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={indexOfLastVehicle >= filteredVehiclesList.length}
+                disabled={indexOfLastVehicle >= filteredVehiclesList?.length}
                 style={{ width: 120 }}
               >
                 Next
