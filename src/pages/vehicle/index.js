@@ -58,7 +58,7 @@ const index = () => {
     getVehicleDetails((res) => {
       if (res?.data) {
         const vehicles = Array?.isArray(res?.data) ? res?.data : [];
-        const filteredVehicleData = vehicles.filter(
+        const filteredVehicleData = vehicles?.filter(
           (vehicle) => vehicle?.status !== "Requested"
         );
         setVehicleData(filteredVehicleData);
@@ -143,7 +143,7 @@ const index = () => {
       <div className="container-fluid min-vh-100">
         <div className="row" style={{ paddingTop: "120px" }}>
           <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>
-            {contentimage.map((content, index) => (
+            {contentimage?.map((content, index) => (
               <div
                 key={index}
                 style={{
@@ -153,7 +153,7 @@ const index = () => {
                 }}
               >
                 <img
-                  src={content.image}
+                  src={content?.image}
                   style={{
                     width: "100%",
                     height: "100%",
@@ -178,7 +178,7 @@ const index = () => {
                     onChange={HandleSelectType}
                   >
                     <option value="">Select the Catgegory</option>
-                    {Vehicletype.map((data, index) => (
+                    {Vehicletype?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -237,7 +237,7 @@ const index = () => {
                     onChange={HandleSelectBrand}
                   >
                     <option value="">Select the Brand</option>
-                    {Brand.map((data, index) => (
+                    {Brand?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -269,7 +269,7 @@ const index = () => {
                     onChange={HandleSelectColor}
                   >
                     <option value="">Select the Color</option>
-                    {VehicleColors.map((data, index) => (
+                    {VehicleColors?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -299,7 +299,7 @@ const index = () => {
                     onChange={HandleSelectFuel}
                   >
                     <option value="">Select the FuelType</option>
-                    {FuelType.map((data, index) => (
+                    {FuelType?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -357,27 +357,24 @@ const index = () => {
         </div>
 
         <div className="row ps-5 pe-5 mb-5">
-          {filteredVehiclesList.length > 0 ? (
-            filteredVehiclesList.map((vehicle, index) => {
+          {filteredVehiclesList?.length > 0 ? (
+            filteredVehiclesList?.map((vehicle, index) => {
               const vehicleshortDetails = [
                 {
                   icon: vehicleCardicon1,
-                  name:
-                    vehicle.ownership && vehicle.ownership === 1
-                      ? "Brand-New"
-                      : "Pre-Owned",
+                  name: vehicle?.ownership === 1 ? "Brand-New" : "Pre-Owned",
                 },
-                { icon: vehicleCardicon2, name: vehicle.yom },
-                { icon: vehicleCardicon3, name: vehicle.fuel },
-                { icon: vehicleCardicon4, name: vehicle.color },
-                { icon: vehicleCardicon5, name: `${vehicle.power} CC` },
+                { icon: vehicleCardicon2, name: vehicle?.yom },
+                { icon: vehicleCardicon3, name: vehicle?.fuel },
+                { icon: vehicleCardicon4, name: vehicle?.color },
+                { icon: vehicleCardicon5, name: `${vehicle?.power} CC` },
               ];
 
               const statusStyle = {
                 backgroundColor:
-                  vehicle.status === "Available"
+                  vehicle?.status === "Available"
                     ? "#17B530"
-                    : vehicle.status === "Pending"
+                    : vehicle?.status === "Pending"
                     ? "#FFBE18"
                     : "#F73B3B",
               };
@@ -390,7 +387,7 @@ const index = () => {
                         className="d-flex justify-content-center align-items-center vehicle-status-indicator"
                         style={statusStyle}
                       >
-                        {vehicle.status}
+                        {vehicle?.status}
                       </div>
                     </div>
                     <div
@@ -401,7 +398,7 @@ const index = () => {
                       }}
                     >
                       <Image
-                        src={vehicle.image[0]}
+                        src={vehicle?.image[0]}
                         alt={`Vehicle ${index}`}
                         layout="fill"
                         objectFit="cover"
@@ -409,19 +406,19 @@ const index = () => {
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      <h1>{vehicle.name}</h1>
-                      <h4>{`LKR ${vehicle.price}`}</h4>
+                      <h1>{vehicle?.name}</h1>
+                      <h4>{`LKR ${vehicle?.price}`}</h4>
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
-                      {vehicleshortDetails.map((content, index) => (
+                      {vehicleshortDetails?.map((content, index) => (
                         <div
                           className="d-flex flex-column align-items-center justify-content-center"
                           key={index}
                         >
                           <div className="Vehicle-card-display-icon p-3">
-                            <Image src={content.icon} />
+                            <Image src={content?.icon} />
                           </div>
-                          <h6 className="pt-1">{content.name}</h6>
+                          <h6 className="pt-1">{content?.name}</h6>
                         </div>
                       ))}
                     </div>
@@ -432,12 +429,17 @@ const index = () => {
                           text={"More Details"}
                           width={"100%"}
                           onClick={() => {
-                            router.push(`/vehicle/${vehicle._id}`);
+                            router.push(`/vehicle/${vehicle?._id}`);
                           }}
                         />
                       </div>
                       <div className="col-3">
-                        <button className="btn btn-secondary" onClick={handleAdminShow}>Contact</button>
+                        <button
+                          className="btn btn-secondary"
+                          onClick={handleAdminShow}
+                        >
+                          Contact
+                        </button>
                       </div>
                     </div>
                   </div>

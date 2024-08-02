@@ -15,8 +15,17 @@ import ExpertLayout from "@/src/layouts/ExpertLayout";
 import { getEmployeeInfo } from "@/src/redux/action/employee";
 
 const formatTimestamp = (date) => {
-  const datePart = new Date(date).toLocaleDateString([], { month: '2-digit', day: '2-digit' });
-  const timePart = new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
+  const datePart = new Date(date).toLocaleDateString([], {
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const timePart = new Date(date)
+    .toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .toLowerCase();
   return `${datePart} - ${timePart}`;
 };
 
@@ -33,16 +42,17 @@ const Index = () => {
 
   const scrollToBottom = () => {
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
     }
   };
 
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
-      if (res && res.data) {
-        const customers = Array.isArray(res.data) ? res.data : [];
-        if (customers.length === 0) {
+      if (res?.data) {
+        const customers = Array?.isArray(res?.data) ? res?.data : [];
+        if (customers?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Customers data available");
           return;
@@ -60,8 +70,8 @@ const Index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getEmployeeInfo((res) => {
-      if (res.status === 200) {
-        setemployeeData(res.data);
+      if (res?.status === 200) {
+        setemployeeData(res?.data);
         dispatch(setLoading(false));
       }
     });
@@ -74,7 +84,7 @@ const Index = () => {
           const response = await axios.get(
             `${process.env.api_base_url}/expertchats/${employeeData._id}/Employee/${selectedReceiver._id}/Customer`
           );
-          setSelectedChat(response.data);
+          setSelectedChat(response?.data);
         } catch (error) {
           console.error("Error fetching chat history:", error);
         }
@@ -83,7 +93,6 @@ const Index = () => {
       fetchChatHistory();
     }
   }, [employeeData, selectedReceiver]);
-   
 
   useEffect(() => {
     socket.on("message", (message) => {
@@ -102,9 +111,9 @@ const Index = () => {
   const handleSendMessage = async (message) => {
     if (!selectedReceiver) return;
     const newMessage = {
-      senderId: employeeData._id,
+      senderId: employeeData?._id,
       senderModel: "Employee",
-      receiverId: selectedReceiver._id,
+      receiverId: selectedReceiver?._id,
       receiverModel: "Customer",
       message,
     };
@@ -127,13 +136,11 @@ const Index = () => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
     setFilteredReceivers(
-      receivers.filter((receiver) =>
-        `${receiver.fname} ${receiver.lname}`.toLowerCase().includes(query)
+      receivers?.filter((receiver) =>
+        `${receiver?.fname} ${receiver?.lname}`?.toLowerCase().includes(query)
       )
     );
   };
-
- 
 
   return (
     <ExpertLayout>
@@ -149,8 +156,8 @@ const Index = () => {
                   >
                     <Image
                       src={
-                        selectedReceiver && selectedReceiver.profilePic
-                          ? selectedReceiver.profilePic
+                        selectedReceiver?.profilePic
+                          ? selectedReceiver?.profilePic
                           : avatar
                       }
                       width={50}
@@ -160,34 +167,37 @@ const Index = () => {
                     />
                     <h4 className="m-0">
                       {selectedReceiver
-                        ? `${selectedReceiver.fname} ${selectedReceiver.lname}`
+                        ? `${selectedReceiver?.fname} ${selectedReceiver?.lname}`
                         : ""}
                     </h4>
                   </div>
-                  <div className="message-container message-overflow-container" ref={messageContainerRef} >
-                    {selectedChat.map((message, index) => (
+                  <div
+                    className="message-container message-overflow-container"
+                    ref={messageContainerRef}
+                  >
+                    {selectedChat?.map((message, index) => (
                       <div
                         className={`message d-flex ${
-                          message.senderModel === "Employee"
+                          message?.senderModel === "Employee"
                             ? "message-sent"
                             : "message-received"
                         }`}
                         key={index}
                       >
                         <div className="sender-info">
-                          {message.senderModel === "Employee"
+                          {message?.senderModel === "Employee"
                             ? "You"
                             : `${selectedReceiver.fname}`}
                         </div>
-                        <div>{message.message}</div>
+                        <div>{message?.message}</div>
                         <div
                           className={`timestamp d-flex ${
-                            message.senderModel === "Employee"
+                            message?.senderModel === "Employee"
                               ? "timestamp-sent"
                               : "timestamp-received"
                           }`}
                         >
-                          {formatTimestamp(message.timestamp)}
+                          {formatTimestamp(message?.timestamp)}
                         </div>
                       </div>
                     ))}
@@ -225,14 +235,14 @@ const Index = () => {
                 </form>
               </div>
               <div className="receiver-list message-overflow-container">
-                {filteredReceivers.map((receiver) => (
+                {filteredReceivers?.map((receiver) => (
                   <div
                     className="receiver-item"
-                    key={receiver._id}
+                    key={receiver?._id}
                     onClick={() => setSelectedReceiver(receiver)}
                   >
                     <div className="fw-bold">
-                      {receiver.fname} {receiver.lname}
+                      {receiver?.fname} {receiver?.lname}
                     </div>
                   </div>
                 ))}

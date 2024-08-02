@@ -20,7 +20,7 @@ function MyApp({ Component, pageProps }) {
       <StoreProvider>
       <style jsx global>{`
         body {
-          font-family: ${notoSans.style.fontFamily};
+          font-family: ${notoSans?.style.fontFamily};
         }
       `}</style>
       <Loader />

@@ -54,13 +54,13 @@ const index = () => {
     };
 
     changeEmployeePassword(datapass, (res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -75,8 +75,8 @@ const index = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getEmployeeInfo((res) => {
-      if (res.status == 200) {
-        setemployeeData(res.data);
+      if (res?.status == 200) {
+        setemployeeData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -98,7 +98,7 @@ const index = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     dispatch(setLoading(true));
-    const employeeId = employeeData._id;
+    const employeeId = employeeData?._id;
     let data = { ...userUpdatedData };
     if (file) {
       const uploadedImageUrl = await dispatch(uploadImage(file));
@@ -108,21 +108,20 @@ const index = () => {
       }
     }
 
-    employeeProfileEdit(employeeId  , data, (res) => {
-      console.log(res);
-      if (res.status === 201) {
+    employeeProfileEdit(employeeId, data, (res) => {
+      if (res?.status === 201) {
         setFile(null);
         dispatch(setLoading(false));
-        toast.info(res.data.message);
-      } else if (res.status === 200) {
+        toast.info(res?.data?.message);
+      } else if (res?.status === 200) {
         setFile(null);
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         setTimeout(() => {
           window.location.reload();
         }, 2000);
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -135,9 +134,7 @@ const index = () => {
             <div className="d-flex alig-items-center justify-content-center pt-5">
               <Image
                 src={
-                  employeeData && employeeData.profilePic
-                    ? employeeData.profilePic
-                    : avatar
+                  employeeData?.profilePic ? employeeData?.profilePic : avatar
                 }
                 className="avatar rounded-circle"
                 alt="avatar"
@@ -147,7 +144,7 @@ const index = () => {
             </div>
             <hr />
             <div className="text-center Profile-name-section pb-3">
-              {employeeData && <h1>{employeeData.name}</h1>}
+               <h1>{employeeData?.name}</h1>
               <h2>Expert</h2>
             </div>
             <div className="ps-3 pe-3">
@@ -171,7 +168,7 @@ const index = () => {
                       <InputField
                         label={"Name"}
                         placeholder={"Name"}
-                        defaultValue={employeeData.name}
+                        defaultValue={employeeData?.name}
                         onChange={(value) => handleChange("name", value)}
                       />
                     </div>
@@ -179,7 +176,7 @@ const index = () => {
                       <InputField
                         label={"Email"}
                         placeholder={"email"}
-                        defaultValue={employeeData.email}
+                        defaultValue={employeeData?.email}
                         onChange={(value) => handleChange("email", value)}
                       />
                     </div>
@@ -187,7 +184,7 @@ const index = () => {
                       <InputField
                         label={"Phone No"}
                         placeholder={"phone no"}
-                        defaultValue={employeeData.phoneNumber}
+                        defaultValue={employeeData?.phoneNumber}
                         onChange={(value) => handleChange("phoneNumber", value)}
                       />
                     </div>
@@ -267,7 +264,7 @@ const index = () => {
           ) : (
             <div className="col-lg-8 col-md-6 col-sm-12 mb-2">
               <div className="Profile-Edit-Section d-flex flex-column align-items-center justify-content-center h-100">
-                <h1>Hi {employeeData && employeeData.name}</h1>
+                <h1>Hi {employeeData?.name}</h1>
                 <p>Welcome to Profile Section</p>
                 <Image src={ProfileEdit} alt="" width={400} />
               </div>

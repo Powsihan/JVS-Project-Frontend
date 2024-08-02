@@ -12,7 +12,6 @@ import upicon from "../../../assets/icons/upicon.svg";
 import Image from "next/image";
 import CommonButton from "@/src/components/CommonButton";
 import SignInModal from "@/src/components/modals/SignInModal";
-import Cookies from "js-cookie";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { addPurchase } from "@/src/redux/action/purchase";
 import { toast } from "react-toastify";
@@ -43,8 +42,8 @@ const VehicleDetail = () => {
   useEffect(() => {
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
-      if (res.status == 200) {
-        setCustomerData(res.data);
+      if (res?.status == 200) {
+        setCustomerData(res?.data);
         dispatch(setLoading(false));
       } else {
         dispatch(setLoading(false));
@@ -56,8 +55,8 @@ const VehicleDetail = () => {
     if (id) {
       dispatch(setLoading(true));
       getVehicleInfo(id, (res) => {
-        if (res && res.data) {
-          setVehicleData(res.data);
+        if (res?.data) {
+          setVehicleData(res?.data);
           dispatch(setLoading(false));
         } else {
           dispatch(setLoading(false));
@@ -72,33 +71,33 @@ const VehicleDetail = () => {
       {
         icon: vehicleCardicon1,
         name:
-          vehicleData.ownership && vehicleData.ownership === 1
+          vehicleData?.ownership === 1
             ? "Brand-New"
             : "Pre-Owned",
       },
-      { icon: vehicleCardicon2, name: vehicleData.yom },
-      { icon: vehicleCardicon3, name: vehicleData.fuel },
-      { icon: vehicleCardicon4, name: vehicleData.color },
-      { icon: vehicleCardicon5, name: `${vehicleData.power} CC` },
+      { icon: vehicleCardicon2, name: vehicleData?.yom },
+      { icon: vehicleCardicon3, name: vehicleData?.fuel },
+      { icon: vehicleCardicon4, name: vehicleData?.color },
+      { icon: vehicleCardicon5, name: `${vehicleData?.power} CC` },
     ];
   }
 
   if (vehicleData) {
     var vehicleDetails = [
-      { label: "Registration No", content: vehicleData.registerno },
-      { label: "Vehicle Name", content: vehicleData.name },
-      { label: "Vehicle Type", content: vehicleData.type },
-      { label: "Vehicle Brand", content: vehicleData.brand },
-      { label: "Vehicle Model", content: vehicleData.model },
-      { label: "Vehicle Color", content: vehicleData.color },
-      { label: "Vehicle Model Year", content: vehicleData.yom },
-      { label: "Vehicle Ownership", content: vehicleData.ownership },
-      { label: "GearBox", content: vehicleData.gear },
-      { label: "Fuel Type", content: vehicleData.fuel },
-      { label: "Fuel Capacity", content: vehicleData.fuelcap },
-      { label: "Mileage", content: vehicleData.mileage },
-      { label: "No of Doors", content: vehicleData.noofdoors },
-      { label: "No Of Seats", content: vehicleData.noofseats },
+      { label: "Registration No", content: vehicleData?.registerno },
+      { label: "Vehicle Name", content: vehicleData?.name },
+      { label: "Vehicle Type", content: vehicleData?.type },
+      { label: "Vehicle Brand", content: vehicleData?.brand },
+      { label: "Vehicle Model", content: vehicleData?.model },
+      { label: "Vehicle Color", content: vehicleData?.color },
+      { label: "Vehicle Model Year", content: vehicleData?.yom },
+      { label: "Vehicle Ownership", content: vehicleData?.ownership },
+      { label: "GearBox", content: vehicleData?.gear },
+      { label: "Fuel Type", content: vehicleData?.fuel },
+      { label: "Fuel Capacity", content: vehicleData?.fuelcap },
+      { label: "Mileage", content: vehicleData?.mileage },
+      { label: "No of Doors", content: vehicleData?.noofdoors },
+      { label: "No Of Seats", content: vehicleData?.noofseats },
     ];
   }
 
@@ -116,15 +115,15 @@ const VehicleDetail = () => {
 
   const addPurchaseAction = () => {
     dispatch(setLoading(true));
-    const data = { vehicleId: id, customerId: customerData._id };
+    const data = { vehicleId: id, customerId: customerData?._id };
     addPurchase(data, (res) => {
-      if (res.status == 200) {
+      if (res?.status == 200) {
         dispatch(setLoading(false));
-        toast.success(res.data.message);
+        toast.success(res?.data?.message);
         const updatedVehicleData = { status: "Pending" };
         vehicleEdit(id, updatedVehicleData, (editRes) => {
           dispatch(setLoading(false));
-          if (editRes.status === 200) {
+          if (editRes?.status === 200) {
             closeStatusConfirmationModal();
           } else {
             toast.error("Failed to update vehicle status");
@@ -132,7 +131,7 @@ const VehicleDetail = () => {
         });
         closeStatusConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -152,7 +151,6 @@ const VehicleDetail = () => {
   return (
     <div>
       <Navbar />
-      {vehicleData && (
         <div className="container-fluid min-vh-100 p-5 mb-5">
           <div className="mb-4" style={{ paddingTop: "100px" }}>
             <IconButton onClick={() => router.push("/vehicle")}>
@@ -167,24 +165,16 @@ const VehicleDetail = () => {
           </div>
           <div className="row">
             <div className="col-lg-6 col-md-6 col-sm-12">
-              {vehicleData && vehicleData.image && (
+              {vehicleData?.image && (
                 <Carousel showThumbs={true} autoPlay={true} infiniteLoop={true}>
-                  {vehicleData.image.map((image, index) => (
+                  {vehicleData?.image?.map((image, index) => (
                     <div
                       key={index}
-                      style={{
-                        position: "relative",
-                        width: "100%",
-                        height: "450px",
-                      }}
+                      className="carousel-image-container-vehicle-section"
                     >
                       <img
                         src={image}
-                        style={{
-                          width: "100%",
-                          height: "100%",
-                          objectFit: "fill",
-                        }}
+                        className="carousel-image-vehicle-section"
                       />
                     </div>
                   ))}
@@ -193,19 +183,19 @@ const VehicleDetail = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-sm-12 Vehicle-Detail-Container p-3">
               <div className="d-flex flex-row justify-content-between align-items-center mb-2">
-                <h1>{vehicleData.name}</h1>
-                <h4>{`LKR ${vehicleData.price}/-`}</h4>
+                <h1>{vehicleData?.name}</h1>
+                <h4>{`LKR ${vehicleData?.price}/-`}</h4>
               </div>
               <div className="d-flex justify-content-around pt-2 align-items-center ps-1 pe-1">
-                {vehicleshortDetails.map((content, index) => (
+                {vehicleshortDetails?.map((content, index) => (
                   <div
                     className="d-flex flex-column align-items-center justify-content-center"
                     key={index}
                   >
                     <div className="Vehicle-card-display-icon p-3">
-                      <Image src={content.icon} />
+                      <Image src={content?.icon} />
                     </div>
-                    <h6 className="pt-1">{content.name}</h6>
+                    <h6 className="pt-1">{content?.name}</h6>
                   </div>
                 ))}
               </div>
@@ -248,11 +238,11 @@ const VehicleDetail = () => {
                 <div className="container-fluid ps-5 pe-5 pt-3">
                   {(showAllDetails
                     ? vehicleDetails
-                    : vehicleDetails.slice(0, 5)
-                  ).map((vehicle, index) => (
+                    : vehicleDetails?.slice(0, 5)
+                  )?.map((vehicle, index) => (
                     <div className="d-flex align-items-center justify-content-between vehicle-detail-div p-2 ps-3 pe-3 mb-3">
-                      <h3>{vehicle.label}</h3>
-                      <h6>{vehicle.content}</h6>
+                      <h3>{vehicle?.label}</h3>
+                      <h6>{vehicle?.content}</h6>
                     </div>
                   ))}
                   <div className="pt-3">
@@ -267,7 +257,7 @@ const VehicleDetail = () => {
               ) : (
                 <div className="container-fluid ps-5 pe-5 pt-3">
                   <div className="row pt-2 ps-1 pe-1">
-                    {vehicleData.features.map((content, index) => (
+                    {vehicleData?.features?.map((content, index) => (
                       <div className="col mb-3" key={index}>
                         <div
                           className="Vehicle-card-display-icon p-3 d-flex justify-content-center align-items-center"
@@ -283,7 +273,6 @@ const VehicleDetail = () => {
             </div>
           </div>
         </div>
-      )}
       <SignInModal
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
