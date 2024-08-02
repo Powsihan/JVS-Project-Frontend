@@ -37,7 +37,7 @@ const index = () => {
   const [auctionPerPage, setauctionPerPage] = useState(10);
   const indexOfLastAuction = currentPage * auctionPerPage;
   const indexOfFirstAuction = indexOfLastAuction - auctionPerPage;
-  const currentAuction = filteredAuctionList.slice(
+  const currentAuction = filteredAuctionList?.slice(
     indexOfFirstAuction,
     indexOfLastAuction
   );
@@ -65,9 +65,9 @@ const index = () => {
   const fetchAuctionDetails = () => {
     dispatch(setLoading(true));
     getAuctionDetails(async (res) => {
-      if (res && res.data) {
-        const auction = Array.isArray(res.data) ? res.data : [];
-        if (auction.length === 0) {
+      if (res && res?.data) {
+        const auction = Array.isArray(res?.data) ? res?.data : [];
+        if (auction?.length === 0) {
           dispatch(setLoading(false));
           toast.info("No Auction data available");
           return;
@@ -75,11 +75,11 @@ const index = () => {
         setAuctionData(auction);
         dispatch(setLoading(false));
 
-        const vehicleInfoPromises = auction.map(
+        const vehicleInfoPromises = auction?.map(
           (auction) =>
             new Promise((resolve) => {
-              getVehicleInfo(auction.vehicleId, (response) =>
-                resolve({ vehicleId: auction.vehicleId, data: response.data })
+              getVehicleInfo(auction?.vehicleId, (response) =>
+                resolve({ vehicleId: auction?.vehicleId, data: response?.data })
               );
             })
         );
@@ -90,8 +90,8 @@ const index = () => {
           const vehicleDataMap = {};
 
           vehicleInfoResponses.forEach((response) => {
-            if (response.data) {
-              vehicleDataMap[response.vehicleId] = response.data;
+            if (response?.data) {
+              vehicleDataMap[response?.vehicleId] = response?.data;
             }
           });
 
@@ -109,24 +109,24 @@ const index = () => {
   };
 
   useEffect(() => {
-    const filteredData = auctionData.filter((auction) => {
-      const regNoMatch = vehicleData[auction.vehicleId]?.registerno
-        ? vehicleData[auction.vehicleId].registerno
+    const filteredData = auctionData?.filter((auction) => {
+      const regNoMatch = vehicleData[auction?.vehicleId]?.registerno
+        ? vehicleData[auction?.vehicleId]?.registerno
             .toLowerCase()
             .includes(searchRegNo.toLowerCase())
         : false;
-      const refMatch = auction.auctionRefID
+      const refMatch = auction?.auctionRefID
         .toLowerCase()
         .includes(searchRef.toLowerCase());
       const statusMatch =
-        selectedStatus === "" || auction.status === selectedStatus;
+        selectedStatus === "" || auction?.status === selectedStatus;
       const startdateMatch =
         searchStartDate === null ||
-        new Date(auction.startDate).toLocaleDateString() ===
+        new Date(auction?.startDate).toLocaleDateString() ===
           new Date(searchStartDate).toLocaleDateString();
       const enddateMatch =
         searchEndDate === null ||
-        new Date(auction.endDate).toLocaleDateString() ===
+        new Date(auction?.endDate).toLocaleDateString() ===
           new Date(searchEndDate).toLocaleDateString();
       return (
         regNoMatch && refMatch && statusMatch && startdateMatch && enddateMatch
@@ -154,12 +154,12 @@ const index = () => {
 
   const deleteAuctionData = (auctionID) => {
     deleteAuction(auctionID, (res) => {
-      if (res.status === 200) {
-        toast.success(res.data.message);
+      if (res?.status === 200) {
+        toast.success(res?.data?.message);
         fetchAuctionDetails();
         closeDeleteConfirmationModal();
       } else {
-        toast.error(res.data.message);
+        toast.error(res?.data?.message);
       }
     });
   };
@@ -171,8 +171,8 @@ const index = () => {
 
   const handleSearchByRefID = (event) => {
     event.preventDefault();
-    const searchedRef = auctionData.find(
-      (auction) => auction.auctionRefID === searchRef
+    const searchedRef = auctionData?.find(
+      (auction) => auction?.auctionRefID === searchRef
     );
     if (searchedRef) {
       setSelectedAuctiondata(searchedRef);
@@ -185,8 +185,8 @@ const index = () => {
 
   const handleSearchByRegNo = (event) => {
     event.preventDefault();
-    const searchedAuction = auctionData.find(
-      (auction) => vehicleData[auction.vehicleId]?.registerno === searchRegNo
+    const searchedAuction = auctionData?.find(
+      (auction) => vehicleData[auction?.vehicleId]?.registerno === searchRegNo
     );
     if (searchedAuction) {
       setSelectedAuctiondata(searchedAuction);
@@ -325,7 +325,7 @@ const index = () => {
                     onChange={HandleSelectStatus}
                   >
                     <option value="">Select Status</option>
-                    {AuctionStatus.map((data, index) => (
+                    {AuctionStatus?.map((data, index) => (
                       <option key={index} value={data}>
                         {data}
                       </option>
@@ -379,28 +379,28 @@ const index = () => {
                 </tr>
               </thead>
               <tbody>
-                {currentAuction.length > 0 ? (
-                  currentAuction.map((auction, index) => (
+                {currentAuction?.length > 0 ? (
+                  currentAuction?.map((auction, index) => (
                     <tr key={index}>
                       <th scope="row">{index + 1}</th>
-                      <td>{auction.auctionRefID}</td>
+                      <td>{auction?.auctionRefID}</td>
                       <td>
-                        {vehicleData[auction.vehicleId]?.registerno || "N/A"}
+                        {vehicleData[auction?.vehicleId]?.registerno || "N/A"}
                       </td>
-                      <td>{auction.startDate}</td>
-                      <td> {auction.endDate}</td>
-                      <td>{`Rs ${auction.bidstartprice}`}</td>
+                      <td>{auction?.startDate}</td>
+                      <td> {auction?.endDate}</td>
+                      <td>{`Rs ${auction?.bidstartprice}`}</td>
                       <td>
                         <div
                           className={`Table-status-field ${
-                            auction.status === "Available"
+                            auction?.status === "Available"
                               ? "Available-Field"
                               : auction.status === "Pending"
                               ? "Pending-Field"
                               : "Sold-Field"
                           }`}
                         >
-                          {auction.status}
+                          {auction?.status}
                         </div>
                       </td>
                       <td className="col-2">
@@ -422,7 +422,7 @@ const index = () => {
                           aria-label="delete"
                           className="viewbutt"
                           onClick={() =>
-                            openDeleteConfirmationModal(auction._id)
+                            openDeleteConfirmationModal(auction?._id)
                           }
                         >
                           <DeleteIcon className="text-danger" />
@@ -442,7 +442,7 @@ const index = () => {
             <div className="Pagination-Text">
               <p>
                 Page {currentPage} of{" "}
-                {Math.ceil(filteredAuctionList.length / auctionPerPage)}
+                {Math.ceil(filteredAuctionList?.length / auctionPerPage)}
               </p>
             </div>
             <div className="d-flex gap-2">
@@ -457,7 +457,7 @@ const index = () => {
               <button
                 className="btn btn-primary"
                 onClick={() => setCurrentPage(currentPage + 1)}
-                disabled={indexOfLastAuction >= filteredAuctionList.length}
+                disabled={indexOfLastAuction >= filteredAuctionList?.length}
                 style={{ width: 120 }}
               >
                 Next
