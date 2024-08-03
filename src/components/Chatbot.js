@@ -1,11 +1,10 @@
-
 import React, { useState, useEffect } from "react";
 import ChatBot from "react-simple-chatbot";
 import { ThemeProvider } from "styled-components";
 import axios from "axios";
 import ClearIcon from "@mui/icons-material/Clear";
 import { IconButton } from "@mui/material";
-import "../styles/component.css"
+import "../styles/component.css";
 
 const theme = {
   background: "#f5f8fb",
@@ -25,16 +24,24 @@ const ChatbotAPI = ({ steps }) => {
   useEffect(() => {
     const fetchResponse = async () => {
       try {
-        const res = await axios.post("http://localhost:5000/api/chat", {
+        const res = await axios.post("http://localhost:5000/api/aichat", {
           userInput,
         });
-        setResponse(res?.data?.response);
+        const formattedResponse = formatResponse(res.data.response);
+        setResponse(formattedResponse);
       } catch (error) {
         setResponse("Sorry, there was an error. Please try again later.");
       }
     };
     fetchResponse();
   }, [userInput]);
+
+  const formatResponse = (text) => {
+    return text
+      .split("\n")
+      .filter(line => line.trim() !== "")
+      .map((line, index) => <li key={index}>{line.trim()}</li>);
+  };
 
   return <div>{response}</div>;
 };
@@ -65,17 +72,19 @@ const steps = [
   },
 ];
 
-
 const Chatbot = ({ showChatbot, setShowChatbot }) => {
   return (
     <div>
       {showChatbot && (
         <ThemeProvider theme={theme}>
           <div className="chatbot-wrapper">
-            <ChatBot steps={steps} headerTitle="AI Expert"/>
-            <div className="close-button-chatbot" onClick={() => setShowChatbot(false)}>
+            <ChatBot steps={steps} headerTitle="AI Expert" />
+            <div
+              className="close-button-chatbot"
+              onClick={() => setShowChatbot(false)}
+            >
               <IconButton>
-                <ClearIcon sx={{color:'#fff'}}/>
+                <ClearIcon sx={{ color: "#fff" }} />
               </IconButton>
             </div>
           </div>
