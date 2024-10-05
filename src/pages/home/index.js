@@ -207,7 +207,7 @@ const index = () => {
                 <Image src={Expert} alt="" />
               </div> */}
               <div
-                className="p-3 rounded-5 chat-bot-image"
+                className="p-3 rounded-5 chat-bot-image position-fixed"
                 onClick={logincustomerData ? openChatBox : LoginViewModal}
               >
                 <Image src={Chatbot} alt="" />
