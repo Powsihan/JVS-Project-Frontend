@@ -15,7 +15,8 @@ import { EmployeeRole } from "@/src/data/datas";
 import EmployeeView from "@/src/components/modals/EmployeeView";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { add } from "@/src/utils/ImagesPath";
-const index = () => {
+
+const EmployeePage = () => {
   const dispatch = useDispatch();
   const [employeeData, setEmployeedata] = useState([]);
   const [showAddSection, setShowAddSection] = useState(false);
@@ -396,4 +397,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default EmployeePage;

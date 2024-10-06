@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import ExpertLayout from "@/src/layouts/ExpertLayout";
 
-const index = () => {
+const ExpertVehiclePage = () => {
   const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
   const [searchRegNo, setSearchRegNo] = useState("");
@@ -428,4 +428,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ExpertVehiclePage;

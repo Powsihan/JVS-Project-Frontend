@@ -32,7 +32,7 @@ import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { IconButton } from "@mui/material";
 import CameraAltIcon from "@mui/icons-material/CameraAlt";
 
-const index = () => {
+const ProfilePage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState({});
@@ -490,4 +490,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ProfilePage;

@@ -22,7 +22,7 @@ import {
 import { getAllPurchases } from "@/src/redux/action/purchase";
 import { getAllRecordsDetails } from "@/src/redux/action/records";
 
-const index = () => {
+const DashboardPage = () => {
   const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
@@ -298,4 +298,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default DashboardPage;

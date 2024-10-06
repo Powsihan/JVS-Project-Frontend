@@ -18,7 +18,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { Customerlogout } from "@/src/redux/action/logout";
 
-const index = () => {
+const CustomerPage = () => {
   const dispatch = useDispatch();
   const [customerdata, setCustomerdata] = useState([]);
   const [selectedCustomerdata, setSelectedCustomerdata] = useState(null);
@@ -392,4 +392,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default CustomerPage;

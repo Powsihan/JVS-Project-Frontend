@@ -33,7 +33,7 @@ import {
 import Footer from "@/src/layouts/Footer";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 
-const index = () => {
+const SellPage = () => {
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
   const fileTypes = ["JPG", "PNG", "GIF", "JPEG"];
@@ -217,8 +217,8 @@ const index = () => {
       <div className="container-fluid min-vh-100 d-flex justify-content-start align-items-center sell-vehicle-home ps-5">
         <div className="">
           <h2 className="pb-4">Are you looking to sell your vehicle? </h2>
-          {sellvehiclecontent?.map((data) => (
-            <div className="d-flex flex-row gap-3 mb-3">
+          {sellvehiclecontent?.map((data,index) => (
+            <div className="d-flex flex-row gap-3 mb-3" key={index}>
               <Image src={sellvehicon} alt="" />
               <h4>{data}</h4>
             </div>
@@ -507,7 +507,7 @@ const index = () => {
                     </div>
                     <div className="row">
                       {Features?.slice(12, 14).map((option, index) => (
-                        <div className="form-check col-lg-2 col-md-4 col-sm-6">
+                        <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
                           <input
                             className="form-check-input"
                             type="checkbox"
@@ -644,4 +644,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default SellPage;

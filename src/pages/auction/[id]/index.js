@@ -22,7 +22,7 @@ import Footer from "@/src/layouts/Footer";
 import { IconButton } from "@mui/material";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 
-const index = () => {
+const AuctionDetailPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router?.query;
@@ -244,7 +244,7 @@ const index = () => {
                   <div className="Auction-Vehicle-Details-Section container-fluid">
                     <h1 className="row ps-2 mb-4">Vehicle Details</h1>
                     {vehicleDetails?.map((data, index) => (
-                        <div>
+                        <div key={index}>
                           <div
                             className="d-flex justify-content-between align-items-center ps-2 pe-2"
                             style={{ marginBottom: "-7px" }}
@@ -316,8 +316,8 @@ const index = () => {
                   <div className="Auction-Vehicle-Details-Section container-fluid">
                     <h1 className="row ps-2 mb-4">Bidding Information</h1>
                     {auctionData?.biddinghistory?.length > 0 ? (
-                      auctionData?.biddinghistory?.map((data) => (
-                        <div>
+                      auctionData?.biddinghistory?.map((data,index) => (
+                        <div key={index}>
                           <div
                             className="d-flex justify-content-between"
                             style={{ marginBottom: "-10px" }}
@@ -355,4 +355,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AuctionDetailPage;

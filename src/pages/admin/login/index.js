@@ -7,7 +7,7 @@ import Image from "next/image";
 import { IconButton } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { loginback } from "@/src/utils/ImagesPath";
-const index = () => {
+const AdminLoginPage = () => {
   const [done, setDone] = useState(undefined);
 
   useEffect(() => {
@@ -76,4 +76,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AdminLoginPage;

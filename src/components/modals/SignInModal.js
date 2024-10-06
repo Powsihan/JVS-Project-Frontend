@@ -111,7 +111,7 @@ function SignInModal(props) {
               </div>
               <CommonButton text={"SignIn"} width={"100%"} />
               <div className="d-flex justify-content-center pe-2 pt-2 pb-2">
-                Don't have an account ?
+                Don&apos;t have an account ?
                 <span
                   onClick={switchToSignUp}
                   style={{

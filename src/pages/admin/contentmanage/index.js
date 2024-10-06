@@ -21,7 +21,7 @@ import ContentView from "@/src/components/modals/ContentView";
 import ContentUpdate from "@/src/components/modals/ContentUpdate";
 import { uploadImage } from "@/src/redux/action/imageUpload";
 
-const index = () => {
+const ContentManagePage = () => {
   const [contentData, setContentData] = useState({
     content: "",
     description: "",
@@ -320,4 +320,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ContentManagePage;

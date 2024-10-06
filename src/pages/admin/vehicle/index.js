@@ -19,7 +19,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import VehicleEdit from "@/src/components/modals/VehicleEdit";
 
-const index = () => {
+const AdminVehiclePage = () => {
   const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
   const [searchRegNo, setSearchRegNo] = useState("");
@@ -519,4 +519,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AdminVehiclePage;

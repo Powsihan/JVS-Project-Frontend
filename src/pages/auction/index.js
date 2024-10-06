@@ -28,7 +28,7 @@ import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 import { auctionvehiclecontent } from "@/src/data/content";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
-const index = () => {
+const AuctionMainPage = () => {
   const [auctionData, setAuctionData] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
   const router = useRouter();
@@ -277,4 +277,4 @@ const index = () => {
     </>
   );
 };
-export default index;
+export default AuctionMainPage;

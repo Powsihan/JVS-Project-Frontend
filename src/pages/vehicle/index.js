@@ -25,7 +25,7 @@ import {
 import Footer from "@/src/layouts/Footer";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
-const index = () => {
+const VehicleMainPage = () => {
   const router = useRouter();
   const [contentimage, setContentImages] = useState([]);
   const [vehicleData, setVehicleData] = useState([]);
@@ -459,4 +459,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default VehicleMainPage;

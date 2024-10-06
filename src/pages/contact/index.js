@@ -15,7 +15,7 @@ import { useDispatch } from "react-redux";
 import ChatbotComponent from "@/src/components/Chatbot";
 import SignInModal from "@/src/components/modals/SignInModal";
 
-const index = () => {
+const ContactPage = () => {
   const dispatch = useDispatch();
   const [logincustomerData, setLoginCustomerData] = useState(false);
   const [showAdminModal, setShowAdminModal] = useState(false);
@@ -85,8 +85,8 @@ const index = () => {
       <div className="container-fluid min-vh-100" id="contactus">
         <div className="row contactUsImage d-lg-block d-none"></div>
         <div className="row d-flex">
-          {aboutuscontent2?.map((data) => (
-            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
+          {aboutuscontent2?.map((data,index) => (
+            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4" key={index}>
               <div className="card d-flex align-items-center justify-content-center card-contact">
                 <Image src={data?.image} alt="" className="mt-1" />
                 <div className="row card-body d-flex align-items-center justify-content-center ">
@@ -143,4 +143,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ContactPage;

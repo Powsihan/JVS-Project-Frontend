@@ -7,7 +7,7 @@ import { IconButton } from "@mui/material";
 import KeyboardDoubleArrowDownIcon from "@mui/icons-material/KeyboardDoubleArrowDown";
 import { loginback } from "@/src/utils/ImagesPath";
 import ExpertLogin from "@/src/components/sections/ExpertLogin";
-const index = () => {
+const ExpertLoginPage = () => {
   const [done, setDone] = useState(undefined);
 
   useEffect(() => {
@@ -76,4 +76,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ExpertLoginPage;

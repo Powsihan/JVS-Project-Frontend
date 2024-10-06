@@ -23,7 +23,7 @@ import {
   ProfileEdit,
 } from "@/src/utils/ImagesPath";
 
-const index = () => {
+const AdminProfilePage = () => {
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [userData, setUserData] = useState({});
@@ -274,4 +274,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AdminProfilePage;

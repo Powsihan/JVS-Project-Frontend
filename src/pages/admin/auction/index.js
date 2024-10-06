@@ -20,7 +20,7 @@ import AuctionView from "@/src/components/modals/AuctionView";
 import { add } from "@/src/utils/ImagesPath";
 import "../../../styles/admin.css";
 
-const index = () => {
+const AuctionPage = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
   const [auctionData, setAuctionData] = useState([]);
@@ -484,4 +484,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AuctionPage;

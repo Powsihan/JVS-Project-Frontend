@@ -12,7 +12,7 @@ import { getRecordsByCustomerId } from "@/src/redux/action/records";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 
-const index = () => {
+const RecordMainPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -118,4 +118,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default RecordMainPage;

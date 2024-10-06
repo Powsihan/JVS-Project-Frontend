@@ -43,7 +43,7 @@ import SignInModal from "@/src/components/modals/SignInModal";
 import ExpertMessaging from "@/src/components/modals/expertMessagingModal";
 import { toast } from "react-toastify";
 
-const index = () => {
+const HomePage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const [vehicleData, setVehicleData] = useState([]);
@@ -254,7 +254,7 @@ const index = () => {
         </div>
         <div className="row pt-5 d-flex">
           {aboutuscontent?.map((data, index) => (
-            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5">
+            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5" key={index}>
               <div className="row">
                 <div className="d-flex pt-2 justify-content-center align-items-center">
                   <Image src={data?.image} alt="" />
@@ -368,8 +368,8 @@ const index = () => {
       <div className="container-fluid min-vh-100" id="contactus">
         <div className="row contactUsImage d-lg-block d-none"></div>
         <div className="row d-flex">
-          {aboutuscontent2?.map((data) => (
-            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4">
+          {aboutuscontent2?.map((data,index) => (
+            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4" key={index}>
               <div className="card d-flex align-items-center justify-content-center card-contact">
                 <Image src={data?.image} alt="" className="mt-1" />
                 <div className="row card-body d-flex align-items-center justify-content-center ">
@@ -426,4 +426,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default HomePage;

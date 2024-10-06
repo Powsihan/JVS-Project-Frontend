@@ -134,7 +134,7 @@ const NotificationModal = ({ isOpen, onClose }) => {
                 <h2>Notifications</h2>
                 <hr />
                 {notifications?.map((data, index) => (
-                  <div className="Notification-Box p-1 ps-3 pe-3 mb-3">
+                  <div className="Notification-Box p-1 ps-3 pe-3 mb-3" key={index}>
                     <div
                       key={index}
                       className="d-flex justify-content-between align-items-center"

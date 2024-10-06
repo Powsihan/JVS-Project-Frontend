@@ -5,6 +5,7 @@ import Image from "next/image";
 import facebook from "../assets/icons/facebook.png";
 import call from "../assets/icons/call.png";
 import mail from "../assets/icons/mail.png";
+import Link from "next/link";
 
 const Footer = () => (
   <footer className="Footer-Section">
@@ -15,11 +16,11 @@ const Footer = () => (
             <Image src={logo} alt="" />
           </div>
           <div className="d-flex align-items-center justify-content-center pt-3 pb-0 gap-4 links-footer">
-            <a href="/home">Home</a>
-            <a href="/vehicle">Vehicles</a>
-            <a href="/sell">Sell</a>
-            <a href="#Request">Request</a>
-            <a href="/auction">Auction</a>
+            <Link href="/home">Home</Link>
+            <Link href="/vehicle">Vehicles</Link>
+            <Link href="/sell">Sell</Link>
+            <Link href="#Request">Request</Link>
+            <Link href="/auction">Auction</Link>
           </div>
           <div className="pt-4">
             <h6 className="">Contact Us</h6>

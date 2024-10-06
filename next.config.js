@@ -1,6 +1,6 @@
 module.exports = {
     env: {
-        api_base_url:'http://localhost:5000/api',
+        api_base_url:'https://jvs-project-backend.vercel.app/api',
     },
     images: {
         domains: [

@@ -23,7 +23,7 @@ import { vehiclerecord } from "@/src/utils/ImagesPath";
 import DeleteIcon from "@mui/icons-material/Delete";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 
-const index = () => {
+const RecordDetailPage = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { id } = router.query;
@@ -196,7 +196,7 @@ const index = () => {
             <div className="Auction-Vehicle-Details-Section container-fluid mb-2">
               <h1 className="row ps-2 mb-4">Vehicle Details</h1>
               {vehicleDetails?.map((data, index) => (
-                <div>
+                <div key={index}>
                   <div
                     className="d-flex justify-content-between align-items-center ps-2 pe-2"
                     style={{ marginBottom: "-7px" }}
@@ -334,4 +334,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default RecordDetailPage;

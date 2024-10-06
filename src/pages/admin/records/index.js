@@ -19,7 +19,7 @@ import { getCustomerInfo } from "@/src/redux/action/customer";
 import RecordsView from "@/src/components/modals/RecordsView";
 import "../../../styles/admin.css";
 
-const index = () => {
+const AdminRecordPage = () => {
   const dispatch = useDispatch();
   const [recordData, setrecordData] = useState([]);
   const [customerData, setCustomerData] = useState([]);
@@ -411,4 +411,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AdminRecordPage;

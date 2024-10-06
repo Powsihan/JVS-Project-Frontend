@@ -439,7 +439,7 @@ const VehicleEdit = (props) => {
                 </div>
                 <div className="row">
                   {Features?.slice(12, 14).map((option, index) => (
-                    <div className="form-check col-lg-2 col-md-4 col-sm-6">
+                    <div className="form-check col-lg-2 col-md-4 col-sm-6" key={index}>
                       <input
                         className="form-check-input"
                         type="checkbox"

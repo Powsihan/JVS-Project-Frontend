@@ -22,7 +22,7 @@ import {
   getEmployeeInfo,
 } from "@/src/redux/action/employee";
 
-const index = () => {
+const ExpertProfilePage = () => {
   const dispatch = useDispatch();
   const [showProfile, setShowProfile] = useState(false);
   const [employeeData, setemployeeData] = useState({});
@@ -277,4 +277,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default ExpertProfilePage;

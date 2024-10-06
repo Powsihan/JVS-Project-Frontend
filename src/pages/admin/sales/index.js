@@ -20,7 +20,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import { toast } from "react-toastify";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { add } from "@/src/utils/ImagesPath";
-const index = () => {
+const AdminSalesPage = () => {
   const dispatch = useDispatch();
   const [showAddSection, setShowAddSection] = useState(false);
   const [salesData, setSalesData] = useState([]);
@@ -526,4 +526,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default AdminSalesPage;

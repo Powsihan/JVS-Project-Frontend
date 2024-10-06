@@ -28,7 +28,7 @@ import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 import { IconButton } from "@mui/material";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
 
-const VehicleDetail = () => {
+const VehicleDetailPage = () => {
   const dispatch = useDispatch();
   const [customerData, setCustomerData] = useState(null);
   const router = useRouter();
@@ -240,7 +240,7 @@ const VehicleDetail = () => {
                     ? vehicleDetails
                     : vehicleDetails?.slice(0, 5)
                   )?.map((vehicle, index) => (
-                    <div className="d-flex align-items-center justify-content-between vehicle-detail-div p-2 ps-3 pe-3 mb-3">
+                    <div className="d-flex align-items-center justify-content-between vehicle-detail-div p-2 ps-3 pe-3 mb-3" key={index}>
                       <h3>{vehicle?.label}</h3>
                       <h6>{vehicle?.content}</h6>
                     </div>
@@ -291,4 +291,4 @@ const VehicleDetail = () => {
   );
 };
 
-export default VehicleDetail;
+export default VehicleDetailPage;

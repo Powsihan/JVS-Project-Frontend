@@ -62,8 +62,8 @@ const ExpertSidebar = () => {
       <ul class="nav nav-pills flex-column mb-auto mt-4 gap-2">
         {routes?.map((item, index) => {
           return (
-            <div class="">
-              <li class="nav-item">
+            <div className="" key={index}>
+              <li className="nav-item">
                 <Link
                   className={`nav-link ${
                     pathname === `/${item?.path}` ? "active-field" : ""
@@ -88,8 +88,8 @@ const ExpertSidebar = () => {
         <hr />
         {routes2?.map((item, index) => {
           return (
-            <div class="">
-              <li class="nav-item">
+            <div className="" key={index}>
+              <li className="nav-item">
                 <Link
                   className={`nav-link ${
                     pathname === `/${item?.path}` ? "active-field" : ""
