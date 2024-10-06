@@ -19,12 +19,12 @@
 
 .Vehicle-card-display-icon {
   border-radius: 10px;
-  background: rgba(171, 190, 255, 0.52);
+  background: rgba(116, 117, 124, 0.199);
 }
 
 .Vehicle-card-display-icon:hover {
   transform: scale(1.05);
-  background: rgba(171, 190, 255, 0.52);
+  background: rgba(142, 174, 201, 0.404);
 }
 
 .Vehicle-display-card h6 {
@@ -53,7 +53,7 @@
 }
 
 .vehicle-detail-div {
-  background: rgba(217, 225, 255, 0.52);
+  background: rgba(142, 174, 201, 0.26);
   border-radius: 10px;
   box-shadow: 0px 5px 5px 0px rgba(0, 0, 0, 0.10), 0px 4px 6px 0px rgba(0, 0, 0, 0.05);
 }
@@ -73,7 +73,7 @@
 
 
 .active-section {
-  background-color: rgb(205, 218, 255);
+  background-color: rgba(142, 174, 201, 0.26);
   cursor: pointer;
   border-bottom: 4px solid var(--primary-color);
   border-radius: 4px;
