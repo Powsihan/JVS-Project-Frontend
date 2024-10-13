@@ -379,7 +379,7 @@ const HomePage = () => {
           className="d-flex align-items-center justify-content-center container-fluid rounded-2"
           style={{ backgroundColor: "var(--primary-color)", height: "50px" }}
         >
-          <h2 className="text-center fw-bold">Customer Review & Ratings</h2>
+          <h2 className="text-center fw-bold">Customer Reviews & Ratings</h2>
         </div>
         <div>
           <CustomerReviewsCarousel />

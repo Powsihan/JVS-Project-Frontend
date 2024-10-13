@@ -254,7 +254,7 @@
 .review-card {
     background-color: #fff;
     box-shadow: var(--box-shadow);
-    height: 500px;
+    height: 400px;
 }
 .review-name{
     font-weight: 700;

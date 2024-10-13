@@ -32,7 +32,6 @@ const Navbar = () => {
     { name: "SellVehicles", path: "sell" },
     // { name: "Customization", path: "customization" },
     { name: "Auction", path: "auction" },
-    { name: "Review & Ratings", path: "review" },
   ];
 
   const [dropdownOpen, setDropdownOpen] = useState(false);

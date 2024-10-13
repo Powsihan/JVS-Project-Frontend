@@ -5,6 +5,8 @@ import "slick-carousel/slick/slick-theme.css";
 import { getReviewDetails } from "../redux/action/review";
 import "../styles/component.css";
 import Image from "next/image";
+import StarIcon from "@mui/icons-material/Star";
+import StarOutlineIcon from "@mui/icons-material/StarOutline";
 
 const CustomerReviewsCarousel = () => {
   const [reviews, setReviews] = useState([]);
@@ -44,9 +46,7 @@ const CustomerReviewsCarousel = () => {
   };
 
   return (
-    <div id="review" 
-    className="px-3"
-    >
+    <div id="review" className="px-3 mt-5">
       <Slider {...settings}>
         {reviews?.map((review) => (
           <div key={review?._id} className="p-3">
@@ -60,11 +60,30 @@ const CustomerReviewsCarousel = () => {
                   width={100}
                   height={100}
                 />
-                <div className="text-capitalize review-name">{review?.customerId?.fname}</div>
+                <div className="text-capitalize review-name">
+                  {review?.customerId?.fname}
+                </div>
               </div>
-              <div className="card-body">
-                <h5 className="card-title">{review?.status}</h5>
-                <p className="card-text">{review?.review}</p>
+              <div className="card-body mt-3">
+                <h5 className="card-title primary-color fw-bold">
+                  {review?.status}
+                </h5>
+                <div>
+                  {Array.from({ length: 5 }).map((_, index) =>
+                    index < review.ratings ? (
+                      <StarIcon key={index} style={{ color: "#FFD700" }} />
+                    ) : (
+                      <StarOutlineIcon
+                        key={index}
+                        style={{ color: "#FFD700" }}
+                      /> 
+                    )
+                  )}
+                </div>
+
+                <p className="card-text mt-2" style={{ textAlign: "justify" }}>
+                  {review?.review}
+                </p>
               </div>
             </div>
           </div>
