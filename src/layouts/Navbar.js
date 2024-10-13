@@ -20,6 +20,7 @@ import {
 import { useDispatch } from "react-redux";
 import { setLoading } from "../redux/reducer/loaderSlice";
 import { toast } from "react-toastify";
+import ReviewModal from "../components/modals/reviewModal";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -31,12 +32,14 @@ const Navbar = () => {
     { name: "SellVehicles", path: "sell" },
     // { name: "Customization", path: "customization" },
     { name: "Auction", path: "auction" },
+    { name: "Review & Ratings", path: "review" },
   ];
 
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [showLoginView, setShowLoginView] = useState(false);
   const [showSignUpView, setShowSignUpView] = useState(false);
   const [customerData, setCustomerData] = useState(null);
+  const[showReviewModal,setShowReviewModal]=useState(false);
 
   const LoginViewModal = () => {
     setShowLoginView(true);
@@ -240,6 +243,14 @@ const Navbar = () => {
                       Records
                     </a>
                   </li>
+                  <li>
+                    <a
+                      className="dropdown-item"
+                      onClick={() => {setShowReviewModal(true)}}
+                    >
+                      Reviews
+                    </a>
+                  </li>
                   <hr />
                   <li>
                     <a
@@ -270,6 +281,8 @@ const Navbar = () => {
         show={showSignUpView}
         onHide={() => setShowSignUpView(false)}
       />
+
+      <ReviewModal show={showReviewModal} onHide={()=>setShowReviewModal(false)}/>
     </>
   );
 };

@@ -244,8 +244,15 @@
     right: 10px;
     cursor: pointer;
     z-index: 1001;
-  }
-  
-  .chatbot-wrapper {
+}
+
+.chatbot-wrapper {
     position: relative;
-  }
+}
+
+
+.review-card {
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    height: 500px;
+}

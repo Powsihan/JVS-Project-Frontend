@@ -42,6 +42,7 @@ import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 import SignInModal from "@/src/components/modals/SignInModal";
 import ExpertMessaging from "@/src/components/modals/expertMessagingModal";
 import { toast } from "react-toastify";
+import CustomerReviewsCarousel from "@/src/components/CustomerReviewsCarousel";
 
 const HomePage = () => {
   const router = useRouter();
@@ -254,7 +255,10 @@ const HomePage = () => {
         </div>
         <div className="row pt-5 d-flex">
           {aboutuscontent?.map((data, index) => (
-            <div className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5" key={index}>
+            <div
+              className="col-lg-3 col-sm-12 col-md-6 d-flex align-items-center justify-items-center mb-5"
+              key={index}
+            >
               <div className="row">
                 <div className="d-flex pt-2 justify-content-center align-items-center">
                   <Image src={data?.image} alt="" />
@@ -266,7 +270,12 @@ const HomePage = () => {
                   <p>{data?.content}</p>
                 </div>
                 <div className="justify-content-center align-items-center d-flex">
-                  <CommonButton text={"Go Visit"} image={vector} width={200} onClick={()=>router.push(`/${data?.path}`)}/>
+                  <CommonButton
+                    text={"Go Visit"}
+                    image={vector}
+                    width={200}
+                    onClick={() => router.push(`/${data?.path}`)}
+                  />
                 </div>
               </div>
             </div>
@@ -365,11 +374,18 @@ const HomePage = () => {
         </div>
       </div> */}
 
+      <div className="container-fluid min-vh-100" id="review">
+        <CustomerReviewsCarousel />
+      </div>
+
       <div className="container-fluid min-vh-100" id="contactus">
         <div className="row contactUsImage d-lg-block d-none"></div>
         <div className="row d-flex">
-          {aboutuscontent2?.map((data,index) => (
-            <div className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4" key={index}>
+          {aboutuscontent2?.map((data, index) => (
+            <div
+              className="col-lg-4 col-sm-12 col-md-8 d-flex align-items-center justify-content-center pt-4 p-4"
+              key={index}
+            >
               <div className="card d-flex align-items-center justify-content-center card-contact">
                 <Image src={data?.image} alt="" className="mt-1" />
                 <div className="row card-body d-flex align-items-center justify-content-center ">
