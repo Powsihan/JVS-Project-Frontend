@@ -256,3 +256,6 @@
     box-shadow: var(--box-shadow);
     height: 500px;
 }
+.review-name{
+    font-weight: 700;
+}

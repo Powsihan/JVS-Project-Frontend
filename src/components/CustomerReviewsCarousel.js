@@ -44,25 +44,27 @@ const CustomerReviewsCarousel = () => {
   };
 
   return (
-    <div id="review">
+    <div id="review" 
+    className="px-3"
+    >
       <Slider {...settings}>
-        {reviews.map((review) => (
-          <div key={review._id} className="p-3">
+        {reviews?.map((review) => (
+          <div key={review?._id} className="p-3">
             <div className="card review-card p-3">
               <div className="d-flex flex-column align-items-center gap-2">
                 <Image
-                  src={review.customerId.profilePic}
-                  alt={review.customerId.fname}
+                  src={review?.customerId.profilePic}
+                  alt={review?.customerId.fname}
                   className="card-img-top rounded-circle mx-auto"
                   style={{ width: "100px", height: "100px" }}
                   width={100}
                   height={100}
                 />
-                <div className="text-capitalize">{review.customerId.fname}</div>
+                <div className="text-capitalize review-name">{review?.customerId?.fname}</div>
               </div>
               <div className="card-body">
-                <h5 className="card-title">{review.status}</h5>
-                <p className="card-text">{review.review}</p>
+                <h5 className="card-title">{review?.status}</h5>
+                <p className="card-text">{review?.review}</p>
               </div>
             </div>
           </div>
