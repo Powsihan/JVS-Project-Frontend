@@ -19,7 +19,8 @@
 
 .Vehicle-card-display-icon {
   border-radius: 10px;
-  background: rgba(116, 117, 124, 0.199);
+  background: rgba(167, 168, 177, 0.199);
+  box-shadow: rgba(116, 117, 124, 0.199) 0px 30px 60px -12px inset, rgba(0, 0, 0, 0.3) 0px 18px 36px -18px inset;
 }
 
 .Vehicle-card-display-icon:hover {
