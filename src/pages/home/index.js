@@ -426,7 +426,7 @@ const HomePage = () => {
                       image={chatmaessage}
                       width={200}
                       onClick={
-                        logincustomerData ? data.onclick : LoginViewModal
+                        customerToken ? data.onclick : LoginViewModal
                       }
                     />
                   </div>
