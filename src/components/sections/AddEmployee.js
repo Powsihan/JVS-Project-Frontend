@@ -87,7 +87,7 @@ const AddEmployee = (props) => {
         <h1 className="row ps-2 pb-3">Add Employees</h1>
         <div className="row">
           <div className="col-lg-6 col-md-6 col-sm-12 d-flex justify-content-center align-items-center">
-            <Image src={employeeback} width={500} />
+            <Image src={employeeback} width={500} loading="lazy"/>
           </div>
           <div className="col-lg-6 col-md-6 col-sm-12 d-flex flex-column justify-content-center">
             <div className="row pb-3">

@@ -163,6 +163,7 @@ const ExpertContactPage = () => {
                       height={50}
                       alt="Profile Picture"
                       className="rounded-circle"
+                      loading="lazy"
                     />
                     <h4 className="m-0">
                       {selectedReceiver

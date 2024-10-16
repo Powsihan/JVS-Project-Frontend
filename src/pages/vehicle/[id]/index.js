@@ -193,7 +193,7 @@ const VehicleDetailPage = () => {
                     key={index}
                   >
                     <div className="Vehicle-card-display-icon p-3">
-                      <Image src={content?.icon} />
+                      <Image src={content?.icon} loading="lazy"/>
                     </div>
                     <h6 className="pt-1">{content?.name}</h6>
                   </div>

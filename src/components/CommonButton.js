@@ -9,7 +9,7 @@ const CommonButton = ({ text, width, onClick, image }) => {
         style={{ width: width }}
         onClick={onClick}
       >
-        {image ? <div>{image && <Image src={image} alt="" />}</div> : ""}
+        {image ? <div>{image && <Image src={image} alt="" loading="lazy"/>}</div> : ""}
         {text}
       </button>
     </div>

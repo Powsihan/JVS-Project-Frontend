@@ -219,7 +219,7 @@ const SellPage = () => {
           <h2 className="pb-4">Are you looking to sell your vehicle? </h2>
           {sellvehiclecontent?.map((data,index) => (
             <div className="d-flex flex-row gap-3 mb-3" key={index}>
-              <Image src={sellvehicon} alt="" />
+              <Image src={sellvehicon} alt="" loading="lazy"/>
               <h4>{data}</h4>
             </div>
           ))}
@@ -247,6 +247,7 @@ const SellPage = () => {
                       alt="vehicleee"
                       width={500}
                       height={300}
+                      loading="lazy"
                     />
                   </div>
                   <div className="col-lg-7 col-md-6 col-sm-12 pe-3 ps-2">
@@ -616,6 +617,7 @@ const SellPage = () => {
                               width={100}
                               height={100}
                               className="img-preview"
+                              loading="lazy"
                             />
                           ))}
                         </div>

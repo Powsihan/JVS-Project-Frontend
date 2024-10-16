@@ -121,7 +121,7 @@ const Navbar = () => {
                 className="navbar-brand mt-2 mt-lg-0 d-flex align-items-center justify-content-center "
                 href="#"
               >
-                <Image src={logo} alt="" />
+                <Image src={logo} alt="" loading="lazy"/>
               </a>
               <ul className="navbar-nav me-auto  mb-lg-0 d-flex justify-content-center gap-4 flex-grow-1 w-100">
                 {routes?.map((item, index) => {

@@ -234,7 +234,7 @@ const DashboardPage = () => {
                   <h2>{card?.count}</h2>
                 </div>
                 <div className="dash-board-card-image">
-                  <Image src={card?.image} alt="" />
+                  <Image src={card?.image} alt="" loading="lazy"/>
                 </div>
               </div>
             </div>

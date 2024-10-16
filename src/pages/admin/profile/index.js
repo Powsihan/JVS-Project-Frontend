@@ -137,6 +137,7 @@ const AdminProfilePage = () => {
                 alt="avatar"
                 width={150}
                 height={150}
+                loading="lazy"
               />
             </div>
             <hr />
@@ -152,7 +153,7 @@ const AdminProfilePage = () => {
               />
             </div>
             <div className="d-flex justify-content-center align-items-center">
-              <Image src={editprof} alt="Edit Profile" width={300} />
+              <Image src={editprof} alt="Edit Profile" width={300} loading="lazy"/>
             </div>
           </div>
           {showProfile ? (
@@ -245,7 +246,7 @@ const AdminProfilePage = () => {
                     />
                   </div>
                   <div className="col-lg-5 d-flex justify-content-center align-items-center">
-                    <Image src={changepass} alt="Password" />
+                    <Image src={changepass} alt="Password" loading="lazy"/>
                   </div>
                 </div>
                 <hr />
@@ -263,7 +264,7 @@ const AdminProfilePage = () => {
               <div className="Profile-Edit-Section d-flex flex-column align-items-center justify-content-center h-100">
                 <h1>Hi {userData?.name}</h1>
                 <p>Welcome to Profile Section</p>
-                <Image src={ProfileEdit} alt="" width={400} />
+                <Image src={ProfileEdit} alt="" width={400} loading="lazy"/>
               </div>
             </div>
           )}

@@ -187,13 +187,13 @@ const HomePage = () => {
                 <h5>Connect With</h5>
                 <div className="d-flex gap-3">
                   <div className="home-page-social-icons">
-                    <Image src={facebook} alt="" />
+                    <Image src={facebook} alt="" loading="lazy"/>
                   </div>
                   <div className="home-page-social-icons">
-                    <Image src={mail} alt="" />
+                    <Image src={mail} alt="" loading="lazy"/>
                   </div>
                   <div className="home-page-social-icons">
-                    <Image src={call} alt="" />
+                    <Image src={call} alt="" loading="lazy"/>
                   </div>
                 </div>
               </div>

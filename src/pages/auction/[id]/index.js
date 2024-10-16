@@ -235,7 +235,7 @@ const AuctionDetailPage = () => {
                 className="d-flex justify-content-center align-items-center"
                 style={{ marginTop: "-20px" }}
               >
-                <Image src={auctiondetail} />
+                <Image src={auctiondetail} loading="lazy"/>
               </div>
             </div>
             <div className="col-lg-8 col-md-6 col-sm-12">

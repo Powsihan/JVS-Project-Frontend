@@ -113,7 +113,7 @@ const AuctionMainPage = () => {
           <div className="col-md-6 d-md-block d-none">
             <div className="d-flex justify-content-start align-items-center">
               <div className="pt-5">
-                <Image src={auctionBackCar} width={700} />
+                <Image src={auctionBackCar} width={700} loading="lazy"/>
               </div>
             </div>
           </div>
@@ -125,7 +125,7 @@ const AuctionMainPage = () => {
                 {auctionvehiclecontent?.map((data, index) => (
                   <div className="d-flex gap-3 mb-3 mt-4" key={index}>
                     <div className="d-flex align-items-center justify-content-center">
-                      <Image src={sellvehicon} alt="" />
+                      <Image src={sellvehicon} alt="" loading="lazy"/>
                     </div>
                     <p className="m-0">{data}</p>
                   </div>
@@ -227,7 +227,7 @@ const AuctionMainPage = () => {
                           key={index}
                         >
                           <div className="Vehicle-card-display-icon p-3">
-                            <Image src={content?.icon} />
+                            <Image src={content?.icon} loading="lazy"/>
                           </div>
                           <h6 className="pt-1">{content?.name}</h6>
                         </div>

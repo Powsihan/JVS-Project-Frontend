@@ -102,7 +102,7 @@ function SignUpModal(props) {
             Join Us at JVS - Where Your Journey Begins!
           </p>
           <div className="welcomeimage d-flex align-items-center justify-content-center p-4 pt-4 pb-5">
-            <Image src={welcome} alt="Centered Image" />
+            <Image src={welcome} alt="Centered Image" loading="lazy"/>
           </div>
           <div className="d-flex justify-content-end pe-2">
             <CommonButton text={"Next"} width={100} onClick={handleNext} />
@@ -309,7 +309,7 @@ function SignUpModal(props) {
       content: (
         <div className="container-fluid p-5">
           <div className="d-flex align-items-center justify-content-center ">
-            <Image src={signUpfinish} alt="" />
+            <Image src={signUpfinish} alt="" loading="lazy"/>
           </div>
           <div className="d-flex flex-column justify-content-center align-items-center Account-created pt-3">
             <h1>Your Account has been Successfully created!...</h1>

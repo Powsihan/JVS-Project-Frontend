@@ -117,6 +117,7 @@ const ExpertLayout = ({ children }) => {
                   width={50}
                   height={50}
                   className="rounded-circle "
+                  loading="lazy"
                 />
               </div>
             </div>

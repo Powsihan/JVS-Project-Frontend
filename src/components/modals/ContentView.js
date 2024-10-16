@@ -54,6 +54,7 @@ const ContentView = (props) => {
                     height: "100%",
                     objectFit: "fill",
                   }}
+                  loading="lazy"
                 />
               </div>
             </div>

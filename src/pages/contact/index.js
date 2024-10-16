@@ -105,9 +105,9 @@ const ContactPage = () => {
                   )}
                   {data?.contact && (
                     <div className="d-flex  justify-content-center align-items-center  gap-4">
-                      <Image src={facebook} alt="" />
-                      <Image src={call} alt="" />
-                      <Image src={mail} alt="" />
+                      <Image src={facebook} alt="" loading="lazy"/>
+                      <Image src={call} alt="" loading="lazy"/>
+                      <Image src={mail} alt="" loading="lazy"/>
                     </div>
                   )}
                   <div className="pt-3 d-flex align-items-center justify-content-center">

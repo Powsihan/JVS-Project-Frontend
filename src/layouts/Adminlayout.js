@@ -156,14 +156,14 @@ const Adminlayout = ({ children }) => {
             <div className="col-6 d-flex align-items-center justify-content-end pe-5">
               <div className="d-flex align-items-center justify-content-center gap-3">
                 <Link href="/admin/communication">
-                  <Image src={chat} alt="" />
+                  <Image src={chat} alt="" loading="lazy"/>
                 </Link>
                 <div
                   onClick={() => setIsModalOpen(true)}
                   style={{ cursor: "pointer" }}
                   className="d-flex"
                 >
-                  <Image src={notificationimg} alt="" />
+                  <Image src={notificationimg} alt="" loading="lazy"/>
                   {notification && (
                     <div>
                       <CircleIcon

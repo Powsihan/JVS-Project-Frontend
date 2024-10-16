@@ -27,6 +27,7 @@ const CustomerView = (props) => {
                   width={150}
                   height={150}
                   className="rounded-circle"
+                  loading="lazy"
                 />
               </div>
               <h1 className="Customer-View-Name">{`${

@@ -434,6 +434,7 @@ const AddVehicle = (props) => {
                           width={700}
                           height={400}
                           className="main-img-preview"
+                          loading="lazy"
                         />
                       </div>
                     )}
@@ -461,6 +462,7 @@ const AddVehicle = (props) => {
                             width={100}
                             height={100}
                             className="img-preview"
+                            loading="lazy"
                           />
                         ))}
                       </div>
@@ -489,6 +491,7 @@ const AddVehicle = (props) => {
                             width={100}
                             height={100}
                             className="img-preview"
+                            loading="lazy"
                           />
                         ))}
                       </div>

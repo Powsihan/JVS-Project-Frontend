@@ -8,7 +8,7 @@ export default function NotFound() {
   const router = useRouter();
   return (
     <main className="container-fluid min-vh-100 d-flex flex-column justify-content-center align-items-center Page-Not-Found">
-      <Image src={pagenotfound} />
+      <Image src={pagenotfound} loading="lazy"/>
       <h2 className="text-3xl">There was a problem.</h2>
       <p>We could not find the page you were looking for.</p>
       <p>Go back to the Home</p>

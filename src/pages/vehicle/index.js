@@ -403,6 +403,7 @@ const VehicleMainPage = () => {
                         layout="fill"
                         objectFit="cover"
                         priority
+                        loading="lazy"
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">
@@ -416,7 +417,7 @@ const VehicleMainPage = () => {
                           key={index}
                         >
                           <div className="Vehicle-card-display-icon p-3">
-                            <Image src={content?.icon} />
+                            <Image src={content?.icon} loading="lazy"/>
                           </div>
                           <h6 className="pt-1">{content?.name}</h6>
                         </div>

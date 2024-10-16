@@ -134,7 +134,7 @@ const AddSales = (props) => {
         <h1 className="row ps-2 pb-3">Add Sales & Buy</h1>
         <div className="row p-2">
           <div className="col-lg-7 col-md-12 col-sm-12 d-flex justify-content-center align-items-center">
-            <Image src={addSalesimg} width={600} />
+            <Image src={addSalesimg} width={600} loading="lazy"/>
           </div>
           <div className="col-lg-5 col-md-12 col-sm-12">
             <div className="row pb-3">

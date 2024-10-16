@@ -61,7 +61,7 @@ const AdminLoginPage = () => {
               </div>
               <div className="row d-flex justify-content-center">
                 <div className="col-lg-6 d-none d-lg-block ">
-                  <Image src={loginback} alt="" />
+                  <Image src={loginback} alt="" loading="lazy"/>
                 </div>
                 <div className="col-lg-6 d-flex align-items-start justify-content-center ">
                   <AdminLogin />

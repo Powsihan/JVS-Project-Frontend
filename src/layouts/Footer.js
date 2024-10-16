@@ -13,7 +13,7 @@ const Footer = () => (
       <div className="row footer-row align-items-center justify-content-around  ">
         <div className="h-150 align-items-center justify-content-center pt-4">
           <div>
-            <Image src={logo} alt="" />
+            <Image src={logo} alt="" loading="lazy"/>
           </div>
           <div className="d-flex align-items-center justify-content-center pt-3 pb-0 gap-4 links-footer">
             <Link href="/home">Home</Link>

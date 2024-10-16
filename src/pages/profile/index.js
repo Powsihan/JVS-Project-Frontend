@@ -247,6 +247,7 @@ const ProfilePage = () => {
                   layout="fill"
                   objectFit="contain"
                   alt="avatar"
+                  loading="lazy"
                 />
                 {showProfile && (
                   <div className="profile-camera-icon">
@@ -442,12 +443,14 @@ const ProfilePage = () => {
                 alt="imageee"
                 width={300}
                 height={300}
+                loading="lazy"
               />
               <Image
                 src={chnagepassword2}
                 alt="imageee"
                 width={300}
                 height={300}
+                loading="lazy"
               />
             </div>
           </div>
@@ -457,7 +460,7 @@ const ProfilePage = () => {
           <div className="d-flex justify-content-between align-items-center ps-3 pe-3">
             <div className="d-flex align-items-center justify-content-center gap-3">
               <div>
-                <Image src={danger} />
+                <Image src={danger} loading="lazy"/>
               </div>
               <h6 className="d-lg-block d-none">
                 Are you Sure Want to Delete Your Account ?

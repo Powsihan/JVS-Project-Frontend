@@ -189,7 +189,7 @@ const RecordDetailPage = () => {
               className="d-flex justify-content-center align-items-center"
               style={{ marginTop: "-20px" }}
             >
-              <Image src={vehiclerecord} />
+              <Image src={vehiclerecord} loading="lazy"/>
             </div>
           </div>
           <div className="col-lg-3">
