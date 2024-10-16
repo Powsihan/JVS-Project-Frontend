@@ -43,6 +43,7 @@ import SignInModal from "@/src/components/modals/SignInModal";
 import ExpertMessaging from "@/src/components/modals/expertMessagingModal";
 import { toast } from "react-toastify";
 import CustomerReviewsCarousel from "@/src/components/CustomerReviewsCarousel";
+import Cookies from "js-cookie";
 
 const HomePage = () => {
   const router = useRouter();
@@ -160,6 +161,8 @@ const HomePage = () => {
     },
   ];
 
+  const customerToken = Cookies.get("customer");
+
   return (
     <>
       <Navbar />
@@ -209,7 +212,7 @@ const HomePage = () => {
               </div> */}
               <div
                 className="p-3 rounded-5 chat-bot-image position-fixed"
-                onClick={logincustomerData ? openChatBox : LoginViewModal}
+                onClick={customerToken ? openChatBox : LoginViewModal}
               >
                 <Image src={Chatbot} alt="" />
               </div>

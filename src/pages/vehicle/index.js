@@ -403,7 +403,6 @@ const VehicleMainPage = () => {
                         layout="fill"
                         objectFit="cover"
                         priority
-                        loading="lazy"
                       />
                     </div>
                     <div className="d-flex justify-content-between pt-2 align-items-center ps-1 pe-1">

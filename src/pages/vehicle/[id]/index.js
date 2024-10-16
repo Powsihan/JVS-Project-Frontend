@@ -27,6 +27,7 @@ import { getLoginCustomerDetail } from "@/src/redux/action/customer";
 import CustomerMessaging from "@/src/components/modals/CustomerMessaging";
 import { IconButton } from "@mui/material";
 import ExpandCircleDownIcon from "@mui/icons-material/ExpandCircleDown";
+import Cookies from "js-cookie";
 
 const VehicleDetailPage = () => {
   const dispatch = useDispatch();
@@ -148,6 +149,8 @@ const VehicleDetailPage = () => {
   const handleAdminShow = () => setShowAdminModal(true);
   const handleAdminClose = () => setShowAdminModal(false);
 
+  const customerToken = Cookies.get("customer");
+
   return (
     <div>
       <Navbar />
@@ -205,13 +208,13 @@ const VehicleDetailPage = () => {
                   text={"Purchase"}
                   width={250}
                   onClick={
-                    customerData ? openSendConfirmationModal : LoginViewModal
+                    customerToken ? openSendConfirmationModal : LoginViewModal
                   }
                 />
                 <CommonButton
                   text={"Make an Inquiry"}
                   width={300}
-                  onClick={customerData ? handleAdminShow : LoginViewModal}
+                  onClick={customerToken ? handleAdminShow : LoginViewModal}
                 />
               </div>
               <hr />

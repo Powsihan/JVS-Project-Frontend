@@ -105,6 +105,8 @@ const AuctionMainPage = () => {
     }
   };
 
+  const customerToken = Cookies.get("customer");
+
   return (
     <>
       <Navbar />
@@ -240,7 +242,7 @@ const AuctionMainPage = () => {
                           text={"Go To Auction"}
                           width={"100%"}
                           onClick={() => {
-                            customerData
+                            customerToken
                               ? router.push(`/auction/${auction?._id}`)
                               : LoginViewModal();
                           }}
@@ -250,7 +252,7 @@ const AuctionMainPage = () => {
                         <button
                           className="btn btn-secondary"
                           onClick={
-                            customerData ? handleAdminShow : LoginViewModal
+                            customerToken ? handleAdminShow : LoginViewModal
                           }
                         >
                           Contact

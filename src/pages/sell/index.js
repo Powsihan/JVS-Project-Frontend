@@ -211,6 +211,9 @@ const SellPage = () => {
     setShowLoginView(true);
   };
 
+
+  const customerToken = Cookies.get("customer");
+
   return (
     <>
       <Navbar />
@@ -228,12 +231,12 @@ const SellPage = () => {
               text="Sell Your Vehicle"
               width={250}
               image={sellvehiclebutton}
-              onClick={customerData ? scrollToSellVehicle : LoginViewModal}
+              onClick={customerToken ? scrollToSellVehicle : LoginViewModal}
             />
           </div>
         </div>
       </div>
-      {customerData && (
+      {customerToken && (
         <div>
           <div className="container-fluid min-vh-100 p-5 mb-5" id="sales">
             <div className="Sell-Vehicle-Section container-fluid">
