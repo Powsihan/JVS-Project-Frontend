@@ -222,11 +222,13 @@ const HomePage = () => {
       </div>
       <div className="container-fluid min-vh-100" id="aboutus">
         <div className="row min-vh-100">
-          <div className="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center d-lg-block d-none">
+          <div className="col-lg-6 col-md-12 col-sm-12 d-lg-flex align-items-center justify-content-center d-none">
             <Image
               src={aboutUs}
               alt=""
-              style={{ width: "auto", height: "auto" }}
+              style={{ width: "auto", height: "auto",boxShadow:"var(--box-shadow)" }}
+              className="rounded-5"
+
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 d-flex flex-column justify-content-center aboutUs-heading">
