@@ -189,6 +189,13 @@ const AuctionDetailPage = () => {
     setSendConfirmationModal(false);
   };
 
+  const resetValue = () => {
+    setAuctionData((prevData) => ({
+      ...prevData,
+      biddingPrice: "",
+    }));
+  };
+
   return (
     <div>
       <Navbar />
@@ -307,7 +314,7 @@ const AuctionDetailPage = () => {
                           width={177}
                           onClick={openSendConfirmationModal}
                         />
-                        <Button variant="secondary" style={{ width: 111 }}>
+                        <Button variant="secondary" style={{ width: 111 }} onClick={resetValue}>
                           Cancel
                         </Button>
                       </div>
