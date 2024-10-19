@@ -347,6 +347,8 @@ function SignUpModal(props) {
   return (
     <>
       <Modal show={show} onHide={onHide} centered backdrop="static" size="lg">
+        <Modal.Header closeButton>
+        </Modal.Header>
         <Modal.Body>
           <div className="d-flex align-items-center justify-content-center gap-5 pb-4">
             {completedSteps?.map((completed, index) =>
