@@ -450,7 +450,7 @@ const HomePage = () => {
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
       />
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
 };
