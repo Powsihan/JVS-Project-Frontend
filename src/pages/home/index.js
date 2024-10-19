@@ -222,11 +222,11 @@ const HomePage = () => {
       </div>
       <div className="container-fluid min-vh-100" id="aboutus">
         <div className="row min-vh-100">
-          <div className="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center">
+          <div className="col-lg-6 col-md-12 col-sm-12 d-flex align-items-center justify-content-center d-lg-block d-none">
             <Image
               src={aboutUs}
               alt=""
-              // style={{ width: "auto", height: "auto" }}
+              style={{ width: "auto", height: "auto" }}
             />
           </div>
           <div className="col-lg-6 col-md-12 col-sm-12 d-flex flex-column justify-content-center aboutUs-heading">
@@ -377,7 +377,7 @@ const HomePage = () => {
         </div>
       </div> */}
 
-      <div className="container-fluid min-vh-100" id="review">
+      <div className="container-fluid min-vh-100 mt-5 mt-md-0" id="review">
         <div
           className="d-flex align-items-center justify-content-center container-fluid rounded-2"
           style={{ backgroundColor: "var(--primary-color)", height: "50px" }}
@@ -448,7 +448,7 @@ const HomePage = () => {
         show={showLoginView}
         onHide={() => setShowLoginView(false)}
       />
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

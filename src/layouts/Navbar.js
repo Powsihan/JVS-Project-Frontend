@@ -39,6 +39,7 @@ const Navbar = () => {
   const [showSignUpView, setShowSignUpView] = useState(false);
   const [customerData, setCustomerData] = useState(null);
   const[showReviewModal,setShowReviewModal]=useState(false);
+  const [isClient, setIsClient] = useState(false);
 
   const LoginViewModal = () => {
     setShowLoginView(true);
@@ -53,6 +54,7 @@ const Navbar = () => {
   };
 
   useEffect(() => {
+    setIsClient(true);
     dispatch(setLoading(true));
     getLoginCustomerDetail((res) => {
       if (res?.status == 200) {
@@ -94,6 +96,8 @@ const Navbar = () => {
       router.push("/contact");
     }
   };
+
+  const customerToken = Cookies.get("customer");
 
   return (
     <>
@@ -154,15 +158,7 @@ const Navbar = () => {
             </div>
           </div>
           <div className="d-flex align-items-center">
-            {/* <a
-                className="link-secondary me-3"
-                href="#"
-                id="navbarDropdownMenuLink"
-                role="button"
-                aria-expanded="false"
-              >
-                <Image src={notification} alt="" width={25} />
-              </a> */}
+          {isClient && (
 
             <div className="dropdown">
               <a
@@ -185,7 +181,7 @@ const Navbar = () => {
                   className="avatar rounded-circle"
                 />
               </a>
-              {!customerData ? (
+              {!customerToken ? (
                 <ul
                   className={`dropdown-menu dropdown-menu-end dropdown-Menu-custom ${
                     dropdownOpen ? "show" : ""
@@ -269,6 +265,7 @@ const Navbar = () => {
                 </ul>
               )}
             </div>
+          )}
           </div>
         </div>
       </nav>
