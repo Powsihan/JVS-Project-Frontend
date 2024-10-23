@@ -286,7 +286,7 @@ const AuctionPage = () => {
                       style={{
                         zIndex: "100",
                         backgroundColor: "white",
-                        right: "2%",
+                        right: "12%",
                       }}
                       onClick={() => setSearchStartDate(null)}
                     >
@@ -309,7 +309,7 @@ const AuctionPage = () => {
                       style={{
                         zIndex: "100",
                         backgroundColor: "white",
-                        right: "2%",
+                        right: "12%",
                       }}
                       onClick={() => setSearchEndDate(null)}
                     >

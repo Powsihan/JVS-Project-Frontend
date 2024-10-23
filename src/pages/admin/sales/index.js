@@ -359,7 +359,7 @@ const AdminSalesPage = () => {
                       style={{
                         zIndex: "100",
                         backgroundColor: "white",
-                        right: "2%",
+                        right: "12%",
                       }}
                       onClick={() => setSearchDate(null)}
                     >

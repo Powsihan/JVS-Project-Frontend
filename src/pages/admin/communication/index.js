@@ -12,10 +12,20 @@ import { getUserInfo } from "@/src/redux/action/user";
 import Image from "next/image";
 import { avatar, communication } from "@/src/utils/ImagesPath";
 import socket from "@/src/utils/socketService";
+import ClearIcon from "@mui/icons-material/Clear";
 
 const formatTimestamp = (date) => {
-  const datePart = new Date(date).toLocaleDateString([], { month: '2-digit', day: '2-digit' });
-  const timePart = new Date(date).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }).toLowerCase();
+  const datePart = new Date(date).toLocaleDateString([], {
+    month: "2-digit",
+    day: "2-digit",
+  });
+  const timePart = new Date(date)
+    .toLocaleTimeString([], {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: true,
+    })
+    .toLowerCase();
   return `${datePart} - ${timePart}`;
 };
 
@@ -31,11 +41,11 @@ const Index = () => {
   const messageContainerRef = useRef(null);
   const [unreadMessages, setUnreadMessages] = useState({});
 
-
   // Function to scroll chat to the bottom
   const scrollToBottom = () => {
     if (messageContainerRef.current) {
-      messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
+      messageContainerRef.current.scrollTop =
+        messageContainerRef.current.scrollHeight;
     }
   };
 
@@ -89,28 +99,25 @@ const Index = () => {
     }
   }, [userData, selectedReceiver]);
 
- 
   useEffect(() => {
     socket.on("message", (message) => {
       setSelectedChat((prevChat) => [...prevChat, message]);
-  
+
       setUnreadMessages((prev) => ({
         ...prev,
-        [message.sender]: true, 
+        [message.sender]: true,
       }));
     });
-  
+
     return () => {
       socket.off("message");
     };
   }, []);
-  
 
   useEffect(() => {
     scrollToBottom();
   }, [selectedChat]);
 
- 
   const handleSendMessage = async (message) => {
     if (!selectedReceiver) return;
     const newMessage = {
@@ -134,26 +141,27 @@ const Index = () => {
       console.error("Error sending message:", error);
     }
   };
-
-
+ 
   const handleSearch = (event) => {
-    const query = event.target.value.toLowerCase();
-    setSearchQuery(query);
-    setFilteredReceivers(
-      receivers.filter((receiver) =>
-        `${receiver?.fname} ${receiver?.lname}`.toLowerCase().includes(query)
-      )
-    );
+    setSearchQuery(event.target.value);
   };
+
+  useEffect(() => {
+    const filteredData = receivers?.filter((receivers) =>
+      `${receivers?.fname} ${receivers?.lname}`
+        .toLowerCase()
+        .includes(searchQuery?.toLowerCase())
+    );
+    setFilteredReceivers(filteredData);
+  }, [searchQuery]);
 
   const handleSelectReceiver = (receiver) => {
     setSelectedReceiver(receiver);
     setUnreadMessages((prev) => ({
       ...prev,
-      [receiver._id]: false, 
+      [receiver._id]: false,
     }));
   };
-  
 
   return (
     <Adminlayout>
@@ -163,7 +171,10 @@ const Index = () => {
             <div className="box-1 p-4">
               {selectedReceiver ? (
                 <div>
-                  <div className="d-flex align-items-center gap-2 rounded p-1" style={{ backgroundColor: "var(--primary-color)" }}>
+                  <div
+                    className="d-flex align-items-center gap-2 rounded p-1"
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                  >
                     <Image
                       src={selectedReceiver?.profilePic || avatar}
                       width={50}
@@ -175,19 +186,32 @@ const Index = () => {
                       {`${selectedReceiver?.fname} ${selectedReceiver?.lname}`}
                     </h4>
                   </div>
-                  <div className="message-container message-overflow-container" ref={messageContainerRef}>
+                  <div
+                    className="message-container message-overflow-container"
+                    ref={messageContainerRef}
+                  >
                     {selectedChat.map((message, index) => (
                       <div
                         className={`message d-flex ${
-                          message?.senderModel === "User" ? "message-sent" : "message-received"
+                          message?.senderModel === "User"
+                            ? "message-sent"
+                            : "message-received"
                         }`}
                         key={index}
                       >
                         <div className="sender-info">
-                          {message?.senderModel === "User" ? "You" : selectedReceiver?.fname}
+                          {message?.senderModel === "User"
+                            ? "You"
+                            : selectedReceiver?.fname}
                         </div>
                         <div>{message.message}</div>
-                        <div className={`timestamp d-flex ${message.senderModel === "User" ? "timestamp-sent" : "timestamp-received"}`}>
+                        <div
+                          className={`timestamp d-flex ${
+                            message.senderModel === "User"
+                              ? "timestamp-sent"
+                              : "timestamp-received"
+                          }`}
+                        >
                           {formatTimestamp(message?.timestamp)}
                         </div>
                       </div>
@@ -197,10 +221,18 @@ const Index = () => {
                 </div>
               ) : (
                 <div>
-                  <h4 className="text-center rounded p-2" style={{ backgroundColor: "var(--primary-color)" }}>
+                  <h4
+                    className="text-center rounded p-2"
+                    style={{ backgroundColor: "var(--primary-color)" }}
+                  >
                     Welcome to Message Section
                   </h4>
-                  <Image src={communication} alt="Communication" loading="lazy" className="w-100 h-100"/>
+                  <Image
+                    src={communication}
+                    alt="Communication"
+                    loading="lazy"
+                    className="w-100 h-100"
+                  />
                 </div>
               )}
             </div>
@@ -218,22 +250,38 @@ const Index = () => {
                     value={searchQuery}
                     onChange={handleSearch}
                   />
-                  <div className="search-icon">
+                  <div className="search-icon2">
                     <SearchIcon />
                   </div>
+                  {searchQuery && (
+                    <div
+                      className="search-icon2"
+                      style={{
+                        zIndex: "100",
+                        backgroundColor: "var(--primary-color)",
+                        right: "5%",
+                      }}
+                      onClick={() => setSearchQuery("")}
+                    >
+                      <ClearIcon />
+                    </div>
+                  )}
                 </form>
               </div>
               <div className="receiver-list message-overflow-container">
                 {filteredReceivers.map((receiver) => (
-                 <div className="receiver-item" key={receiver?._id} onClick={() => handleSelectReceiver(receiver)}>
-                 <div className="fw-bold">
-                   {receiver?.fname} {receiver?.lname}
-                   {unreadMessages[receiver?._id] && (
-                     <span className="green-dot"></span> // Add a green dot if the chat has unread messages
-                   )}
-                 </div>
-               </div>
-               
+                  <div
+                    className="receiver-item"
+                    key={receiver?._id}
+                    onClick={() => handleSelectReceiver(receiver)}
+                  >
+                    <div className="fw-bold">
+                      {receiver?.fname} {receiver?.lname}
+                      {unreadMessages[receiver?._id] && (
+                        <span className="green-dot"></span> // Add a green dot if the chat has unread messages
+                      )}
+                    </div>
+                  </div>
                 ))}
               </div>
             </div>

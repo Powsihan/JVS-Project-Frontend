@@ -44,12 +44,13 @@
     color: #d1d1d1;
 }
 
-.search-icon {
+.search-icon2 {
     right: 20px;
     top: 50%;
     transform: translateY(-50%);
     position: absolute;
     color: white;
+    cursor: pointer;
 }
 
 /* Chat message styles */
