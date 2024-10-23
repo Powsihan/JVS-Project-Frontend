@@ -1,8 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
-import axios from "axios";
-import socket from "../../utils/socketService"; // Import socket
+import axios from "axios"; // Import socket
 import MessageInput from "../MessageInput"; // Reuse the MessageInput component
-import { toast } from "react-toastify";
 import { Modal, Button } from "react-bootstrap";
 import "../../pages/admin/communication/communication.css";
 import { getLoginCustomerDetail } from "@/src/redux/action/customer";
@@ -10,6 +8,7 @@ import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import "../../styles/component.css";
 import "../../styles/admin.css";
+import socket from "@/src/utils/socketService";
 
 const formatTimestamp = (date) => {
   const datePart = new Date(date).toLocaleDateString([], {

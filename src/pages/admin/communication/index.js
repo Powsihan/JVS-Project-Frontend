@@ -1,9 +1,8 @@
-import Adminlayout from "@/src/layouts/Adminlayout";
 import React, { useEffect, useRef, useState } from "react";
+import Adminlayout from "@/src/layouts/Adminlayout";
 import SearchIcon from "@mui/icons-material/Search";
 import "./communication.css";
 import MessageInput from "../../../components/MessageInput";
-import socket from "../../../utils/socketService";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -12,6 +11,7 @@ import { getCustomerDetails } from "@/src/redux/action/customer";
 import { getUserInfo } from "@/src/redux/action/user";
 import Image from "next/image";
 import { avatar, communication } from "@/src/utils/ImagesPath";
+import socket from "@/src/utils/socketService";
 
 const formatTimestamp = (date) => {
   const datePart = new Date(date).toLocaleDateString([], { month: '2-digit', day: '2-digit' });
@@ -29,13 +29,17 @@ const Index = () => {
   const [filteredReceivers, setFilteredReceivers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const messageContainerRef = useRef(null);
+  const [unreadMessages, setUnreadMessages] = useState({});
 
+
+  // Function to scroll chat to the bottom
   const scrollToBottom = () => {
     if (messageContainerRef.current) {
       messageContainerRef.current.scrollTop = messageContainerRef.current.scrollHeight;
     }
   };
 
+  // Fetch customer details on component mount
   useEffect(() => {
     dispatch(setLoading(true));
     getCustomerDetails((res) => {
@@ -56,6 +60,7 @@ const Index = () => {
     });
   }, [dispatch]);
 
+  // Fetch user info
   useEffect(() => {
     dispatch(setLoading(true));
     getUserInfo((res) => {
@@ -66,6 +71,7 @@ const Index = () => {
     });
   }, [dispatch]);
 
+  // Fetch chat history when a receiver is selected
   useEffect(() => {
     if (userData && selectedReceiver) {
       const fetchChatHistory = async () => {
@@ -82,22 +88,29 @@ const Index = () => {
       fetchChatHistory();
     }
   }, [userData, selectedReceiver]);
-   
 
+ 
   useEffect(() => {
     socket.on("message", (message) => {
       setSelectedChat((prevChat) => [...prevChat, message]);
+  
+      setUnreadMessages((prev) => ({
+        ...prev,
+        [message.sender]: true, 
+      }));
     });
-
+  
     return () => {
       socket.off("message");
     };
   }, []);
+  
 
   useEffect(() => {
     scrollToBottom();
   }, [selectedChat]);
 
+ 
   const handleSendMessage = async (message) => {
     if (!selectedReceiver) return;
     const newMessage = {
@@ -122,6 +135,7 @@ const Index = () => {
     }
   };
 
+
   const handleSearch = (event) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
@@ -132,7 +146,14 @@ const Index = () => {
     );
   };
 
- 
+  const handleSelectReceiver = (receiver) => {
+    setSelectedReceiver(receiver);
+    setUnreadMessages((prev) => ({
+      ...prev,
+      [receiver._id]: false, 
+    }));
+  };
+  
 
   return (
     <Adminlayout>
@@ -140,52 +161,33 @@ const Index = () => {
         <div className="row">
           <div className="col-lg-8">
             <div className="box-1 p-4">
-              {selectedReceiver && selectedReceiver ? (
+              {selectedReceiver ? (
                 <div>
-                  <div
-                    className="d-flex align-items-center gap-2 rounded p-1"
-                    style={{ backgroundColor: "var(--primary-color)" }}
-                  >
+                  <div className="d-flex align-items-center gap-2 rounded p-1" style={{ backgroundColor: "var(--primary-color)" }}>
                     <Image
-                      src={
-                        selectedReceiver && selectedReceiver?.profilePic
-                          ? selectedReceiver?.profilePic
-                          : avatar
-                      }
+                      src={selectedReceiver?.profilePic || avatar}
                       width={50}
                       height={50}
                       alt="Profile Picture"
                       className="rounded-circle"
                     />
                     <h4 className="m-0">
-                      {selectedReceiver
-                        ? `${selectedReceiver?.fname} ${selectedReceiver?.lname}`
-                        : ""}
+                      {`${selectedReceiver?.fname} ${selectedReceiver?.lname}`}
                     </h4>
                   </div>
-                  <div className="message-container message-overflow-container" ref={messageContainerRef} >
-                    {selectedChat?.map((message, index) => (
+                  <div className="message-container message-overflow-container" ref={messageContainerRef}>
+                    {selectedChat.map((message, index) => (
                       <div
                         className={`message d-flex ${
-                          message?.senderModel === "User"
-                            ? "message-sent"
-                            : "message-received"
+                          message?.senderModel === "User" ? "message-sent" : "message-received"
                         }`}
                         key={index}
                       >
                         <div className="sender-info">
-                          {message?.senderModel === "User"
-                            ? "You"
-                            : `${selectedReceiver?.fname}`}
+                          {message?.senderModel === "User" ? "You" : selectedReceiver?.fname}
                         </div>
                         <div>{message.message}</div>
-                        <div
-                          className={`timestamp d-flex ${
-                            message.senderModel === "User"
-                              ? "timestamp-sent"
-                              : "timestamp-received"
-                          }`}
-                        >
+                        <div className={`timestamp d-flex ${message.senderModel === "User" ? "timestamp-sent" : "timestamp-received"}`}>
                           {formatTimestamp(message?.timestamp)}
                         </div>
                       </div>
@@ -195,10 +197,7 @@ const Index = () => {
                 </div>
               ) : (
                 <div>
-                  <h4
-                    className="text-center rounded p-2"
-                    style={{ backgroundColor: "var(--primary-color)" }}
-                  >
+                  <h4 className="text-center rounded p-2" style={{ backgroundColor: "var(--primary-color)" }}>
                     Welcome to Message Section
                   </h4>
                   <Image src={communication} alt="Communication" loading="lazy" className="w-100 h-100"/>
@@ -225,16 +224,16 @@ const Index = () => {
                 </form>
               </div>
               <div className="receiver-list message-overflow-container">
-                {filteredReceivers?.map((receiver) => (
-                  <div
-                    className="receiver-item"
-                    key={receiver?._id}
-                    onClick={() => setSelectedReceiver(receiver)}
-                  >
-                    <div className="fw-bold">
-                      {receiver?.fname} {receiver?.lname}
-                    </div>
-                  </div>
+                {filteredReceivers.map((receiver) => (
+                 <div className="receiver-item" key={receiver?._id} onClick={() => handleSelectReceiver(receiver)}>
+                 <div className="fw-bold">
+                   {receiver?.fname} {receiver?.lname}
+                   {unreadMessages[receiver?._id] && (
+                     <span className="green-dot"></span> // Add a green dot if the chat has unread messages
+                   )}
+                 </div>
+               </div>
+               
                 ))}
               </div>
             </div>

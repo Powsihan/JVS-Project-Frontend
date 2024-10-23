@@ -2,7 +2,6 @@ import React, { useEffect, useRef, useState } from "react";
 import SearchIcon from "@mui/icons-material/Search";
 import "../../admin/communication/communication.css";
 import MessageInput from "../../../components/MessageInput";
-import socket from "../../../utils/socketService";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import { setLoading } from "@/src/redux/reducer/loaderSlice";
@@ -12,6 +11,7 @@ import Image from "next/image";
 import { avatar, communication } from "@/src/utils/ImagesPath";
 import ExpertLayout from "@/src/layouts/ExpertLayout";
 import { getEmployeeInfo } from "@/src/redux/action/employee";
+import socket from "@/src/utils/socketService";
 
 const formatTimestamp = (date) => {
   const datePart = new Date(date).toLocaleDateString([], {
