@@ -9,7 +9,7 @@ import { setLoading } from "@/src/redux/reducer/loaderSlice";
 import { toast } from "react-toastify";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import Image from "next/image";
-import { avatar } from "@/src/utils/ImagesPath";
+import { avatar, communication } from "@/src/utils/ImagesPath";
 import ExpertLayout from "@/src/layouts/ExpertLayout";
 import { getEmployeeInfo } from "@/src/redux/action/employee";
 
@@ -212,6 +212,7 @@ const ExpertContactPage = () => {
                   >
                     Welcome to Message Section
                   </h4>
+                  <Image src={communication} alt="Communication" loading="lazy" className="w-100 h-100"/>
                 </div>
               )}
             </div>

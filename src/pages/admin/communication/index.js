@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { getCustomerDetails } from "@/src/redux/action/customer";
 import { getUserInfo } from "@/src/redux/action/user";
 import Image from "next/image";
-import { avatar } from "@/src/utils/ImagesPath";
+import { avatar, communication } from "@/src/utils/ImagesPath";
 
 const formatTimestamp = (date) => {
   const datePart = new Date(date).toLocaleDateString([], { month: '2-digit', day: '2-digit' });
@@ -201,6 +201,7 @@ const Index = () => {
                   >
                     Welcome to Message Section
                   </h4>
+                  <Image src={communication} alt="Communication" loading="lazy" className="w-100 h-100"/>
                 </div>
               )}
             </div>
