@@ -5,7 +5,6 @@ import { useDispatch } from "react-redux";
 import "react-datepicker/dist/react-datepicker.css";
 import ConfirmationModal from "@/src/components/modals/ConfirmationModal";
 import { toast } from "react-toastify";
-import { deleteRecords } from "@/src/redux/action/records";
 import "../../../styles/admin.css";
 import { deleteReView, getReviewDetails } from "@/src/redux/action/review";
 import Image from "next/image";
