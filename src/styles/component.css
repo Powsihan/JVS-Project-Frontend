@@ -256,6 +256,44 @@
     box-shadow: var(--box-shadow);
     height: 450px;
 }
-.review-name{
+
+.review-admin-card {
+    background-color: #fff;
+    box-shadow: var(--box-shadow);
+    height: 350px;
+}
+
+.review-name {
     font-weight: 700;
+}
+
+.review-card-wrapper {
+    position: relative;
+}
+
+.review-admin-card {
+    transition: all 0.3s ease;
+}
+
+.review-card-wrapper:hover .delete-icon-container {
+    opacity: 1;
+    visibility: visible;
+}
+
+.delete-icon-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    /* background-color: rgba(255, 255, 255, 0.5); */
+    padding: 20px;
+    border-radius: 50%;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.review-card-wrapper:hover .review-admin-card {
+    opacity: 0.7;
+    background-color: rgba(0, 0, 0, 0.322);
 }

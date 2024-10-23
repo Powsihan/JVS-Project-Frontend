@@ -12,6 +12,7 @@ import Communication from "../assets/icons/communication.svg";
 import Content from "../assets/icons/content.svg";
 import Auction from "../assets/icons/auction.svg";
 import Records from "../assets/icons/records.svg";
+import Reviews from "../assets/icons/reviews.svg";
 import Profile from "../assets/icons/profile.svg";
 import Logout from "../assets/icons/logout.svg";
 
@@ -37,6 +38,7 @@ const Sidebar = () => {
     { name: "Content", image: Content, path: "admin/contentmanage" },
     { name: "Auction", image: Auction, path: "admin/auction" },
     { name: "Records", image: Records, path: "admin/records" },
+    { name: "Reviews", image: Reviews, path: "admin/reviews" },
   ];
 
   const routes2 = [

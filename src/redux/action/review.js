@@ -19,17 +19,33 @@ export const addReview = (data, callback) => {
 };
 
 export const getReviewDetails = (callback) => {
-    const endpoint = `${process.env.api_base_url}/reviews/`;
-    try {
-      http
-        .get(endpoint)
-        .then((response) => {
-          callback(response);
-        })
-        .catch((error) => {
-          callback(error.response);
-        });
-    } catch (error) {
-      callback(error.response);
-    }
-  };
+  const endpoint = `${process.env.api_base_url}/reviews/`;
+  try {
+    http
+      .get(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};
+
+export const deleteReView = (reviewsId, callback) => {
+  const endpoint = `${process.env.api_base_url}/reviews/${reviewsId}`;
+  try {
+    http
+      .delete(endpoint)
+      .then((response) => {
+        callback(response);
+      })
+      .catch((error) => {
+        callback(error.response);
+      });
+  } catch (error) {
+    callback(error.response);
+  }
+};

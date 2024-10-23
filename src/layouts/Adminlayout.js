@@ -69,6 +69,9 @@ const Adminlayout = ({ children }) => {
       case "records":
         pageTitle = "Records";
         break;
+      case "reviews":
+        pageTitle = "Reviews";
+        break;
       case "profile":
         pageTitle = "Profile";
         break;
